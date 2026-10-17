@@ -71,6 +71,7 @@ def test_exact_gross_price_rounds_up_to_nanorupee():
     {"max_total_attempts": 0}, {"max_daily_attempts": 23},
     {"ledger_lock_timeout_ms": 0}, {"extra_unknown": True},
     {"sdk_attempts": True}, {"max_llm_calls": 1.0}, {"candidate_count": True},
+    {"automatic_continuation": True}, {"automatic_continuation": 0},
 ])
 def test_invalid_or_incompatible_configuration_fails(values):
     with pytest.raises(ValidationError):
@@ -87,6 +88,7 @@ def test_policy_overrides_reach_sdk_consumers_and_change_binding():
     assert generation.max_output_tokens == 1024
     assert generation.thinking_config.thinking_level == "MEDIUM"
     assert generation.automatic_function_calling.disable
+    assert generation.automatic_continuation is False
     assert not generation.tools and not generation.cached_content
     assert p.digest() != policy().digest()
 

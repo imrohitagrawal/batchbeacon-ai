@@ -64,6 +64,7 @@ class ModelProbePolicy(Record):
     candidate_count: SingleAttempt = 1
     sdk_attempts: SingleAttempt = 1
     max_llm_calls: SingleAttempt = 1
+    automatic_continuation: bool = False
     reserve_nanos: PositiveMoney
     max_daily_attempts: Positive = 1
     max_total_attempts: Positive = 22
@@ -72,6 +73,8 @@ class ModelProbePolicy(Record):
 
     @model_validator(mode="after")
     def coherent(self) -> Self:
+        if self.automatic_continuation:
+            raise ValueError("a continuation requires separate paid admission")
         if self.request_timeout_ms > self.run_deadline_ms:
             raise ValueError("HTTP timeout must fit inside the outer run deadline")
         if self.billable_output_token_bound < self.max_output_tokens:
@@ -111,6 +114,7 @@ class ModelProbePolicy(Record):
             max_output_tokens=self.max_output_tokens,
             thinking_config=types.ThinkingConfig(thinking_level=self.thinking_level),
             automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
+            automatic_continuation=self.automatic_continuation,
             response_modalities=[types.Modality.TEXT],
         )
 

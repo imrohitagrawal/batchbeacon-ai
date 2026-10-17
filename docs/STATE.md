@@ -59,7 +59,9 @@ Latest full check: lock/Ruff, 118 unit + 36 local browser PASS; title-only follo
 7 affected cases PASS. Independent refined checks and 120 rapid route/skip trials PASS.
 No real model, persistence, action, isolation, paid-ledger or hosted product journey claim.
 T08 local preparation: strict probe policy and operator-only durable reservation
-boundary; lock/Ruff +161 unit PASS, including three installed-ADK/mock-HTTP cases.
+boundary; lock/Ruff +164 unit PASS, including four installed-ADK/mock-HTTP cases.
+Initial bd2292c hosted 161 unit/36 browser PASS; later SDK continuation fix
+requires its own hosted result. No paid/runtime claim follows from these checks.
 No actual paid allocation initialized; complete runtime admission remains closed.
 See G0X-cloud-preflight.md for scoped independent review and remaining cases.
 

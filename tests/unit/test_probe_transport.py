@@ -16,7 +16,7 @@ from google.genai import types
 from tests.unit.test_cloud_admission import policy
 
 
-async def exercise(status):
+async def exercise(status, *, continuation=False):
     p = policy(request_timeout_ms=7000, run_deadline_ms=8000, max_output_tokens=1024)
     requests = []
 
@@ -26,9 +26,12 @@ async def exercise(status):
             return httpx.Response(status, json={
                 "error": {"code": status, "message": "synthetic provider failure"},
             })
+        candidate = {"content": {"role": "model", "parts": [{"text": "probe"}]},
+                     "finishReason": "STOP", "index": 0}
+        if continuation and len(requests) == 1:
+            candidate.update(finishReason="CONTINUATION", continuationToken="c3ludGhldGlj")
         return httpx.Response(200, json={
-            "candidates": [{"content": {"role": "model", "parts": [{"text": "probe"}]},
-                            "finishReason": "STOP", "index": 0}],
+            "candidates": [candidate],
             "usageMetadata": {"promptTokenCount": 16, "candidatesTokenCount": 1,
                               "thoughtsTokenCount": 2, "totalTokenCount": 19},
             "modelVersion": p.model_id,
@@ -91,4 +94,10 @@ def test_effective_adk_http_request_uses_configured_project_model_and_limits():
 def test_transient_http_error_does_not_multiply_reserved_attempt(status):
     _, requests, _, error = asyncio.run(exercise(status))
     assert error is not None
+    assert len(requests) == 1
+
+
+def test_continuation_does_not_start_an_unreserved_second_request():
+    _, requests, _, error = asyncio.run(exercise(200, continuation=True))
+    assert error is None
     assert len(requests) == 1

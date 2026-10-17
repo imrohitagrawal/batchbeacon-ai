@@ -61,8 +61,8 @@ No real allocation/ledger has been initialized. Evidence hashes in these records
 refer to reviews that the operator must actually substantiate; constructing a
 record is not authority. This module is not attached to any public endpoint.
 
-Validation on the current source: lock and Ruff passed; **161 unit tests passed**,
-including 40 admission cases and three mock-transport cases. The latter run the
+Validation on the current source: lock and Ruff passed; **164 unit tests passed**,
+including 42 admission cases and four mock-transport cases. The latter run the
 installed ADK and GenAI SDK together through an in-memory HTTP transport with
 synthetic credentials. They observe the configured project/global/model endpoint,
 one candidate, output limit, seven-second HTTP timeout override, LOW thinking,
@@ -79,10 +79,22 @@ persists an open cost circuit while retaining the unknown reservation. Its faili
 regression was preserved before the correction. Incremental independent review
 passed all 43 admission/transport cases, Ruff and whitespace checks; it separately
 verified the overflow circuit survives restart and denies another attempt.
-No reproduced blocking finding remains in this local preparation scope.
+A subsequent installed-SDK check reproduced a separate **REQUIRED_CONTRACT**
+gap: automatic continuation followed a provider continuation token with a second
+HTTP request inside one ADK call, despite retries being disabled. The failing
+mock regression observed two requests. The policy now explicitly disables that
+SDK feature and rejects attempts to enable it in this single-attempt adapter.
+The regression observes one request after correction. Independent verification
+reproduced two requests using the prior commit's exact configuration and one with
+the correction, passed all 46 focused cases and rejected malformed Python/JSON
+feature settings. No reproduced blocking finding remains in this increment.
 
 Local browser tests were not repeated for this backend-only preparation. The
 existing UI revision has its own verified hosted result in [M1-hosted-ci](M1-hosted-ci.md).
+The initial T08 revision `bd2292ce4694ff3766a8d5b875cb09f5d532f200` passed
+[hosted CI](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39075077395):
+lock/Ruff, 161 unit and 36 bundled-Chromium browser tests. Its logs were inspected.
+That run predates the continuation correction and does not verify the later code.
 
 ## External discovery result
 
@@ -92,7 +104,14 @@ image bucket, runtime account, application build, deployment or model call was
 created by this increment. Successful scoped resource lists returned no Firestore
 database, project Storage bucket, Mumbai Cloud Run service or Mumbai Artifact
 Registry repository. Default build identity and resulting service-agent bindings
-were retained privately for admission review.
+were retained privately and independently reviewed. The resolved default is the
+Compute Engine default service account; it has no direct role in the observed
+project policy. The legacy Cloud Build identity has `roles/cloudbuild.builds.builder`.
+New service agents have provider service-agent roles; no service-account Owner/Editor
+binding appeared. Source-build/runtime permissions remain unverified. API
+dependencies additionally enabled Container Registry, IAM Credentials and Pub/Sub.
+Refresh relevant resource discovery before creation; earlier account/database/
+bucket snapshots predate this enablement.
 
 The authenticated current-month billing report lists charged projects but no
 BatchBeacon entry. This is a lagged reported-cost observation, not proof of zero
