@@ -2,8 +2,9 @@
   color-scheme: light;
   --canvas: #f7f8fa; --surface: #ffffff; --ink: #1e253b; --muted: #535d71;
   --line: #d5dbe4; --control: #748096; --accent: #b93819; --accent-hover: #922b12;
-  --brand-navy: #34466f; --brand-coral: #f05a36; --evidence-surface: #eaf0f8; --selected: #fff2cf;
+  --brand-navy: #173b75; --brand-coral: #f05a36; --evidence-surface: #eaf0f8; --selected: #fff2cf;
   --proposed-surface: #f1edff; --guidance-ink: #6243b5; --beacon-gold: #ffbf00;
+  --completed-surface: #e6f2eb; --completed-ink: #20573e; --completed-border: #54836a;
   --warning: #fff2d8; --warning-ink: #6a4a05; --primary-hover: #edb000;
   --error: #8d211f; --focus: #1e253b; --radius: 12px;
   scroll-padding-top: 104px; scrollbar-color: var(--control) var(--canvas);
@@ -120,6 +121,8 @@ button:disabled { background: #e8e8e5; color: #60605a; border-color: #a4a49d; cu
 .verdict p:not(.result-disclosure) { color: #614811; font-size: .8125rem; margin-top: 12px; }
 .verdict.neutral { background: var(--evidence-surface); }
 .verdict.neutral p { color: var(--muted); }
+.verdict.completed { background: var(--completed-surface); }
+.verdict.completed p { color: var(--completed-ink); }
 .decision { margin: 24px 0 0; }
 .decision h3 { font-size: .875rem; }
 .decision p { font-size: .8125rem; color: var(--muted); margin-top: 8px; }
@@ -146,12 +149,13 @@ input[type=file]::file-selector-button { min-height: 44px; border: 1px solid var
 .state-tag { padding: 5px 8px; font-size: .75rem; border-radius: 4px; width: fit-content; border: 1px solid #bebeb7; }
 .amber { background: var(--warning); color: var(--warning-ink); border-color: #b99b4b; }
 .coral { background: #fff0eb; color: #8b3115; border-color: #c39280; }
-.green, .neutral { background: var(--evidence-surface); color: var(--ink); }
+.completed { background: var(--completed-surface); color: var(--completed-ink); border-color: var(--completed-border); }
+.neutral { background: var(--evidence-surface); color: var(--ink); }
 .empty-state { padding: 44px; text-align: center; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
 .empty-state p { margin: 12px auto 20px; color: var(--muted); }
 .capability-row { display: flex; gap: 20px; padding: 20px 0; font-size: .75rem; color: var(--muted); }
 .steps { display: flex; gap: 36px; list-style-position: inside; padding: 0; margin: 12px 0 32px; font-size: .875rem; color: var(--muted); }
-.steps .active { color: var(--ink); font-weight: 650; }
+.steps [aria-current=step] { color: var(--ink); font-weight: 650; text-decoration: underline; text-underline-offset: .3em; }
 .guidance-grid { display: grid; grid-template-columns: 2.2fr 1fr; gap: 40px; }
 .guidance-main { padding: 28px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
 .feedback-context { margin: 24px 0; padding-bottom: 22px; border-bottom: 1px solid var(--line); font-size: .875rem; }
@@ -178,6 +182,7 @@ dd { margin: 5px 0 0; }
 .check-label:has(:checked) { outline: 2px solid var(--ink); outline-offset: -2px; background: var(--selected); }
 .check-label input { width: 22px; height: 22px; flex: 0 0 auto; }
 .action-status { font-size: .875rem; margin-top: 18px; }
+.action-status:not(:empty) { padding: 16px; border: 1px solid var(--completed-border); border-radius: 8px; background: var(--completed-surface); color: var(--completed-ink); }
 footer { padding: 24px 0 36px; display: flex; gap: 20px; font-size: .75rem; color: var(--muted); }
 footer strong { white-space: nowrap; }
 dialog { width: min(540px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 28px; border: 1px solid var(--line); border-radius: 16px; color: var(--ink); background: white; }
@@ -188,6 +193,7 @@ dialog p { font-size: .875rem; margin: 12px 0; }
 .dialog-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px; }
 #confirmation-help { font-size: .75rem; color: var(--muted); }
 .toast { padding: 14px; margin-bottom: 16px; color: white; background: var(--ink); border-radius: 8px; font-size: .875rem; }
+.toast.completed { color: var(--completed-ink); background: var(--completed-surface); border: 1px solid var(--completed-border); }
 @media (max-width: 1190px) {
   .workspace { padding: 0 24px; } .app-header { padding: 16px 24px; gap: 22px; }
   .workbench-grid { grid-template-columns: 240px minmax(0, 1fr); }

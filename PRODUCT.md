@@ -75,3 +75,12 @@ The subsequent owner clarification delegates the lighter-navy choice to the
 designer. Use #34466F for the wordmark and navy logo shape, retaining #1E253B
 for detailed reading text. The change is intentionally more visibly blue at small
 sizes, not asserted to be an exact sample of Stackclimb’s raster wordmark.
+
+The owner found the lighter #34466F identity dull and requested a darker, bluer
+result. This supersedes that shade: rich dark blue #173B75 now owns the wordmark
+and logo shape. The intent is stronger saturation, not a return to near-black.
+
+The consolidated review restores mint for completed simulated workflow states,
+while scoped negative results stay neutral. Lavender identifies candidate guidance.
+The owner requested a full review before the final U02 visual decision; see
+docs/evidence/M1-final-visual-review.md. No final approval is inferred.

@@ -1,6 +1,7 @@
 # Focused gold and violet refinement
 
-Status: rendered palette refinement under owner-delegated design judgment;
+Status: historical lighter-navy candidate; richer-blue refinement follows below.
+Rendered palette refinement under owner-delegated design judgment;
 technical and independent visual follow-up PASS. Final integration remains gated.
 
 The owner confirms that everything else looks fine, asks whether the existing
@@ -87,3 +88,17 @@ Reviewed source bindings:
 | mark.svg | `b808d390f28a581efc8e0f836a62ad77ad86a74cb0140eafc62d94ce0fd720a3` |
 | mark-mono.svg | `08db004d243648bc6fb46ea7f3e4fc873bf736ebcc593877a6d7328588d0bb5b` |
 | brand.html | `195df3909b157ba2793041b01fe7ff791b918f6143a186a7c0dac3f60a5c2f36` |
+
+
+## Richer dark-blue identity follow-up
+
+Owner found #34466F too dull and requested the darker blue side. Chosen #173B75
+has more blue saturation and less gray; it replaces only the identity navy in
+wordmark, color mark and single-color mark. The coral and current gold/violet
+roles remain. The previous captures and reviewed hashes above are historical.
+Acceptance: same geometry and dimensions; visibly blue at header/16px sizes;
+body text on white >=4.5:1, phone canvas >=4.5:1; no clipping or new behavior.
+Richer-blue follow-up PASS: four desktop/phone captures, independent visual
+review and 10.94:1 white / 10.30:1 canvas contrast. Subsequently superseded by
+the consolidated candidate, including restored mint for completed workflow states;
+see [final visual review](M1-final-visual-review.md). Historical captures remain.

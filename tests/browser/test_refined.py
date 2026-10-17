@@ -61,6 +61,47 @@ def test_confirmation_is_keyboard_gated_and_returns_focus(refined):
     expect(trigger).to_be_focused()
 
 
+def test_cancel_after_previous_confirmation_cannot_repeat_success(refined):
+    trigger = refined.get_by_role("button", name="Review simulated hold")
+    trigger.click()
+    refined.get_by_role("dialog").get_by_role("checkbox").check()
+    refined.get_by_role("button", name="Confirm preview", exact=True).click()
+    expect(refined.locator("#toast")).to_contain_text("Confirmation preview complete")
+    trigger.click()
+    refined.keyboard.press("Escape")
+    expect(refined.get_by_role("dialog")).not_to_be_visible()
+    expect(refined.locator("#toast")).not_to_be_visible()
+    expect(trigger).to_be_focused()
+
+
+def test_held_history_describes_completed_example_without_new_confirmation(refined):
+    refined.get_by_role("link", name="Retail queue", exact=True).click()
+    refined.locator('[data-scenario="held"]').click()
+    expect(refined.locator("#verdict-title")).to_contain_text("Simulated hold recorded")
+    expect(refined.locator("#verdict-copy")).to_contain_text("No stock action was saved")
+    expect(refined.locator("#verdict-copy")).not_to_contain_text("before recording")
+    expect(refined.locator("#decision-title")).to_have_text("Recorded example")
+    expect(refined.locator("#confirm-open")).to_be_disabled()
+
+
+def test_guidance_lifecycle_current_step_matches_visible_task(refined):
+    refined.get_by_role("link", name="Capture guidance", exact=True).click()
+    current = refined.locator('.steps [aria-current="step"]')
+    expect(current).to_have_text("Candidate")
+    refined.get_by_role("button", name=re.compile("^Preview evaluation")).click()
+    expect(current).to_have_text("Evaluation")
+    refined.get_by_role("button", name=re.compile("^Review activation")).click()
+    expect(current).to_have_text("Confirmation")
+    refined.get_by_role("checkbox", name=re.compile("^I have reviewed")).check()
+    refined.get_by_role("button", name="Activate preview for this shop").click()
+    expect(current).to_have_text("Active")
+    refined.get_by_role("button", name="Preview rollback").click()
+    expect(refined.locator("#active-policy")).to_contain_text("v3")
+    expect(refined.locator("#guidance-status")).to_contain_text("Lifetime counters stay unchanged")
+    refined.get_by_role("button", name="Reset preview").click()
+    expect(current).to_have_text("Candidate")
+
+
 @pytest.mark.parametrize("width", [320, 390, 720, 1280, 1440])
 def test_reflow_all_views_and_long_state_labels(refined, width):
     refined.set_viewport_size({"width": width, "height": 900})
@@ -84,6 +125,7 @@ def test_negative_does_not_compare_lot_or_date_and_disabled_reason_is_visible(re
     expect(refined.locator("#date-result")).to_have_text("Not used")
     expect(refined.locator("#confirm-open")).to_be_disabled()
     expect(refined.locator("#decision-copy")).to_contain_text("not permission to sell")
+    expect(refined.locator("#decision-title")).to_have_text("No hold supported")
 
 
 def test_queue_empty_state_removes_empty_list_items_and_recovers(refined):
@@ -93,6 +135,51 @@ def test_queue_empty_state_removes_empty_list_items_and_recovers(refined):
     expect(refined.get_by_role("listitem")).to_have_count(0)
     refined.get_by_role("button", name="Show all incidents").click()
     expect(refined.get_by_role("listitem")).to_have_count(6)
+    expect(refined.get_by_label("Show", exact=True)).to_be_focused()
+
+
+@pytest.mark.parametrize("view", ["retail", "guidance"])
+def test_skip_link_preserves_current_workspace_destination(refined, view):
+    refined.locator(f'nav a[data-view="{view}"]').click()
+    skip = refined.get_by_role("link", name="Skip to main content", exact=True)
+    skip.focus()
+    refined.keyboard.press("Enter")
+    expect(refined.locator(f"#{view}")).to_be_visible()
+    expect(refined.locator("#workbench")).not_to_be_visible()
+    expect(refined.locator("#main")).to_be_focused()
+
+
+@pytest.mark.parametrize("width", [390, 1440])
+@pytest.mark.parametrize("view", ["retail", "guidance"])
+def test_queued_route_changes_keep_rapid_skip_on_requested_view(refined, width, view):
+    refined.set_viewport_size({"width": width, "height": 900})
+    # Both native anchor activations occur before queued hashchange handlers run.
+    refined.evaluate("""view => {
+      document.querySelector(`nav a[data-view="${view}"]`).click();
+      document.querySelector('.skip').click();
+    }""", view)
+    expect(refined.locator(f"#{view}")).to_be_visible()
+    expect(refined.locator(f'nav a[data-view="{view}"]')).to_have_attribute(
+        "aria-current", "page"
+    )
+    expect(refined.locator("#main")).to_be_focused()
+
+
+@pytest.mark.parametrize("state", ["stale", "failure"])
+def test_uk_product_code_and_unrestricted_dates_keep_correct_ui_meaning(refined, state):
+    refined.locator(".state-examples summary").click()
+    refined.get_by_label("Preview a state").select_option(state)
+    expect(refined.locator("#source-date-rule")).to_have_text("All dates")
+    expect(refined.get_by_role("button", name="Preview recapture")).not_to_be_visible()
+    expect(refined.locator("#capture-not-needed")).to_contain_text("No date-panel recapture")
+    refined.get_by_role("button", name="Inspect extracted fields").click()
+    code = "319456" if state == "stale" else "318591"
+    expect(refined.get_by_label("Product code", exact=True)).to_have_value(code)
+    expect(refined.get_by_label("Lot / batch", exact=True)).not_to_be_visible()
+    refined.get_by_label("Preview a state").select_option("missing")
+    expect(refined.get_by_role("button", name="Preview recapture")).to_be_visible()
+    refined.get_by_role("button", name="Inspect extracted fields").click()
+    expect(refined.get_by_label("Lot / batch", exact=True)).to_have_value("232511")
 
 
 def test_reduced_motion_disables_field_animation(refined):

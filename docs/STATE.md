@@ -15,7 +15,7 @@ Owner approved dedicated repository initialization and the concrete SFA first sl
 Remaining human gates: replacement visuals, UK/remaining gold/H custody, final submission.
 
 ## Workspace and capability
-Dedicated Git root, main branch; coherent palette checkpoint c2efba9; T33 contracts independently verified.
+Dedicated Git root, main branch; T33 contracts and current visual candidate independently reviewed.
 Home repository untouched. `.local/` and `.batchbeacon/` ignored and untracked.
 One writer; independent read-only acceptance and skill reviewer actually used.
 Codex 0.163.0 authenticated; native goals and automatic approval review supported.
@@ -39,20 +39,16 @@ correction verification. See M1-domain.md. No persistent action/retail backend y
 T33 PASS local contracts: immutable records, allowlisted wording, policy admission
 and 54 focused tests. Four reproduced gaps corrected and independently verified.
 See M1-retail-learning-contracts.md; T34/T35 runtime/evaluator still outstanding.
-T06: owner selected Evidence in focus structure, rejected palette; original
-Impeccable discovery complete. Owner requested further palette/logo refinement,
-referencing Stackclimb navy/coral, Impeccable soft colors/gold and Neo Mirai scroll.
-Owner says the remaining treatment looks fine and delegates palette refinement:
-lighter navy #34466F, vibrant gold #FFBF00 and violet/lavender proposed guidance.
-Six desktop/phone captures and independent review PASS; 21 browser checks PASS.
-See M1-palette-vibrancy.md. Final visual integration remains gated.
-No final DESIGN; all earlier directions preserved.
-T07 locked bootstrap/start/check scripts, preparation shell and pinned CI skeleton exist.
-Latest checks: Ruff/118 unit PASS; current palette 21 refined browser checks PASS.
-Previous full UI check: lock/Ruff, 64 unit + 25 local browser checks PASS.
-Prior checkpoint independent rerun: 64 unit, Ruff and 15 refined browser tests PASS.
-Current palette/navigation independent rerun: 21 refined browser tests PASS;
-separate design-review continuation permits provisional owner presentation.
+T06: owner selected Evidence in focus structure; consolidated review candidate
+uses rich dark blue #173B75, coral, vivid gold, lavender candidate guidance and
+mint completed workflow states. Persistent desktop/phone navigation retained.
+Full technical/visual pass corrected four required UI issues plus state-copy drift.
+Independent corrections and all 13 current captures PASS for owner presentation.
+See M1-final-visual-review.md. U02 final visual approval remains open; no DESIGN.
+All earlier directions and palettes preserved as history.
+T07 locked bootstrap/start/check scripts and pinned CI skeleton exist; hosted pending.
+Latest full check: lock/Ruff, 118 unit + 36 local browser PASS; title-only follow-up
+7 affected cases PASS. Independent refined checks and 120 rapid route/skip trials PASS.
 No real model, persistence, action, isolation, paid-ledger or hosted product journey claim.
 
 ## External state
@@ -64,8 +60,8 @@ GitHub target returned authenticated 404; approved creation/push remains queued.
 No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested.
 
 ## Next ready queue
-Checkpoint T33; continue T07 hosted checks;
+Present consolidated T06 candidate for U02; continue T07 hosted checks;
 T02 actual settings/cost mapping then bounded T08. Preserve final visual integration gate
-without repeating the delegated palette question. UK/source gates block only their path.
+while the concrete candidate is reviewed. UK/source gates block only their path.
 Next prompt: Continue prompts/01-codex-kickoff.md from STATE and the private run policy;
 native goal is already active with canary/recovery passed; do not create another.

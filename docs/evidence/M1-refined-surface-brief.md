@@ -43,3 +43,12 @@ rendered; retain it and coral geometry. See M1-palette-vibrancy.md.
 Final color steering for this candidate: owner found #1E253B too black in the
 identity and delegated judgment. Wordmark/mark navy becomes #34466F; body
 ink remains #1E253B. Geometry, coral and the accepted layout are preserved.
+
+Owner follow-up: #34466F felt dull. Use richer dark blue #173B75 for the identity;
+retain current gold, coral and guidance violet. This supersedes the lighter-navy
+shade above. Render and verify small-size identity contrast before presentation.
+
+Consolidated candidate: restore mint #E6F2EB with #20573E text for completed
+simulated actions and guidance changes; scoped negative remains neutral. Use
+Baseline/Candidate comparison labels and one current guidance step. Complete
+review, evidence and limits: M1-final-visual-review.md. U02 remains open.

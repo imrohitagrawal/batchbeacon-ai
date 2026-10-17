@@ -1,8 +1,9 @@
 // Reversible visual-state examples only. No fetch, model call, storage or saved action.
 const $ = (id) => document.getElementById(id);
 const views = ['workbench', 'retail', 'guidance'];
-function showView() {
-  const current = views.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'workbench';
+function showView(event) {
+  const requested = (event?.newURL ? new URL(event.newURL).hash : location.hash).slice(1);
+  const current = views.includes(requested) ? requested : document.querySelector('.view:not([hidden])')?.id || 'workbench';
   views.forEach((name) => { $(name).hidden = name !== current; });
   document.querySelectorAll('[data-view]').forEach((a) => { a.classList.toggle('selected', a.dataset.view === current); if (a.dataset.view === current) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   $('page-name').textContent = {workbench: 'Check a product', retail: 'Retail queue', guidance: 'Capture guidance'}[current];
@@ -33,7 +34,11 @@ function statePreview(name) {
   $('lot-result').textContent = name === 'negative' ? 'Not used' : 'Match';
   $('workbench-title').textContent = name === 'stale' ? 'Source update · review required' : name === 'negative' ? 'Different product · same lot' : 'Check a product against official recalls.';
   $('comparison-title').textContent = name === 'stale' ? 'Previous evidence · historical example' : 'Evidence, side by side';
-  $('decision-title').textContent = name === 'stale' ? 'Current verification required' : 'Your confirmation comes next';
+  $('decision-title').textContent = {
+    match: 'Your confirmation comes next', missing: 'Resolve the missing evidence',
+    stale: 'Current verification required', negative: 'No hold supported',
+    failure: 'Human review required'
+  }[name];
   $('decision-copy').textContent = name === 'stale' ? 'Old results cannot authorize a new hold.' : 'A result never places stock on hold automatically.';
   const uk = name === 'stale' || name === 'failure';
   const truffle = name === 'stale';
@@ -60,10 +65,22 @@ function statePreview(name) {
   $('source-link').textContent = truffle ? 'Open update ↗' : 'Open source ↗';
   $('incident-id').textContent = 'Incident ' + (truffle ? 'BB-0039' : uk ? 'BB-0043' : held ? 'BB-0038' : name === 'missing' ? 'BB-0041' : name === 'negative' ? 'BB-0040' : 'BB-0042');
   $('confirm-product').textContent = `${product} · ${pack} · ${uk ? 'Product code' : 'Lot'} ${code}`;
-  if (held) { $('workbench-title').textContent = 'Bertrand Camembert · hold history'; $('verdict-title').textContent = 'Simulated hold recorded · example'; $('confirm-open').textContent = 'Hold already shown'; $('confirm-open').disabled = true; }
+  if (held) {
+    $('workbench-title').textContent = 'Bertrand Camembert · hold history';
+    $('verdict').className = 'verdict completed';
+    $('verdict-title').textContent = 'Simulated hold recorded · example';
+    $('verdict-copy').textContent = 'This illustrative history shows a hold recorded after a human reviewed the matching evidence. No stock action was saved in this prototype.';
+    $('decision-title').textContent = 'Recorded example';
+    $('decision-copy').textContent = 'The example hold is already shown. Inspect its evidence without recording a duplicate.';
+    $('confirm-open').textContent = 'Hold already shown'; $('confirm-open').disabled = true;
+  }
   if (name === 'failure') { $('workbench-title').textContent = 'Alyan chocolate · check unavailable'; $('comparison-title').textContent = 'Retained evidence · check unavailable'; }
   $('correction-product').value = $('observed-product').textContent;
   $('correction-code').value = code;
+  $('correction-code-label').textContent = uk ? 'Product code' : 'Lot / batch';
+  $('capture').hidden = uk;
+  $('capture-not-needed').hidden = !uk;
+  document.querySelector('.evidence-caption strong').textContent = uk ? 'Product panel' : 'Front + date panel';
   document.querySelector('.context-line').textContent = 'Historical example · ' + market;
   document.querySelectorAll('input[name="example"]').forEach(input => {input.checked = input.value === name && !held;});
   const selected = document.querySelector('input[name="example"]:checked');
@@ -86,25 +103,30 @@ function statePreview(name) {
 $('scenario').addEventListener('change', (e) => statePreview(e.target.value));
 $('capture').addEventListener('click', () => { $('capture-panel').hidden = !$('capture-panel').hidden; $('capture').setAttribute('aria-expanded', String(!$('capture-panel').hidden)); });
 $('correction').addEventListener('click', () => { $('correction-panel').hidden = !$('correction-panel').hidden; $('correction').setAttribute('aria-expanded', String(!$('correction-panel').hidden)); });
-function toast(text) { $('toast').textContent = text; $('toast').hidden = false; }
+function toast(text, completed = false) { $('toast').textContent = text; $('toast').className = `toast${completed ? ' completed' : ''}`; $('toast').hidden = false; }
 $('capture-file').addEventListener('change', e => { if(e.target.files.length) toast('Image selected locally. Nothing was uploaded or checked.'); });
 $('hold-consent').addEventListener('change', (e) => { $('hold-confirm').disabled = !e.target.checked; });
 $('confirm-open').addEventListener('click', () => {
   if ($('scenario').value !== 'match') { toast('Review request preview only. No request has been saved.'); return; }
-  $('hold-consent').checked = false; $('hold-confirm').disabled = true; $('confirm-dialog').showModal();
+  $('toast').hidden = true;
+  $('hold-consent').checked = false; $('hold-confirm').disabled = true;
+  $('confirm-dialog').returnValue = ''; $('confirm-dialog').showModal();
 });
-$('confirm-dialog').addEventListener('close', () => { if ($('confirm-dialog').returnValue === 'confirmed') toast('Confirmation preview complete. No stock action was saved.'); });
+$('confirm-dialog').addEventListener('close', () => { if ($('confirm-dialog').returnValue === 'confirmed') toast('Confirmation preview complete. No stock action was saved.', true); });
 document.querySelectorAll('[data-scenario]').forEach((a) => a.addEventListener('click', () => { statePreview(a.dataset.scenario); requestAnimationFrame(() => $('workbench-title').focus()); }));
 $('new-review').addEventListener('click', () => { statePreview('match'); location.hash = 'workbench'; });
 function filterQueue() { const value = $('queue-filter').value; let count = 0; document.querySelectorAll('[data-category]').forEach((row) => { row.parentElement.hidden = value !== 'all' && row.dataset.category !== value; if (!row.parentElement.hidden) count++; }); $('empty-queue').hidden = count !== 0; }
-$('queue-filter').addEventListener('change', filterQueue); $('reset-filter').addEventListener('click', () => { $('queue-filter').value = 'all'; filterQueue(); });
+$('queue-filter').addEventListener('change', filterQueue); $('reset-filter').addEventListener('click', () => { $('queue-filter').value = 'all'; filterQueue(); $('queue-filter').focus(); });
 let stage = 0;
 function guidanceStage() {
   $('evaluation').hidden = stage < 1; $('activation-check').hidden = stage !== 2;
   $('guidance-state').textContent = ['Draft example','Evaluation example','Confirmation required','Active example'][stage];
   $('guidance-next').textContent = ['Preview evaluation →','Review activation →','Activate preview for this shop','Preview next capture'][stage];
   $('guidance-next').disabled = stage === 2 && !$('activate-consent').checked;
-  document.querySelectorAll('.steps li').forEach((li,i) => li.classList.toggle('active', i <= stage));
+  document.querySelectorAll('.steps li').forEach((li,i) => {
+    if (i === stage) li.setAttribute('aria-current', 'step');
+    else li.removeAttribute('aria-current');
+  });
 }
 $('activate-consent').addEventListener('change', guidanceStage);
 $('guidance-next').addEventListener('click', () => {
