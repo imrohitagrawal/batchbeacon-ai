@@ -5,8 +5,9 @@ progress — not a deployed product or a food-safety decision service.**
 
 The approved product combines SFA Singapore and UK FSA notices, actual bounded
 Gemini/ADK extraction, deterministic comparison, human-confirmed simulated actions,
-an isolated shop queue and evaluated capture-guidance changes. Those runtime
-capabilities are not yet implemented. See [current state](docs/STATE.md).
+an isolated shop queue and evaluated capture-guidance changes. Pure verification
+and retailer/guidance contracts have local test coverage; the runtime integrations
+are not yet implemented. See [current state](docs/STATE.md).
 
 ## Local preparation
 
@@ -19,7 +20,10 @@ current visual prototype. The scripts install only locked wheels in `.venv`.
 ./scripts/start.sh
 ```
 
-Open `http://127.0.0.1:8765/prototype/`. This local prototype makes no model call,
+Open `http://127.0.0.1:8765/prototype/refined/` for the current visual candidate.
+The [desktop/phone review set](docs/evidence/M1-final-visual-review.md) records its
+checks and limitations. The earlier `/prototype/` treatment remains archived.
+This local prototype makes no model call,
 uploads nothing and saves no action. Health reports product `not_ready`.
 Use `BATCHBEACON_LOCAL_PORT` to change its loopback port.
 
