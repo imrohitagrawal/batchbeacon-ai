@@ -35,5 +35,24 @@ Two genuine authorities and a genuine UK source update remain required.
 
 Operational web interface, readable desktop and phone capture, keyboard focus,
 adequate contrast, touch targets and reduced motion. Workflow A is accepted in
-principle; its previous finish was rejected. Replacement visual approval remains
-open, as do completed human source review and final submission approval.
+principle; its previous finish and first replacement were rejected. Replacement
+visual approval remains open. SFA first-slice human source review is complete;
+UK/remaining gold/custody and final submission approval remain open.
+
+## Owner design commitments
+
+The interface must explain its exact purpose at first glance and feel current,
+carefully finished and suitable for enterprise use. It should attract attention
+with soothing, deliberate color and strong composition. The owner rejects generic
+AI dashboard layouts, obsolete-looking color combinations and the current finish.
+Apple, MakeMyTrip, Cleartrip and Google's color use are quality references, not
+instructions to copy their brands or particular pages. The owner delegated the
+first-30-second experience and translation of these references to the designer,
+guided by the accepted hackathon criteria. Concrete visual approval remains a gate.
+
+The owner selected “Evidence in focus” for its structure only. Its blue-gray palette
+was rejected. Selection boundaries must be obvious and usable without color, and
+the logo must express the product's approach rather than use a generic circle.
+Adoption, accessibility, availability and recovery are acceptance concerns alongside
+features. Detailed UI/UX judgment remains delegated; no usability study or accessibility
+certification has been claimed.

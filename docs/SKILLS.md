@@ -1,13 +1,16 @@
 # Selected skill admission
 
-Actual client: Codex CLI 0.163.0. Permitted mode: **REFERENCE-GUIDANCE**.
-No engine, hook, detector, publisher catalog, asset agent or global install ran.
-Both local names intentionally differ from global installations.
+Actual client: Codex CLI 0.163.0. Initial mode: **REFERENCE-GUIDANCE**;
+the rejected first treatment used the two adapted subsets below.
+Following the owner's explicit request, the original pinned Impeccable skill and
+a narrowly admitted engine now run the direction workshop. No hook,
+automatic asset agent, global install or paid generation has run. A static detector
+was subsequently admitted and run only on the six explicit refined prototype files.
 
 | Skill / first task | Immutable source | License / installed payload | Current stages |
 | --- | --- | --- | --- |
-| Primary operational design / T06 | pbakaus/impeccable, `08d5b470495d242ca0470f4aeae1956c3a074f83`, `.agents/skills/impeccable` (4.6.0) | Apache-2.0; `.agents/skills/batchbeacon-impeccable-reference/`; LICENSE and pinned NOTICE.md retained | Reviewed, adapted admission, installed, discovered, loaded, invoked PASS; applied/render-tested PENDING |
-| Targeted interaction review / T06 | emilkowalski/skills, `2d228630ba1446365f614a108cb8252f1feda202`, `skills/emil-design-eng` | MIT; `.agents/skills/batchbeacon-emil-reference/` | Reviewed, adapted admission, installed, discovered, loaded, concrete target invoked PASS; applied/render-tested PENDING |
+| Primary operational design / T06 | pbakaus/impeccable, `08d5b470495d242ca0470f4aeae1956c3a074f83`, `.agents/skills/impeccable` (4.6.0) | Apache-2.0; `.agents/skills/batchbeacon-impeccable-reference/`; LICENSE and pinned NOTICE.md retained | Reviewed, adapted admission, installed, discovered, loaded, invoked PASS; applied/render-tested PASS for the labelled T06 prototype only |
+| Targeted interaction review / T06 | emilkowalski/skills, `2d228630ba1446365f614a108cb8252f1feda202`, `skills/emil-design-eng` | MIT; `.agents/skills/batchbeacon-emil-reference/` | Reviewed, adapted admission, installed, discovered, loaded, concrete target invoked PASS; applied/render-tested PASS for the labelled T06 prototype only |
 
 Each directory includes PROVENANCE.md, ADAPTATION.patch and MANIFEST.sha256.
 These are complete declared adapted text subsets, not unmodified upstream installs.
@@ -24,8 +27,68 @@ returned both selected names, exact local paths, enabled=true, scope=repo.
 Instructions were then explicitly loaded. Task invocation: replacement A desktop/
 phone workbench, retail queue, feedback/candidate/evaluation/activation/rollback;
 Emil review of readable density, touch, focus, interruption and reduced motion.
-Rendered evidence is required before SK-40 passes. Final visual approval is pending.
+SK-40: actual Chrome 1440/390 renders and four local browser regressions passed;
+see docs/evidence/M1-ui-choice.md. Final visual approval is pending.
 Private client response is in `.local/run-records/`; no private process data here.
 
 At resume, verify manifests and client discovery again when the client/worktree
 changes. Reuse matching payloads. Do not reintroduce excluded StackClimb protocols.
+
+## Original Impeccable workshop admission
+
+The unchanged complete single-skill directory at the same pinned commit is now
+installed at `.agents/skills/impeccable/`, with LICENSE and NOTICE.md retained.
+Codex app-server `skills/list` returned its exact repo path and enabled=true.
+The older global 4.1.1 installation also exists; this task explicitly loads the
+project-local 4.6.0 path. Init, shape, new-work and Operate references were loaded.
+
+Engine 0.1.15's official Darwin ARM64 asset was checked against its publisher
+sidecar and GitHub release digest:
+`c7914209b4490dc81b7ab17c20f1f76415d1f0b8bb5de6f7e86e9aa111d1c1a5`.
+Its release source is `8384d86473513bfd5fbfd79bd1cf5b4b24204d63`;
+the [successful release workflow](https://github.com/pbakaus/impeccable/actions/runs/38752681348)
+binds the artifact build to that tag commit. This is publisher provenance, not an
+independent reproducible-build proof. The read-only reviewer inspected the intended
+command closure and differences from the skill pin before execution.
+
+Admitted commands: engine-probe, context, concept-seed, serve-question and sanitized
+surface-brief operations. The explicit verified binary runs with updates and
+telemetry disabled, finite network timeout and private salt/cache/runtime directory.
+HOME was not changed. The functional direction roll contacts impeccable.style with
+scope/random roll parameters; no product text or source code is sent. The local
+decision server binds loopback and receives only synthetic design content. Its
+process is owned in private records and must be shut down after choice/expiry;
+browser heartbeats mean its timeout is not a hard lifetime guarantee.
+
+Actual execution: engine-probe PASS, context loaded PRODUCT, original direction
+roll PASS, decision server PASS, four HTML studies rendered, three main study
+captures inspected. Reference boards were viewed, not copied into product assets.
+The selected structure is Evidence in focus (`seed:42aa328248450bcd`). Owner then
+rejected its generic blue-gray palette and asked for clearer selection/accessibility
+and transparency about Impeccable's questions. Color treatment and final visuals
+remain open. No a11y-compliance claim, final DESIGN or final integration.
+
+## Refined prototype application
+
+Original init/shape questions were mapped to confirmed owner answers; no repeated
+style questionnaire. New-work contract persisted through admitted surface-brief
+write/read with all required blocks and the original seed reference. Candidate at
+`prototypes/refined/`; original SVG mark and no new raster product assets.
+
+Independent read-only admission inspected the release's static detect CLI/file
+reader closure. Ran `detect --json --no-config` once on six absolute regular files;
+no directory/URL target, browser, network, hook or updater. Findings were small
+functional text; actual CSS inspected and corrected. Final explicit sizes >=12px.
+The engine output remains private. No full detector-clean claim from this scan.
+
+Actual Chrome desktop/phone inspection and 15 local browser checks passed. A fresh
+read-only Impeccable finish reviewer loaded the shipped role and returned `ship`
+strictly for provisional owner presentation. No separate QUALITY BAR card existed;
+the rejected-color study was only the structural critique reference. Final owner
+approval and subsequent final-system documentation remain open. See
+[review candidate](evidence/M1-refined-review.md) for scope and limitations.
+
+All 62 pinned upstream skill files and the two license/notice files match their
+staged original bytes. Upstream extract/harden/optimize references contain six
+whitespace warnings; retained as provenance-preserving advisory debt. Application
+and authored documentation whitespace checks pass independently of those files.

@@ -23,3 +23,19 @@ Admit only explicit text-only Impeccable 4.6.0 / Emil pinned derivatives. No ups
 engine, hook, nested writer or publisher request. Unique local names avoid shadowing.
 Malformed adaptation diff was reproduced as REQUIRED_CONTRACT, regenerated and
 independently verified closed. The original guidance bytes were unaffected.
+
+## LOCAL-07 — reopen guided visual discovery
+Owner rejected the first replacement treatment and explicitly requested Impeccable
+initialization with a fuller design-direction interview. Primary disclosed that
+the earlier UI used an adapted reference subset, not the original interactive
+direction-discovery workflow. Preserve accepted A functional flow, reopen visual
+discovery with original init/shape/new-work guidance, and retain the owner visual
+gate. Do not present the old subset as a full upstream engine run.
+
+## LOCAL-08 — original workshop and structure-only selection
+Original pinned Impeccable 4.6.0 and narrowly reviewed engine 0.1.15 were prepared,
+discovered, loaded and actually run. Owner selected Evidence in focus, then rejected
+its palette and circle placeholder, and emphasized accessibility/usage/adoption.
+Keep the structural selection; propose a white/charcoal/orange refinement with a
+paired-label B mark. Candidate implementation and technical checks do not grant
+owner visual approval. See M1-refined-review and M1-design-discovery evidence.
