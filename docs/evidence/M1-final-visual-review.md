@@ -1,5 +1,8 @@
 # Consolidated visual review candidate
 
+Current control/alignment audit: [M1-usability-audit](M1-usability-audit.md).
+The earlier observations and captures below remain historical.
+
 Current palette/control-spacing addendum: [M1-palette-final](M1-palette-final.md).
 The original captures and hashes below remain the earlier review record.
 

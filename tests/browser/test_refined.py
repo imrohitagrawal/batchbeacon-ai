@@ -1,8 +1,10 @@
 """Local prototype usability checks; not integrated or hosted acceptance."""
 
 import re
+from io import BytesIO
 
 import pytest
+from PIL import Image
 from playwright.sync_api import expect
 from test_prototype import local_url as local_url  # noqa: F401
 from test_prototype import page as page  # noqa: F401
@@ -95,11 +97,31 @@ def test_guidance_lifecycle_current_step_matches_visible_task(refined):
     refined.get_by_role("checkbox", name=re.compile("^I have reviewed")).check()
     refined.get_by_role("button", name="Activate preview for this shop").click()
     expect(current).to_have_text("Active")
+    expect(refined.locator("#rollback-help")).to_contain_text("newer preview revision")
     refined.get_by_role("button", name="Preview rollback").click()
     expect(refined.locator("#active-policy")).to_contain_text("v3")
     expect(refined.locator("#guidance-status")).to_contain_text("Lifetime counters stay unchanged")
+    expect(refined.locator("#rollback-help")).to_contain_text("already restored")
     refined.get_by_role("button", name="Reset preview").click()
     expect(current).to_have_text("Candidate")
+
+
+def test_capture_feedback_stays_with_input_and_cannot_leak_to_another_incident(refined):
+    image = BytesIO()
+    Image.new("RGB", (12, 12), "white").save(image, format="PNG")
+    refined.get_by_role("button", name="Preview recapture", exact=True).click()
+    refined.get_by_label("Preview image selection").set_input_files({
+        "name": "synthetic-label.png", "mimeType": "image/png", "buffer": image.getvalue(),
+    })
+    expect(refined.locator("#capture-panel [role=status]")).to_contain_text(
+        "Nothing was uploaded or checked"
+    )
+    expect(refined.locator("#toast")).not_to_be_visible()
+    refined.get_by_role("link", name="Retail queue", exact=True).click()
+    refined.locator('[data-scenario="missing"]').click()
+    refined.get_by_role("button", name="Preview recapture", exact=True).click()
+    expect(refined.locator("#capture-status")).to_be_empty()
+    assert refined.locator("#capture-file").evaluate("el => el.files.length") == 0
 
 
 @pytest.mark.parametrize("width", [320, 390, 720, 1280, 1440])
@@ -107,6 +129,9 @@ def test_reflow_all_views_and_long_state_labels(refined, width):
     refined.set_viewport_size({"width": width, "height": 900})
     for view in ["workbench", "retail", "guidance"]:
         refined.locator(f'nav a[data-view="{view}"]').click()
+        expect(refined.locator(f"#{view}")).to_be_visible()
+        if view == "workbench":
+            refined.locator(".examples summary").click()
         assert refined.evaluate("document.documentElement.scrollWidth <= innerWidth"), view
     refined.get_by_role("link", name="Check a product", exact=True).click()
     if refined.locator(".state-examples").get_attribute("open") is None:
@@ -115,6 +140,34 @@ def test_reflow_all_views_and_long_state_labels(refined, width):
         refined.get_by_label("Preview a state").select_option(state)
         assert refined.evaluate("document.documentElement.scrollWidth <= innerWidth"), state
     expect(refined.locator("#observed-product")).to_contain_text("Knafeh")
+
+
+@pytest.mark.parametrize("width", [320, 390, 720, 1440])
+def test_doubled_text_keeps_queue_states_inside_their_columns(refined, width):
+    refined.set_viewport_size({"width": width, "height": 900})
+    # Text-size stress test, separate from native browser zoom and device testing.
+    refined.add_style_tag(content=":root { font-size: 32px !important; }")
+    assert refined.locator(".skip").evaluate("el => el.getBoundingClientRect().bottom <= 0")
+    for view in ["workbench", "retail", "guidance"]:
+        refined.locator(f'nav a[data-view="{view}"]').click()
+        expect(refined.locator(f"#{view}")).to_be_visible()
+        if view == "workbench":
+            refined.locator(".examples summary").click()
+        assert refined.evaluate("document.documentElement.scrollWidth <= innerWidth"), view
+    refined.get_by_role("link", name="Retail queue", exact=True).click()
+    expect(refined.locator("#retail")).to_be_visible()
+    assert refined.locator(".queue-row > .state-tag").evaluate_all("""tags => tags.every(tag => {
+      const box = tag.getBoundingClientRect();
+      const row = tag.parentElement.getBoundingClientRect();
+      return box.left >= row.left && box.right <= row.right;
+    })""")
+    refined.goto(refined.url.split("#")[0] + "brand.html")
+    refined.add_style_tag(content=":root { font-size: 32px !important; }")
+    assert refined.evaluate("document.documentElement.scrollWidth <= innerWidth"), "brand"
+    skip = refined.get_by_role("link", name="Skip to main content", exact=True)
+    assert skip.evaluate("el => el.getBoundingClientRect().bottom <= 0")
+    skip.focus()
+    assert skip.evaluate("el => el.getBoundingClientRect().top >= 0")
 
 
 def test_negative_does_not_compare_lot_or_date_and_disabled_reason_is_visible(refined):

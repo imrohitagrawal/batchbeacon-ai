@@ -1,0 +1,28 @@
+{
+  "scope": "Local visual prototype usability audit; not a release freeze",
+  "sources": {
+    "prototypes/refined/index.html": "ffded9e4a9be380b2f401781e390ee72fafdffe6827dbb9fd4960be6b9194215",
+    "prototypes/refined/style.css": "d2b765b9f38922943ce5e9bfae5a8fa0ca09b5a540dd0b879ea06243622a1d90",
+    "prototypes/refined/prototype.js": "2e36966767ee80012a95cb5658dbe9f59992cf2e00318369a6887c7fb5dfb925",
+    "prototypes/refined/brand.html": "e5c58b5e800fb02df7d8d03e3c70820d83eb408eb584a0f7658258d397aaa716",
+    "prototypes/refined/mark.svg": "91de6636356363512a9c5809a2e0ccea3410f8a384f46367b186d043ca835b0a",
+    "tests/browser/test_refined.py": "0d89d24d039b94f7e2d53e308052858b9c911d0c516984ea826b9fdcf87426b9"
+  },
+  "captures": {
+    "confirmation-phone.jpg": "d186bffc0b52151dbdade4648c6308a696470066ce1380ec5c591fd9c3fe4d83",
+    "fields-phone.jpg": "a6ae50da1cc1cb79bd4cc45dfebbef809a624d3bb72fd7fd075a1e4cf7790f04",
+    "guidance-desktop.jpg": "cbaafb666afb54b096ccf289a707a84ca4c4d535570d86e08be9f20d3af1dbf7",
+    "guidance-phone.jpg": "cd3af15beae1ebd1b0e25f70cf5f2918237ca26bee27359915b2ee7083fbf7f2",
+    "recapture-phone.jpg": "544cbd4f7e2e2e6b1cad31687ad365c93fb378b25ec6d9a2b22046552aa760ca",
+    "retail-desktop.jpg": "3a2c4bc1fa32fc54ffef18229276f1610797ca20d11875c02de63065b74baeeb",
+    "retail-phone.jpg": "6b48d7b28c254079a3cac87d5d77e6ed30f54fa32669f3891193c1ddc4810eb8",
+    "workbench-desktop.jpg": "ed54ba97076a5d982345890b859872cbdfd40862f5f8b00093741ce8ee9c4168"
+  },
+  "verification": {
+    "browser_suite": "41 passed before isolated skip-hiding correction",
+    "affected_followup": "16 passed including doubled text and skip/navigation after correction",
+    "independent_matrix": "32 cases passed plus 12 final skip/focus cases",
+    "detector": "exit 0; no findings; final four source files"
+  },
+  "capture_note": "Fresh final-source captures; guidance phone recaptured at scroll origin after rejecting a full-page stitching artifact."
+}

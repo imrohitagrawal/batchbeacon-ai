@@ -1,5 +1,8 @@
 # Cross-view alignment finish pass
 
+Current control/alignment audit: [M1-usability-audit](M1-usability-audit.md).
+The earlier observations and captures below remain historical.
+
 Status: owner-requested refinement of the existing visual candidate. Palette and
 workflow meaning are unchanged. This supersedes the layout/source binding in
 [M1-palette-final](M1-palette-final.md); its color rationale and checks still apply.

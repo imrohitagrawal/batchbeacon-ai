@@ -48,20 +48,24 @@ Independent corrections and all 13 current captures PASS for owner presentation.
 Latest owner-delegated polish restores peach selection, equal-size queue states and
 inset native-select arrows. See M1-palette-final.md and M1-final-visual-review.md.
 Independent latest polish: 79 rendered checks/eight widths and six captures PASS.
-Follow-up alignment pass centers queue status headings, fixes narrow-width tracks
-and aligns guidance values; see M1-alignment-final.md. Mint remains unchanged.
+Latest user-task/Impeccable audit replaces mixed queue anchors with consistent
+left origins and clear shared action buttons; mint remains unchanged.
+See M1-usability-audit.md: 17/20 scoped audit, 41 local browser cases and independent
+32-case desktop/phone/doubled-text matrix PASS. Enlarged-text/focus corrections
+and fresh captures verified. Native zoom, screen reader and real-device limits remain.
 U02 final visual approval remains open; no DESIGN.
 All earlier directions and palettes preserved as history.
 T07 hosted push/branch/PR-merge/merged-main checks PASS; see M1-hosted-ci.md.
-Latest alignment d9fb5c3 hosted lock/Ruff +118 unit/+36 browser PASS.
+Latest verified 7bf9518 hosted lock/Ruff +164 unit/+36 browser PASS.
 No enforced required-check rule or release freeze.
-Latest full check: lock/Ruff, 118 unit + 36 local browser PASS; title-only follow-up
-7 affected cases PASS. Independent refined checks and 120 rapid route/skip trials PASS.
+Latest UI audit is a separate local candidate; its hosted result is pending.
 No real model, persistence, action, isolation, paid-ledger or hosted product journey claim.
 T08 local preparation: strict probe policy and operator-only durable reservation
 boundary; lock/Ruff +164 unit PASS, including four installed-ADK/mock-HTTP cases.
-Initial bd2292c hosted 161 unit/36 browser PASS; later SDK continuation fix
-requires its own hosted result. No paid/runtime claim follows from these checks.
+Installed-ADK continuation correction is covered by hosted 7bf9518.
+Uncommitted bounded runner preparation has 200 local unit checks and independent
+receipt/output/dispatch-intent correction verification; dedicated receipt regressions
+remain to persist before its checkpoint. No paid/runtime claim follows from these checks.
 No actual paid allocation initialized; complete runtime admission remains closed.
 See G0X-cloud-preflight.md for scoped independent review and remaining cases.
 

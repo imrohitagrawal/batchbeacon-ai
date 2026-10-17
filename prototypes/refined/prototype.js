@@ -89,6 +89,7 @@ function statePreview(name) {
   document.querySelectorAll('.comparison-row').forEach(row => row.classList.remove('field-selected'));
   $('field-detail').textContent = 'Select a field to inspect its label and notice values.';
   $('capture-panel').hidden = true; $('capture').setAttribute('aria-expanded', 'false');
+  $('capture-file').value = ''; $('capture-status').textContent = '';
   $('correction-panel').hidden = true; $('correction').setAttribute('aria-expanded', 'false');
   if (name === 'negative') {
     $('date-result').textContent = 'Not used';
@@ -104,7 +105,7 @@ $('scenario').addEventListener('change', (e) => statePreview(e.target.value));
 $('capture').addEventListener('click', () => { $('capture-panel').hidden = !$('capture-panel').hidden; $('capture').setAttribute('aria-expanded', String(!$('capture-panel').hidden)); });
 $('correction').addEventListener('click', () => { $('correction-panel').hidden = !$('correction-panel').hidden; $('correction').setAttribute('aria-expanded', String(!$('correction-panel').hidden)); });
 function toast(text, completed = false) { $('toast').textContent = text; $('toast').className = `toast${completed ? ' completed' : ''}`; $('toast').hidden = false; }
-$('capture-file').addEventListener('change', e => { if(e.target.files.length) toast('Image selected locally. Nothing was uploaded or checked.'); });
+$('capture-file').addEventListener('change', e => { $('capture-status').textContent = e.target.files.length ? 'Image selected locally. Nothing was uploaded or checked.' : ''; });
 $('hold-consent').addEventListener('change', (e) => { $('hold-confirm').disabled = !e.target.checked; });
 $('confirm-open').addEventListener('click', () => {
   if ($('scenario').value !== 'match') { toast('Review request preview only. No request has been saved.'); return; }
@@ -121,7 +122,7 @@ let stage = 0;
 function guidanceStage() {
   $('evaluation').hidden = stage < 1; $('activation-check').hidden = stage !== 2;
   $('guidance-state').textContent = ['Draft example','Evaluation example','Confirmation required','Active example'][stage];
-  $('guidance-next').textContent = ['Preview evaluation →','Review activation →','Activate preview for this shop','Preview next capture'][stage];
+  $('guidance-next').textContent = ['Preview evaluation','Review activation','Activate preview for this shop','Preview next capture'][stage];
   $('guidance-next').disabled = stage === 2 && !$('activate-consent').checked;
   document.querySelectorAll('.steps li').forEach((li,i) => {
     if (i === stage) li.setAttribute('aria-current', 'step');
@@ -130,11 +131,11 @@ function guidanceStage() {
 }
 $('activate-consent').addEventListener('change', guidanceStage);
 $('guidance-next').addEventListener('click', () => {
-  if (stage < 3) { stage++; if(stage === 3) { $('active-policy').textContent = 'v2 · clearer date-panel guidance (preview)'; $('guidance-status').textContent = 'Preview activated. Future examples use the clearer wording; no stored policy changed.'; $('rollback').disabled = false; $('capture-instruction').textContent = 'Photograph the complete best-before date marking. Keep the pack flat and avoid glare.'; $('capture-policy').textContent = 'Guidance v2 · preview'; } guidanceStage(); if (stage === 2) $('activate-consent').focus(); }
+  if (stage < 3) { stage++; if(stage === 3) { $('active-policy').textContent = 'v2 · clearer date-panel guidance (preview)'; $('guidance-status').textContent = 'Preview activated. Future examples use the clearer wording; no stored policy changed.'; $('rollback').disabled = false; $('rollback-help').textContent = 'Restore the original wording as a newer preview revision.'; $('capture-instruction').textContent = 'Photograph the complete best-before date marking. Keep the pack flat and avoid glare.'; $('capture-policy').textContent = 'Guidance v2 · preview'; } guidanceStage(); if (stage === 2) $('activate-consent').focus(); }
   else { location.hash = 'workbench'; statePreview('missing'); $('capture-panel').hidden = false; $('capture').setAttribute('aria-expanded', 'true'); }
 });
-$('rollback').addEventListener('click', () => { $('active-policy').textContent = 'v3 · original wording restored (preview)'; $('capture-instruction').textContent = 'Photograph the complete best-before date marking.'; $('capture-policy').textContent = 'Guidance v3 · preview'; $('guidance-status').textContent = 'Rollback preview: a new revision restores original wording. Lifetime counters stay unchanged.'; $('rollback').disabled = true; });
-$('guidance-reset').addEventListener('click', () => { stage = 0; $('activate-consent').checked = false; $('active-policy').textContent = 'v1 · original guidance'; $('guidance-status').textContent = ''; $('rollback').disabled = true; $('capture-instruction').textContent = 'Photograph the complete best-before date marking.'; $('capture-policy').textContent = 'Guidance v1 · preview'; guidanceStage(); });
+$('rollback').addEventListener('click', () => { $('active-policy').textContent = 'v3 · original wording restored (preview)'; $('capture-instruction').textContent = 'Photograph the complete best-before date marking.'; $('capture-policy').textContent = 'Guidance v3 · preview'; $('guidance-status').textContent = 'Rollback preview: a new revision restores original wording. Lifetime counters stay unchanged.'; $('rollback').disabled = true; $('rollback-help').textContent = 'Original wording is already restored in this preview.'; });
+$('guidance-reset').addEventListener('click', () => { stage = 0; $('activate-consent').checked = false; $('active-policy').textContent = 'v1 · original guidance'; $('guidance-status').textContent = ''; $('rollback').disabled = true; $('rollback-help').textContent = 'Available after a guidance activation preview.'; $('capture-instruction').textContent = 'Photograph the complete best-before date marking.'; $('capture-policy').textContent = 'Guidance v1 · preview'; guidanceStage(); });
 
 document.querySelectorAll('input[name="example"]').forEach(input => input.addEventListener('change', () => statePreview(input.value)));
 document.querySelectorAll('.field-pick').forEach(button => button.addEventListener('click', () => {

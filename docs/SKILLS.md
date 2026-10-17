@@ -92,3 +92,13 @@ All 62 pinned upstream skill files and the two license/notice files match their
 staged original bytes. Upstream extract/harden/optimize references contain six
 whitespace warnings; retained as provenance-preserving advisory debt. Application
 and authored documentation whitespace checks pass independently of those files.
+
+## Explicit Impeccable audit and usability follow-up
+
+Applied the original audit playbook and the already-loaded polish/operate/craft-floor
+guidance to the refined prototype. No new initialization questionnaire or installation.
+The admitted pinned source detector returned zero findings on four explicit regular
+source files; rendered review remained separate. A read-only reviewer verified the
+control inventory, state paths, captures and corrections. The scored audit is
+17/20 for the tested local scope, with native zoom/screen reader/physical device
+limitations retained. See [M1-usability-audit](evidence/M1-usability-audit.md).
