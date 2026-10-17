@@ -110,3 +110,26 @@ and **41 local Chrome browser tests**. Independent verification reproduced the
 focused pass and used negative controls: disabling the outer timeout made the
 generation-expiry case fail; disabling both deadline mechanisms made all three
 cases fail. The failed hosted log hash is preserved. No runtime code changed.
+
+A second hosted run, [39078921450](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39078921450),
+passed the corrected shared-deadline cases but found the same timing assumption
+in the separate per-phase timeout test (**223 passes / one failure**, browser
+assertions not reached). This is a **DUPLICATE** symptom of the same test-portability
+root cause. The first correction and review were too narrowly scoped to the
+initial failing test. The revised plan audits every sleep/deadline use in the
+runner, transport and admission suites before the next checkpoint.
+
+The remaining per-phase test now controls monotonic time during setup and expires
+the real outer timeout inside the selected HTTP phase. It additionally verifies
+the exact retained monetary liability. No positive real sleep remains under the
+short probe-test deadlines. Runtime enforcement and the approved UI remain unchanged.
+Both failed hosted records remain retained; no release evidence has been frozen.
+
+Independent timeout-family review then passed all 106 focused checks and the full
+224-unit/41-Chrome suite. Injecting 120ms of real setup reproduced both prior phase
+failures and passed all five corrected timing cases. Disabling both deadline
+mechanisms made all five fail. A separate primary full run found an intermittent
+normal skip-link test sequencing issue, documented in M1-usability-audit.md; its
+correction waits for navigation completion and preserves the separate rapid-path
+regression. These changes affect tests only. Fresh hosted verification remains
+the final checkpoint requirement.

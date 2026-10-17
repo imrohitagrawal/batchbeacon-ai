@@ -194,6 +194,9 @@ def test_queue_empty_state_removes_empty_list_items_and_recovers(refined):
 @pytest.mark.parametrize("view", ["retail", "guidance"])
 def test_skip_link_preserves_current_workspace_destination(refined, view):
     refined.locator(f'nav a[data-view="{view}"]').click()
+    # Complete navigation's documented heading-focus step before starting the
+    # normal keyboard skip sequence. Queued anchor activation is covered below.
+    expect(refined.locator(f"#{view} h1")).to_be_focused()
     skip = refined.get_by_role("link", name="Skip to main content", exact=True)
     skip.focus()
     refined.keyboard.press("Enter")

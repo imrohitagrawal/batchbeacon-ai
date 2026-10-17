@@ -210,3 +210,20 @@ References: [W3C resize text](https://www.w3.org/WAI/WCAG22/Understanding/resize
 [W3C consistent identification](https://www.w3.org/WAI/WCAG22/Understanding/consistent-identification.html).
 The audit's 44 px target heuristic is stricter than the WCAG 2.2 AA 24 px minimum
 with its exceptions; passing that heuristic is not certification.
+
+## Later normal-path keyboard test sequencing
+
+During the post-approval full check, the normal skip-link test intermittently
+focused the skip link before the preceding navigation completed its documented
+heading-focus step. That pending step could move focus before the test pressed
+Enter; the failed URL remained `#guidance`, showing the skip anchor had not fired.
+The test now waits for target-heading focus before starting its normal keyboard
+sequence. The separate queued native-anchor regression is preserved unchanged.
+This is a test-sequencing correction; no prototype source, palette or asset changed.
+The existing capture manifest remains bound to the approved `b145ac6` revision;
+subsequent test-source changes do not rewrite that historical approval binding.
+
+Independent trace reproduced one failure in 25 original guidance trials and
+classified this as **ADVISORY_DEBT** in test sequencing, with no application
+contract defect reproduced. Corrected normal and rapid paths each passed 40
+trials; four keyboard paths and all six affected project tests passed.

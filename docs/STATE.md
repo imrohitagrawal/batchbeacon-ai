@@ -61,8 +61,11 @@ Installed-ADK continuation correction is covered by hosted 7bf9518.
 Bounded runner preparation has 104 focused checks including receipt/output/dispatch
 intent and byte-limit regressions, independently verified. Initial local lock/Ruff, 222 unit and 41 Chrome browser checks PASS. Hosted
 a319365 caught a timing-dependent test assumption; safe early expiry reproduced,
-three deterministic deadline cases added and independently verified. Corrected
-local lock/Ruff, 224 unit and 41 Chrome browser PASS; hosted follow-up pending.
+three shared-deadline cases passed; hosted d5a043c exposed the same assumption
+in the separate phase test. Entire timeout family independently verified under
+slow setup. Normal skip test now awaits completed navigation; rapid-path test stays.
+Final combined local lock/Ruff, 224 unit and 41 Chrome PASS. Independent timing
+and normal/rapid keyboard corrections PASS; fresh hosted verification pending.
 See M1-model-probe-runner.md. No paid/runtime claim follows.
 No actual paid allocation initialized; complete runtime admission remains closed.
 See G0X-cloud-preflight.md for scoped independent review and remaining cases.

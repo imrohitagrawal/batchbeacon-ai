@@ -161,16 +161,29 @@ def test_generation_error_is_one_reserved_unknown_attempt(tmp_path, status):
 
 
 @pytest.mark.parametrize("phase", ["count", "generate"])
-def test_whole_run_timeout_keeps_only_started_liability(tmp_path, phase):
-    async def delayed(*_):
-        await asyncio.sleep(0.1)
+def test_whole_run_timeout_keeps_only_started_liability(tmp_path, phase, monkeypatch):
+    async def check():
+        loop = asyncio.get_running_loop()
+        virtual_now = [loop.time()]
 
-    p = policy(request_timeout_ms=50, run_deadline_ms=50)
-    options = {"on_" + phase: delayed}
-    receipt, requests, ledger, _ = asyncio.run(exercise(tmp_path, p=p, **options))
+        async def delayed(*_):
+            virtual_now[0] += 0.1
+            await asyncio.sleep(0)
+            await asyncio.sleep(0)
+
+        # Hold setup time constant, then expire the real outer timeout inside
+        # the selected HTTP phase. Wall-clock setup speed cannot select a phase.
+        with monkeypatch.context() as patch:
+            patch.setattr(loop, "time", lambda: virtual_now[0])
+            p = policy(request_timeout_ms=50, run_deadline_ms=50)
+            return await exercise(tmp_path, p=p, **{"on_" + phase: delayed})
+
+    receipt, requests, ledger, _ = asyncio.run(check())
     assert receipt["outcome"] == ("timeout" if phase == "count" else "timeout_unknown")
     assert len(requests) == (1 if phase == "count" else 2)
     assert ledger.snapshot()["attempts"] == (0 if phase == "count" else 1)
+    expected_liability = 0 if phase == "count" else policy().reserve_nanos
+    assert ledger.snapshot()["committed_nanos"] == expected_liability
 
 
 def test_expiry_while_counting_prevents_paid_dispatch(tmp_path):
