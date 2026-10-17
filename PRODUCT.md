@@ -84,3 +84,10 @@ The consolidated review restores mint for completed simulated workflow states,
 while scoped negative results stay neutral. Lavender identifies candidate guidance.
 The owner requested a full review before the final U02 visual decision; see
 docs/evidence/M1-final-visual-review.md. No final approval is inferred.
+
+Latest owner-delegated polish: retain rich blue/coral identity and vivid gold actions;
+restore pale peach #FFF3ED for selected evidence/choices, keep mint completed
+states and lavender candidate guidance. Equal-size retail state labels and inset
+native-select chevrons complete the consistency pass. See
+docs/evidence/M1-palette-final.md for current captures, source binding and accessibility evidence.
+This supersedes earlier selection-fill proposals; U02 final visual review remains open.

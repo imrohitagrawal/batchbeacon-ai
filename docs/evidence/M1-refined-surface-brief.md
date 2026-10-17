@@ -52,3 +52,10 @@ Consolidated candidate: restore mint #E6F2EB with #20573E text for completed
 simulated actions and guidance changes; scoped negative remains neutral. Use
 Baseline/Candidate comparison labels and one current guidance step. Complete
 review, evidence and limits: M1-final-visual-review.md. U02 remains open.
+
+Latest owner-delegated polish: retain rich blue/coral identity and vivid gold actions;
+restore pale peach #FFF3ED for selected evidence/choices, keep mint completed
+states and lavender candidate guidance. Equal-size retail state labels and inset
+native-select chevrons complete the consistency pass. See
+M1-palette-final.md for current captures, source binding and accessibility evidence.
+This supersedes earlier selection-fill proposals; U02 final visual review remains open.

@@ -28,7 +28,7 @@ discovered/loaded. Original workshop, bounded static scan and fresh finish revie
 See SKILLS.md for exact admission, hashes and limited rendered-test status.
 
 ## Tasks and actual evidence
-T01 PASS / G0-L PASS. T02 PARTIAL: native recovery and cloud settings outstanding.
+T01 PASS / G0-L PASS. T02 PARTIAL: native recovery passed; cloud settings/remaining cost admission outstanding.
 T03a PASS: independent acceptance before domain code. T03b registry prepared;
 D01–D12 denominator proposed, full human gold audit and H custody PENDING.
 T04a PASS: owner confirmed SFA A/B positives, third-identity D07 negative,
@@ -44,9 +44,13 @@ uses rich dark blue #173B75, coral, vivid gold, lavender candidate guidance and
 mint completed workflow states. Persistent desktop/phone navigation retained.
 Full technical/visual pass corrected four required UI issues plus state-copy drift.
 Independent corrections and all 13 current captures PASS for owner presentation.
-See M1-final-visual-review.md. U02 final visual approval remains open; no DESIGN.
+Latest owner-delegated polish restores peach selection, equal-size queue states and
+inset native-select arrows. See M1-palette-final.md and M1-final-visual-review.md.
+Independent latest polish: 79 rendered checks/eight widths and six captures PASS.
+U02 final visual approval remains open; no DESIGN.
 All earlier directions and palettes preserved as history.
-T07 locked bootstrap/start/check scripts and pinned CI skeleton exist; hosted pending.
+T07 hosted push/branch/PR-merge/merged-main checks PASS; see M1-hosted-ci.md.
+No enforced required-check rule or release freeze. Latest palette hosted run pending.
 Latest full check: lock/Ruff, 118 unit + 36 local browser PASS; title-only follow-up
 7 affected cases PASS. Independent refined checks and 120 rapid route/skip trials PASS.
 No real model, persistence, action, isolation, paid-ledger or hosted product journey claim.
@@ -55,12 +59,14 @@ No real model, persistence, action, isolation, paid-ledger or hosted product jou
 Project ID `batchbeacon-ai` ACTIVE, billing enabled; selected account matches owner hint.
 Required app/model/build/database APIs still need enabling; no bucket observed.
 Firestore/Cloud Run discovery needs API preconditions, not evidence of absence.
-No cloud writes, paid calls or deployment. Spend UNKNOWN. G0-X BLOCKED / NOT RUN.
-GitHub target returned authenticated 404; approved creation/push remains queued.
+Cloud Billing API enabled for verified account-currency/SKU reads; no IAM change,
+paid model call or deployment. Account INR and six model/Run SKU rates verified;
+see M1-cloud-pricing.md. Spend UNKNOWN. G0-X BLOCKED / NOT RUN.
+Public GitHub repository created and pushed; README PR #1 merged after hosted PASS.
 No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested.
 
 ## Next ready queue
-Present consolidated T06 candidate for U02; continue T07 hosted checks;
+Present polished T06 candidate for U02; verify its new T07 hosted run;
 T02 actual settings/cost mapping then bounded T08. Preserve final visual integration gate
 while the concrete candidate is reviewed. UK/source gates block only their path.
 Next prompt: Continue prompts/01-codex-kickoff.md from STATE and the private run policy;

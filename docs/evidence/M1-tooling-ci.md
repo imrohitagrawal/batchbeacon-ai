@@ -41,3 +41,7 @@ The test now scopes the accessible queue name to navigation across breakpoints.
 Browser cases cover UK incident/source binding, explicit hold confirmation, valid
 guidance baseline/visible future preview/monotonic rollback, phone reflow and queue
 semantics. These remain prototype checks, not B-F1–F6 or actual learning evaluation.
+
+Hosted update: push, branch, actual PR merge checkout and merged-main runs now
+passed the complete locked contract/prototype suite; see [M1-hosted-ci](M1-hosted-ci.md).
+That record supersedes the earlier hosted-pending statement, preserving its history.

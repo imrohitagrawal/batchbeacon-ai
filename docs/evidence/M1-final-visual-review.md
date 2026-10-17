@@ -1,5 +1,8 @@
 # Consolidated visual review candidate
 
+Current palette/control-spacing addendum: [M1-palette-final](M1-palette-final.md).
+The original captures and hashes below remain the earlier review record.
+
 Status: recommended for owner visual review; U02 remains open. This is a reversible
 local prototype, not a release candidate or an integrated product acceptance.
 
