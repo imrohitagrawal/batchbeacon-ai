@@ -10,14 +10,14 @@ design details. Human visual approval remains open; DESIGN.md waits for it.
 THESIS: Put the exact label, authority comparison and deliberate decision together.
 Use the working evidence as the focal point; no KPI-card dashboard or dark rail.
 
-OWN-WORLD: White and light neutral surfaces, charcoal UI sans, a small clear-orange
-action/identity accent. Native controls with dark selection boundaries and explicit
+OWN-WORLD: White working surfaces, navy UI sans, golden-yellow action emphasis,
+coral paired-label identity, pale-blue label evidence and mint proposed wording. Native controls with dark selection boundaries and explicit
 state words. Paired label geometry becomes the brand mark, not a status seal.
 
 STORY: Understand the check, select a synthetic example, inspect identity before
 lot/date, then confirm a simulated action or resolve missing evidence.
 
-FIRST VIEWPORT: Compact horizontal identity/navigation, purpose heading, visible
+FIRST VIEWPORT: Persistent horizontal navigation (desktop header, phone destination row), purpose heading, visible
 example selector. Product at left, aligned label/notice comparison at center,
 decision at right. On phone, product, evidence and decision follow reading order.
 Signature interaction: selecting an evidence field outlines its paired values and
@@ -31,3 +31,6 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 The finish line applies to final integration after owner visual approval. This
 revision is explicitly a review candidate. Source truth, held-out custody, release
 and submission gates remain separate. No shipping raster is introduced by the logo.
+
+Palette/navigation amendment: latest owner reference colors supersede the earlier
+charcoal/orange proposal. See M1-palette-navigation.md; this remains a review candidate.

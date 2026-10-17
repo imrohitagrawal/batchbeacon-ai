@@ -56,3 +56,10 @@ the logo must express the product's approach rather than use a generic circle.
 Adoption, accessibility, availability and recovery are acceptance concerns alongside
 features. Detailed UI/UX judgment remains delegated; no usability study or accessibility
 certification has been claimed.
+
+The latest owner references affirm Stackclimb logo navy #1E253B / coral #F05A36,
+Impeccable’s soft color combinations and golden yellow, and Neo Mirai’s scrolling
+experience. These supersede earlier blanket exclusions of soft blue/mint/cream.
+The screenshot was supplied for its colors, not as a list of patterns to avoid.
+Persistent navigation is requested; detailed palette synthesis remains delegated.
+The navy/gold/coral refinement is provisional until concrete owner visual approval.

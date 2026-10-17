@@ -103,6 +103,45 @@ def test_reduced_motion_disables_field_animation(refined):
     ) == "none"
 
 
+@pytest.mark.parametrize("width", [320, 390, 720, 1440])
+def test_persistent_navigation_and_keyboard_focus_after_scroll(refined, width):
+    refined.set_viewport_size({"width": width, "height": 700})
+    nav = refined.get_by_role("navigation", name="Workspace", exact=True)
+    for view in ["retail", "guidance", "workbench"]:
+        nav.locator(f'a[data-view="{view}"]').click()
+        expect(refined.locator(f"#{view}-title")).to_be_focused()
+        refined.evaluate("window.scrollTo(0, document.documentElement.scrollHeight)")
+        bounds = nav.bounding_box()
+        assert 0 <= bounds["y"] < 30
+        assert bounds["y"] + bounds["height"] < 120
+        expect(nav.locator(f'a[data-view="{view}"]')).to_have_attribute(
+            "aria-current", "page"
+        )
+    refined.locator(".technical summary").focus()
+    for _ in range(10):
+        refined.keyboard.press("Shift+Tab")
+        assert refined.evaluate("""() => {
+          const el = document.activeElement;
+          const r = el.getBoundingClientRect();
+          if (el.closest('.app-header') || el.classList.contains('skip')) return true;
+          const nav = document.querySelector('nav[aria-label="Workspace"]');
+          const header = innerWidth <= 760 ? nav : nav.closest('header');
+          return r.top >= header.getBoundingClientRect().bottom && r.bottom <= innerHeight;
+        }"""), "Keyboard focus must remain clear of the persistent header"
+
+
+@pytest.mark.parametrize("width", [320, 390])
+def test_phone_section_jumps_clear_persistent_navigation(refined, width):
+    refined.set_viewport_size({"width": width, "height": 700})
+    for name, target in [("Evidence", "comparison-title"), ("Decision", "verdict-title")]:
+        refined.get_by_role("navigation", name="Within this review").get_by_role(
+            "link", name=name, exact=True
+        ).click()
+        nav = refined.get_by_role("navigation", name="Workspace", exact=True).bounding_box()
+        heading = refined.locator(f"#{target}").bounding_box()
+        assert heading["y"] >= nav["y"] + nav["height"]
+
+
 def test_guidance_confirmation_moves_focus_and_reset_restores_wording(refined):
     refined.get_by_role("link", name="Capture guidance", exact=True).click()
     refined.get_by_role("button", name=re.compile("^Preview evaluation")).click()

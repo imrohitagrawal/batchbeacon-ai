@@ -96,7 +96,7 @@ workshop rendered three primary studies and a standard comparator. The owner
 selected **Evidence in focus**, then rejected the palette. This accepts the adjacent
 label / evidence / decision structure, not final visuals, compliance or functionality.
 
-Proposed refinement: clean white work surfaces, charcoal type, limited clear orange
+Earlier proposed refinement (superseded by the palette amendment below): clean white work surfaces, charcoal type, limited clear orange
 for brand/action, and warm amber for review conditions. No cream/serif treatment,
 dark rail or blue-gray panel wash. Selection is a native checked control plus full
 boundary and explicit text. The precise orange remains a designer proposal.
@@ -122,3 +122,18 @@ focus return, semantic names/status, 390px and 320px reflow, equivalent 200% lay
 reduced motion, source/incident binding and explanatory unavailable states. Target
 44px controls as a design choice above WCAG 2.2 AA's 24px minimum/spacing exceptions.
 Full assistive-technology and deployed availability evidence remain product gates.
+
+## Owner palette and scrolling amendment
+
+The owner requested further palette/logo refinement, affirmatively referenced
+Stackclimb logo navy `#1E253B` and coral `#F05A36`, the soft colors and golden
+yellow on Impeccable, and the scrolling experience of Neo Mirai. “Impactables” was
+explicitly clarified as Impeccable. The screenshot concerns its color combinations;
+the owner did not ask to avoid the patterns shown. The primary corrected that
+initial misunderstanding. These latest preferences supersede earlier broad
+exclusions of cream, pale blue and mint. The designer retains responsibility for
+selecting a coherent combination appropriate to the product, not every swatch.
+
+See [palette/navigation evidence](M1-palette-navigation.md) for actual reference
+inspection, product rationale, contrast, persistent-navigation checks and current
+desktop/phone captures. Final owner visual approval is still open.

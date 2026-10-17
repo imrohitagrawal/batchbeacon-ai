@@ -15,7 +15,7 @@ Owner approved dedicated repository initialization and the concrete SFA first sl
 Remaining human gates: replacement visuals, UK/remaining gold/H custody, final submission.
 
 ## Workspace and capability
-Dedicated Git root, main branch; coherent checkpoint ec9b32f verified by fresh reviewer.
+Dedicated Git root, main branch; coherent domain/UI checkpoint 8624860.
 Home repository untouched. `.local/` and `.batchbeacon/` ignored and untracked.
 One writer; independent read-only acceptance and skill reviewer actually used.
 Codex 0.163.0 authenticated; native goals and automatic approval review supported.
@@ -36,15 +36,18 @@ three actual hashed synthetic labels and limited factual reuse. See sfa-reviewed
 T04b PARTIAL: actual UK original/update browser captures; human/rights review pending.
 T05a/b PASS for reviewed SFA slice: immutable contracts, pure verifier and independent
 correction verification. See M1-domain.md. No persistent action/retail backend yet.
-T33 READY; independent requirements/cases being derived before extension code.
+T33 READY; independent requirements/cases derived before extension code.
 T06: owner selected Evidence in focus structure, rejected palette; original
-Impeccable discovery now complete. Refined white/charcoal/orange candidate and
-paired-label logo have desktop/phone captures, 15 local browser checks and a fresh
-review permitting owner presentation. U02 concrete visual approval is PENDING.
-See M1-refined-review.md. No final DESIGN; all earlier directions preserved.
+Impeccable discovery complete. Owner requested further palette/logo refinement,
+referencing Stackclimb navy/coral, Impeccable soft colors/gold and Neo Mirai scroll.
+Current navy/gold/coral candidate has persistent navigation and desktop/phone
+captures. U02 concrete visual approval is PENDING. See M1-palette-navigation.md.
+No final DESIGN; all earlier directions preserved.
 T07 locked bootstrap/start/check scripts, preparation shell and pinned CI skeleton exist.
-Latest full check: lock/Ruff, 64 unit + 19 local browser tests PASS. Independent
-rerun: 64 unit, Ruff and 15 refined-prototype browser tests PASS.
+Latest full check: lock/Ruff, 64 unit + 25 local browser tests PASS (21 refined).
+Prior checkpoint independent rerun: 64 unit, Ruff and 15 refined browser tests PASS.
+Current palette/navigation independent rerun: 21 refined browser tests PASS;
+separate design-review continuation permits provisional owner presentation.
 No real model, persistence, action, isolation, paid-ledger or hosted product journey claim.
 
 ## External state
@@ -56,7 +59,7 @@ GitHub target returned authenticated 404; approved creation/push remains queued.
 No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested.
 
 ## Next ready queue
-Record T05 checkpoint; continue T33 independent cases/contracts, T07 hosted checks;
+Checkpoint palette refinement; continue T33 contracts, T07 hosted checks;
 T02 actual settings/cost mapping then bounded T08. Await concrete U02 visual reply
 without stopping independent work. UK/source gates block only their path.
 Next prompt: Continue prompts/01-codex-kickoff.md from STATE and the private run policy;

@@ -39,3 +39,13 @@ its palette and circle placeholder, and emphasized accessibility/usage/adoption.
 Keep the structural selection; propose a white/charcoal/orange refinement with a
 paired-label B mark. Candidate implementation and technical checks do not grant
 owner visual approval. See M1-refined-review and M1-design-discovery evidence.
+
+## LOCAL-09 — reference-led palette and persistent navigation
+Owner requested refinement of the charcoal/orange candidate, supplied Stackclimb
+navy/coral, praised Impeccable's soft palette and golden yellow, and requested
+inspection of Neo Mirai scrolling. The screenshot is an affirmative color
+reference; an earlier primary interpretation was corrected. Propose navy/gold
+for task hierarchy, coral paired-label identity, pale-blue evidence and mint
+proposed guidance. Desktop header and phone destination row remain visible on
+scroll. Concrete captures and checks are in M1-palette-navigation.md; U02 remains
+open and no final DESIGN/integration approval is inferred.

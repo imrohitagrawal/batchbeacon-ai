@@ -1,5 +1,10 @@
 # Refined Evidence in focus — visual review candidate
 
+The owner requested palette/logo refinement of this checkpoint. The current
+navy/gold/coral candidate and persistent-navigation evidence are in
+[M1-palette-navigation.md](M1-palette-navigation.md). The captures and treatment
+below preserve the earlier white/charcoal/orange review candidate as history.
+
 Status: provisional, owner visual approval OPEN. This is an interactive local
 prototype, not the integrated application. Original directions and rejected
 treatments remain available as history.
