@@ -1,5 +1,9 @@
 # Replacement A treatment — owner review
 
+**Later owner decision, 18 October 2026:** [U02 is now approved](M1-visual-approval.md)
+for the current refined treatment. The observations below retain their original
+review-time status; earlier rejected treatments are not retroactively approved.
+
 **REVISION REQUESTED BY OWNER — NOT APPROVED.** This is a native HTML/CSS/JavaScript prototype, not
 the final product or final DESIGN. Original A/B/C artifacts are preserved.
 

@@ -1,0 +1,458 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-18",
+  "title": "Design System: BatchBeacon AI",
+  "extensions": {
+    "colorMeta": {
+      "brand-navy": {
+        "role": "primary",
+        "displayName": "Brand navy",
+        "tonalRamp": [
+          "oklch(15.00% 0.10800 259.62)",
+          "oklch(26.43% 0.10800 259.62)",
+          "oklch(37.86% 0.10800 259.62)",
+          "oklch(49.29% 0.10800 259.62)",
+          "oklch(60.71% 0.10800 259.62)",
+          "oklch(72.14% 0.10800 259.62)",
+          "oklch(83.57% 0.10800 259.62)",
+          "oklch(95.00% 0.10800 259.62)"
+        ]
+      },
+      "brand-coral": {
+        "role": "secondary",
+        "displayName": "Brand coral",
+        "tonalRamp": [
+          "oklch(15.00% 0.19181 34.70)",
+          "oklch(26.43% 0.19181 34.70)",
+          "oklch(37.86% 0.19181 34.70)",
+          "oklch(49.29% 0.19181 34.70)",
+          "oklch(60.71% 0.19181 34.70)",
+          "oklch(72.14% 0.19181 34.70)",
+          "oklch(83.57% 0.19181 34.70)",
+          "oklch(95.00% 0.19181 34.70)"
+        ]
+      },
+      "beacon-gold": {
+        "role": "primary",
+        "displayName": "Beacon gold",
+        "tonalRamp": [
+          "oklch(15.00% 0.17245 84.08)",
+          "oklch(26.43% 0.17245 84.08)",
+          "oklch(37.86% 0.17245 84.08)",
+          "oklch(49.29% 0.17245 84.08)",
+          "oklch(60.71% 0.17245 84.08)",
+          "oklch(72.14% 0.17245 84.08)",
+          "oklch(83.57% 0.17245 84.08)",
+          "oklch(95.00% 0.17245 84.08)"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Primary hover",
+        "tonalRamp": [
+          "oklch(15.00% 0.16285 83.39)",
+          "oklch(26.43% 0.16285 83.39)",
+          "oklch(37.86% 0.16285 83.39)",
+          "oklch(49.29% 0.16285 83.39)",
+          "oklch(60.71% 0.16285 83.39)",
+          "oklch(72.14% 0.16285 83.39)",
+          "oklch(83.57% 0.16285 83.39)",
+          "oklch(95.00% 0.16285 83.39)"
+        ]
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Canvas",
+        "tonalRamp": [
+          "oklch(15.00% 0.00287 264.54)",
+          "oklch(26.43% 0.00287 264.54)",
+          "oklch(37.86% 0.00287 264.54)",
+          "oklch(49.29% 0.00287 264.54)",
+          "oklch(60.71% 0.00287 264.54)",
+          "oklch(72.14% 0.00287 264.54)",
+          "oklch(83.57% 0.00287 264.54)",
+          "oklch(95.00% 0.00287 264.54)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.00000 89.88)",
+          "oklch(26.43% 0.00000 89.88)",
+          "oklch(37.86% 0.00000 89.88)",
+          "oklch(49.29% 0.00000 89.88)",
+          "oklch(60.71% 0.00000 89.88)",
+          "oklch(72.14% 0.00000 89.88)",
+          "oklch(83.57% 0.00000 89.88)",
+          "oklch(95.00% 0.00000 89.88)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.04240 269.93)",
+          "oklch(26.43% 0.04240 269.93)",
+          "oklch(37.86% 0.04240 269.93)",
+          "oklch(49.29% 0.04240 269.93)",
+          "oklch(60.71% 0.04240 269.93)",
+          "oklch(72.14% 0.04240 269.93)",
+          "oklch(83.57% 0.04240 269.93)",
+          "oklch(95.00% 0.04240 269.93)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15.00% 0.03473 264.17)",
+          "oklch(26.43% 0.03473 264.17)",
+          "oklch(37.86% 0.03473 264.17)",
+          "oklch(49.29% 0.03473 264.17)",
+          "oklch(60.71% 0.03473 264.17)",
+          "oklch(72.14% 0.03473 264.17)",
+          "oklch(83.57% 0.03473 264.17)",
+          "oklch(95.00% 0.03473 264.17)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "oklch(15.00% 0.01395 258.35)",
+          "oklch(26.43% 0.01395 258.35)",
+          "oklch(37.86% 0.01395 258.35)",
+          "oklch(49.29% 0.01395 258.35)",
+          "oklch(60.71% 0.01395 258.35)",
+          "oklch(72.14% 0.01395 258.35)",
+          "oklch(83.57% 0.01395 258.35)",
+          "oklch(95.00% 0.01395 258.35)"
+        ]
+      },
+      "control": {
+        "role": "neutral",
+        "displayName": "Control",
+        "tonalRamp": [
+          "oklch(15.00% 0.03652 262.58)",
+          "oklch(26.43% 0.03652 262.58)",
+          "oklch(37.86% 0.03652 262.58)",
+          "oklch(49.29% 0.03652 262.58)",
+          "oklch(60.71% 0.03652 262.58)",
+          "oklch(72.14% 0.03652 262.58)",
+          "oklch(83.57% 0.03652 262.58)",
+          "oklch(95.00% 0.03652 262.58)"
+        ]
+      },
+      "accent": {
+        "role": "secondary",
+        "displayName": "Accent",
+        "tonalRamp": [
+          "oklch(15.00% 0.17067 34.32)",
+          "oklch(26.43% 0.17067 34.32)",
+          "oklch(37.86% 0.17067 34.32)",
+          "oklch(49.29% 0.17067 34.32)",
+          "oklch(60.71% 0.17067 34.32)",
+          "oklch(72.14% 0.17067 34.32)",
+          "oklch(83.57% 0.17067 34.32)",
+          "oklch(95.00% 0.17067 34.32)"
+        ]
+      },
+      "selected": {
+        "role": "secondary",
+        "displayName": "Selected",
+        "tonalRamp": [
+          "oklch(15.00% 0.01526 48.56)",
+          "oklch(26.43% 0.01526 48.56)",
+          "oklch(37.86% 0.01526 48.56)",
+          "oklch(49.29% 0.01526 48.56)",
+          "oklch(60.71% 0.01526 48.56)",
+          "oklch(72.14% 0.01526 48.56)",
+          "oklch(83.57% 0.01526 48.56)",
+          "oklch(95.00% 0.01526 48.56)"
+        ]
+      },
+      "evidence-surface": {
+        "role": "secondary",
+        "displayName": "Evidence surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.01254 255.51)",
+          "oklch(26.43% 0.01254 255.51)",
+          "oklch(37.86% 0.01254 255.51)",
+          "oklch(49.29% 0.01254 255.51)",
+          "oklch(60.71% 0.01254 255.51)",
+          "oklch(72.14% 0.01254 255.51)",
+          "oklch(83.57% 0.01254 255.51)",
+          "oklch(95.00% 0.01254 255.51)"
+        ]
+      },
+      "secondary-surface": {
+        "role": "secondary",
+        "displayName": "Secondary surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.02478 257.65)",
+          "oklch(26.43% 0.02478 257.65)",
+          "oklch(37.86% 0.02478 257.65)",
+          "oklch(49.29% 0.02478 257.65)",
+          "oklch(60.71% 0.02478 257.65)",
+          "oklch(72.14% 0.02478 257.65)",
+          "oklch(83.57% 0.02478 257.65)",
+          "oklch(95.00% 0.02478 257.65)"
+        ]
+      },
+      "secondary-hover": {
+        "role": "secondary",
+        "displayName": "Secondary hover",
+        "tonalRamp": [
+          "oklch(15.00% 0.03546 254.88)",
+          "oklch(26.43% 0.03546 254.88)",
+          "oklch(37.86% 0.03546 254.88)",
+          "oklch(49.29% 0.03546 254.88)",
+          "oklch(60.71% 0.03546 254.88)",
+          "oklch(72.14% 0.03546 254.88)",
+          "oklch(83.57% 0.03546 254.88)",
+          "oklch(95.00% 0.03546 254.88)"
+        ]
+      },
+      "secondary-active": {
+        "role": "secondary",
+        "displayName": "Secondary active",
+        "tonalRamp": [
+          "oklch(15.00% 0.04542 255.65)",
+          "oklch(26.43% 0.04542 255.65)",
+          "oklch(37.86% 0.04542 255.65)",
+          "oklch(49.29% 0.04542 255.65)",
+          "oklch(60.71% 0.04542 255.65)",
+          "oklch(72.14% 0.04542 255.65)",
+          "oklch(83.57% 0.04542 255.65)",
+          "oklch(95.00% 0.04542 255.65)"
+        ]
+      },
+      "proposed-surface": {
+        "role": "tertiary",
+        "displayName": "Proposed surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.02435 296.12)",
+          "oklch(26.43% 0.02435 296.12)",
+          "oklch(37.86% 0.02435 296.12)",
+          "oklch(49.29% 0.02435 296.12)",
+          "oklch(60.71% 0.02435 296.12)",
+          "oklch(72.14% 0.02435 296.12)",
+          "oklch(83.57% 0.02435 296.12)",
+          "oklch(95.00% 0.02435 296.12)"
+        ]
+      },
+      "guidance-ink": {
+        "role": "tertiary",
+        "displayName": "Guidance ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.17184 291.05)",
+          "oklch(26.43% 0.17184 291.05)",
+          "oklch(37.86% 0.17184 291.05)",
+          "oklch(49.29% 0.17184 291.05)",
+          "oklch(60.71% 0.17184 291.05)",
+          "oklch(72.14% 0.17184 291.05)",
+          "oklch(83.57% 0.17184 291.05)",
+          "oklch(95.00% 0.17184 291.05)"
+        ]
+      },
+      "completed-surface": {
+        "role": "tertiary",
+        "displayName": "Completed surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.01573 160.62)",
+          "oklch(26.43% 0.01573 160.62)",
+          "oklch(37.86% 0.01573 160.62)",
+          "oklch(49.29% 0.01573 160.62)",
+          "oklch(60.71% 0.01573 160.62)",
+          "oklch(72.14% 0.01573 160.62)",
+          "oklch(83.57% 0.01573 160.62)",
+          "oklch(95.00% 0.01573 160.62)"
+        ]
+      },
+      "completed-ink": {
+        "role": "tertiary",
+        "displayName": "Completed ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.07215 160.95)",
+          "oklch(26.43% 0.07215 160.95)",
+          "oklch(37.86% 0.07215 160.95)",
+          "oklch(49.29% 0.07215 160.95)",
+          "oklch(60.71% 0.07215 160.95)",
+          "oklch(72.14% 0.07215 160.95)",
+          "oklch(83.57% 0.07215 160.95)",
+          "oklch(95.00% 0.07215 160.95)"
+        ]
+      },
+      "completed-border": {
+        "role": "tertiary",
+        "displayName": "Completed border",
+        "tonalRamp": [
+          "oklch(15.00% 0.06463 160.19)",
+          "oklch(26.43% 0.06463 160.19)",
+          "oklch(37.86% 0.06463 160.19)",
+          "oklch(49.29% 0.06463 160.19)",
+          "oklch(60.71% 0.06463 160.19)",
+          "oklch(72.14% 0.06463 160.19)",
+          "oklch(83.57% 0.06463 160.19)",
+          "oklch(95.00% 0.06463 160.19)"
+        ]
+      },
+      "warning": {
+        "role": "tertiary",
+        "displayName": "Warning",
+        "tonalRamp": [
+          "oklch(15.00% 0.03682 84.59)",
+          "oklch(26.43% 0.03682 84.59)",
+          "oklch(37.86% 0.03682 84.59)",
+          "oklch(49.29% 0.03682 84.59)",
+          "oklch(60.71% 0.03682 84.59)",
+          "oklch(72.14% 0.03682 84.59)",
+          "oklch(83.57% 0.03682 84.59)",
+          "oklch(95.00% 0.03682 84.59)"
+        ]
+      },
+      "warning-ink": {
+        "role": "tertiary",
+        "displayName": "Warning ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.08755 79.30)",
+          "oklch(26.43% 0.08755 79.30)",
+          "oklch(37.86% 0.08755 79.30)",
+          "oklch(49.29% 0.08755 79.30)",
+          "oklch(60.71% 0.08755 79.30)",
+          "oklch(72.14% 0.08755 79.30)",
+          "oklch(83.57% 0.08755 79.30)",
+          "oklch(95.00% 0.08755 79.30)"
+        ]
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "evidence-selected",
+        "value": "160ms ease-out",
+        "purpose": "Background selection emphasis only with no reduced-motion preference."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "workbench-tablet",
+        "value": "1190px"
+      },
+      {
+        "name": "wording-stack",
+        "value": "900px"
+      },
+      {
+        "name": "phone",
+        "value": "760px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Approved primary action; illustrative only.",
+      "html": "<button type=\"button\" class=\"ds-button-primary\">Review simulated hold</button>",
+      "css": ".ds-button-primary{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:.875rem;line-height:1.4;font-weight:600;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border-radius:8px;cursor:pointer;background:var(--beacon-gold, #FFBF00);color:var(--ink, #1E253B);border:1px solid var(--ink, #1E253B);}.ds-button-primary:hover:not(:disabled){background:var(--primary-hover, #EDB000);}.ds-button-primary:focus-visible{outline:3px solid var(--ink, #1E253B);outline-offset:4px;}.ds-button-primary:disabled{background:#e8e8e5;color:#60605a;border-color:#a4a49d;cursor:not-allowed;}"
+    },
+    {
+      "name": "Secondary action",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Approved secondary action; illustrative only.",
+      "html": "<button type=\"button\" class=\"ds-button-secondary\">Reset preview</button>",
+      "css": ".ds-button-secondary{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:.875rem;line-height:1.4;font-weight:600;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border-radius:8px;cursor:pointer;background:var(--secondary-surface, #DCE7F7);color:var(--brand-navy, #173B75);border:1px solid var(--brand-navy, #173B75);}.ds-button-secondary:hover:not(:disabled){background:var(--secondary-hover, #CBDCF2);}.ds-button-secondary:focus-visible{outline:3px solid var(--ink, #1E253B);outline-offset:4px;}.ds-button-secondary:active:not(:disabled){background:var(--secondary-active, #B8CDE9);}.ds-button-secondary:disabled{background:#e8e8e5;color:#60605a;border-color:#a4a49d;cursor:not-allowed;}"
+    },
+    {
+      "name": "Recapture disclosure",
+      "kind": "custom",
+      "refersTo": "button-secondary",
+      "description": "Framed native disclosure demonstrating the secondary family and expanded indicator.",
+      "html": "<details class=\"ds-recapture\"><summary>Preview recapture <svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" aria-hidden=\"true\"><path d=\"m4 6 4 4 4-4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/></svg></summary><p>Photograph the complete date panel. Synthetic preview only.</p></details>",
+      "css": ".ds-recapture{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;color:var(--ink, #1E253B);}.ds-recapture summary{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:.875rem;line-height:1.4;font-weight:600;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border-radius:8px;cursor:pointer;list-style:none;justify-content:space-between;background:var(--secondary-surface, #DCE7F7);color:var(--brand-navy, #173B75);border:1px solid var(--brand-navy, #173B75);}.ds-recapture summary::-webkit-details-marker{display:none;}.ds-recapture summary:hover,.ds-recapture[open] summary{background:var(--secondary-hover, #CBDCF2);}.ds-recapture summary:focus-visible{outline:3px solid var(--ink, #1E253B);outline-offset:4px;}.ds-recapture[open] svg{transform:rotate(180deg);}.ds-recapture p{font-size:.8125rem;}"
+    },
+    {
+      "name": "Extracted field",
+      "kind": "input",
+      "refersTo": "input-readonly",
+      "description": "Read-only evidence is explained before the field.",
+      "html": "<label class=\"ds-field\">Extracted lot \u00b7 read-only<input readonly value=\"232511\" aria-describedby=\"ds-field-help\"></label><p class=\"ds-help\" id=\"ds-field-help\">Illustrative extracted field; not editable in this preview.</p>",
+      "css": ".ds-field{display:grid;gap:6px;font: .8125rem/1.5 -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;color:var(--ink, #1E253B);}.ds-field input{font:inherit;padding:9px;border:1px dashed var(--control, #748096);border-radius:6px;background:var(--canvas, #F7F8FA);color:var(--muted, #535D71);}.ds-field input:focus-visible{outline:3px solid var(--ink, #1E253B);outline-offset:4px;}.ds-help{font:.75rem/1.5 -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;color:var(--muted, #535D71);}"
+    },
+    {
+      "name": "Queue filter",
+      "kind": "input",
+      "refersTo": "select",
+      "description": "Native select with an inset chevron and reserved label padding.",
+      "html": "<label class=\"ds-filter\">Show <span class=\"ds-select\"><select><option>All incidents</option><option>Needs evidence</option></select><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" aria-hidden=\"true\"><path d=\"m4 6 4 4 4-4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/></svg></span></label>",
+      "css": ".ds-filter{font:.875rem/1.5 -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;color:var(--ink, #1E253B);display:flex;align-items:center;gap:14px;}.ds-select{display:inline-grid;position:relative;}.ds-select select{appearance:none;font:inherit;min-height:44px;padding:8px 44px 8px 12px;background:var(--surface, #FFFFFF);color:var(--ink, #1E253B);border:1px solid var(--control, #748096);border-radius:6px;cursor:pointer;}.ds-select svg{position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;}.ds-select select:focus-visible{outline:3px solid var(--ink, #1E253B);outline-offset:4px;}@media(forced-colors:active){.ds-select select{appearance:auto;padding-right:12px;}.ds-select svg{display:none;}}"
+    },
+    {
+      "name": "Workspace navigation",
+      "kind": "nav",
+      "refersTo": "navigation-current",
+      "description": "Current destination has fill, underline and semantic state.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Example destinations\"><a href=\"#workbench\" aria-current=\"page\">Check a product</a><a href=\"#retail\">Retail queue</a><a href=\"#guidance\">Capture guidance</a></nav>",
+      "css": ".ds-nav{display:flex;flex-wrap:wrap;gap:8px;font:.9rem/1.5 -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;}.ds-nav a{min-height:44px;display:flex;align-items:center;padding:10px 16px;color:var(--ink, #1E253B);border:1px solid transparent;border-radius:8px;font-weight:550;text-decoration:none;}.ds-nav a:hover{background:var(--canvas, #F7F8FA);}.ds-nav a[aria-current]{background:var(--ink, #1E253B);border-color:var(--ink, #1E253B);color:var(--surface, #FFFFFF);text-decoration:underline;text-underline-offset:.3em;}.ds-nav a:focus-visible{outline:3px solid var(--ink, #1E253B);outline-offset:4px;}"
+    },
+    {
+      "name": "Completed state label",
+      "kind": "chip",
+      "refersTo": "state-completed",
+      "description": "Mint marks a completed simulated step, not safety or clearance.",
+      "html": "<span class=\"ds-state\">Simulated hold</span>",
+      "css": ".ds-state{font:.75rem/1.5 -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;display:inline-flex;align-items:center;justify-content:center;inline-size:8.625rem;min-block-size:36px;padding:5px 8px;border:1px solid var(--completed-border, #54836A);border-radius:4px;background:var(--completed-surface, #E6F2EB);color:var(--completed-ink, #20573E);text-align:center;}"
+    },
+    {
+      "name": "Guidance container",
+      "kind": "card",
+      "refersTo": "guidance-container",
+      "description": "A flat surface with a clear boundary.",
+      "html": "<section class=\"ds-container\"><h2>Improve the next capture</h2><p>A proposed wording change needs evaluation and explicit confirmation.</p></section>",
+      "css": ".ds-container{padding:28px;background:var(--surface, #FFFFFF);color:var(--ink, #1E253B);border:1px solid var(--line, #D5DBE4);border-radius:12px;font:1rem/1.5 -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;}.ds-container h2{font-size:1.25rem;font-weight:650;line-height:1.3;letter-spacing:-.02em;margin:0;}.ds-container p{font-size:.875rem;max-width:70ch;}"
+    },
+    {
+      "name": "Evidence field selector",
+      "kind": "button",
+      "refersTo": "field-selector",
+      "description": "A visible control for inspecting paired evidence.",
+      "html": "<button type=\"button\" class=\"ds-field-pick\" aria-pressed=\"false\">Lot</button>",
+      "css": ".ds-field-pick{font:.8125rem/1.5 -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-weight:600;min-height:44px;padding:6px 8px;border:1px solid var(--brand-navy, #173B75);border-radius:6px;background:var(--secondary-surface, #DCE7F7);color:var(--brand-navy, #173B75);text-align:left;cursor:pointer;}.ds-field-pick:hover{background:var(--secondary-hover, #CBDCF2);}.ds-field-pick:focus-visible{outline:3px solid var(--ink, #1E253B);outline-offset:4px;}.ds-field-pick[aria-pressed=true]{background:var(--selected, #FFF3ED);color:var(--accent, #B93819);border-color:var(--accent, #B93819);text-decoration:underline;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Evidence in focus",
+    "overview": "The interface is calm, direct and visibly actionable. Rich blue identity and a\nsmall number of vivid gold actions sit on light, carefully separated surfaces.\nColor helps people locate evidence, distinguish a proposal from a completed step,\nand recognize their next action. Clear language and visible boundaries carry the\nsame meaning when color is unavailable.\n\nThis is the owner-approved visual system, extracted from the refined prototype\nat `b145ac6f25ef55c633fb61723694da54be811614`. See the\n[U02 approval record](docs/evidence/M1-visual-approval.md) and\n[source/capture manifest](docs/ui/usability/manifest.json). The original directions\nand rejected intermediate palettes remain historical. This document records\nvisual authority; it does not certify runtime behavior or accessibility compliance.",
+    "keyCharacteristics": [
+      "Evidence and decisions have distinct, readable places.",
+      "Primary and secondary controls look actionable before interaction.",
+      "Color roles remain stable across desktop, phone and every workflow state.",
+      "Persistent navigation, visible focus and explicit recovery support task continuity."
+    ],
+    "rules": [
+      {
+        "name": "The Meaning Rule",
+        "body": "Every consequential state has a text label and a structural cue; color alone never conveys selection, availability or outcome.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do preserve the approved color roles across every route and state.",
+      "Do align headings and values by their shared column containers.",
+      "Do show a visible boundary and clear label for an action before hover.",
+      "Do pair color with text, shape, checked state or another structural cue.",
+      "Do inspect default, expanded, error, empty, disabled and confirmed states on desktop and phone."
+    ],
+    "donts": [
+      "Don't use mint to imply safety, clearance or permission to sell.",
+      "Don't turn static stage labels into apparent links.",
+      "Don't make reset, recapture or evidence inspection look like inert text.",
+      "Don't hide overflow by clipping required evidence or focus indicators.",
+      "Don't treat prototype tests or visual approval as runtime or source-truth acceptance."
+    ]
+  }
+}

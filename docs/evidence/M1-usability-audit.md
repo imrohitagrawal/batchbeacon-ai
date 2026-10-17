@@ -1,5 +1,9 @@
 # Impeccable audit and user-task usability review
 
+**Later owner decision, 18 October 2026:** [U02 is now approved](M1-visual-approval.md)
+for the current refined treatment. The observations below retain their original
+review-time status; earlier rejected treatments are not retroactively approved.
+
 Status: corrected local visual prototype, ready for owner review. U02 remains open.
 This report supersedes the control/alignment treatment and source binding in
 [M1-alignment-final](M1-alignment-final.md). Earlier reports remain historical.

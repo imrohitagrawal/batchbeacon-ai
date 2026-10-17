@@ -35,8 +35,8 @@ The unchanged originals are `HACKATHON_BRIEF.md` and
 - Discover actual state before external operations. No new subscriptions,
   unbounded calls, privilege expansion, public buckets or inferred messaging.
 - U01 approves 160/230-second cuts; measure exports and preserve source conflicts.
-- U02 accepts A workflow only. Replacement desktop/phone workbench + retail
-  treatment needs concrete approval before final DESIGN / final visual integration.
+- U02 / UI-SELECTED is approved for the current Evidence in focus treatment.
+  Follow DESIGN.md and docs/evidence/M1-visual-approval.md; runtime UI checks remain.
 - U13 is willingness, not completed human source/gold review or final-case custody.
 - Final submission/material terms and destructive changes retain their gates.
 - Preserve all three archived UI directions and both original documents.

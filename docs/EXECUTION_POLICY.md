@@ -33,7 +33,7 @@ Proceed without repeated “continue” for routine reversible module/layout cho
 | Cloud/model/build/evaluations | U09/U10: existing dedicated project, OPERATIONS resource/IAM list, finite lifetime pools and funded period. Inspect concrete operations, then proceed within that grant. |
 | Repository creation/push/publication | U12: `imrohitagrawal/batchbeacon-ai`; scan source/history/media and verify remote refs. Ordinary in-scope CI is included; no paid-plan purchases or broad admin bypass. |
 | Public synthetic judge URL | U10 after actual session/upload/isolation/global-budget/security gates. Private bucket and technical dashboard never become public. |
-| Final visual design | A workflow accepted in principle; replacement high-fidelity workbench/console approval is still required. Independent backend/environment work proceeds. |
+| Final visual design | U02 / UI-SELECTED approved on 18 October 2026; see [bound artifact](evidence/M1-visual-approval.md). Faithful final-system documentation/integration may proceed; runtime UI verification remains required. |
 | Source truth / protected validation | U13 agrees to review; record completed human evidence and custody before dependent gates. No fabricated review. |
 | Retail guidance activation | P0-13 explicit demo-manager confirmation of a passing version-bound candidate within that shop only; no global model/verifier/source/budget change. |
 | Final submission / new material terms / destruction | Concrete candidate plus specific remaining authorization. U14 eligibility and U01 duration need no repeat questionnaire. |

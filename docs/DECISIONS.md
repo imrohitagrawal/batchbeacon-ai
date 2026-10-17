@@ -60,3 +60,11 @@ accepted composition, interaction and scrolling treatment. Six actual captures,
 contrast checks, 21 browser checks and independent visual follow-up pass; see
 M1-palette-vibrancy.md. This narrow design delegation is not runtime, source or
 submission approval. Do not repeat the palette questionnaire.
+
+## LOCAL-11 — current visual approval
+The owner explicitly approved the corrected Evidence in focus UI on 18 October
+2026. U02 / UI-SELECTED is closed for the artifact bound in
+[M1-visual-approval.md](evidence/M1-visual-approval.md). Root DESIGN records that
+approved system. Preserve earlier decisions as history; no new palette or
+workflow choice is introduced. Runtime, remaining source/custody and submission
+gates remain separate.

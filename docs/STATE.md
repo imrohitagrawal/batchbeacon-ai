@@ -12,7 +12,8 @@ Existing Default / Full Access / never-approval session observed, not changed by
 U09–U12 apply: bounded existing cloud project, INR 6,000 lifetime pools and approved
 GitHub publication. No extra purchase, privilege expansion or public paid endpoint.
 Owner approved dedicated repository initialization and the concrete SFA first slice.
-Remaining human gates: replacement visuals, UK/remaining gold/H custody, final submission.
+U02 / UI-SELECTED approved by owner; see M1-visual-approval.md and root DESIGN.
+Remaining human gates: UK/remaining gold/H custody and final submission.
 
 ## Workspace and capability
 Dedicated Git root, main branch; T33 contracts and current visual candidate independently reviewed.
@@ -40,32 +41,27 @@ correction verification. See M1-domain.md. No persistent action/retail backend y
 T33 PASS local contracts: immutable records, allowlisted wording, policy admission
 and 54 focused tests. Four reproduced gaps corrected and independently verified.
 See M1-retail-learning-contracts.md; T34/T35 runtime/evaluator still outstanding.
-T06: owner selected Evidence in focus structure; consolidated review candidate
-uses rich dark blue #173B75, coral, vivid gold, lavender candidate guidance and
-mint completed workflow states. Persistent desktop/phone navigation retained.
-Full technical/visual pass corrected four required UI issues plus state-copy drift.
-Independent corrections and all 13 current captures PASS for owner presentation.
-Latest owner-delegated polish restores peach selection, equal-size queue states and
-inset native-select arrows. See M1-palette-final.md and M1-final-visual-review.md.
-Independent latest polish: 79 rendered checks/eight widths and six captures PASS.
-Latest user-task/Impeccable audit replaces mixed queue anchors with consistent
-left origins and clear shared action buttons; mint remains unchanged.
-See M1-usability-audit.md: 17/20 scoped audit, 41 local browser cases and independent
-32-case desktop/phone/doubled-text matrix PASS. Enlarged-text/focus corrections
-and fresh captures verified. Native zoom, screen reader and real-device limits remain.
-U02 final visual approval remains open; no DESIGN.
-All earlier directions and palettes preserved as history.
+T06 PASS / U02 approved: current Evidence in focus desktop/phone workbench, queue
+and guidance treatment. Root DESIGN records the approved blue/coral/gold, peach
+selection, pale-blue controls, lavender proposals and mint completed states.
+See M1-visual-approval.md and M1-usability-audit.md: 17/20 scoped audit, 41 browser
+cases and independent 32-case desktop/phone/doubled-text matrix PASS. Controls,
+alignment, enlarged-text/focus and captures independently verified. Earlier
+directions remain history. Native zoom/screen reader/real-device checks and T17
+running-UI integration remain separate; no runtime acceptance follows from U02.
 T07 hosted push/branch/PR-merge/merged-main checks PASS; see M1-hosted-ci.md.
-Latest verified 7bf9518 hosted lock/Ruff +164 unit/+36 browser PASS.
+Earlier 7bf9518 hosted lock/Ruff +164 unit/+36 browser PASS.
 No enforced required-check rule or release freeze.
-Latest UI audit is a separate local candidate; its hosted result is pending.
+UI audit b145ac6 hosted lock/Ruff +164 unit/+41 browser PASS; reviewed visuals
+are now owner-approved under U02, with no release freeze or runtime acceptance.
 No real model, persistence, action, isolation, paid-ledger or hosted product journey claim.
 T08 local preparation: strict probe policy and operator-only durable reservation
 boundary; lock/Ruff +164 unit PASS, including four installed-ADK/mock-HTTP cases.
 Installed-ADK continuation correction is covered by hosted 7bf9518.
-Uncommitted bounded runner preparation has 200 local unit checks and independent
-receipt/output/dispatch-intent correction verification; dedicated receipt regressions
-remain to persist before its checkpoint. No paid/runtime claim follows from these checks.
+Bounded runner preparation has 104 focused checks including receipt/output/dispatch
+intent and byte-limit regressions, independently verified. Full local lock/Ruff,
+222 unit and 41 installed-Chrome browser checks PASS; hosted checkpoint pending.
+See M1-model-probe-runner.md. No paid/runtime claim follows.
 No actual paid allocation initialized; complete runtime admission remains closed.
 See G0X-cloud-preflight.md for scoped independent review and remaining cases.
 
@@ -82,9 +78,9 @@ Public GitHub repository created and pushed; README PR #1 merged after hosted PA
 No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested.
 
 ## Next ready queue
-Concrete polished T06 candidate is awaiting U02; T07 latest hosted run passed.
+T06 approved; record and verify the actual design system. T07 latest hosted run passed.
 Continue T08 exact-context/billed-output bounds, spending reconciliation and
-actual private runtime admission. Preserve final visual integration gate while
-the concrete candidate is reviewed. UK/source gates block only their path.
+actual private runtime admission. Implement the approved design when T17 dependencies
+are ready. UK/source gates block only their path.
 Next prompt: Continue prompts/01-codex-kickoff.md from STATE and the private run policy;
 native goal is already active with canary/recovery passed; do not create another.

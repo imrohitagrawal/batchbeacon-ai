@@ -33,61 +33,33 @@ Two genuine authorities and a genuine UK source update remain required.
 
 ## Accessibility and visual decisions
 
-Operational web interface, readable desktop and phone capture, keyboard focus,
-adequate contrast, touch targets and reduced motion. Workflow A is accepted in
-principle; its previous finish and first replacement were rejected. Replacement
-visual approval remains open. SFA first-slice human source review is complete;
-UK/remaining gold/custody and final submission approval remain open.
+The owner approved the current Evidence in focus treatment on 18 October 2026.
+U02 / UI-SELECTED is complete; see docs/evidence/M1-visual-approval.md for the exact
+artifact and scope. Root DESIGN.md captures the approved visual system and governs
+faithful implementation. The system uses rich blue/coral identity, vivid gold
+primary actions, peach selection, pale-blue evidence and secondary controls,
+lavender proposed guidance and mint completed simulated workflow states.
 
-## Owner design commitments
+Operational web interface: readable desktop and phone capture, keyboard focus,
+contrast, visible control boundaries, touch targets and reduced motion. Selection
+and outcomes must be understandable without color. Mint denotes a completed
+simulated workflow step, never product safety or permission to sell. Persistent
+navigation and explicit recovery support task continuity. Visual recognition of
+actions is a first-class review concern alongside technical accessibility checks.
 
-The interface must explain its exact purpose at first glance and feel current,
-carefully finished and suitable for enterprise use. It should attract attention
-with soothing, deliberate color and strong composition. The owner rejects generic
-AI dashboard layouts, obsolete-looking color combinations and the current finish.
-Apple, MakeMyTrip, Cleartrip and Google's color use are quality references, not
-instructions to copy their brands or particular pages. The owner delegated the
-first-30-second experience and translation of these references to the designer,
-guided by the accepted hackathon criteria. Concrete visual approval remains a gate.
+The user requires a current, carefully finished interface whose purpose is clear
+at first glance. Apple, MakeMyTrip, Cleartrip and Google are quality references;
+Stackclimb navy/coral and Impeccable soft colors/gold informed the chosen palette.
+They are not instructions to copy brand assets. The supplied Impeccable screenshots
+were affirmative color references, not a new list of prohibited patterns. Detailed
+UI/UX judgment is delegated. Keep the paired-label B mark and the approved system.
 
-The owner selected “Evidence in focus” for its structure only. Its blue-gray palette
-was rejected. Selection boundaries must be obvious and usable without color, and
-the logo must express the product's approach rather than use a generic circle.
-Adoption, accessibility, availability and recovery are acceptance concerns alongside
-features. Detailed UI/UX judgment remains delegated; no usability study or accessibility
-certification has been claimed.
+Earlier rejected treatments and palette evolution remain in docs/evidence/ and
+prototypes/. Do not reopen those choices or repeat the design questionnaire.
+The usability audit, corrected state paths and evidence limitations are recorded
+in docs/evidence/M1-usability-audit.md. No accessibility certification, native-zoom,
+screen-reader or physical-device pass has been claimed. T17 still requires real
+application integration and running-UI verification.
 
-The latest owner references affirm Stackclimb logo navy #1E253B / coral #F05A36,
-Impeccable’s soft color combinations and golden yellow, and Neo Mirai’s scrolling
-experience. These supersede earlier blanket exclusions of soft blue/mint/cream.
-The screenshot was supplied for its colors, not as a list of patterns to avoid.
-Persistent navigation is requested; detailed palette synthesis remains delegated.
-The navy/gold/coral refinement is provisional until concrete owner visual approval.
-
-The owner’s latest review says everything else looks fine and requests a more
-vibrant Impeccable-like yellow, confirmation of the navy identity, and considered
-use of the highlighted violet family. Keep the layout/navigation and paired-label
-mark. The current candidate retains navy #1E253B / coral #F05A36, uses brighter
-gold #FFBF00 for primary actions, and lavender/violet for proposed guidance.
-This is a focused palette refinement; final confirmation of these colors is open.
-
-The subsequent owner clarification delegates the lighter-navy choice to the
-designer. Use #34466F for the wordmark and navy logo shape, retaining #1E253B
-for detailed reading text. The change is intentionally more visibly blue at small
-sizes, not asserted to be an exact sample of Stackclimb’s raster wordmark.
-
-The owner found the lighter #34466F identity dull and requested a darker, bluer
-result. This supersedes that shade: rich dark blue #173B75 now owns the wordmark
-and logo shape. The intent is stronger saturation, not a return to near-black.
-
-The consolidated review restores mint for completed simulated workflow states,
-while scoped negative results stay neutral. Lavender identifies candidate guidance.
-The owner requested a full review before the final U02 visual decision; see
-docs/evidence/M1-final-visual-review.md. No final approval is inferred.
-
-Latest owner-delegated polish: retain rich blue/coral identity and vivid gold actions;
-restore pale peach #FFF3ED for selected evidence/choices, keep mint completed
-states and lavender candidate guidance. Equal-size retail state labels and inset
-native-select chevrons complete the consistency pass. See
-docs/evidence/M1-palette-final.md for current captures, source binding and accessibility evidence.
-This supersedes earlier selection-fill proposals; U02 final visual review remains open.
+SFA first-slice human source review is complete. Remaining UK/development-gold
+review, protected final-case custody and final submission approval remain open.

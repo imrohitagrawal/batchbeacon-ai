@@ -1,13 +1,13 @@
 # BatchBeacon owner decisions and delegated authority
 
-Updated 17 October 2026. This is the durable record of the owner's project-specific instructions. Invoking the implementation kickoff adopts these recorded approvals within the actual client's permissions. Do not ask for the same approvals again. This planning session has not built, installed, provisioned, spent, deployed, published or submitted anything.
+Updated 18 October 2026. Current U02 approval is recorded below; the original planning observations remain historical. This is the durable record of the owner's project-specific instructions. Invoking the implementation kickoff adopts these recorded approvals within the actual client's permissions. Do not ask for the same approvals again. The original planning session performed no implementation or external mutations; actual execution status is now in STATE.md.
 
 ## Approved decisions
 
 | ID | Owner instruction / decision | Execution consequence |
 | --- | --- | --- |
 | U01 | Approves a **2:40 core and 3:50 submission cut**. | `OWNER-VIDEO` satisfied for 160/230 seconds. Measure actual exports; final submission remains separate. |
-| U02 | Accepts direction A's evidence-workbench workflow in principle; rejects the previous visual finish. | Preserve all three original directions as planning evidence. Present a replacement high-fidelity A treatment, including the retail console, for final visual approval. No repeated A/B/C question. |
+| U02 | Approves the current **Evidence in focus** UI: “Yes, the UI looks good now. Approved from my side.” | **U02 / UI-SELECTED closed** on 18 October 2026 for the reviewed refined prototype. See [exact artifact and scope](evidence/M1-visual-approval.md). Preserve earlier rejected directions; document and implement the approved design. Runtime and submission gates remain separate. |
 | U03 | Rohit works with Codex as primary executor on one machine; supported parallel sessions are permitted. | One integrator/writer by default, optional read-only reviewers and at most one isolated writer after capacity checks. No fictional extra human builders. |
 | U04 | Reports an existing Google Cloud project with display name `batchbeacon-ai`. | Discover the exact project ID, selected account, billing, IAM and existing resources locally. Do not assume display name equals ID or create a duplicate. Keep account details private. The owner-provided account hint is in `.local/owner-inputs.json`; it is not a credential or verified account state. |
 | U05 | Rohit has full Team Leader authority. | Captain owns actual source/design/final-artifact decisions. His role does not fabricate a completed review or platform submission. |
@@ -29,8 +29,8 @@ There is **no further broad planning decision blocking kickoff**. Q01–Q07 from
 
 | When | Remaining owner involvement | Affected work only |
 | --- | --- | --- |
-| Early M1 | Approve the actual replacement high-fidelity A treatment, now including the retailer queue and guidance-review states. | Final visual design. Contracts, backend and environment work can proceed. |
-| Early M1 | Complete the prepared human source/expected-outcome checklist and protected final-case custody arrangement. | Source-truth and evaluation gates. Do not invent a signature. |
+| Completed 18 October 2026 | Current workbench, retail queue and guidance treatment approved. | No remaining U02 decision. Follow [DESIGN](../DESIGN.md); running-UI verification remains required. |
+| Early M1 | Complete the remaining UK/development-gold source and expected-outcome review and protected final-case custody arrangement. The SFA first slice is already approved. | Source-truth and evaluation gates. Do not invent a signature. |
 | Only if an actual sign-in wall or missing machine permission appears | Complete supported local sign-in/approval using secure mechanisms. | The blocked tool/account operation. No credentials in chat or repository. |
 | Optional alert delivery | Select an owner-controlled notification channel and authorize its test if external delivery is desired. | Dashboard-visible alert policies and availability checks proceed. No email/chat test is sent by inference from a login address. Record notification delivery `NOT CONFIGURED` until authorized. |
 | Final concrete release | Review the exact candidate and current material terms; approve submission. | Final platform action. Eligibility attestation, video duration, cloud and GitHub authority need no repeat questionnaire. |

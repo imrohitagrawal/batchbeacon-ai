@@ -102,3 +102,14 @@ source files; rendered review remained separate. A read-only reviewer verified t
 control inventory, state paths, captures and corrections. The scored audit is
 17/20 for the tested local scope, with native zoom/screen reader/physical device
 limitations retained. See [M1-usability-audit](evidence/M1-usability-audit.md).
+
+## Approved system documentation
+
+After explicit U02 approval on 18 October 2026, loaded the original `document`
+playbook and extracted actual refined-prototype tokens and component patterns into
+root DESIGN.md and `.impeccable/design.json` (schema version 2). Existing owner
+answers and the selected Evidence in focus name satisfy qualitative context; no
+repeat interview or new palette was introduced. PRODUCT.md now reflects the
+approved current treatment; prior design history remains in the evidence archive.
+The sidecar includes nine scoped component examples; synthetic tonal ramps are
+documentation previews only. No new engine/network/hook invocation occurred.
