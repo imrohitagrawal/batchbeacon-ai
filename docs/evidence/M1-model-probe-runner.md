@@ -133,3 +133,12 @@ normal skip-link test sequencing issue, documented in M1-usability-audit.md; its
 correction waits for navigation completion and preserves the separate rapid-path
 regression. These changes affect tests only. Fresh hosted verification remains
 the final checkpoint requirement.
+
+## Verified hosted checkpoint
+
+[Run 39079297482](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39079297482)
+passed at `eee8e265dba3e7dcf799a604c66d5e9cd0940da7`: locked wheel bootstrap,
+bundled Chromium installation, lock/Ruff, **224 unit and 41 browser tests**. Logs
+were inspected and the remote main ref verified. Both previous failures remain
+preserved. This closes the local/hosted preparation correction; real paid inference,
+Firestore/image/service probes, public security and release gates remain open.

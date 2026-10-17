@@ -65,8 +65,14 @@ three shared-deadline cases passed; hosted d5a043c exposed the same assumption
 in the separate phase test. Entire timeout family independently verified under
 slow setup. Normal skip test now awaits completed navigation; rapid-path test stays.
 Final combined local lock/Ruff, 224 unit and 41 Chrome PASS. Independent timing
-and normal/rapid keyboard corrections PASS; fresh hosted verification pending.
+and normal/rapid keyboard corrections PASS. Hosted eee8e26 / run 39079297482
+passed locked bootstrap, lock/Ruff, 224 unit and 41 Chromium browser checks.
 See M1-model-probe-runner.md. No paid/runtime claim follows.
+T09 LOCAL/PARTIAL: server guest/upload adapters and isolated HTTP test factory;
+default app unchanged. 60 focused tests; three reproduced defects corrected and
+independently verified. Full local lock/Ruff, 284 unit and 41 Chrome tests PASS.
+See M2-session-upload.md. Shared paid admission, observation/correction persistence,
+actual Firestore/Storage and deployed isolation still pending; hosted check pending.
 No actual paid allocation initialized; complete runtime admission remains closed.
 See G0X-cloud-preflight.md for scoped independent review and remaining cases.
 
@@ -83,9 +89,10 @@ Public GitHub repository created and pushed; README PR #1 merged after hosted PA
 No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested.
 
 ## Next ready queue
-T06 approved; record and verify the actual design system. T07 latest hosted run passed.
-Continue T08 exact-context/billed-output bounds, spending reconciliation and
-actual private runtime admission. Implement the approved design when T17 dependencies
-are ready. UK/source gates block only their path.
+T06 approved/documented. Verify the T09 local checkpoint in hosted CI, then
+continue its shared admission/counter contracts and source-review preparation.
+Actual service sign-off still waits for T08. Continue bounded T08 capacity/service
+discovery and T04b source review preparation alongside independent local work. Complete billing bounds remain unsubstantiated;
+paid admission stays closed. Implement approved visuals when T17 is dependency-ready.
 Next prompt: Continue prompts/01-codex-kickoff.md from STATE and the private run policy;
 native goal is already active with canary/recovery passed; do not create another.
