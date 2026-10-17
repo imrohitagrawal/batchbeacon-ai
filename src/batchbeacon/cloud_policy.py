@@ -58,6 +58,7 @@ class ModelProbePolicy(Record):
     request_timeout_ms: Positive = 30_000
     run_deadline_ms: Positive = 30_000
     max_input_tokens: Positive = 12_000
+    billable_input_token_bound: Positive
     max_output_tokens: Positive = 4_096
     billable_output_token_bound: Positive
     billing_bound_evidence_sha256: Digest
@@ -70,6 +71,11 @@ class ModelProbePolicy(Record):
     max_total_attempts: Positive = 22
     calendar_timezone: Nonempty = "Asia/Kolkata"
     ledger_lock_timeout_ms: Positive = 5_000
+    max_source_bytes: Positive = 100_000
+    max_image_bytes: Positive = 5 * 1024 * 1024
+    max_image_pixels: Positive = 20_000_000
+    max_response_bytes: Positive = 1024 * 1024
+    max_count_response_bytes: Positive = 64 * 1024
 
     @model_validator(mode="after")
     def coherent(self) -> Self:
@@ -79,8 +85,10 @@ class ModelProbePolicy(Record):
             raise ValueError("HTTP timeout must fit inside the outer run deadline")
         if self.billable_output_token_bound < self.max_output_tokens:
             raise ValueError("billable bound must cover response and reasoning")
+        if self.billable_input_token_bound < self.max_input_tokens:
+            raise ValueError("billable input bound must cover the counting threshold")
         if self.reserve_nanos < self.price.cost_nanos(
-            self.max_input_tokens, self.billable_output_token_bound
+            self.billable_input_token_bound, self.billable_output_token_bound
         ):
             raise ValueError("reservation is below the gross token cost bound")
         if self.max_daily_attempts > self.max_total_attempts:
@@ -110,7 +118,8 @@ class ModelProbePolicy(Record):
     def generation_config(self) -> types.GenerateContentConfig:
         return types.GenerateContentConfig(
             http_options=self.http_options(),
-            candidate_count=self.candidate_count,
+            # Gemini 3.8 rejects candidate_count, even 1. The one-candidate
+            # protocol is checked on the response; provider bounds need evidence.
             max_output_tokens=self.max_output_tokens,
             thinking_config=types.ThinkingConfig(thinking_level=self.thinking_level),
             automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),

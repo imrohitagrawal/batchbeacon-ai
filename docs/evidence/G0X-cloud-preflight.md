@@ -126,3 +126,13 @@ and a fresh deadline check at the actual call boundary; exercise timeout/unknown
 outcomes there. Complete actual identity/IAM, resource-price, private deployment,
 Firestore and image-access checks before claiming G0-X. Public admission remains
 dependent on T09's shared ledger and security boundary.
+
+## Subsequent runner checkpoint
+
+The [bounded operator runner](M1-model-probe-runner.md) now binds the exact final
+count/generation context, single-use ledger reservation and fresh deadline checks
+at the installed-SDK HTTP boundary. Independent regression verification closed
+three receipt/output/dispatch-evidence findings. The record above preserves earlier
+checkpoint counts; the newer local boundary has 104 focused and 222 full unit passes.
+Real bounds, prior liabilities, service probes and public runtime admission remain
+open. U02 was separately approved in M1-visual-approval.md; T08 does not grant it.

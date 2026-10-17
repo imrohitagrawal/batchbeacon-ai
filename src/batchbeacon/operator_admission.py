@@ -153,7 +153,7 @@ class OperatorLedger:
                     raise AdmissionDenied("no reservation exists for this usage")
                 db.execute("UPDATE allocation SET circuit_open=1 WHERE singleton=1")
             raise AdmissionDenied("usage exceeds ledger representation; preserve reservation")
-        violation = (input_tokens > self.policy.max_input_tokens
+        violation = (input_tokens > self.policy.billable_input_token_bound
                      or output_and_thought_tokens > self.policy.billable_output_token_bound)
         with self._connection() as db:
             db.execute("BEGIN IMMEDIATE")

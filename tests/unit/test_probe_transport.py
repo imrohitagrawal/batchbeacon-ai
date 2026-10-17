@@ -80,7 +80,7 @@ def test_effective_adk_http_request_uses_configured_project_model_and_limits():
     assert endpoint in str(request.url)
     body = json.loads(request.content)
     generation = body["generationConfig"]
-    assert generation["candidateCount"] == 1
+    assert "candidateCount" not in generation  # rejected by Gemini 3.8's API
     assert generation["maxOutputTokens"] == 1024
     # Installed GenAI 2.31 serializes this nested field using its proto name.
     assert generation["thinkingConfig"]["thinking_level"] == "LOW"

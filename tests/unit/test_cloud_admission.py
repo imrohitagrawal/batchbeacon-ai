@@ -30,6 +30,7 @@ def policy(**overrides):
             evidence_sha256="a" * 64, observed_at=NOW - timedelta(days=1),
             valid_until=NOW + timedelta(days=2),
         ),
+        billable_input_token_bound=12000,
         billable_output_token_bound=4096, billing_bound_evidence_sha256="b" * 64,
         reserve_nanos=6 * NANO,
     )
@@ -72,10 +73,21 @@ def test_exact_gross_price_rounds_up_to_nanorupee():
     {"ledger_lock_timeout_ms": 0}, {"extra_unknown": True},
     {"sdk_attempts": True}, {"max_llm_calls": 1.0}, {"candidate_count": True},
     {"automatic_continuation": True}, {"automatic_continuation": 0},
+    {"billable_input_token_bound": 11999},
 ])
 def test_invalid_or_incompatible_configuration_fails(values):
     with pytest.raises(ValidationError):
         policy(**values)
+
+
+@pytest.mark.parametrize("field", [
+    "max_source_bytes", "max_image_bytes", "max_image_pixels",
+    "max_response_bytes", "max_count_response_bytes",
+])
+@pytest.mark.parametrize("value", [0, "1024", float("inf")])
+def test_probe_size_policy_rejects_nonpositive_or_nonstrict_values(field, value):
+    with pytest.raises(ValidationError):
+        policy(**{field: value})
 
 
 def test_policy_overrides_reach_sdk_consumers_and_change_binding():
