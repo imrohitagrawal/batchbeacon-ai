@@ -1,0 +1,96 @@
+// Reversible visual-state examples only. No fetch, model call, storage or saved action.
+const $ = (id) => document.getElementById(id);
+const views = ['workbench', 'retail', 'guidance'];
+function showView() {
+  const current = views.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'workbench';
+  views.forEach((name) => { $(name).hidden = name !== current; });
+  document.querySelectorAll('[data-view]').forEach((a) => { a.classList.toggle('selected', a.dataset.view === current); if (a.dataset.view === current) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  $('page-name').textContent = {workbench: 'Evidence workbench', retail: 'Retail queue', guidance: 'Capture guidance'}[current];
+}
+addEventListener('hashchange', showView); showView();
+const scenarios = {
+  match: ['Matches this recall', 'Product, pack, lot and date align with the selected Singapore notice. Review the evidence before recording a simulated hold.', '', 'Review simulated hold →'],
+  missing: ['One panel is still missing', 'The best-before date is unreadable. A shared lot is not enough to support a match. Capture the date panel or request human review.', 'Recapture 1 of 2 · illustrative counter. A correction does not reset this allowance.', 'Preview review request →'],
+  stale: ['Source changed — review again', 'The genuine UK update expands the recall to Wales and Scotland. The previous result is historical; inspect the new notice before any action.', 'Historical result · approval disabled until a new current verification exists. This state preview uses a separate UK incident.', 'Verification required'],
+  negative: ['No matching identity in this scope', 'Meadow Vale Brie is an invented third product. Sharing lot 232511 with either recalled cheese does not establish product identity. This is not clearance to sell.', '', 'No hold available'],
+  failure: ['Review required', 'The check is unavailable. Retained evidence remains visible, but it cannot support a current match or clearance.', 'Illustrative service failure · no live model was called. Retrying must remain within the incident allowance.', 'Preview review request →']
+};
+function statePreview(name) {
+  const held = name === 'held';
+  if (held) name = 'match';
+  $('scenario').value = name;
+  const [title, copy, banner, action] = scenarios[name];
+  $('verdict-title').textContent = title; $('verdict-copy').textContent = copy;
+  $('state-banner').textContent = banner; $('state-banner').hidden = !banner;
+  $('verdict').className = `verdict ${['missing','stale','failure'].includes(name) ? 'review' : name === 'negative' ? 'neutral' : ''}`;
+  $('confirm-open').textContent = action; $('confirm-open').disabled = ['stale','negative'].includes(name);
+  $('observed-date').textContent = name === 'missing' ? 'Unreadable' : '17 Oct 2026';
+  $('label-date').textContent = name === 'missing' ? 'Not captured' : '17/10/2026';
+  $('date-result').textContent = name === 'missing' ? 'Unknown' : 'Match'; $('date-result').className = `result-text ${name === 'missing' ? 'unknown' : 'match'}`;
+  $('observed-product').textContent = name === 'negative' ? 'Meadow Vale Brie (synthetic)' : 'Camembert Superieur Au Lait Cru';
+  $('label-name').innerHTML = name === 'negative' ? 'Meadow Vale<br>Brie' : 'Camembert<br>Superieur<br>Au Lait Cru';
+  $('identity-result').textContent = name === 'negative' ? 'Different' : 'Match'; $('identity-result').className = `result-text ${name === 'negative' ? 'different' : 'match'}`;
+  $('lot-result').textContent = name === 'negative' ? 'Not used' : 'Match';
+  $('workbench-title').textContent = name === 'stale' ? 'Source update · review required' : name === 'negative' ? 'Different product · same lot' : 'Camembert evidence review';
+  $('comparison-title').textContent = name === 'stale' ? 'Previous evidence · historical example' : 'Recall comparison';
+  $('decision-title').textContent = name === 'stale' ? 'Current verification required' : 'Your confirmation comes next';
+  $('decision-copy').textContent = name === 'stale' ? 'Old results cannot authorize a new hold.' : 'A result never places stock on hold automatically.';
+  const uk = name === 'stale' || name === 'failure';
+  const truffle = name === 'stale';
+  const product = uk ? (truffle ? 'Alyan Dubai Style Chocolate Truffles' : 'Alyan Dubai Style Crunchy Knafeh and Pistachio Milk Chocolate') : held ? 'Bertrand Pere & Fils Camembert au lait cru' : 'Camembert Superieur Au Lait Cru';
+  const code = uk ? (truffle ? '319456' : '318591') : '232511';
+  const pack = uk ? (truffle ? '120 g' : '100 g') : '250 g';
+  const market = truffle ? 'Scotland' : uk ? 'England' : 'Singapore';
+  $('observed-product').textContent = name === 'negative' ? 'Meadow Vale Brie (synthetic)' : product;
+  $('source-product').textContent = product;
+  $('label-name').textContent = name === 'negative' ? 'Meadow Vale Brie' : product;
+  $('label-origin').textContent = uk ? 'SYNTHETIC CAPTURE' : 'FRANCE';
+  ['label-size','observed-pack','source-pack'].forEach(id => $(id).textContent = pack);
+  ['label-code','observed-code','source-code'].forEach(id => $(id).textContent = code);
+  $('code-type').textContent = uk ? 'Product code' : 'Lot'; $('label-code-type').textContent = uk ? 'PRODUCT CODE' : 'LOT';
+  $('source-date-rule').textContent = uk ? 'All dates' : '17 Oct 2026';
+  if (uk) { $('observed-date').textContent = 'Not needed'; $('label-date').textContent = 'Not captured'; $('date-result').textContent = 'Unrestricted'; }
+  $('observed-market').textContent = market; $('source-market').textContent = truffle ? 'England + Northern Ireland (original)' : uk ? 'England, Northern Ireland, Wales, Scotland' : 'Singapore';
+  $('scope-result').textContent = truffle ? 'Historical' : 'In scope';
+  $('scope-result').className = `result-text ${truffle ? 'unknown' : 'match'}`;
+  $('source-pill').textContent = uk ? 'UK FSA · United Kingdom' : 'SFA · Singapore';
+  $('source-title').textContent = uk ? 'Alyan chocolate recall' : 'Raw-milk cheese recall';
+  $('source-date').textContent = truffle ? 'Original · 24 Sep 2026 · replaced by 25 Sep update' : uk ? 'Updated notice · 25 September 2026' : 'Notice issued 9 October 2026 · Singapore';
+  $('source-link').href = uk ? 'https://alerts.food.gov.uk/news-alerts/alert/FSA-PRIN-47-2026-update-1' : 'https://www.sfa.gov.sg/news-publications/newsroom/recall-of-raw-milk-cheese-products-due-to-potential-presence-of-shiga-toxin-producing-escherichia-coli';
+  $('source-link').textContent = truffle ? 'Open update ↗' : 'Open source ↗';
+  $('incident-id').textContent = 'Incident ' + (truffle ? 'BB-0039' : uk ? 'BB-0043' : held ? 'BB-0038' : name === 'missing' ? 'BB-0041' : name === 'negative' ? 'BB-0040' : 'BB-0042');
+  $('confirm-product').textContent = `${product} · ${pack} · ${uk ? 'Product code' : 'Lot'} ${code}`;
+  if (held) { $('workbench-title').textContent = 'Bertrand Camembert · hold history'; $('verdict-title').textContent = 'Simulated hold recorded · example'; $('confirm-open').textContent = 'Hold already shown'; $('confirm-open').disabled = true; }
+  if (name === 'failure') $('workbench-title').textContent = 'Alyan chocolate · check unavailable';
+
+}
+$('scenario').addEventListener('change', (e) => statePreview(e.target.value));
+$('capture').addEventListener('click', () => { $('capture-panel').hidden = !$('capture-panel').hidden; $('capture').setAttribute('aria-expanded', String(!$('capture-panel').hidden)); });
+$('correction').addEventListener('click', () => { $('correction-panel').hidden = !$('correction-panel').hidden; $('correction').setAttribute('aria-expanded', String(!$('correction-panel').hidden)); });
+function toast(text) { $('toast').textContent = text; $('toast').hidden = false; }
+$('capture-file').addEventListener('change', () => toast('Image selected locally. Nothing was uploaded or checked.'));
+$('hold-consent').addEventListener('change', (e) => { $('hold-confirm').disabled = !e.target.checked; });
+$('confirm-open').addEventListener('click', () => {
+  if ($('scenario').value !== 'match') { toast('Review request preview only. No request has been saved.'); return; }
+  $('hold-consent').checked = false; $('hold-confirm').disabled = true; $('confirm-dialog').showModal();
+});
+$('confirm-dialog').addEventListener('close', () => { if ($('confirm-dialog').returnValue === 'confirmed') toast('Confirmation preview complete. No stock action was saved.'); });
+document.querySelectorAll('[data-scenario]').forEach((a) => a.addEventListener('click', () => { statePreview(a.dataset.scenario); requestAnimationFrame(() => $('workbench-title').focus()); }));
+$('new-review').addEventListener('click', () => { statePreview('match'); location.hash = 'workbench'; });
+function filterQueue() { const value = $('queue-filter').value; let count = 0; document.querySelectorAll('[data-category]').forEach((row) => { row.hidden = value !== 'all' && row.dataset.category !== value; if (!row.hidden) count++; }); $('empty-queue').hidden = count !== 0; }
+$('queue-filter').addEventListener('change', filterQueue); $('reset-filter').addEventListener('click', () => { $('queue-filter').value = 'all'; filterQueue(); });
+let stage = 0;
+function guidanceStage() {
+  $('evaluation').hidden = stage < 1; $('activation-check').hidden = stage !== 2;
+  $('guidance-state').textContent = ['Draft example','Evaluation example','Confirmation required','Active example'][stage];
+  $('guidance-next').textContent = ['Preview evaluation →','Review activation →','Activate preview for this shop','Preview next capture'][stage];
+  $('guidance-next').disabled = stage === 2 && !$('activate-consent').checked;
+  document.querySelectorAll('.steps li').forEach((li,i) => li.classList.toggle('active', i <= stage));
+}
+$('activate-consent').addEventListener('change', guidanceStage);
+$('guidance-next').addEventListener('click', () => {
+  if (stage < 3) { stage++; if(stage === 3) { $('active-policy').textContent = 'v2 · clearer date-panel guidance (preview)'; $('guidance-status').textContent = 'Preview activated. Future examples use the clearer wording; no stored policy changed.'; $('rollback').disabled = false; $('capture-instruction').textContent = 'Photograph the complete best-before date marking. Keep the pack flat and avoid glare.'; $('capture-policy').textContent = 'Guidance v2 · preview'; } guidanceStage(); }
+  else { location.hash = 'workbench'; statePreview('missing'); $('capture-panel').hidden = false; $('capture').setAttribute('aria-expanded', 'true'); }
+});
+$('rollback').addEventListener('click', () => { $('active-policy').textContent = 'v3 · original wording restored (preview)'; $('capture-instruction').textContent = 'Photograph the complete best-before date marking.'; $('capture-policy').textContent = 'Guidance v3 · preview'; $('guidance-status').textContent = 'Rollback preview: a new revision restores original wording. Lifetime counters stay unchanged.'; $('rollback').disabled = true; });
+$('guidance-reset').addEventListener('click', () => { stage = 0; $('activate-consent').checked = false; $('active-policy').textContent = 'v1 · original guidance'; $('guidance-status').textContent = ''; $('rollback').disabled = true; guidanceStage(); });
