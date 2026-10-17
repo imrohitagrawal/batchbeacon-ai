@@ -1,0 +1,166 @@
+{
+  "manifest_version": "source-draft-1",
+  "status": "HUMAN_REVIEW_PENDING",
+  "reviewer": null,
+  "reviewed_at": null,
+  "public_reuse": "Minimal factual fields with citations; no original HTML, authority logos, product photos or retailer PDF redistributed. Human rights review pending.",
+  "sources": [
+    {
+      "id": "sfa-cheese-2026-10-09",
+      "family": "sfa-cheese-2026",
+      "authority": "SFA",
+      "url": "https://www.sfa.gov.sg/news-publications/newsroom/recall-of-raw-milk-cheese-products-due-to-potential-presence-of-shiga-toxin-producing-escherichia-coli",
+      "published_date": "2026-10-09",
+      "jurisdictions": [
+        "SG"
+      ],
+      "capture_kind": "raw HTML",
+      "products": [
+        {
+          "name": "Camembert Superieur Au Lait Cru",
+          "pack_g": 250,
+          "origin": "France",
+          "codes": [
+            {
+              "type": "LOT",
+              "value": "232511"
+            }
+          ],
+          "best_before": {
+            "mode": "EXACT",
+            "values": [
+              "2026-10-17"
+            ]
+          },
+          "importer": "Cold Storage Singapore (1983) Pte Ltd"
+        },
+        {
+          "name": "Bertrand Pere & Fils Camembert au lait cru",
+          "pack_g": 250,
+          "origin": "France",
+          "codes": [
+            {
+              "type": "LOT",
+              "value": "232511"
+            }
+          ],
+          "best_before": {
+            "mode": "EXACT",
+            "values": [
+              "2026-10-17"
+            ]
+          },
+          "importer": "Little Farms Pte Ltd"
+        }
+      ],
+      "capture_sha256": "b9cdc646e2ea8a38235c6287cbfcfaee35bc4c806bcc47ba1190afb643e91d88",
+      "capture_path_private": ".local/source-review/sfa.html",
+      "facts_sha256": "e96ae01915a38fa8077a51db7ac64b94ff2074c166ce856c7d9685c0aa5ca1b5",
+      "human_review": "PENDING"
+    },
+    {
+      "id": "FSA-PRIN-47-2026",
+      "family": "FSA-PRIN-47-2026",
+      "authority": "UK FSA",
+      "url": "https://alerts.food.gov.uk/news-alerts/alert/FSA-PRIN-47-2026",
+      "published_date": "2026-09-24",
+      "jurisdictions": [
+        "GB-ENG",
+        "GB-NIR"
+      ],
+      "supersedes": null,
+      "capture_kind": "normal browser rendered main text",
+      "products": [
+        {
+          "name": "Alyan Dubai Style Chocolate Truffles",
+          "pack_g": 120,
+          "codes": [
+            {
+              "type": "PRODUCT_CODE",
+              "value": "319456"
+            }
+          ],
+          "lot": {
+            "mode": "NOT_SPECIFIED"
+          },
+          "best_before": {
+            "mode": "ALL"
+          }
+        },
+        {
+          "name": "Alyan Dubai Style Crunchy Knafeh and Pistachio Milk Chocolate",
+          "pack_g": 100,
+          "codes": [
+            {
+              "type": "PRODUCT_CODE",
+              "value": "318591"
+            }
+          ],
+          "lot": {
+            "mode": "NOT_SPECIFIED"
+          },
+          "best_before": {
+            "mode": "ALL"
+          }
+        }
+      ],
+      "capture_sha256": "eaa2d450ea8297d41f262fe87ee09f249693b986a610056ed9f6c23c314eee41",
+      "capture_path_private": ".local/source-review/uk-original-main.txt",
+      "facts_sha256": "e8dd3f1ebb72a4988512891dfa2267d0c61c15711e9b2cf56196f7e0e72de01d",
+      "human_review": "PENDING"
+    },
+    {
+      "id": "FSA-PRIN-47-2026-update-1",
+      "family": "FSA-PRIN-47-2026",
+      "authority": "UK FSA",
+      "url": "https://alerts.food.gov.uk/news-alerts/alert/FSA-PRIN-47-2026-update-1",
+      "published_date": "2026-09-25",
+      "jurisdictions": [
+        "GB-ENG",
+        "GB-NIR",
+        "GB-WLS",
+        "GB-SCT"
+      ],
+      "supersedes": "FSA-PRIN-47-2026",
+      "capture_kind": "normal browser rendered main text",
+      "products": [
+        {
+          "name": "Alyan Dubai Style Chocolate Truffles",
+          "pack_g": 120,
+          "codes": [
+            {
+              "type": "PRODUCT_CODE",
+              "value": "319456"
+            }
+          ],
+          "lot": {
+            "mode": "NOT_SPECIFIED"
+          },
+          "best_before": {
+            "mode": "ALL"
+          }
+        },
+        {
+          "name": "Alyan Dubai Style Crunchy Knafeh and Pistachio Milk Chocolate",
+          "pack_g": 100,
+          "codes": [
+            {
+              "type": "PRODUCT_CODE",
+              "value": "318591"
+            }
+          ],
+          "lot": {
+            "mode": "NOT_SPECIFIED"
+          },
+          "best_before": {
+            "mode": "ALL"
+          }
+        }
+      ],
+      "capture_sha256": "30323780ab5676ad9960ec0760e8c728577e5ac08ac2e6f798579f3691324043",
+      "capture_path_private": ".local/source-review/uk-update-main.txt",
+      "facts_sha256": "e8dd3f1ebb72a4988512891dfa2267d0c61c15711e9b2cf56196f7e0e72de01d",
+      "human_review": "PENDING"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+--- upstream/SKILL.md
++++ adapted/SKILL.md
+@@ -1,9 +1,22 @@
+ ---
+-name: emil-design-eng
++name: batchbeacon-emil-reference
+ description: This skill encodes Emil Kowalski's philosophy on UI polish, component design, animation decisions, and the invisible details that make software feel great.
+ ---
+ 
+ # Design Engineering
++
++## BatchBeacon admission amendment (18 October 2026)
++
++This MIT text guide is adapted from commit
++2d228630ba1446365f614a108cb8252f1feda202. See LICENSE and PROVENANCE.md.
++Use only for a concrete BatchBeacon UI target. Existing A workflow, native
++HTML/CSS/Jinja architecture, project gates and Impeccable Operate guidance win
++over generic advice. No React/Motion dependency, gesture-only confirmation,
++decorative springs, staggered page entry or delayed keyboard feedback. Review
++touch, visible focus, density, interruption and reduced motion; retain the
++Before/After/Why table below. Inspect rendered effects. Final visual approval
++remains with the owner. No bundled executable or provider request is required.
++
+ 
+ ## Initial Response
+ 
