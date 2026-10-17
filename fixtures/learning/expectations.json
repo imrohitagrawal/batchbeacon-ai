@@ -1,0 +1,15 @@
+{
+  "suite_id": "guidance-six-paired-1",
+  "status": "predeclared synthetic technical expectations; independent derivation complete; executable evaluator not run",
+  "case_count": 6,
+  "policies": ["GUIDANCE_V1", "GUIDANCE_V2"],
+  "invariants": ["SOURCE_TRUTH", "OBSERVATIONS", "REQUIRED_FIELDS", "VERDICT_AND_REASONS", "ACTION_ELIGIBILITY", "CURRENTNESS", "LIFETIME_COUNTERS"],
+  "cases": [
+    {"id":"L01","condition":"identity established; lot unresolved and required; date unrestricted","required_fields":["LOT"],"candidate_hint":["complete code","leading zeros"],"no_fields":["BEST_BEFORE","USE_BY"]},
+    {"id":"L02","condition":"required date marking ambiguous","required_fields":["BEST_BEFORE"],"preserve":"ambiguity; no normalized date or invented match"},
+    {"id":"L03","conditions":["ALL","NOT_SPECIFIED"],"required_fields":[],"preserve":"unrestricted field adds no capture requirement"},
+    {"id":"L04","condition":"identity unresolved despite equal lot","required_fields":["PRODUCT_IDENTITY"],"no_fields":["LOT","BEST_BEFORE","USE_BY"]},
+    {"id":"L05","conditions":["recapture exhausted","acquisition exhausted"],"required_fields":[],"preserve":"review required; supported review request; counters unchanged"},
+    {"id":"L06","conditions":["source changed","observation changed"],"required_fields":[],"preserve":"renewed review; stale action and activation denied; rollback revision increases"}
+  ]
+}

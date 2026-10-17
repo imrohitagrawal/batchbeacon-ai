@@ -15,7 +15,7 @@ Owner approved dedicated repository initialization and the concrete SFA first sl
 Remaining human gates: replacement visuals, UK/remaining gold/H custody, final submission.
 
 ## Workspace and capability
-Dedicated Git root, main branch; coherent domain/palette checkpoint 060bd62; current palette refinement verified.
+Dedicated Git root, main branch; coherent palette checkpoint c2efba9; T33 contracts independently verified.
 Home repository untouched. `.local/` and `.batchbeacon/` ignored and untracked.
 One writer; independent read-only acceptance and skill reviewer actually used.
 Codex 0.163.0 authenticated; native goals and automatic approval review supported.
@@ -36,8 +36,9 @@ three actual hashed synthetic labels and limited factual reuse. See sfa-reviewed
 T04b PARTIAL: actual UK original/update browser captures; human/rights review pending.
 T05a/b PASS for reviewed SFA slice: immutable contracts, pure verifier and independent
 correction verification. See M1-domain.md. No persistent action/retail backend yet.
-T33 IN PROGRESS: records/policy helpers and 54 focused tests; four independently
-found contract gaps reproduced and corrected, correction review pending.
+T33 PASS local contracts: immutable records, allowlisted wording, policy admission
+and 54 focused tests. Four reproduced gaps corrected and independently verified.
+See M1-retail-learning-contracts.md; T34/T35 runtime/evaluator still outstanding.
 T06: owner selected Evidence in focus structure, rejected palette; original
 Impeccable discovery complete. Owner requested further palette/logo refinement,
 referencing Stackclimb navy/coral, Impeccable soft colors/gold and Neo Mirai scroll.
@@ -63,7 +64,7 @@ GitHub target returned authenticated 404; approved creation/push remains queued.
 No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested.
 
 ## Next ready queue
-Checkpoint delegated palette refinement; finish T33 correction review; T07 hosted checks;
+Checkpoint T33; continue T07 hosted checks;
 T02 actual settings/cost mapping then bounded T08. Preserve final visual integration gate
 without repeating the delegated palette question. UK/source gates block only their path.
 Next prompt: Continue prompts/01-codex-kickoff.md from STATE and the private run policy;
