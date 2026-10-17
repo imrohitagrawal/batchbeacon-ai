@@ -46,6 +46,8 @@ Main currently has no enforced required checks or rulesets. An observed green
 check is not an enforced merge gate. Deliberate red/green enforcement remains
 unproven and must be addressed within the existing authority before release.
 The palette/control-spacing delta was developed after the four SHAs above and
-needs its own hosted run after publication. This record does not cover that delta
-until its actual run is added. Real model/service integration, security, persistent
+passed its own [hosted push run](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39073205613)
+at `26a451ae2f199f798e71e8f26b3d68a79d28a3aa`: lock/Ruff, 118 unit and
+36 bundled-Chromium browser tests passed. Exact run logs were checked against
+that checkout. Later documentation-only checkpoints do not imply a release freeze. Real model/service integration, security, persistent
 allowances, all six hosted product journeys and final validation remain separate.

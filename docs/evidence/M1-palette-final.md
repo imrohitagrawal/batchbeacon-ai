@@ -1,5 +1,8 @@
 # Final palette and control-spacing refinement
 
+Latest cross-view alignment addendum: [M1-alignment-final](M1-alignment-final.md).
+Its current source binding supersedes the earlier CSS hash below.
+
 Status: designer recommendation prepared for the existing U02 visual review.
 This supersedes the selection fill and queue-control dimensions in
 [M1-final-visual-review](M1-final-visual-review.md); its remaining behavior,

@@ -48,3 +48,24 @@ protected reserves and funded expiry remain as recorded in OPERATIONS. Remaining
 service SKU mapping and the persistent runtime ledger are not replaced by this
 six-SKU checkpoint. Private raw evidence, binding checks and hashes are retained
 under `.local/run-records/T02-pricing-discovery/`.
+
+## Settings and resource discovery follow-up
+
+The primary enabled the required Firestore API to resolve the resource-discovery
+precondition. A successful explicitly scoped database list returned no databases,
+and the available-location response included Mumbai `asia-south1`. No database,
+bucket or runtime identity was created. The project IAM snapshot contains one
+Owner binding; the project-level policy list is empty. That list alone does not
+establish every effective inherited organization constraint. No IAM binding changed.
+
+Ignored `.batchbeacon/local-settings.json` now exists and passes the repository’s
+structural checker. It distinguishes observed project/currency/location facts from
+proposed database/bucket/model/service settings. Paid and public admission remain
+false. Allowance summaries match OPERATIONS without adding pools or claiming a
+runtime ledger. Candidate bucket naming is not proof of global availability.
+The current model remains untested through this account. These are T02 preparation
+facts; T08 still owns actual bounded model/service/deployment admission.
+
+Independent read-only settings review found no reproduced blocker: discovery
+bindings, observed/proposed distinctions, ₹6,000 summary arithmetic, policy dates,
+closed admission flags and ignored/untracked private storage all matched.

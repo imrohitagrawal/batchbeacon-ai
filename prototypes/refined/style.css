@@ -6,7 +6,7 @@
   --proposed-surface: #f1edff; --guidance-ink: #6243b5; --beacon-gold: #ffbf00;
   --completed-surface: #e6f2eb; --completed-ink: #20573e; --completed-border: #54836a;
   --warning: #fff2d8; --warning-ink: #6a4a05; --primary-hover: #edb000;
-  --error: #8d211f; --focus: #1e253b; --radius: 12px;
+  --error: #8d211f; --focus: #1e253b; --radius: 12px; --queue-state-width: 8.625rem;
   scroll-padding-top: 104px; scrollbar-color: var(--control) var(--canvas);
   font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink); background: var(--canvas);
@@ -141,12 +141,14 @@ input[type=file]::file-selector-button { min-height: 44px; border: 1px solid var
 .queue-toolbar { display: flex; gap: 14px; align-items: center; margin-bottom: 20px; font-size: .875rem; }
 .queue-toolbar span { margin-left: auto; font-size: .75rem; color: var(--muted); }
 .queue-table { background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 0 22px; }
-.queue-row { display: grid; grid-template-columns: 2fr .7fr 1fr 1fr; gap: 24px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--line); text-decoration: none; font-size: .875rem; }
+.queue-row { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, .7fr) minmax(var(--queue-state-width), 1fr) minmax(0, 1fr); gap: 24px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--line); text-decoration: none; font-size: .875rem; }
 .queue-row:hover { background: var(--canvas); }
 .queue-row strong { font-weight: 600; }
 .queue-row small { display: block; color: var(--muted); margin-top: 4px; }
 .queue-heading { color: var(--muted); font-size: .75rem; padding: 16px 0; }
-.state-tag { display: inline-flex; align-items: center; justify-content: center; inline-size: 11.5em; min-block-size: 36px; padding: 5px 8px; font-size: .75rem; text-align: center; border-radius: 4px; border: 1px solid #bebeb7; }
+.queue-heading > span:nth-child(3) { text-align: center; }
+.state-tag { display: inline-flex; align-items: center; justify-content: center; inline-size: var(--queue-state-width); min-block-size: 36px; padding: 5px 8px; font-size: .75rem; text-align: center; border-radius: 4px; border: 1px solid #bebeb7; }
+.queue-row > .state-tag { justify-self: center; }
 .amber { background: var(--warning); color: var(--warning-ink); border-color: #b99b4b; }
 .coral { background: #fff0eb; color: #8b3115; border-color: #c39280; }
 .completed { background: var(--completed-surface); color: var(--completed-ink); border-color: var(--completed-border); }
@@ -170,7 +172,7 @@ input[type=file]::file-selector-button { min-height: 44px; border: 1px solid var
 .scope-note { color: var(--muted); font-size: .8125rem; margin: 24px 0; }
 #evaluation { padding: 20px 0; border-top: 1px solid var(--line); }
 #evaluation p { font-size: .8125rem; margin: 10px 0; }
-.eval-row { display: flex; gap: 20px; padding: 12px 0; font-size: .8125rem; border-bottom: 1px solid var(--line); }
+.eval-row { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 20px; padding: 12px 0; font-size: .8125rem; border-bottom: 1px solid var(--line); }
 .guidance-actions { display: flex; gap: 14px; margin-top: 24px; }
 .guidance-aside { padding: 26px 0; }
 .guidance-aside h2 { font-size: 1.75rem; }
@@ -204,6 +206,7 @@ dialog p { font-size: .875rem; margin: 12px 0; }
   .example-choices { grid-template-columns: 1fr 1fr 1fr; }
   .selected-word { font-size: .75rem; }
 }
+@media (max-width: 900px) { .wording-comparison { grid-template-columns: 1fr; gap: 18px; } }
 @media (max-width: 760px) {
   :root { scroll-padding-top: 88px; }
   .prototype-note { display: block; text-align: center; font-size: .75rem; } .prototype-note strong { margin-right: 6px; }
@@ -247,9 +250,9 @@ dialog p { font-size: .875rem; margin: 12px 0; }
   .queue-row > span:nth-child(3) { justify-self: end; }
   .capability-row { display: block; } .capability-row strong { display: block; margin-bottom: 8px; }
   .steps { gap: 12px; flex-wrap: wrap; font-size: .75rem; }
-  .guidance-grid, .wording-comparison { grid-template-columns: 1fr; gap: 18px; }
+  .guidance-grid { grid-template-columns: 1fr; gap: 18px; }
   .guidance-main { padding: 20px; } .guidance-aside { padding: 12px 0; }
-  .guidance-actions { flex-wrap: wrap; } .eval-row { display: grid; gap: 8px; }
+  .guidance-actions { flex-wrap: wrap; } .eval-row { grid-template-columns: 1fr; gap: 8px; }
   footer { display: block; line-height: 1.7; } footer strong { display: block; margin-bottom: 6px; white-space: normal; }
   dialog { padding: 24px 20px; } .dialog-actions { flex-wrap: wrap; } .dialog-actions button { flex: 1; }
 }
