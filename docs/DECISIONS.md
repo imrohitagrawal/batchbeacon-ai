@@ -49,3 +49,14 @@ for task hierarchy, coral paired-label identity, pale-blue evidence and mint
 proposed guidance. Desktop header and phone destination row remain visible on
 scroll. Concrete captures and checks are in M1-palette-navigation.md; U02 remains
 open and no final DESIGN/integration approval is inferred.
+
+
+## LOCAL-10 — delegated palette finish
+The owner says the remaining treatment looks fine, asks for brighter golden yellow
+and considered violet use, then clarifies that the navy identity looks too black
+and delegates the lighter shade to the designer. Apply #34466F to wordmark/mark,
+#FFBF00 to primary actions and lavender/violet to proposed guidance. Preserve the
+accepted composition, interaction and scrolling treatment. Six actual captures,
+contrast checks, 21 browser checks and independent visual follow-up pass; see
+M1-palette-vibrancy.md. This narrow design delegation is not runtime, source or
+submission approval. Do not repeat the palette questionnaire.

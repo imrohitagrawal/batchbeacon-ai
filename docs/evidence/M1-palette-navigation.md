@@ -1,6 +1,9 @@
 # Palette and persistent navigation refinement
 
-Status: owner requested refinement; provisional, no final visual approval.
+Status: earlier palette/navigation candidate, preserved as history. The owner
+subsequently accepted the remaining treatment and requested a brighter gold and
+considered violet use; see [M1-palette-vibrancy.md](M1-palette-vibrancy.md).
+Final revised-color approval remains open.
 
 The owner explicitly referenced color combinations in the supplied Impeccable
 screenshot, including yellow/gold. That was an affirmative palette reference,

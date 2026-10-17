@@ -63,3 +63,15 @@ experience. These supersede earlier blanket exclusions of soft blue/mint/cream.
 The screenshot was supplied for its colors, not as a list of patterns to avoid.
 Persistent navigation is requested; detailed palette synthesis remains delegated.
 The navy/gold/coral refinement is provisional until concrete owner visual approval.
+
+The owner’s latest review says everything else looks fine and requests a more
+vibrant Impeccable-like yellow, confirmation of the navy identity, and considered
+use of the highlighted violet family. Keep the layout/navigation and paired-label
+mark. The current candidate retains navy #1E253B / coral #F05A36, uses brighter
+gold #FFBF00 for primary actions, and lavender/violet for proposed guidance.
+This is a focused palette refinement; final confirmation of these colors is open.
+
+The subsequent owner clarification delegates the lighter-navy choice to the
+designer. Use #34466F for the wordmark and navy logo shape, retaining #1E253B
+for detailed reading text. The change is intentionally more visibly blue at small
+sizes, not asserted to be an exact sample of Stackclimb’s raster wordmark.

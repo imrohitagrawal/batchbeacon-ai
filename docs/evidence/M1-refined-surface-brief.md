@@ -11,7 +11,7 @@ THESIS: Put the exact label, authority comparison and deliberate decision togeth
 Use the working evidence as the focal point; no KPI-card dashboard or dark rail.
 
 OWN-WORLD: White working surfaces, navy UI sans, golden-yellow action emphasis,
-coral paired-label identity, pale-blue label evidence and mint proposed wording. Native controls with dark selection boundaries and explicit
+coral paired-label identity, pale-blue label evidence and lavender proposed wording with violet labels. Native controls with dark selection boundaries and explicit
 state words. Paired label geometry becomes the brand mark, not a status seal.
 
 STORY: Understand the check, select a synthetic example, inspect identity before
@@ -34,3 +34,12 @@ and submission gates remain separate. No shipping raster is introduced by the lo
 
 Palette/navigation amendment: latest owner reference colors supersede the earlier
 charcoal/orange proposal. See M1-palette-navigation.md; this remains a review candidate.
+
+Vibrancy amendment: owner accepts the remaining treatment, requesting brighter
+golden yellow and considered violet use. Gold #FFBF00, hover #EDB000; proposed
+wording #F1EDFF with #6243B5 labels. Navy wordmark/mark #1E253B is already
+rendered; retain it and coral geometry. See M1-palette-vibrancy.md.
+
+Final color steering for this candidate: owner found #1E253B too black in the
+identity and delegated judgment. Wordmark/mark navy becomes #34466F; body
+ink remains #1E253B. Geometry, coral and the accepted layout are preserved.

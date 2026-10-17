@@ -2,9 +2,9 @@
   color-scheme: light;
   --canvas: #f7f8fa; --surface: #ffffff; --ink: #1e253b; --muted: #535d71;
   --line: #d5dbe4; --control: #748096; --accent: #b93819; --accent-hover: #922b12;
-  --brand-coral: #f05a36; --evidence-surface: #eaf0f8; --selected: #fff2cf;
-  --proposed-surface: #e6f2eb; --beacon-gold: #e8b44c;
-  --warning: #fff2d8; --warning-ink: #6a4a05; --primary-hover: #dda434;
+  --brand-navy: #34466f; --brand-coral: #f05a36; --evidence-surface: #eaf0f8; --selected: #fff2cf;
+  --proposed-surface: #f1edff; --guidance-ink: #6243b5; --beacon-gold: #ffbf00;
+  --warning: #fff2d8; --warning-ink: #6a4a05; --primary-hover: #edb000;
   --error: #8d211f; --focus: #1e253b; --radius: 12px;
   scroll-padding-top: 104px; scrollbar-color: var(--control) var(--canvas);
   font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -34,7 +34,7 @@ small { font-size: .8rem; }
 .prototype-note { display: flex; justify-content: center; gap: 14px; padding: 7px 20px; font-size: .75rem; color: var(--muted); background: white; border-bottom: 1px solid var(--line); }
 .prototype-note strong { color: var(--ink); }
 .app-header { position: sticky; top: 0; z-index: 20; min-height: 82px; padding: 16px 40px; display: flex; gap: 45px; align-items: center; background: white; border-bottom: 1px solid var(--line); }
-.brand { display: inline-flex; gap: 9px; align-items: center; text-decoration: none; font-size: 1.45rem; font-weight: 700; letter-spacing: -.035em; white-space: nowrap; min-height: 44px; }
+.brand { display: inline-flex; gap: 9px; align-items: center; color: var(--brand-navy); text-decoration: none; font-size: 1.45rem; font-weight: 700; letter-spacing: -.035em; white-space: nowrap; min-height: 44px; }
 .brand img { flex: 0 0 auto; }
 .brand-ai { font-size: .75rem; margin-left: 7px; letter-spacing: 0; color: var(--muted); font-weight: 500; }
 nav { display: flex; gap: 8px; }
@@ -161,6 +161,7 @@ input[type=file]::file-selector-button { min-height: 44px; border: 1px solid var
 .wording-comparison > div { padding: 20px; background: var(--evidence-surface); border-radius: 8px; }
 .wording-comparison > div:last-child { background: var(--proposed-surface); }
 .wording-comparison span { font-size: .75rem; color: var(--muted); }
+.wording-comparison > div:last-child > span { color: var(--guidance-ink); font-weight: 650; }
 .wording-comparison p { font-size: 1.125rem; line-height: 1.6; margin-top: 12px; }
 .scope-note { color: var(--muted); font-size: .8125rem; margin: 24px 0; }
 #evaluation { padding: 20px 0; border-top: 1px solid var(--line); }
