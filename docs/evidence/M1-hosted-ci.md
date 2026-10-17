@@ -49,5 +49,10 @@ The palette/control-spacing delta was developed after the four SHAs above and
 passed its own [hosted push run](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39073205613)
 at `26a451ae2f199f798e71e8f26b3d68a79d28a3aa`: lock/Ruff, 118 unit and
 36 bundled-Chromium browser tests passed. Exact run logs were checked against
-that checkout. Later documentation-only checkpoints do not imply a release freeze. Real model/service integration, security, persistent
+that checkout. The subsequent alignment revision
+`d9fb5c3c2438c08757d56e1517bd3a8c19054d58` also passed
+[hosted run 39073908322](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39073908322):
+lock/Ruff, 118 unit and 36 bundled-Chromium browser tests. An independent read-only
+reviewer verified the actual checkout and full test denominators.
+Later checkpoints do not imply a release freeze. Real model/service integration, security, persistent
 allowances, all six hosted product journeys and final validation remain separate.

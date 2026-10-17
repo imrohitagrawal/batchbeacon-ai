@@ -53,26 +53,32 @@ and aligns guidance values; see M1-alignment-final.md. Mint remains unchanged.
 U02 final visual approval remains open; no DESIGN.
 All earlier directions and palettes preserved as history.
 T07 hosted push/branch/PR-merge/merged-main checks PASS; see M1-hosted-ci.md.
-Latest palette 26a451a hosted lock/Ruff +118 unit/+36 browser PASS.
+Latest alignment d9fb5c3 hosted lock/Ruff +118 unit/+36 browser PASS.
 No enforced required-check rule or release freeze.
 Latest full check: lock/Ruff, 118 unit + 36 local browser PASS; title-only follow-up
 7 affected cases PASS. Independent refined checks and 120 rapid route/skip trials PASS.
 No real model, persistence, action, isolation, paid-ledger or hosted product journey claim.
+T08 local preparation: strict probe policy and operator-only durable reservation
+boundary; lock/Ruff +161 unit PASS, including three installed-ADK/mock-HTTP cases.
+No actual paid allocation initialized; complete runtime admission remains closed.
+See G0X-cloud-preflight.md for scoped independent review and remaining cases.
 
 ## External state
 Project ID `batchbeacon-ai` ACTIVE, billing enabled; selected account matches owner hint.
 Firestore API enabled; successful database list empty; Mumbai location available.
-Other app/model/build APIs still need enabling; no bucket observed.
-Cloud Run resource discovery still needs its API precondition.
+Run/Vertex/Build/Artifact Registry/IAM APIs now enabled and re-listed.
+No project bucket, Mumbai Run service or Mumbai artifact repository observed.
 Cloud Billing API enabled for verified account-currency/SKU reads; no IAM change,
 paid model call or deployment. Account INR and six model/Run SKU rates verified;
-see M1-cloud-pricing.md. Spend UNKNOWN. G0-X BLOCKED / NOT RUN.
+see M1-cloud-pricing.md. Billing report has no target-project entry; lagged/unbilled
+spend remains UNKNOWN. G0-X real checks NOT RUN; paid admission remains closed.
 Public GitHub repository created and pushed; README PR #1 merged after hosted PASS.
 No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested.
 
 ## Next ready queue
 Concrete polished T06 candidate is awaiting U02; T07 latest hosted run passed.
-Continue bounded T08 discovery/cost admission from validated T02 summary settings. Preserve final visual integration gate
-while the concrete candidate is reviewed. UK/source gates block only their path.
+Continue T08 exact-context/billed-output bounds, spending reconciliation and
+actual private runtime admission. Preserve final visual integration gate while
+the concrete candidate is reviewed. UK/source gates block only their path.
 Next prompt: Continue prompts/01-codex-kickoff.md from STATE and the private run policy;
 native goal is already active with canary/recovery passed; do not create another.
