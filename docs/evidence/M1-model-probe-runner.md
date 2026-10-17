@@ -86,3 +86,27 @@ and available global capacity also remain unsubstantiated. Price discovery is no
 proof of zero prior spend. Keep admission closed; do not borrow protected pools,
 increase authority, substitute an unreviewed model or initialize from fixture data.
 Independent source/custody preparation may continue while these facts are resolved.
+
+## Hosted timing correction
+
+Hosted run [39078682730](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39078682730)
+at `a319365f87a475f9a476686caf09567c9f200c73` passed bootstrap, browser installation,
+lock and Ruff, then returned **221 unit passes / one failure**; browser assertions
+were not reached. The failed test assumed setup plus CountTokens would always fit
+inside 100ms, so it expected expiry only after reservation. On the slower host the
+same overall deadline expired before reservation. The application stopped safely;
+no false acceptance, lost reservation or additional dispatch was reproduced.
+
+Classification: **REQUIRED_CONTRACT** for deterministic test/hosted-check
+portability. The owner is the primary integrator. The correction replaces real
+sleeps with a controlled monotonic clock and exercises the real event-loop
+timeout callback. Three cases cover expiry during generation, during counting and
+before the first HTTP request, with the corresponding request and reservation
+counts. Runtime code and the approved visuals are unchanged. The original failed
+hosted logs are retained privately; corrected hosted verification is still required.
+
+The correction passed **106 focused tests**, **224 full unit tests**, lock/Ruff
+and **41 local Chrome browser tests**. Independent verification reproduced the
+focused pass and used negative controls: disabling the outer timeout made the
+generation-expiry case fail; disabling both deadline mechanisms made all three
+cases fail. The failed hosted log hash is preserved. No runtime code changed.

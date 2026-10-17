@@ -59,8 +59,10 @@ T08 local preparation: strict probe policy and operator-only durable reservation
 boundary; lock/Ruff +164 unit PASS, including four installed-ADK/mock-HTTP cases.
 Installed-ADK continuation correction is covered by hosted 7bf9518.
 Bounded runner preparation has 104 focused checks including receipt/output/dispatch
-intent and byte-limit regressions, independently verified. Full local lock/Ruff,
-222 unit and 41 installed-Chrome browser checks PASS; hosted checkpoint pending.
+intent and byte-limit regressions, independently verified. Initial local lock/Ruff, 222 unit and 41 Chrome browser checks PASS. Hosted
+a319365 caught a timing-dependent test assumption; safe early expiry reproduced,
+three deterministic deadline cases added and independently verified. Corrected
+local lock/Ruff, 224 unit and 41 Chrome browser PASS; hosted follow-up pending.
 See M1-model-probe-runner.md. No paid/runtime claim follows.
 No actual paid allocation initialized; complete runtime admission remains closed.
 See G0X-cloud-preflight.md for scoped independent review and remaining cases.

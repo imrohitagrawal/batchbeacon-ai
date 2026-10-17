@@ -376,21 +376,44 @@ def test_single_use_and_restart_do_not_repeat_paid_dispatch(tmp_path):
     assert asyncio.run(check())["outcome"] == "succeeded"
 
 
-def test_count_and_generation_share_one_deadline(tmp_path):
-    async def delayed(*_):
-        await asyncio.sleep(0.06)
+@pytest.mark.parametrize(
+    ("setup_seconds", "expected_requests", "expected_unknown"),
+    [(0, 2, 1), (0.05, 1, 0), (0.12, 0, 0)],
+)
+def test_count_and_generation_share_one_deadline(
+    tmp_path, monkeypatch, setup_seconds, expected_requests, expected_unknown
+):
+    async def check():
+        loop = asyncio.get_running_loop()
+        virtual_now = [loop.time()]
+        validate = ProbeRun._validate_payload
 
-    p = policy(request_timeout_ms=100, run_deadline_ms=100)
-    receipt, requests, ledger, _ = asyncio.run(
-        exercise(
-            tmp_path,
-            p=p,
-            on_count=delayed,
-            on_generate=delayed,
-        )
-    )
-    assert receipt["outcome"] == "timeout_unknown"
-    assert len(requests) == 2 and ledger.snapshot()["unknown_attempts"] == 1
+        def setup(run):
+            validate(run)
+            virtual_now[0] += setup_seconds
+
+        async def delayed(*_):
+            virtual_now[0] += 0.06
+            # Run the real event-loop timeout callback, without relying on host
+            # setup/scheduling overhead fitting inside a 100ms wall-clock window.
+            await asyncio.sleep(0)
+            await asyncio.sleep(0)
+
+        with monkeypatch.context() as patch:
+            patch.setattr(loop, "time", lambda: virtual_now[0])
+            patch.setattr(ProbeRun, "_validate_payload", setup)
+            return await exercise(
+                tmp_path,
+                p=policy(request_timeout_ms=100, run_deadline_ms=100),
+                on_count=delayed,
+                on_generate=delayed,
+            )
+
+    receipt, requests, ledger, _ = asyncio.run(check())
+    assert receipt["outcome"] == ("timeout_unknown" if expected_unknown else "timeout")
+    assert len(requests) == expected_requests
+    assert ledger.snapshot()["unknown_attempts"] == expected_unknown
+    assert ledger.snapshot()["attempts"] == expected_unknown
 
 
 def test_cancellation_after_dispatch_persists_unknown_receipt(tmp_path):
