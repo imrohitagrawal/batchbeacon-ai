@@ -62,3 +62,22 @@ def test_guidance_reflows_at_320_with_default_and_doubled_text(learning_browser)
         select = page.locator("#feedback-detail").bounding_box()
         assert select and select["x"] + select["width"] <= 320
     assert not errors
+
+
+def test_phone_queue_counts_have_visual_separation(connected_browser):
+    page, _, _, errors = connected_browser
+    page.locator("nav [data-view=retail]").click()
+    expect(page.locator("#queue-status")).to_contain_text("Manual refresh complete")
+    for width in (390, 320):
+        page.set_viewport_size({"width": width, "height": 844})
+        spans = page.locator("#queue-counts > span")
+        assert spans.count() > 1
+        for index in range(1, spans.count()):
+            previous = spans.nth(index - 1).bounding_box()
+            current = spans.nth(index).bounding_box()
+            assert (
+                current["x"] >= previous["x"] + previous["width"] + 8
+                or current["y"] >= previous["y"] + previous["height"] + 4
+            )
+        assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+    assert not errors

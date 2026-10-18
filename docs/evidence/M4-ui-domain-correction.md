@@ -43,3 +43,9 @@ doubled-text reflow at1440/390/320 passed independent local checks. The initial
 loading copy is neutral until the configured extraction mode is known; it no
 longer briefly labels the deployed application as local simulated extraction.
 This is a help-only correction; runtime, verifier and allowances remain unchanged.
+
+The fresh custom-host visitor also reproduced concatenated phone queue counts.
+The mobile layout's block display was corrected at the existing counts boundary;
+a regression verifies visible separation at390/320px. Independent rendered review
+passed. The intermediate tutorial build was superseded before deployment, with
+its evidence retained. This is the last UI correction in the original time box.

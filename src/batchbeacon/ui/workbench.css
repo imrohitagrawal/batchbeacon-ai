@@ -5,7 +5,7 @@
 .preview-toolbar { flex-wrap: wrap; }
 #source-summary { display: block; }
 #source-summary a { display: inline-block; margin: 8px 0; }
-#queue-counts { flex-wrap: wrap; gap: 8px 20px; }
+#queue-counts { display: flex; flex-wrap: wrap; gap: 8px 20px; }
 #queue-rows .queue-row { width: 100%; text-align: left; background: white; color: inherit; font: inherit; }
 #queue-status { margin: 12px 0; }
 #history p, #source-summary p { overflow-wrap: anywhere; }
