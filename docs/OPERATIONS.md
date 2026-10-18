@@ -93,6 +93,17 @@ The existing optional `scripts/configure_local.py` helper collects values intera
 
 For that summary schema: `currency=INR`, `total_allowance=6000`, `evaluation_allowance=1250` (the whole development/final-eval/capture model pool), and `demo_and_service_reserve=2350` (₹600 protected model + ₹150 probe + ₹800 Cloud Run + ₹600 monitoring + ₹200 data allowances). The remaining ₹2,400 covers ₹500 public model + ₹300 builds/artifacts + ₹400 contingency + ₹1,200 buffer. These are overlapping-purpose summary fields over the exact non-overlapping allocation tables, not extra allowances. Use `service_retention_review_at=2026-11-07T18:29:00Z` and the verified submission cutoff. Exact project/database/bucket/account values come from discovery; never write placeholders as verified facts. The actual application ledger must implement the finer pools independently.
 
+## Public guest admission after U23
+
+The deployed guest policy explicitly sets `max_issued_sessions: null`: there is
+no lifetime guest-count ceiling. This supersedes the exhausted 22-session demo
+configuration. Cumulative issuance accounting is retained. The current burst
+policy permits 4 new sessions per 60-second window; existing guest reuse does not
+issue another session. This is separate from the unchanged model budget, per-shop
+limits and funded admission period through 7 November 2026. Eight-hour ownership
+expiry remains enforced. Guest creation does not invoke Gemini. These values live
+in the typed runtime configuration; they are not duplicated implementation limits.
+
 ## 3. Image and record retention correction
 
 Enforce the eight-hour guest expiry on every access. The proposed 24-hour image target concerns removal of live sanitized synthetic model-input objects, not a guaranteed physical-erasure deadline. Storage lifecycle deletion can retain soft-deleted objects for seven further days under the default policy, and policy changes can take time to apply. Preserve/disclose the actual policy; do not disable recovery on an existing bucket. Source: [Storage lifecycle](https://docs.cloud.google.com/storage/docs/lifecycle).

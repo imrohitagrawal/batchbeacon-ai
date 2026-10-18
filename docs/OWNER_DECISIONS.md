@@ -12,7 +12,7 @@ protection, the funded period and historical issuance accounting. Correct the
 misleading expired-session messages after failed guest admission. No additional
 human confirmation is needed for this authorized repair.
 
-Updated 18 October 2026. Current U02 approval is recorded below; the original planning observations remain historical. This is the durable record of the owner's project-specific instructions. Invoking the implementation kickoff adopts these recorded approvals within the actual client's permissions. Do not ask for the same approvals again. The original planning session performed no implementation or external mutations; actual execution status is now in STATE.md.
+Updated 19 October 2026. Current U02 approval is recorded below; the original planning observations remain historical. This is the durable record of the owner's project-specific instructions. Invoking the implementation kickoff adopts these recorded approvals within the actual client's permissions. Do not ask for the same approvals again. The original planning session performed no implementation or external mutations; actual execution status is now in STATE.md.
 
 ## Approved decisions
 
@@ -168,3 +168,13 @@ asked what the disabled guidance controls mean. Add visible successful-refresh
 feedback and concise purpose/prerequisite explanations. This is a bounded clarity
 correction alongside U23, not a change to guidance eligibility, evaluation,
 authorization, session duration or model budgets.
+
+## U25 — focused usability audit and layout correction
+
+The owner identified clutter and unclear controls in Capture guidance and asked
+whether a proper UI audit had been completed. Existing functional, keyboard and
+reflow checks are not a comprehensive usability audit. Record a separate focused
+[audit and correction plan](UI_USABILITY_PLAN.md), starting with guidance and its
+entry points on desktop and mobile. The earlier visual-direction approval remains
+historical; it does not certify the current page's usability. U23/U24 are immediate
+repairs, not completion of this broader requested correction.

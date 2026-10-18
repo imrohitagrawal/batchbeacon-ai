@@ -96,7 +96,7 @@ The current demo has anonymous eight-hour guest shops, not account sign-in or
 sign-out. Queue, evidence and guidance are session-owned; expiry is checked on
 access. There is no cross-device account recovery or explicit session-revocation UI.
 Global guest and model limits survive cookie clearing, deployment and host changes.
-Actual configured admission is22 lifetime guest sessions and4 new sessions per
+Historical submitted-release admission was 22 lifetime guest sessions and4 new sessions per
 minute, with4 incidents per guest, bounded uploads and one provider call per run.
 The public model pool is INR500 within the unchanged INR2,500 lifetime model pool;
 conservative reservations happen atomically before provider execution.
@@ -263,3 +263,9 @@ or superiority claim. Brand recall counts are not risk/credibility scores, and
 REG-01 destination-market rule review remains a future proposal. The only missing
 template deliverable is the public video URL; final PDF/video binding, authenticated
 upload, OWNER-SUBMIT and receipt remain open. No video revision/upload was made.
+
+## Superseding guest-access correction
+
+U23 removes the lifetime guest-count ceiling while preserving rate, ownership,
+expiry and model-budget controls. The 22-session configuration above is historical.
+See [M5 guest-access evidence](M5-guest-access-repair.md) and current STATE.

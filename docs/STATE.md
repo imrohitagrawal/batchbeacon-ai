@@ -1,8 +1,9 @@
 # BatchBeacon AI — current execution state
 
-18 October 2026. The synthetic Google Cloud prototype is public and its fresh
-unauthenticated real-AI journey passed. Final v25 package submitted; the organizer
-dashboard confirms Prototype Submission — Submitted.
+19 October 2026. The synthetic Google Cloud prototype is public. U23/U24 guest
+access and clarity corrections are deployed after the submitted release. The
+earlier fresh unauthenticated real-AI journey passed. Final v25 package submitted;
+the organizer dashboard confirms Prototype Submission — Submitted.
 
 ## Authority and scope
 
@@ -24,13 +25,17 @@ into a pass. Consumer discovery/image extraction are future scope, not new featu
 [Live prototype](https://batchbeacon.stackclimb.com) ·
 [Cloud Run fallback](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app) ·
 [public source](https://github.com/imrohitagrawal/batchbeacon-ai).
-Deployed application commit `04546e0944adfed521efcd3b20e7fa7387c39101` passed
-[hosted checks39144095298](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39144095298):
-1,335 unit,78 browser and29 edge checks. Image:
-`sha256:fdba434e1a46ee080d2bdbda591048b2cd97bc49e9d90ce35611e568c418a696`.
-The earlier narrow-screen failure was corrected by allowing the source link to
-wrap; exact hosted verification passed. The live release includes the top tutorial, sample-image previews, English/source
-help and current/future product scope. Earlier failed evidence is preserved.
+Deployed application commit `3dbb220b5263dc69dedb838872c04e029cc25639` passed
+[hosted push checks](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39164585032)
+and [hosted PR checks](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39164589588):
+1,340 unit, 86 browser and 29 edge checks in each. Image:
+`sha256:e66037177f71400e4c976383d1020dccb84bd760c986ea81d10c8ce12a7f25cc`.
+U23 removes the exhausted 22-session lifetime ceiling, preserves accounting and
+avoids misleading expired-session errors after failed admission. U24 adds a dated
+local expiry with timezone, visible guidance-refresh completion and prerequisite
+copy. Eight-hour expiry, burst protection at 4 new sessions per 60 seconds, model budgets,
+ownership and the funded period remain. Earlier submitted image/source and failed
+checks are preserved in [correction evidence](evidence/M5-guest-access-repair.md).
 
 Independent readback confirms exact image/assets,100% traffic, unchanged IAM,
 namespace and limits: min0/max2, concurrency1, CPU1/1GiB, timeout60s, no CPU boost.
@@ -40,10 +45,10 @@ was unchanged. Buckets and technical Operations remain private.
 A fresh custom-host browser completed actual Gemini/ADK extraction, deterministic
 historical-SFA comparison, explicit simulated hold, owned queue and phone reload.
 Separate actual upload acknowledgement-loss recovery and guestless/foreign/CSRF
-checks passed. The last model-journey ledger readback (before later UI observations) showed
+checks passed. The historical submitted model-journey ledger readback (before later UI observations) showed
 10 lifetime model attempts,13/22 guests and
 zero reservations; four additional public guest issuances remain unattributed,
-within unchanged limits. Do not claim all new sessions belonged to our tests.
+within the then-configured limits. Do not claim all new sessions belonged to our tests.
 Exact charges/configuration and private IDs remain in ignored evidence.
 
 ## Supporting evidence and disclosed limits
@@ -93,8 +98,21 @@ No additional source, provider allowance or backend rule was admitted.
 [Correction evidence](evidence/M4-ui-domain-correction.md) preserves failed
 candidate, corrected exact-hosted, deployed and browser evidence separately.
 
-Anonymous guest sessions have no account login/logout; residual public allowance
-exhaustion and non-model traffic cost are explicitly disclosed there.
+Anonymous guest sessions have no account login/logout. The lifetime guest ceiling
+is removed under U23; burst protection, model-budget exhaustion and non-model
+traffic cost remain separate constraints. U23 live checks created three fresh shops
+beyond the old ceiling on desktop/phone and both hosts, verified owned/foreign/
+guestless access and cookie reuse, with zero model calls. U24 live checks reused
+those cookies and verified date/timezone formatting, visible refresh completion,
+exact served assets and no horizontal overflow on both hosts. The expiry label is
+visible on desktop; existing mobile CSS hides it, recorded as an open UI item. No new guests, feature
+writes or model calls were made. Independent readback observed 25 cumulative guests,
+14 model attempts and zero reservations; runtime/IAM/resource controls were unchanged.
+
+The owner identified Capture guidance clutter. Earlier functional, keyboard and
+reflow checks do not establish a complete usability audit. The separate
+[focused UI audit and correction](UI_USABILITY_PLAN.md) remains open; U24 copy and
+refresh feedback do not close the broader layout correction.
 
 ## Final submission
 
@@ -125,3 +143,6 @@ Private final receipt, PDF hash/copy, screenshot and preflight are retained in
 Maintain the accepted deployment and public links through evaluation within
 existing resource/budget policy. No new release, broader scope, model-accuracy
 claim or additional spending is authorized by this submission.
+
+U23/U24 are separate owner-authorized post-submission repairs; they do not amend
+the submitted artifact or close the unrelated U18 evaluation/Operations limits.
