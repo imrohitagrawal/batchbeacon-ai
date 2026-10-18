@@ -147,7 +147,52 @@ Derived-text extraction is deferred unless necessary. It would require its own
 original/derived hashes, derivation version/configuration, completeness evidence
 and locator mapping. The present translator accepts original-source locations;
 derived text cannot replace the original hash or impersonate its offsets.
-No input-preflight implementation or real-model request is claimed by this plan.
+That acceptance plan preceded the implementation below. No real-model request
+or source-representation conversion is claimed.
+
+## Original-input implementation and verification
+
+`extraction_input.py` now validates exact original UTF-8 source bytes against the
+notice dependency and effective `ProposalPolicy`. It aggregates that policy with
+the existing `UploadPolicy`, requiring consistent capture counts. Ordered retained
+PNG bytes must match each server-supplied capture's hash, size and decoded
+dimensions, pass PNG verification/decoding, and fit individual/combined limits.
+It does not re-encode images or turn an asset hash into a retained-image hash.
+
+The immutable preparation binds the complete notice digest, dependency, original
+byte/character counts, ordered captures, injected instruction/version, schema and
+effective policy. Its model user content contains only the original source and
+selected images. Reviewed rules are used only for later comparison. Translation
+uses the same effective proposal policy and rejects changed notice, schema,
+instruction, policy or byte bindings. Errors exclude chained validation payloads.
+
+Independent read-only verification passed **31 pure and 11 installed-ADK/mock
+cases**, plus Ruff. Negative controls detect removed source-hash enforcement and
+disabled prepared-policy binding. Additional JPEG/animated-PNG probes reject with
+sanitized unchained diagnostics. The mock-wire suite now consumes this actual
+preparation boundary; a synthetic 109,097-byte source remains intact through ADK
+and translation under the explicit effective source-limit override.
+
+A separate private offline check used the actual saved SFA source and each of the
+three approved label assets, one label per independent preparation. Each asset was
+sanitized locally and its resulting bytes/hash bound separately. The default limit
+denied the complete source; an explicit 131,072-byte preparation limit admitted it
+without alteration. Domain wrapping used the existing test fixture with proposal
+agreement disabled. This is input compatibility, not real extraction or a new
+review. The override was used only for this offline check; no runtime setting was
+activated and no content was sent to a provider.
+
+Complete local lock/Ruff, **701 unit and 48 Chrome browser tests** passed. Hosted
+verification is pending. The first local browser invocation omitted the
+machine's Chrome channel and could not launch an absent bundled Chromium binary;
+no browser assertion ran. Its failed setup log is retained separately from the
+corrected Chrome-channel run. This is an invocation failure, not a product failure.
+
+Prepared input remains an internal server value, not authorization. Ownership,
+retention and sanitization history must be established by the caller. Prompt
+admission, complete final-request counting/billing, shared reservations, dispatch
+and live publication are still required. The new digest is not a final-wire or
+provider-execution receipt.
 
 ## Remaining integration gates
 
