@@ -4,7 +4,7 @@ BatchBeacon connects official recall evidence with the product in hand. It helps
 
 The real historical-SFA journey has run on Google Cloud Run with Gemini through a bounded Google ADK workflow, deterministic verification, explicit checkbox confirmation and Firestore persistence. The owned queue and action survive refresh, including the inspected phone journey. A fresh unauthenticated public browser completed the same real-AI journey; independent accounting and private-boundary checks passed.
 
-**[Try the live prototype](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app)** · [Judge guide](docs/submission/judge-guide.md)
+**[Try the live prototype](https://batchbeacon.stackclimb.com)** · [Judge guide](docs/submission/judge-guide.md)
 
 See the [architecture and trust boundaries](docs/submission/architecture.md).
 
@@ -47,3 +47,12 @@ BATCHBEACON_BROWSER_CHECKS=1 BATCHBEACON_TEST_BROWSER_CHANNEL=chrome ./scripts/c
 See [judge guide](docs/submission/judge-guide.md), [actual state](docs/STATE.md), [private cloud evidence](docs/evidence/M2-private-cloud-journey.md), [owner decisions](docs/OWNER_DECISIONS.md) and [execution policy](docs/EXECUTION_POLICY.md). Original documents and archived UI directions remain preserved. Current visual approval is distinct from runtime acceptance.
 
 Registered team: **Bugging Debuggers**. The public app is verified; final video/PDF links remain pending. Source/history review found no reproduced disclosure blocker at the application head; final packaging assets are audited separately. The [owner-approved scope](docs/submission/release-scope.md) preserves all remaining limitations.
+
+
+Verified fallback: https://batchbeacon-ai-xotgrrfbcq-el.a.run.app . Sessions are
+separate between hostnames. This demo uses private, expiring guest shops, without
+account login/logout or cross-device recovery. Anonymous users can consume the
+finite public allowance; exhausted capacity is not automatically replenished.
+The deployed source is [093f6ba7](https://github.com/imrohitagrawal/batchbeacon-ai/tree/093f6ba7ac595f2f7dfef6929153cc3df6e6dfd7).
+The later tutorial candidate in main is held after a hosted narrow-screen failure
+and is not part of the live release. See [correction evidence](docs/evidence/M4-ui-domain-correction.md).

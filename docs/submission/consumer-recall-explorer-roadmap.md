@@ -43,3 +43,9 @@ Compare assisted and manual review on the same reviewed cases. Record sample siz
 Proposed targets to ratify before a future pilot: every displayed action has an official source/version; no visual-only definitive match; no unsupported safety/causation statement; complete keyboard access to the core search/detail journey. Test whether assisted median review time improves without lowering correct identity/lot confirmation or evidence completeness. These are proposed goals, not achieved results or already approved numeric release thresholds. Set sample size, tolerances and budget in that increment's admission.
 
 Promotion requires completed applicable core gates, human source/reuse review, bounded untrusted-document processing, reviewed evaluation cases including conflicts and unreadable images, accessibility review, privacy/isolation verification and the owner's separate scope/cost admission. No implementation, extraction, cloud expansion or dependency installation belongs to this packaging change.
+
+
+Related future retailer foundation: [AUTH-01 persistent accounts](../ROADMAP.md#auth-01--persistent-retailer-accounts)
+adds Google/email sign-in and account/shop-owned saved work across sessions and
+devices, with logout/revocation, roles, retention/deletion and bounded usage.
+It is not implemented; public consumer recall browsing need not require login.

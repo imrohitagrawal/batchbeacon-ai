@@ -4,7 +4,7 @@ BatchBeacon connects the package in hand to the conditions in selected official 
 
 ## Try the retailer journey
 
-1. Open the [live prototype](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app). A bounded synthetic guest shop opens automatically.
+1. Open the [live prototype](https://batchbeacon.stackclimb.com). A bounded synthetic guest shop opens automatically.
 2. Choose **Camembert Superieur Au Lait Cru** and the historical SFA cheese notice, then **Use this label**. Wait for the label image and choose **Extract and check**. Gemini proposes fields through one bounded ADK workflow.
 3. Inspect the label beside the source conditions. The server compares product identity before lot, date and jurisdiction.
 4. Review the result and explicitly confirm a simulated hold.
@@ -38,6 +38,15 @@ Future permissioned retailer/authority insights require defined source coverage,
 
 Public source: https://github.com/imrohitagrawal/batchbeacon-ai
 
-Live prototype: https://batchbeacon-ai-xotgrrfbcq-el.a.run.app
+Live prototype: https://batchbeacon.stackclimb.com
 
 Final video and PDF links remain pending. The [owner-approved scope](release-scope.md) lists incomplete internal acceptance. This is a bounded synthetic demonstration: if an allowance or provider capacity is unavailable, retain/reconcile the existing case rather than repeat extraction. Private Operations links and guest identifiers are excluded.
+
+
+Verified fallback: https://batchbeacon-ai-xotgrrfbcq-el.a.run.app . Sessions are
+separate between hostnames. This demo uses private, expiring guest shops, without
+account login/logout or cross-device recovery. Anonymous users can consume the
+finite public allowance; exhausted capacity is not automatically replenished.
+The deployed source is [093f6ba7](https://github.com/imrohitagrawal/batchbeacon-ai/tree/093f6ba7ac595f2f7dfef6929153cc3df6e6dfd7).
+The later tutorial candidate in main is held after a hosted narrow-screen failure
+and is not part of the live release. See [correction evidence](../evidence/M4-ui-domain-correction.md).

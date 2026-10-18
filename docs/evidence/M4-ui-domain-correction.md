@@ -32,16 +32,15 @@ TTL overrides restored HTTP200 while preserving no-store. Failure evidence remai
 private. DNS/TLS, fresh visitor usability and actual model journey acceptance are
 tracked independently; a homepage200 alone is insufficient.
 
-## Compact first-use tutorial
+## Unreleased compact first-use tutorial
 
 The owner requested a newcomer tutorial within the original one-hour maximum.
 A native, expandable one-minute tour covers example selection, extraction versus
 verification, uncertainty, correction/re-verification, explicit simulation,
 queue/session boundaries and evaluated guidance changes. Opening the tour makes
 no requests and consumes no model allowance. Keyboard activation and default/
-doubled-text reflow at1440/390/320 passed independent local checks. The initial
-loading copy is neutral until the configured extraction mode is known; it no
-longer briefly labels the deployed application as local simulated extraction.
+doubled-text reflow at1440/390/320 passed independent local checks. The held candidate uses neutral loading copy until extraction mode is known;
+the deployed093f version retains the brief initial local-mode copy.
 This is a help-only correction; runtime, verifier and allowances remain unchanged.
 
 The fresh custom-host visitor also reproduced concatenated phone queue counts.
@@ -55,3 +54,68 @@ Hosted verification caught a stale unit expectation for the removed initial
 the browser regression separately verifies both configured modes. The failure is
 retained. This test-only successor can reuse the exact unchanged application
 manifest/image after complete hosted checks; it is not a verifier relaxation.
+
+
+## Accepted deployed correction and held follow-up
+
+Application commit `093f6ba7ac595f2f7dfef6929153cc3df6e6dfd7` passed
+[hosted run39138408053](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39138408053):
+1,335 unit,73 browser and29 edge checks. Image
+`sha256:2b781cad71e8973bd6b7c0ed1756354239f9e356497d5b5ae4c6b18e3584ddae`
+is the retained deployed release. Both hostnames served exact committed assets.
+The dedicated custom domain has active managed TLS/DNS; the fallback remains
+operational. No backend runtime, IAM, namespace or allowance changed. CaféMesh
+configuration was independently compared and remained unchanged.
+
+A fresh custom-host browser completed one actual Gemini/ADK extraction,
+deterministic comparison, unchecked-then-explicitly-confirmed simulated hold,
+persistent queue and phone reload. A second owned session proved real upload
+acknowledgement-loss recovery using the original key without another upload.
+Actual guestless/foreign ownership, missing CSRF and foreign Origin denials passed.
+Cookies are host-only, Secure, HttpOnly, SameSiteStrict and never transferred to
+the fallback. Session/API responses are not cached. The fresh matched case cannot
+exercise uncertainty-dependent guidance; earlier actual fixed evaluation,
+activation and rollback evidence remains separate. This is not an all-features pass.
+
+The later tutorial/loading/phone-count candidate at `1f1c6d4` is **NOT DEPLOYED**.
+Its hosted run39140369693 passed1,335 unit and75 browser checks but failed the
+320px/200%-text tutorial overflow contract. Local success does not override this
+hosted failure. The candidate image was held, preserving the verified release and
+the owner's one-hour limit. Tutorial, neutral initial loading and phone-count
+spacing fixes remain unshipped. Current deployed limitations include brief initial
+local-mode copy, crowded phone counts and insufficient explanation when a complete
+label is ineligible for capture guidance. These are disclosed, not marked PASS.
+
+Private screenshot, model-accounting, upload, hostile-edge and release receipts
+remain under `.local/run-records/ui-domain-recovery/` and the isolated submission
+usability evidence. No private guest identifiers or raw screenshots were published.
+
+## Guest access and abuse boundary
+
+The current demo has anonymous eight-hour guest shops, not account sign-in or
+sign-out. Queue, evidence and guidance are session-owned; expiry is checked on
+access. There is no cross-device account recovery or explicit session-revocation UI.
+Global guest and model limits survive cookie clearing, deployment and host changes.
+Actual configured admission is22 lifetime guest sessions and4 new sessions per
+minute, with4 incidents per guest, bounded uploads and one provider call per run.
+The public model pool is INR500 within the unchanged INR2,500 lifetime model pool;
+conservative reservations happen atomically before provider execution.
+
+These controls bound permitted work but do not prevent bots from consuming the
+anonymous allowance. Request/read/egress costs and denial of service remain possible;
+Cloud Run instance limits and provider billing controls are not a guaranteed hard
+whole-project cap. The public fallback can bypass Cloudflare, so server checks
+remain essential. Production accounts, revocation and additional bot admission are
+future work; no account-level security or billing changes were made in this window.
+
+
+### Bounded successor verification
+
+After the initial hold, the owner allowed30 additional minutes for a tutorial fix.
+Independent diagnosis reproduced the actual overflow with Arial/sans-serif: the
+existing source-notice link forced nowrap at enlarged text, while tutorial words
+fit. The smallest correction allows that link to wrap within its container; the
+existing browser regression now varies system and Arial font metrics. Guidance
+tutorial wording also explains why a complete matched label may have no eligible
+capture request. These successor changes are awaiting exact hosted/build/deployed
+verification; earlier failure and retained093f deployment remain authoritative.

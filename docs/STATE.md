@@ -19,28 +19,30 @@ into a pass. Consumer discovery/image extraction are future scope, not new featu
 
 ## Accepted public application
 
-[Live prototype](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app) ·
+[Live prototype](https://batchbeacon.stackclimb.com) ·
+[Cloud Run fallback](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app) ·
 [public source](https://github.com/imrohitagrawal/batchbeacon-ai).
-Application head `48c15250c76f7b5adf3cea673384d3be0007661e` passed exact-head
-[hosted checks 39130978886](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39130978886):
-Ruff, 1,335 unit and 70 browser checks. Earlier push/PR-merge/merged-main topology
-proof remains in M1-hosted-ci.md. Later packaging commits do not imply image rebuilds.
-Deployed image:
-`sha256:5ea2e107e727d48111a1260430145f632d24cff08d74f8dc4a15f0090e91a8e3`.
+Deployed application commit `093f6ba7ac595f2f7dfef6929153cc3df6e6dfd7` passed
+[hosted checks39138408053](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39138408053):
+1,335 unit,73 browser and29 edge checks. Image:
+`sha256:2b781cad71e8973bd6b7c0ed1756354239f9e356497d5b5ae4c6b18e3584ddae`.
+Later tutorial candidate `1f1c6d4` failed hosted narrow-screen accessibility and
+was not deployed. Main includes that held candidate; use the explicit deployed
+commit to reproduce the accepted application. No new release claim follows from
+later documentation or candidate commits.
 
-Independent readback confirms exact ready image/runtime/traffic, unchanged
+Independent readback confirms exact image/assets,100% traffic, unchanged IAM,
 namespace and limits: min0/max2, concurrency1, CPU1/1GiB, timeout60s, no CPU boost.
-Only service-level public invocation was added. Both buckets retain enforced
-public-access prevention/uniform access and unchanged private IAM. Anonymous
-technical routes are absent, guestless records denied, private Operations denied.
+Dedicated Cloudflare Worker and managed custom-host TLS/DNS are verified; CaféMesh
+was unchanged. Buckets and technical Operations remain private.
 
-A fresh empty-cookie browser, without authentication headers, completed actual
-Gemini/ADK label extraction, deterministic historical-SFA comparison, explicit
-checkbox-confirmed simulated hold, reload, owned queue and phone-layout checks.
-Independent ledger readback confirms one new attempt/action and unchanged limits.
-The last readback records nine lifetime model attempts and seven guests; zero model reservations
-remain. The finite PUBLIC phase preserves prior balances; no reset occurred.
-Exact accounts, charges/configuration and private IDs remain in ignored evidence.
+A fresh custom-host browser completed actual Gemini/ADK extraction, deterministic
+historical-SFA comparison, explicit simulated hold, owned queue and phone reload.
+Separate actual upload acknowledgement-loss recovery and guestless/foreign/CSRF
+checks passed. Last ledger readback:10 lifetime model attempts,13/22 guests and
+zero reservations; four additional public guest issuances remain unattributed,
+within unchanged limits. Do not claim all new sessions belonged to our tests.
+Exact charges/configuration and private IDs remain in ignored evidence.
 
 ## Supporting evidence and disclosed limits
 
@@ -61,13 +63,19 @@ Exact accounts, charges/configuration and private IDs remain in ignored evidence
   firing/closure and observed physical cleanup remain incomplete under U18.
   No food-safety, real-inventory, worldwide-coverage or model-accuracy claim follows.
 
-## Critical correction in verification
+## Correction verification
 
-U19 admits restoration of the approved UI and a dedicated StackClimb Worker.
-The custom hostname currently returns HTTPS200, but remains unaccepted pending
-full deployed verification. The fallback above remains the accepted URL.
-[Correction evidence](evidence/M4-ui-domain-correction.md) separates local and
-hosted evidence; no backend verifier, runtime, namespace or budget reset changed.
+U19's UI/domain correction retains the verified deployed version. The owner
+allowed30 additional minutes for a bounded tutorial successor; exact hosted and
+deployed verification remain required. Purpose, audience, example cards, four-step journey, evidence
+hierarchy and guidance stages were restored against the approved design.
+The additional tutorial, neutral-loading and phone-count refinements remain
+unshipped after hosted overflow failure. Complete-label guidance availability
+needs clearer explanation. No full first-time all-features pass is claimed.
+[Correction evidence](evidence/M4-ui-domain-correction.md) separates actual deployed,
+local, hosted and held-candidate evidence. No backend verifier or budget reset.
+Anonymous guest sessions have no account login/logout; residual public allowance
+exhaustion and non-model traffic cost are explicitly disclosed there.
 
 ## Submission packaging and next action
 
@@ -79,7 +87,9 @@ Both complete videos measure230/160seconds at1080p with actual reviewed footage.
 The submission cut passed decoded-frame lineage/privacy checks; public hosting,
 playback, final PDF/link binding and final submission remain. Final exported duration/size and links must be checked before OWNER-SUBMIT.
 
-Next: finish audited video/PDF, refresh accepted-release guide/source artifacts,
+Video revisions/uploads are paused at the owner’s request pending review of the
+existing cuts. Next: finish bounded tutorial verification and PDF/roadmap updates,
+refresh accepted-release guide/source artifacts,
 complete the authenticated form, request OWNER-SUBMIT on the concrete package and
 current terms, then retain an actual receipt. No form submission has occurred.
 Evidence: [recovery](evidence/M3-submission-recovery.md), [scope](submission/release-scope.md),

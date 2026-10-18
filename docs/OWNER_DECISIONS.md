@@ -86,3 +86,29 @@ security, cost, TLS and actual fresh-browser journey acceptance. CaféMesh resou
 must remain unchanged. No paid plan, account security change, new Goal, budget or
 execution-window extension is authorized. U17/U18 and U16 OWNER-SUBMIT remain.
 Exact time box and admission are private in `.local/run-policy.json`.
+
+
+## U20 — future persistent accounts
+
+The owner requested Google/email accounts as future scoped work so saved data
+survives session end. AUTH-01 records persistent account/shop-owned investigations,
+queue and guidance, with explicit logout/revocation, retention/deletion, tenant
+roles and bounded usage. This is roadmap and presentation authorization only;
+it does not authorize implementation, indefinite retention, a new provider or
+spending during the frozen submission release. Current guest sessions are unchanged.
+
+
+### U19 tutorial verification extension
+
+The owner explicitly allowed30 additional minutes if the held tutorial can be
+fixed. This extends only the UI correction time box; the existing recovery expiry,
+feature freeze, submission reserve, budget and final submission gate are unchanged.
+Exact amended stop remains private. A further candidate requires exact hosted and
+deployed verification before promotion; the current verified release stays live.
+
+### Video revisions paused by owner
+
+The owner requested pausing updated video creation pending review and improvement
+feedback on the existing cuts. Preserve both230-second and160-second artifacts;
+no new video revision/upload proceeds until further instruction. Other authorized
+release correction and presentation/roadmap work can continue.

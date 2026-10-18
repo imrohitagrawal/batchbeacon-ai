@@ -4,7 +4,7 @@
 #comparisons h3 { font-size: 1rem; padding: 12px 0; }
 .preview-toolbar { flex-wrap: wrap; }
 #source-summary { display: block; }
-#source-summary a { display: inline-block; margin: 8px 0; }
+#source-summary a { display: inline-block; margin: 8px 0; white-space: normal; max-width: 100%; overflow-wrap: anywhere; }
 #queue-counts { display: flex; flex-wrap: wrap; gap: 8px 20px; }
 #queue-rows .queue-row { width: 100%; text-align: left; background: white; color: inherit; font: inherit; }
 #queue-status { margin: 12px 0; }

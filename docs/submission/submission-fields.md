@@ -7,7 +7,7 @@ Team: **Bugging Debuggers**. Captain: **Rohit Agrawal**. Members: **Niharika Agg
 | Product | BatchBeacon AI |
 | Theme | Retail & Commerce: Intelligent Customer and Business Experiences |
 | Repository | https://github.com/imrohitagrawal/batchbeacon-ai |
-| Live prototype | https://batchbeacon-ai-xotgrrfbcq-el.a.run.app |
+| Live prototype | https://batchbeacon.stackclimb.com |
 | PDF | Bind final organizer-template export under authenticated form limit |
 | Video | Bind tested public 230-second cut; retain 160-second alternative |
 | Submission | Final OWNER-SUBMIT approval and actual receipt required |

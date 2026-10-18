@@ -67,7 +67,7 @@ Actual public screenshots show the label and source comparison, explicit confirm
 
 One historical SFA journey: actual Gemini/ADK, explicit hold and persisted queue after refresh.
 
-1,335 unit checks and 70 hosted browser checks: engineering coverage across deterministic and browser boundaries.
+1,335 unit checks, 73 hosted browser checks and 29 edge checks: engineering coverage across deterministic and browser boundaries.
 
 Six fixed guidance cases/nine variants: verified deployed evaluation, activation and rollback. These are not model-accuracy percentages; protected evaluation and a competitive baseline remain incomplete.
 
@@ -84,11 +84,16 @@ Reviewed images from official notices and PDFs support discovery; exact identity
 
 Scope footnote: Planned, not implemented. Counts imply neither disease causation nor brand safety. UK remains review-only.
 
+Planned retailer continuity (AUTH-01): Google/email accounts retain owned investigations,
+evidence, queue and guidance across sign-ins and devices. Explicit sign-out,
+shop roles, retention/deletion controls and per-account/global usage limits protect
+that continuity. Future scope; the current demo uses expiring anonymous guest shops.
+
 ## 14. Explore BatchBeacon AI
 
 Public source: https://github.com/imrohitagrawal/batchbeacon-ai
 
-Live prototype: https://batchbeacon-ai-xotgrrfbcq-el.a.run.app
+Live prototype: https://batchbeacon.stackclimb.com
 
 Demonstration: [bind publicly playable 3:50 video]
 

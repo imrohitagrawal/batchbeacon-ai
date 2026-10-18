@@ -29,11 +29,17 @@ def test_tour_keyboard_reflow_and_no_requests(connected_browser):
             summary.press("Enter")
             expect(page.locator(".quick-tour")).to_have_attribute("open", "")
             assert page.locator(".quick-tour li").count() == 5
-            assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), (
-                width,
-                size,
-                "open",
-            )
+            # Linux fallback font metrics exposed a nowrap source link that fit
+            # the macOS system font. Check both without hiding or clipping text.
+            for font in ("", "Arial, sans-serif"):
+                page.evaluate("font => document.body.style.fontFamily = font", font)
+                assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), (
+                    width,
+                    size,
+                    "open",
+                    font,
+                )
+            page.evaluate("document.body.style.fontFamily = ''")
             if output and size == "100%":
                 page.screenshot(path=str(Path(output) / f"tour-open-{width}.png"), full_page=True)
             summary.press("Space")

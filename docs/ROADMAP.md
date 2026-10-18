@@ -61,3 +61,24 @@ The [consumer roadmap](submission/consumer-recall-explorer-roadmap.md) defines t
 experience, source-image dependency, stakeholder boundaries and proposed pilot
 measurements. It is explicitly included in the presentation's future-development
 section. It adds no implementation work to the frozen submission critical path.
+
+
+## AUTH-01 — persistent retailer accounts
+
+Owner-requested future scope; not implemented and not a submission dependency.
+Provide verified Google/email sign-in and explicit sign-out with server-side
+session revocation. Persist account/shop-owned investigations, evidence, queue
+and guidance across session expiry and devices, subject to a published retention
+policy and user/admin deletion controls. Signing out ends access, not the retained
+account data. Retention duration and image-storage costs require separate admission.
+
+Scope includes tenant membership/roles, least-privilege authorization, per-account
+and global cost limits, verified email/recovery, and opt-in ownership-checked
+migration of an active guest investigation. No silent transfer or broadening of
+access. Google/email provider selection is deferred to the bounded future increment.
+
+Acceptance: sign-in/re-entry restores owned work; logout/revocation blocks the old
+session; another account/shop cannot read or alter records; expiry does not delete
+retained account work; deletion and retention policies are tested; sign-up abuse
+cannot reset global model spending. Account identity supplements anti-abuse controls;
+it does not prove the user is trustworthy or eliminate denial-of-service costs.
