@@ -45,3 +45,8 @@ button:disabled { cursor: not-allowed; }
 .quick-tour ol { padding-left: 24px; }
 .quick-tour li { margin: 12px 0; line-height: 1.6; }
 .quick-tour > p { margin: 14px 0; color: var(--muted); }
+
+#tour-open { margin-top: 16px; }
+#tour-dialog { max-height: 85dvh; overflow: auto; overflow-wrap: anywhere; }
+#tour-dialog p { margin: 16px 0; line-height: 1.6; }
+#tour-dialog .dialog-actions { flex-wrap: wrap; }

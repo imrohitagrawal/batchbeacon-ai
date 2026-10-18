@@ -119,3 +119,23 @@ existing browser regression now varies system and Arial font metrics. Guidance
 tutorial wording also explains why a complete matched label may have no eligible
 capture request. These successor changes are awaiting exact hosted/build/deployed
 verification; earlier failure and retained093f deployment remain authoritative.
+
+
+### Owner-requested overlay and live-product copy
+
+The owner clarified that the tutorial should be an overlay, with Quorum as an
+example rather than a required implementation. The bounded candidate adds an
+optional native five-step dialog sharing the written walkthrough's text. It has
+Back, Next/Done, Skip and Escape, restores focus, does not open automatically and
+makes no API/model/action request. An exhaustive state-aware coachmark system is
+outside this correction. Real-mode banner copy now uses the owner's exact phrase:
+“Live prototype · Real AI analysis · Demo inventory actions”. Neutral loading
+replaces stale preparation-era guidance copy. Actual historical-source, synthetic
+label and simulated-inventory boundaries remain disclosed at relevant controls.
+
+The focused reference check used [W3C modal-dialog guidance](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/),
+[Fluent onboarding](https://fluent2.microsoft.design/onboarding) and
+[Material quickstart guidance](https://m1.material.io/growth-communications/onboarding.html).
+The adopted approach offers optional, task-relevant help without delaying the first
+action. Local independent checks pass; this candidate still requires its own exact
+hosted/image/deployed proof before replacing the verified release.

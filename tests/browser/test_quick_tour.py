@@ -81,6 +81,48 @@ def test_runtime_mode_neutral_before_config_and_explicit_after(connected_browser
     page.route("**/api/guest", lambda route: route.abort("blockedbyclient"))
     page.reload()
     expect(page.locator("#runtime-title")).to_have_text("BatchBeacon AI")
-    expect(page.locator("#runtime-detail")).to_contain_text("Gemini extraction")
+    expect(page.locator("#runtime-detail")).to_have_text(
+        "Live prototype · Real AI analysis · Demo inventory actions"
+    )
     expect(page.locator("#result-disclosure")).to_have_text("Server result · Gemini extraction")
+    assert not errors
+
+
+def test_overlay_tour_keyboard_steps_reflow_and_no_requests(connected_browser):
+    page, _, _, errors = connected_browser
+    requests = []
+    page.on("request", lambda request: requests.append(request.url))
+    dialog = page.locator("#tour-dialog")
+    expect(dialog).not_to_be_visible()
+    for width, size in [(1440, "100%"), (390, "100%"), (320, "200%")]:
+        page.set_viewport_size({"width": width, "height": 844})
+        page.evaluate("size => document.documentElement.style.fontSize=size", size)
+        page.locator("#tour-open").click()
+        expect(dialog).to_be_visible()
+        expect(page.locator("#tour-back")).to_be_disabled()
+        for step in range(1, 6):
+            expect(page.locator("#tour-title")).to_have_text(f"Step {step} of 5")
+            expect(page.locator("#tour-title")).to_be_focused()
+            assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+            assert dialog.evaluate("d => d.scrollWidth <= d.clientWidth")
+            page.locator("#tour-title").press("Tab")
+            assert page.evaluate(
+                "document.querySelector('#tour-dialog').contains(document.activeElement)"
+            )
+            if step == 2:
+                page.locator("#tour-back").click()
+                expect(page.locator("#tour-title")).to_have_text("Step 1 of 5")
+                page.locator("#tour-next").click()
+            page.locator("#tour-next").click()
+        expect(dialog).not_to_be_visible()
+        expect(page.locator("#tour-open")).to_be_focused()
+        page.locator("#tour-open").click()
+        expect(page.locator("#tour-title")).to_have_text("Step 1 of 5")
+        page.locator("#tour-title").press("Escape")
+        expect(dialog).not_to_be_visible()
+        expect(page.locator("#tour-open")).to_be_focused()
+        page.locator("#tour-open").click()
+        page.locator("#tour-skip").click()
+        expect(dialog).not_to_be_visible()
+    assert requests == []
     assert not errors
