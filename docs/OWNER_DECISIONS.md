@@ -124,3 +124,24 @@ remains private; original freeze, protected reserve, overall recovery expiry,
 INR6,000 lifetime ceiling, source restrictions and OWNER-SUBMIT remain unchanged.
 One bounded build is reserved as critical repair from the existing operational
 contingency; this is not a budget increase or permission for broader development.
+
+## U21 — final fresh video and public publication
+
+The owner resumed video production, required fresh current-UI captures from the
+custom domain, and approved Google Cloud speech synthesis up to INR300 within
+the unchanged INR6,000 total. The final220-second video uses the preferred
+en-IN-Chirp3-HD-Orus voice. The owner explicitly requested public listed YouTube
+publication, superseding the earlier unlisted preference. The published video is
+https://youtu.be/IpY2_GeR4Ic. Technical, factual and video reviews passed within
+their recorded scope; subjective voice listening remains uncertified.
+
+## U22 — final v25 package submission authorization
+
+The owner supplied `BatchBeacon_AI_Final_Organizer_Submission_v25.pdf` and
+explicitly instructed: “Here is the final presentation. Please go ahead and
+submit the entry now.” This satisfies OWNER-SUBMIT for that concrete PDF, the
+published220-second video, accepted custom-domain prototype, public repository
+and reviewed solution description. It does not authorize new material terms,
+deployment changes or broader spending. Actual platform completion must still
+be verified and recorded separately. Exact artifact hashes and operational
+receipt belong in the ignored local submission evidence.

@@ -1,7 +1,8 @@
 # BatchBeacon AI — current execution state
 
 18 October 2026. The synthetic Google Cloud prototype is public and its fresh
-unauthenticated real-AI journey passed. Final media/PDF and submission remain open.
+unauthenticated real-AI journey passed. Final v25 package submitted; the organizer
+dashboard confirms Prototype Submission — Submitted.
 
 ## Authority and scope
 
@@ -13,7 +14,8 @@ One integrator owns main/contracts/deployment; independent reviewers and one
 isolated artifact writer are admitted. Previous executor completion was verified.
 U09–U12 preserve the INR6,000 lifetime envelope and existing project/public GitHub.
 U18 explicitly approves the [disclosed narrower demonstration](submission/release-scope.md).
-Security, official artifacts and U16 OWNER-SUBMIT/material terms remain mandatory.
+Security and scope limits remain mandatory. U22 satisfied OWNER-SUBMIT for the
+concrete final package; no new material terms were accepted.
 U17 keeps UK review-only; uncompleted protected evaluation/custody is not waived
 into a pass. Consumer discovery/image extraction are future scope, not new features.
 
@@ -94,27 +96,32 @@ candidate, corrected exact-hosted, deployed and browser evidence separately.
 Anonymous guest sessions have no account login/logout; residual public allowance
 exhaustion and non-model traffic cost are explicitly disclosed there.
 
-## Submission packaging and next action
+## Final submission
 
-Registered team: Bugging Debuggers; official member spelling is Priyanka Shelke.
-The prescribed-template audience deck includes differentiation, both existing
-workspaces, stakeholder benefits and planned Consumer Recall Explorer/notice imagery.
-The v22 audience candidate has15pages, an editable PPTX and a2,627,545-byte
-companion PDF. All four embedded product screenshots are current live custom-host
-captures; C4 and stakeholder flows are editable diagram objects. All16template
-slots and19prompts, including both optional sections, are accounted for. The
-public video URL is still an explicit placeholder, so this is a review candidate.
-Independent exact-file template, claims, privacy and layout review passed.
-Both complete videos measure230/160seconds at1080p with actual reviewed footage.
-The submission cut passed decoded-frame lineage/privacy checks; public hosting,
-playback, final PDF/link binding and final submission remain. Final exported duration/size and links must be checked before OWNER-SUBMIT.
+Bugging Debuggers submitted the owner-supplied
+`BatchBeacon_AI_Final_Organizer_Submission_v25.pdf` (15pages,885,947bytes),
+[public220-second video](https://youtu.be/IpY2_GeR4Ic), custom-domain prototype,
+public repository and reviewed Google-services description. The authenticated
+organizer dashboard confirms **Prototype Submission — Submitted** before cutoff.
+U21 records fresh-video/publication authority; U22 records final submission approval.
 
-Video revisions/uploads are paused at the owner’s request pending review of the
-existing cuts. Next: bind the owner-approved public video after the pause is lifted,
-finalize and verify the PDF,
-complete the authenticated form, request OWNER-SUBMIT on the concrete package and
-current terms, then retain an actual receipt. No form submission has occurred.
-Evidence: [recovery](evidence/M3-submission-recovery.md), [scope](submission/release-scope.md),
-[consumer roadmap](submission/consumer-recall-explorer-roadmap.md),
-[candidate handoff](evidence/HANDOFF-2026-10-18-submission-candidate.md), [resume](../prompts/resume.md).
-Private paths remain ignored and untracked.
+Fresh video captures show actual Gemini extraction, identity evidence, explicit
+simulated hold, queue persistence/reopening and mobile layout. The real unrelated
+label extraction disagreement is disclosed as a rejected extraction, not a
+successful non-match. Final video is H.2641080p30/AAC,220.000seconds; three actual
+independent reviewers cleared publication within recorded scope. Subjective
+voice listening and exact word-level caption alignment remain uncertified.
+Public video playback and fresh anonymous access passed. Earlier cuts are preserved.
+
+Final PDF text, rendered pages, actual clickable links and template coverage
+passed primary and independent review. All three public endpoints passed fresh
+unauthenticated access immediately before submission. Owner manually selected
+files when browser upload permission blocked automation; the assistant completed
+publication metadata and the final organizer submission/confirmation.
+
+Private final receipt, PDF hash/copy, screenshot and preflight are retained in
+`.local/submission-final-v25/`; video sources/reviews are in
+`.local/submission-video-final/`. Private paths remain ignored and untracked.
+Maintain the accepted deployment and public links through evaluation within
+existing resource/budget policy. No new release, broader scope, model-accuracy
+claim or additional spending is authorized by this submission.
