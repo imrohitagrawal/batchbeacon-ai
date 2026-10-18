@@ -9,6 +9,7 @@ import asyncio
 import base64
 import json
 import logging
+import math
 from contextlib import AsyncExitStack, contextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass, field
@@ -212,7 +213,7 @@ class _NoSyncRequests(httpx.BaseTransport):
 
 
 class _Guard(httpx.AsyncBaseTransport):
-    def __init__(self, config, shared, key, run, prepared, transport):
+    def __init__(self, config, shared, key, run, prepared, transport, monotonic_deadline=None):
         self.config, self.shared, self.key, self.run = config, shared, key, run
         self.prepared, self.transport, self.client = prepared, transport, None
         self.attempt_id = sha256(f'{run.id}:generation:1'.encode()).hexdigest()[:32]
@@ -220,6 +221,8 @@ class _Guard(httpx.AsyncBaseTransport):
         self.semantic = self.request_hash = self.count_body = None
         self.loop_deadline = (asyncio.get_running_loop().time()
                               + max(0, (run.deadline - shared._now()).total_seconds()))
+        if monotonic_deadline is not None:
+            self.loop_deadline = min(self.loop_deadline, monotonic_deadline)
 
     def fresh(self):
         if self.shared._now() >= self.run.deadline \
@@ -365,15 +368,20 @@ class _Guard(httpx.AsyncBaseTransport):
 
 
 async def execute_model(config: ExtractionConfig, shared: SharedAdmission, key: str,
-                        run: Run, prepared: PreparedInput, *, transport=None, credentials=None):
+                        run: Run, prepared: PreparedInput, *, transport=None, credentials=None,
+                        monotonic_deadline=None):
     with private_model_operation():
         return await _execute_model(config, shared, key, run, prepared,
-                                    transport=transport, credentials=credentials)
+            transport=transport, credentials=credentials, monotonic_deadline=monotonic_deadline)
 
 
-async def _execute_model(config, shared, key, run, prepared, *, transport, credentials):
+async def _execute_model(config, shared, key, run, prepared, *, transport, credentials,
+                         monotonic_deadline):
     """Internal fresh-run consumer, one HTTP generation and no automatic recovery."""
     config.validate_consumer(shared)
+    if monotonic_deadline is not None and (type(monotonic_deadline) not in (int, float)
+                                          or not math.isfinite(monotonic_deadline)):
+        raise ModelFailure('invalid_execution_deadline')
     telemetry = config.telemetry()
     if run.binding.manifest != prepared.manifest \
             or run.binding.application_configuration_hash != config.digest() \
@@ -390,7 +398,7 @@ async def _execute_model(config, shared, key, run, prepared, *, transport, crede
     try:
         async with AsyncExitStack() as resources:
             underlying = transport if transport is not None else httpx.AsyncHTTPTransport(retries=0)
-            guard = _Guard(config, shared, key, run, prepared, underlying)
+            guard = _Guard(config, shared, key, run, prepared, underlying, monotonic_deadline)
             resources.push_async_callback(guard.aclose)
             guard.fresh()
             async with asyncio.timeout_at(guard.loop_deadline):

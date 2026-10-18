@@ -12,7 +12,7 @@ from batchbeacon.evidence_service import EvidenceService, replace
 from batchbeacon.firestore_store import FirestoreStores
 from batchbeacon.guest_service import GuestDenied, GuestService
 from batchbeacon.shared_admission import SharedDenied
-from tests.unit.domain_fixtures import known
+from tests.unit.domain_fixtures import known, notice
 from tests.unit.durable_fixtures import run_binding
 from tests.unit.firestore_rpc_fake import client
 from tests.unit.test_firestore_store import extract, owned, publish, saved, shared
@@ -32,6 +32,7 @@ def acquisition(setup, env):
     binding = run_binding(guest, token, incident.id)
     binding = replace(binding, expected_observation_revision=1,
         manifest=replace(binding.manifest, source=envelope.sources[0],
+                         notice_digest=notice().digest(),
                          prompt_version=envelope.prompt_version))
     return setup, admission, token, session, incident, envelope, binding
 

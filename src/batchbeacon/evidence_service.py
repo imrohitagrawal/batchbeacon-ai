@@ -32,7 +32,7 @@ from batchbeacon.contracts import (
     VerificationResult,
     VerifierPolicy,
 )
-from batchbeacon.domain.verifier import is_current, verify
+from batchbeacon.domain.verifier import is_current, is_current_evidence, verify
 from batchbeacon.guest_service import GuestDenied, GuestService, GuestSession, OpaqueId, RequestKey
 from batchbeacon.shared_admission import SessionUsage
 
@@ -232,6 +232,7 @@ class EvidenceView:
     result: VerificationResult | None
     current: bool
     hold_eligible: bool
+    latest_run_id: str | None = None
 
 
 class EvidenceService:
@@ -359,7 +360,34 @@ class EvidenceService:
                     or envelope.started_at < run.started_at \
                     or envelope.completed_at >= run.deadline:
                 raise GuestDenied(409, "acquisition_binding_changed")
+            if envelope.validation == "VALID" and tuple(
+                    n.digest() for n in self._environment(snapshot).notices) != (
+                        manifest.notice_digest,):
+                raise GuestDenied(409, "selected_notice_changed")
         return run
+
+    def acquisition_inputs(self, capability, incident_id, notice, capture_ids, expected_revision):
+        """Owned read-only selection for the internal coordinator, never model authority."""
+        key, captures = self.guest._key(capability), []
+        def read(snapshot):
+            state = self._check(snapshot, key, incident_id)
+            self._extraction_sources(snapshot, (notice.dependency,))
+            if self._environment(snapshot).notices != (notice,):
+                raise GuestDenied(409, "selected_notice_changed")
+            if notice.review is None or not notice.interpretation_complete \
+                    or not notice.source_available or not notice.source_proposal_agrees:
+                raise GuestDenied(409, "source_review_required")
+            if len(state.observations) != expected_revision:
+                raise GuestDenied(409, "observation_changed")
+            incident = self.guest._incident(snapshot.guest, incident_id)
+            ready = {c.id: c for b in incident.batches if b.ready for c in b.captures}
+            if not capture_ids or len(set(capture_ids)) != len(capture_ids) \
+                    or any(cid not in ready for cid in capture_ids):
+                raise GuestDenied(422, "capture_evidence_unavailable")
+            captures[:] = [tuple(ready[cid] for cid in capture_ids)]
+            return state
+        self._transaction(capability, incident_id, read)
+        return captures[0]
 
     def record_extraction(self, capability, incident_id, request_key, expected_revision,
                           envelope: ExtractionEnvelope, *, run_id=None) -> EvidenceReceipt:
@@ -639,12 +667,14 @@ class EvidenceService:
             current = bool(result and state.active_result == result.revision
                            and self._acquisition_current(snapshot, state)
                            and obs.revision == len(state.observations)
-                           and is_current(result, observation_revision=obs.revision,
-                               context=environment.at(self.guest._now(), len(state.results)),
-                               policy=environment.verifier_policy))
+                           and is_current_evidence(result, obs, environment.notices,
+                               environment.at(self.guest._now(), len(state.results)),
+                               environment.verifier_policy))
             environments[:] = [environment]
+            run = self._latest_run(snapshot, state)
             views[:] = [EvidenceView(state, obs, result, current,
-                                     bool(current and result.hold_eligible))]
+                                     bool(current and result.hold_eligible),
+                                     run.id if run else None)]
             return state
 
         self._transaction(capability, incident_id, read)
@@ -659,9 +689,9 @@ class EvidenceService:
         value = views[0]
         # The final repository acknowledgment can itself cross a source freshness
         # boundary. Recompute time-derived eligibility after all storage work.
-        current = bool(value.current and is_current(value.result,
-            observation_revision=value.observation.revision,
-            context=environments[0].at(self.guest._now(), len(value.state.results)),
-            policy=environments[0].verifier_policy))
+        current = bool(value.current and is_current_evidence(value.result,
+            value.observation, environments[0].notices,
+            environments[0].at(self.guest._now(), len(value.state.results)),
+            environments[0].verifier_policy))
         return EvidenceView(value.state, value.observation, value.result, current,
-                            bool(current and value.result.hold_eligible))
+                            bool(current and value.result.hold_eligible), value.latest_run_id)

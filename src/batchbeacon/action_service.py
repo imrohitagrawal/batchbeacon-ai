@@ -22,7 +22,7 @@ from batchbeacon.contracts import (
     Revision,
     Verdict,
 )
-from batchbeacon.domain.verifier import VERIFIER_VERSION, is_current
+from batchbeacon.domain.verifier import VERIFIER_VERSION, is_current_evidence
 from batchbeacon.evidence_service import (
     EvidenceEnvironment,
     EvidenceService,
@@ -229,21 +229,9 @@ class ActionService:
                 evidence.observations[-1].observation.captures)
         except GuestDenied:
             return False
-        if not is_current(result, observation_revision=len(evidence.observations),
-                          context=environment.at(self.guest._now(), len(evidence.results)),
-                          policy=environment.verifier_policy):
-            return False
-        # A source whose support flags were withdrawn must never sustain a hold,
-        # even if a defective source adapter failed to advance its epoch/context.
-        if result.hold_eligible:
-            sources = {n.dependency.family: n for n in environment.notices}
-            for dep in result.checked_sources:
-                source = sources.get(dep.family)
-                if source is None or source.dependency != dep or source.review is None \
-                        or not source.interpretation_complete or not source.source_available \
-                        or not source.source_proposal_agrees:
-                    return False
-        return True
+        return is_current_evidence(result, evidence.observations[-1].observation,
+            environment.notices, environment.at(self.guest._now(), len(evidence.results)),
+            environment.verifier_policy)
 
     def _target(self, snapshot, action_type):
         evidence = snapshot.evidence

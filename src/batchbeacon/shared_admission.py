@@ -768,6 +768,21 @@ class SharedAdmission:
             raise SharedDenied("guest expired or invalid")
         return next(r for r in result.usage.runs if r.id == run_id)
 
+    def find_run(self, guest_key: str, incident_id: str, request_key: str) -> Run | None:
+        """Owned key recovery without rebuilding changed inputs or acquiring permission."""
+        address = Address(guest_key)
+        def read(snapshot):
+            guest = self._guest(snapshot, address)
+            self._incident(guest, incident_id)
+            prior = next((r for r in snapshot.usage.runs if r.request_key == request_key), None)
+            if prior is not None and prior.incident_id != incident_id:
+                raise SharedDenied("run request conflict")
+            return Change(snapshot.budget, snapshot.usage, not_after=guest.scope.expires_at)
+        result = self.store.transact(address, read)
+        if self._now() >= result.not_after:
+            raise SharedDenied("guest expired or invalid")
+        return next((r for r in result.usage.runs if r.request_key == request_key), None)
+
     def inspect_attempt(self, guest_key: str, run_id: str, attempt_id: str) -> Attempt:
         """Internal owned recovery; raw evidence is never a public response model."""
         address = Address(guest_key, attempt_id)

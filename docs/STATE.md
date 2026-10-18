@@ -91,8 +91,11 @@ No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested
 Acquisition completion is independently reviewed; hosted 583bd4a / run 39103833753
 PASS (820 unit / 50 Chromium). See M2-acquisition-completion.md.
 Owned ADK factory and final HTTP boundary pass independent local wire/redaction
-reviews. M2-model-runtime.md records corrections and 884 unit / 50 Chrome PASS;
-exact-head hosted validation pending. Continue owned coordinator/status integration.
+reviews. Hosted 4866608 / run 39104488791 PASS: 884 unit / 50 Chromium.
+Owned coordinator/status now connects the offline extraction→verification→action
+journey, with shared source-semantic currentness and request-key recovery. Local
+936 unit / 50 Chrome PASS; independent verification passed; hosted pending. See
+M2-extraction-coordinator.md. HTTP and reviewed identity resolution remain next.
 Shared reservations and unresolved T08 gates precede real-runtime acceptance.
 Continue bounded T08 discovery and T04b review alongside independent local work.
 Complete billing bounds/prior liabilities remain unsubstantiated; paid admission closed.

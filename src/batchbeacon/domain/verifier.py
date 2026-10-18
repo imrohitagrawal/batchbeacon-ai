@@ -168,6 +168,25 @@ def _context_state_hash(context: VerificationContext, policy: VerifierPolicy) ->
     return sha256(json.dumps(state, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
+def is_current_evidence(
+    result: VerificationResult, observation: ProductObservation,
+    notices: tuple[AuthorityNotice, ...], context: VerificationContext,
+    policy: VerifierPolicy,
+) -> bool:
+    """Check actual source support as well as the adapter's dependency registry.
+
+    A missed epoch update must not leave changed or withdrawn source facts current.
+    Re-verification remains possible; only the computation timestamp may advance.
+    This is a pure comparison and never publishes a new verification revision.
+    """
+    if not is_current(result, observation_revision=observation.revision,
+                      context=context, policy=policy):
+        return False
+    expected = verify(observation, notices, context, policy)
+    return result.model_dump(exclude={"computed_at"}) == expected.model_dump(
+        exclude={"computed_at"})
+
+
 def verify(
     observation: ProductObservation, notices: tuple[AuthorityNotice, ...],
     context: VerificationContext, policy: VerifierPolicy,

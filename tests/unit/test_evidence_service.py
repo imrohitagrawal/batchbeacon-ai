@@ -339,7 +339,12 @@ def test_stale_or_unreserved_result_cannot_publish(rig, change):
         del store.usage[session.capability_hash]
     with pytest.raises(GuestDenied):
         service.publish_verification(token, incident.id, "verify", binding)
-    assert not view(rig).state.results
+    assert not store.state(session.capability_hash, incident.id).results
+    if change == "missing_usage":
+        with pytest.raises(GuestDenied, match="acquisition_state_unavailable"):
+            view(rig)
+    else:
+        assert not view(rig).state.results
 
 
 @pytest.mark.parametrize("negative", [False, True])

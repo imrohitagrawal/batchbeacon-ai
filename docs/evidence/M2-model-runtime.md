@@ -55,7 +55,8 @@ Independent final-wire review passed 64 scoped tests, Ruff and eight additional
 fault cases, with sealing/type-equality negative controls. A separate redaction
 review passed 18 log/span/cleanup checks and its lazy-logger negative control.
 Counts overlap. Full local locked/Ruff checks passed 884 unit and 50 Chrome
-browser tests; exact-head hosted validation is pending at this checkpoint.
+browser tests. Hosted checkpoint `4866608` / run `39104488791` passed locked
+bootstrap, Ruff, 884 unit and 50 Chromium tests.
 
 These tests do not prove a real model's accuracy, injection resistance, provider
 billing bounds, genuine service timing or deployed redaction. Third-party tracing

@@ -483,3 +483,14 @@ def test_final_semantic_equality_is_json_type_sensitive(runtime, monkeypatch, op
     monkeypatch.setattr(httpx.AsyncClient, 'send', mutate)
     assert reject(runtime) == []
     assert not runtime[7].attempts
+
+
+@pytest.mark.parametrize('deadline', [float('nan'), float('inf'), True, '1'])
+def test_invalid_carried_monotonic_deadline_denied_before_io(runtime, deadline):
+    from batchbeacon.model_runtime import ModelFailure
+    calls = []
+    with pytest.raises(ModelFailure, match='invalid_execution_deadline'):
+        asyncio.run(execute_model(*runtime[:5],
+            transport=httpx.MockTransport(lambda r: calls.append(r)), credentials=credentials(),
+            monotonic_deadline=deadline))
+    assert not calls and not runtime[7].attempts
