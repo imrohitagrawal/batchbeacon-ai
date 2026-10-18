@@ -63,6 +63,12 @@ lock validation and Ruff. Focused counts overlap with the full suite. Emulator
 tests are separately opt-in and are not part of the existing hosted workflow.
 Raw logs, source hashes, acceptance and independent review receipts are private.
 
+[Hosted run 39086202851](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39086202851)
+passed at `c6ac23be6b50f1c0dce4a491c0b45261451b9be3`: locked wheel bootstrap,
+browser installation, lock/Ruff, **519 unit and 48 Chromium browser tests**.
+The exact checkout and complete logs were inspected; remote main was verified.
+The hosted workflow does not run the emulator or a deployed product journey.
+
 ## Remaining gates
 
 Actual Firestore identity/IAM, production transactions and process restart,

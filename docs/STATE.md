@@ -119,7 +119,8 @@ usage/evidence/actions; missing state is never silently initialized. Independent
 42 offline SDK tests and four local emulator tests PASS; full local lock/Ruff,
 519 unit and 48 Chrome PASS. The owned loopback emulator was stopped. See
 M2-firestore-adapter.md for exact scope and concurrency/restart limitations.
-Hosted verification of this adapter checkpoint is pending. Actual Storage,
+Hosted c6ac23b / run 39086202851 PASS: locked bootstrap/Ruff, 519 unit and
+48 Chromium tests. Emulator evidence remains separate. Actual Storage,
 provider/rate-limit integration and connected UI remain; real-service sign-off
 still waits for T08. Next: bounded private-image Storage adapter preparation.
 UK v3/new source-context human review is pending.
