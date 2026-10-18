@@ -6,7 +6,7 @@ Reconcile cwd/repository, branch/commit/tree/untracked changes, actual remotes/C
 
 Recheck cutoff and fixed kickoff reserve/freeze; do not roll freeze later. U09–U12 remain the owner-recorded project-specific budget/cloud/public/GitHub grants adopted by implementation kickoff. Reuse them within actual runtime permissions; no repeated approval questionnaire or extrapolation to unrelated operations. A new worktree/machine must privately re-establish a finite run policy from actual observations before an external/native goal; missing private state does not block safe independent local work.
 
-Preserve P0-01–13/OPS and 160/230-second videos. A workflow is accepted, old visuals rejected; replacement workbench/console approval and actual human source/custody evidence remain their specific gates. The roster is owner-attested. Installed skills are not assumed: verify hashes, selected client path, instruction loading and applied evidence, or follow the recorded fallback.
+Preserve P0-01–13/OPS and 160/230-second videos. U02 / UI-SELECTED is approved for the current Evidence in focus treatment; preserve the archived rejected directions. Runtime UI verification and the remaining human source/custody evidence stay separate. The roster is owner-attested. Installed skills are not assumed: verify hashes, selected client path, instruction loading and applied evidence, or follow the recorded fallback.
 
 Choose the earliest dependency-ready unfinished task: first slice (02), core/retail/learning/operations completion (03), independent review (04), release/submission (05). Preserve failures and H-case custody; do not merge L-suite checks into model-quality denominators. Reopen only affected stale evidence.
 
