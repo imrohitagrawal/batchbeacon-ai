@@ -1,5 +1,17 @@
 # BatchBeacon owner decisions and delegated authority
 
+## U23 — remove the lifetime guest-session ceiling
+
+On 19 October 2026 the owner explicitly requested removal of the guest-session
+count limit after the public judging application exhausted its 22-session lifetime
+allowance. This authorizes the necessary critical code/configuration correction,
+deployment and fresh-access verification. It supersedes the earlier lifetime
+guest-count restriction; it does not increase the INR6,000 spending envelope or
+model allowances. Preserve session ownership, eight-hour expiry, burst-rate
+protection, the funded period and historical issuance accounting. Correct the
+misleading expired-session messages after failed guest admission. No additional
+human confirmation is needed for this authorized repair.
+
 Updated 18 October 2026. Current U02 approval is recorded below; the original planning observations remain historical. This is the durable record of the owner's project-specific instructions. Invoking the implementation kickoff adopts these recorded approvals within the actual client's permissions. Do not ask for the same approvals again. The original planning session performed no implementation or external mutations; actual execution status is now in STATE.md.
 
 ## Approved decisions

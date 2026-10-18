@@ -107,8 +107,9 @@ def runtime(setup, env):
     return config, source, suite
 
 
+@pytest.mark.parametrize("lifetime_cap", [20, None])
 def test_production_factory_constructs_owned_graph_without_rpc_or_budget_initialization(
-    runtime, monkeypatch
+    runtime, monkeypatch, lifetime_cap
 ):
     import google.auth
 
@@ -116,6 +117,8 @@ def test_production_factory_constructs_owned_graph_without_rpc_or_budget_initial
     from batchbeacon.shared_admission import SharedAdmission
 
     config, source, suite = runtime
+    config = replace(config, guest_admission=replace(config.guest_admission,
+        max_issued_sessions=lifetime_cap))
     monkeypatch.setenv("DISABLE_GCS_PYTHON_CLIENT_OTEL_BUCKET_METADATA", "true")
     monkeypatch.setattr(module, "load_assets", lambda root, c: (source, suite))
     monkeypatch.setattr(
