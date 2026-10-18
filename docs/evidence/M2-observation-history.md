@@ -64,8 +64,10 @@ memory. Additional lost-acknowledgment, concurrent-publication, source-change an
 expiry probes passed. No remaining reproduced blocker exists in this local slice.
 
 Full locked local checks passed: **375 unit and 48 Chrome browser tests**. Counts
-overlap; do not add them. Hosted checkpoint verification remains pending. No
-release freeze follows.
+overlap; do not add them. [Hosted run 39082896892](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39082896892)
+passed at `7ba96be3a8b32f976c1e621d938cac6871633409`: locked bootstrap, browser
+installation, lock/Ruff, 375 unit and 48 Chromium browser tests. Full log inspected
+and remote ref verified. No release freeze follows.
 
 ## Remaining integration gates
 
