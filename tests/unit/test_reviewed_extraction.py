@@ -37,6 +37,10 @@ from tests.unit.test_shared_admission import env as env  # noqa
 @pytest.fixture
 def reviewed(setup, env, request):
     indices = getattr(request, 'param', (2,))
+    return build_reviewed(setup, env, indices)
+
+
+def build_reviewed(setup, env, indices=(2,), *, configure=None):
     stores, server, guest, old_evidence, _, now = setup
     server.clock = lambda: now[0]
     proposal, source, notice, _ = rig()
@@ -62,6 +66,8 @@ def reviewed(setup, env, request):
     shared = SharedAdmission(p, grant, stores.shared, clock=lambda: now[0])
     shared.initialize(env[7])
     shared.activate_phase(env[1].state().phase)
+    if configure is not None:
+        configure(stores, actions, shared)
     token, session, incident = owned(setup)
     entries = identities.catalog.identities
     images = tuple(Path('fixtures/synthetic/' + entries[index].fixture_id + '.png').read_bytes()

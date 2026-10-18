@@ -75,3 +75,11 @@ the prior finite run expired. The new private run policy preserves the existing
 feature freeze, packaging reserve and all remaining human/runtime gates. Native
 goal status last reported BLOCKED; supported chat execution continues under this
 renewal without inventing an active-goal transition or starting a second writer.
+
+## LOCAL-13 — controlled primary handoff
+The owner authorized one new finite execution window while preserving the original
+feature freeze, protected packaging reserve, budget and release gates. Actual
+timing and prior-policy history remain only in `.local/run-policy.json`. Recovery
+verified the prior Goal's persisted blocked state and completed turns; the current
+thread has no Goal. Bounded chat execution proceeds without claiming native
+activation. Current tool permissions are owner-supplied, not expanded by the agent.

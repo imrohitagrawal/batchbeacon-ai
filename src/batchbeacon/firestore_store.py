@@ -91,6 +91,8 @@ class _Transaction:
     def __init__(self, owner, transaction_id, deadline):
         self.owner, self.id, self.deadline = owner, transaction_id, deadline
         self.reads, self.writes = {}, {}
+        self.staged = {}
+        self.addresses = {}
         self.timestamps = {}
         self.read_bytes = 0
         self.not_after = None
@@ -104,6 +106,11 @@ class _Transaction:
     def read(self, specifications):
         if self.writes:
             raise _unavailable()  # Firestore requires all reads before writes.
+        return self._read_originals(specifications)
+
+    def _read_originals(self, specifications):
+        # Used by the finalizer after local staging, before the sole Commit RPC.
+        # Staged values never masquerade as database read results.
         pending = {name: kind for name, kind in specifications.items() if name not in self.reads}
         if len(self.reads) + len(pending) > self.owner.policy.max_documents:
             raise _unavailable()
@@ -144,6 +151,7 @@ class _Transaction:
             return
         document = self.owner._encode(name, kind, record)
         self.writes[name] = Write(update=document, current_document=Precondition(exists=not create))
+        self.staged[name] = (kind, self.owner._decode(document, kind))
 
 
 _MODELS = {"guest": GuestSession, "usage": SessionUsage, "evidence": EvidenceState,
@@ -164,17 +172,25 @@ class FirestoreStores:
         self.clock, self.monotonic = clock, monotonic
         self.guests, self.shared = _Guests(self), _Shared(self)
         self.evidence, self.actions = _Evidence(self), _Actions(self)
+        self.retail = None
+
+    def enable_retail(self, projector):
+        from batchbeacon.retail_store import RetailPersistence
+        if self.retail is not None:
+            raise ValueError("retail persistence is already configured")
+        self.retail = RetailPersistence(self, projector)
+        return self.retail
 
     def name(self, kind, key=None, incident=None):
-        if kind not in _MODELS:
+        if kind not in _MODELS and kind not in {"retail", "refresh"}:
             raise ValueError("unknown persistence kind")
-        if kind in {"guest", "usage", "evidence", "actions"}:
+        if kind in {"guest", "usage", "evidence", "actions", "retail", "refresh"}:
             TypeAdapter(Digest).validate_python(key)
         elif kind in {"attempt", "completion"}:
             TypeAdapter(OpaqueId).validate_python(key)
         elif kind == "environment":
             key = self.policy.environment_id
-        if kind in {"evidence", "actions"}:
+        if kind in {"evidence", "actions", "retail"}:
             TypeAdapter(OpaqueId).validate_python(incident)
         elif incident is not None:
             raise ValueError("unexpected incident address")
@@ -200,7 +216,7 @@ class FirestoreStores:
     def _encode(self, name, kind, record):
         # Validate model_copy results as well as data returned by storage.
         try:
-            record = _MODELS[kind].model_validate_json(record.model_dump_json())
+            record = self._model(kind).model_validate_json(record.model_dump_json())
         except ValueError:
             record = None
         if record is None:
@@ -209,23 +225,42 @@ class FirestoreStores:
             "schema": Value(integer_value=1), "kind": Value(string_value=kind),
             "writer_config_hash": Value(string_value=self.policy.digest()),
             "payload": Value(string_value=record.model_dump_json())})
+        if kind == "guest" and self.retail is not None:
+            document.fields["retail_policy_hash"] = Value(
+                string_value=self.retail.projector.configuration_hash)
         self._size(document)
         return document
 
     def _decode(self, document, kind):
         self._size(document)
         fields = document.fields
-        if set(fields) != {"schema", "kind", "writer_config_hash", "payload"} \
+        expected = {"schema", "kind", "writer_config_hash", "payload"}
+        if kind == "guest" and self.retail is not None:
+            expected.add("retail_policy_hash")
+            if fields.get("retail_policy_hash", Value()).string_value != \
+                    self.retail.projector.configuration_hash:
+                raise _unavailable()
+        if set(fields) != expected \
                 or fields["schema"].integer_value != 1 or fields["kind"].string_value != kind:
             raise _unavailable()
         TypeAdapter(Digest).validate_python(fields["writer_config_hash"].string_value)
         # Operational configuration may change without making old evidence vanish.
         # The original writer hash is retained; domain policy hashes still apply.
         try:
-            return _MODELS[kind].model_validate_json(fields["payload"].string_value)
+            return self._model(kind).model_validate_json(fields["payload"].string_value)
         except ValueError:
             pass
         raise _unavailable()  # Keep private payloads out of validation exception chains.
+
+    @staticmethod
+    def _model(kind):
+        if kind == "retail":
+            from batchbeacon.retail_store import StoredProjection
+            return StoredProjection
+        if kind == "refresh":
+            from batchbeacon.retail_refresh import RefreshState
+            return RefreshState
+        return _MODELS[kind]
 
     def _remaining(self, deadline, not_after=None):
         remaining = deadline - self.monotonic()
@@ -252,29 +287,33 @@ class FirestoreStores:
             except Exception:
                 pass  # Cleanup cannot replace an original denial or unknown outcome.
 
-    def run(self, operation):
+    def run(self, operation, *, not_after=None):
         deadline, retry_id = self.monotonic() + self.policy.operation_seconds, b""
         for _ in range(self.policy.max_transaction_attempts):
             transaction_id = b""
             try:
                 response = self._call("begin_transaction", BeginTransactionRequest(
                     database=self.policy.database, options=TransactionOptions(read_write=
-                        TransactionOptions.ReadWrite(retry_transaction=retry_id))), deadline)
+                        TransactionOptions.ReadWrite(retry_transaction=retry_id))), deadline,
+                    not_after)
                 transaction_id = response.transaction
                 if not transaction_id:
                     raise _unavailable()
                 transaction = _Transaction(self, transaction_id, deadline)
+                transaction.limit_to(not_after)
                 result = operation(transaction)
+                if self.retail is not None:
+                    self.retail.finalize(transaction)
                 self._call("commit", CommitRequest(database=self.policy.database,
                     transaction=transaction_id, writes=list(transaction.writes.values())),
                     deadline, transaction.not_after)
                 transaction_id = b""  # Commit acknowledged; never roll it back.
-                self._remaining(deadline)
+                self._remaining(deadline, not_after)
                 return result
             except cloud_errors.Aborted:
                 retry_id = transaction_id
                 self._cleanup(transaction_id)
-                self._remaining(deadline)
+                self._remaining(deadline, not_after)
             except cloud_errors.GoogleAPICallError as exc:
                 self._cleanup(transaction_id)
                 raise _unavailable() from exc
@@ -284,6 +323,7 @@ class FirestoreStores:
         raise _unavailable()
 
     def _guest(self, transaction, key):
+        transaction.addresses[key] = None
         names = {self.name("guest", key): "guest", self.name("usage", key): "usage"}
         records = transaction.read(names)
         guest, usage = records[self.name("guest", key)], records[self.name("usage", key)]

@@ -8,9 +8,11 @@ Authenticated form cutoff: 18 October 2026 23:59 IST / 18:29 UTC, still open.
 Fixed packaging reserve protected; full P0 delivery materially at risk on one machine.
 Exact finite expiry/freeze/queue live only in `.local/run-policy.json`.
 Owner renewed bounded execution; exact timing stays in the private run policy.
-Native goal now reads ACTIVE after owner renewal; prior expiry/block remains history.
-Earlier useful continuation canary and read-only recovery passed; no second goal.
-Existing Default / Full Access / never-approval session observed, not changed by us.
+Controlled integrator handoff admitted within the unchanged freeze/reserve.
+Prior Goal is persisted BLOCKED and its last turns completed. Current thread has
+no Goal; bounded chat work is active. Native `/goal <finite objective>` is supported.
+Earlier useful continuation canary and read-only recovery passed; no second executor.
+Current Default / Full Access / never-approval environment was supplied by the owner.
 U09–U12 apply: bounded existing cloud project, INR 6,000 lifetime pools and approved
 GitHub publication. No extra purchase, privilege expansion or public paid endpoint.
 Owner approved dedicated repository initialization and the concrete SFA first slice.
@@ -39,10 +41,13 @@ T04b UK original/update captured; UK/new recall-context human review pending.
 T33 local retail/learning contracts PASS: 54 focused cases, four verified fixes;
 T34 pure queue projection/classification independently reviewed; local and hosted
 1176 unit / 50 browser PASS at b0608b9 / run 39108734769. M2-retail-projection.md.
+New atomic summary producers, coherent cold queue reads and persistent refresh
+admission/HTTP pass local independent review. M2-retail-persistence.md records
+bounded scope; exact-head hosted checks and connected UI remain pending.
 T35 pure evaluator executes six cases/nine variants under both wording policies;
 57 focused cases, both independent correction reviews and full local1233/50 PASS.
-Hosted f93762b / run 39110509339 PASS (1233/50); M2-learning-evaluator.md. T34 persistence/
-HTTP and T35 owned attempts/activation/runtime remain open.
+Hosted f93762b / run 39110509339 PASS (1233/50); M2-learning-evaluator.md.
+T35 owned attempts/activation/runtime remain open.
 T06 / U02 approved: Evidence in focus desktop/phone workbench, queue and guidance.
 DESIGN preserves blue/coral/gold, peach selection, pale-blue controls, lavender
 proposals and mint completed states. M1-usability-audit.md records 41 browser cases
@@ -85,6 +90,9 @@ Project ID `batchbeacon-ai` ACTIVE, billing enabled; selected account matches ow
 Firestore API enabled; successful database list empty; Mumbai location available.
 Run/Vertex/Build/Artifact Registry/IAM APIs now enabled and re-listed.
 No project bucket, Mumbai Run service or Mumbai artifact repository observed.
+Fresh explicit-project inventories found no Firestore database, managed Run service
+or Storage bucket. Two existing local preparation servers are retained; neither is
+a deployed service or connected-product proof.
 Cloud Billing API enabled for verified account-currency/SKU reads; no IAM change,
 paid model call or deployment. Account INR and six model/Run SKU rates verified;
 see M1-cloud-pricing.md. Read-only global resource inventory empty within its documented scope. Target-project
@@ -123,9 +131,11 @@ No UK predicate promotion or extra recall event is inferred. Human review stays 
 T27 official template downloaded and all16 pages inspected; copy plan prepared.
 M4-template-preparation.md records the unavailable authoring runtime; no final deck.
 T28/T29 early storyboard, judge guide and form copy are drafts, not delivery proof.
-T34 durable-projection acceptance is prepared privately. Atomic producer coverage,
-actual completion metadata and coherent cold-client reads precede queue integration.
-Implement approved visuals when T17 is dependency-ready. Remaining human gates:
+T34 durable-projection and HTTP integration are under final local/hosted verification.
+Next: connect the approved T17 workbench and retail UI to owned service state, then
+T35 owned guidance lifecycle. Continue bounded T08 admission discovery separately.
+Remaining human gates:
 UK/new context, remaining gold/H custody and final concrete submission.
-Next prompt: Continue prompts/01-codex-kickoff.md from STATE and private run policy;
-respect renewed finite authority; do not create another native goal or supervisor.
+Next prompt: Read prompts/resume.md, reconcile actual state and the private finite
+policy, then continue T17 connected UI and T35 guidance within remaining authority.
+Do not restart kickoff, extend freeze/reserve, or create a concurrent executor.

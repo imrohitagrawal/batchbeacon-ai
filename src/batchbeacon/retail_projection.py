@@ -446,6 +446,11 @@ class RetailProjector:
 
     def project(self, key, snapshot: ActionSnapshot, *, material: MaterialUpdate):
         """Pure reduction after full ownership/history validation; no storage calls."""
+        return self._seal(self._reduce(key, snapshot, material=material))
+
+    def _reduce(self, key, snapshot, *, material, pending_completion=None):
+        # A pending immutable receipt selects original lineage only. It cannot
+        # supply a completion timestamp or make an acquisition current.
         if snapshot.evidence is None:
             raise GuestDenied(503, "retail_snapshot_unavailable")
         state = snapshot.evidence
@@ -468,7 +473,7 @@ class RetailProjector:
         obs = selected.observation if selected else None
         extraction = state.extractions[-1] if state.extractions else None
         proof = snapshot.completion
-        receipt = proof.record if proof else None
+        receipt = proof.record if proof else pending_completion
         original_obs = next(
             (
                 o.observation
@@ -567,6 +572,9 @@ class RetailProjector:
         )
         self._bound(result, self.policy.projection_bytes)
         self.guest._live(snapshot.guest, key)
+        return result
+
+    def _seal(self, result):
         original = result.model_dump_json().encode()
         return PreparedIncident(
             result, original, self._issuer, hmac.digest(self._seal_key, original, "sha256").hex()
