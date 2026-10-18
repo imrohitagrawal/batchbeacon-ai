@@ -1,4 +1,4 @@
-"""Global guest creation is finite across clients, retries and cold restarts."""
+"""Guest admission preserves configured limits across clients and cold restarts."""
 
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
@@ -172,3 +172,74 @@ def test_impossible_window_counter_cannot_be_reset():
         window_started_at=NOW, window_issued=3)
     with pytest.raises(GuestDenied):
         reserve_guest(p, stored, NOW + timedelta(seconds=60))
+
+
+def test_explicit_no_lifetime_cap_preserves_counts_rate_and_expiry(setup):
+    stores, server, guest, p = configure(setup, policy(max_issued_sessions=None), opening=22)
+    guest.issue()
+    guest.issue()
+    with pytest.raises(GuestDenied, match="guest_creation_rate_limited"):
+        guest.issue()
+    assert state(stores, server).issued_sessions == 24
+    setup[5][0] += timedelta(seconds=p.window_seconds)
+    fresh = FirestoreStores(client(server), stores.policy, guest.policy,
+        stores.evidence_policy, stores.action_policy, clock=guest.clock,
+        guest_admission=p)
+    cold = GuestService(guest.policy, fresh.guests, guest.objects, clock=guest.clock)
+    cold.issue()
+    assert state(stores, server).issued_sessions == 25
+    setup[5][0] = p.expires_at
+    with pytest.raises(GuestDenied):
+        cold.issue()
+    assert state(stores, server).issued_sessions == 25
+    with pytest.raises(GuestDenied, match="demo_guest_capacity_unavailable"):
+        reserve_guest(p, state(stores, server), p.expires_at)
+
+
+def test_no_lifetime_cap_requires_explicit_null_and_valid_other_limits():
+    raw = policy().model_dump()
+    del raw["max_issued_sessions"]
+    with pytest.raises(ValidationError):
+        GuestAdmissionPolicy(**raw)
+    unlimited = policy(max_issued_sessions=None)
+    assert GuestAdmissionPolicy.model_validate_json(unlimited.model_dump_json()) == unlimited
+    assert unlimited.digest() != policy().digest()
+    for field in ("max_sessions_per_window", "window_seconds"):
+        for value in (None, 0, -1, True, "4", float("inf")):
+            with pytest.raises(ValidationError):
+                policy(max_issued_sessions=None, **{field: value})
+
+
+def test_uncapped_policy_migration_requires_bound_state_and_preserves_history(setup):
+    stores, server, guest, old = configure(setup, opening=22)
+    new = policy(max_issued_sessions=None)
+    stores.guest_admission = new
+    with pytest.raises(GuestDenied):
+        guest.issue()
+
+    previous = state(stores, server)
+    migrated = GuestAdmissionState(**(previous.model_dump() | {"policy_hash": new.digest()}))
+    server.seed(stores._encode(stores.name("guest_admission"), "guest_admission", migrated))
+    guest.issue()
+    assert state(stores, server).issued_sessions == 23
+    stores.guest_admission = old
+    with pytest.raises(GuestDenied):
+        guest.issue()
+
+
+def test_uncapped_clients_still_race_for_last_window_slot(setup):
+    stores, server, guest, p = configure(setup, policy(max_issued_sessions=None), opening=22)
+    guest.issue()
+    other = FirestoreStores(client(server), stores.policy, guest.policy,
+        stores.evidence_policy, stores.action_policy, clock=guest.clock,
+        guest_admission=p)
+    cold = GuestService(guest.policy, other.guests, guest.objects, clock=guest.clock)
+    def issue(service):
+        try:
+            service.issue()
+            return True
+        except GuestDenied:
+            return False
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        assert sum(pool.map(issue, (guest, cold))) == 1
+    assert state(stores, server).issued_sessions == 24
