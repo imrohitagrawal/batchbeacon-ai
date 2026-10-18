@@ -54,9 +54,10 @@ hashes and classification receipts are retained in ignored `.local/run-records/`
 
 Full locked local checks passed: **477 unit and 48 Chrome browser tests**, plus
 lock validation and Ruff. Counts overlap with the focused checks; do not add them.
-Hosted verification of this candidate is pending. The preceding docs checkpoint
-`4756fb4` passed hosted run 39083674340 with 415 unit and 48 Chromium tests;
-that result does not cover this API change.
+[Hosted run 39084510141](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39084510141)
+passed at `314ef06e36439668ce02c4e019d59c8d2730f6fe`: locked wheel bootstrap,
+browser installation, lock/Ruff, **477 unit and 48 Chromium browser tests**.
+Hosted logs and exact checkout inspected; remote main verified. No release freeze.
 
 ## Remaining integration gates
 

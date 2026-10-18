@@ -112,7 +112,8 @@ unit/Chromium counts; see M2-simulated-actions.md. No real actions/database.
 T12 LOCAL/PARTIAL owned HTTP boundary independently reviewed: 62 API cases and
 the 60 existing guest cases PASS. Two reproduced response defects corrected and
 independently verified. Full local lock/Ruff, 477 unit and 48 Chrome PASS; hosted
-candidate pending. See M2-local-journey.md. Default app/prototype unchanged.
+314ef06 / run 39084510141 passed locked bootstrap/Ruff and the same unit/Chromium
+counts. See M2-local-journey.md. Default app/prototype unchanged.
 Actual store/provider/rate-limit integration remains. Next: unified atomic
 provisioning and persistence adapter preparation; no missing state may be silently
 initialized. Real-service sign-off still waits for T08.
