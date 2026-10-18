@@ -153,7 +153,7 @@ class IncidentSummary(Record):
     jurisdiction: Nonempty
     source_mode: SourceMode
     checked_sources: tuple[SourceDependency, ...]
-    observation_revision: Revision
+    observation_revision: Count
     result: VersionRef | None
     verdict: Verdict | None
     current: bool
@@ -169,6 +169,10 @@ class IncidentSummary(Record):
     @model_validator(mode="after")
     def coherent_summary(self) -> Self:
         _aware(self.last_material_update)
+        if self.observation_revision == 0 and (
+            self.result is not None or self.latest_action is not None or self.current
+        ):
+            raise ValueError("draft without observation cannot carry a result or action")
         if (self.result is None) != (self.verdict is None):
             raise ValueError("result reference and verdict must appear together")
         if (self.latest_action is None) != (self.action_type is None):

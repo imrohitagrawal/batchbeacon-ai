@@ -87,7 +87,9 @@ Two independent reviews passed: 104 tracked identity cases plus 20 private probe
 and 104 tracked plus 25 private checks respectively. Negative controls reproduce
 the false hold when the unavailable-input guard is removed; original asset,
 policy, pixel, alias uniqueness, configuration and publication guards were verified.
-Corrected native Linux exact-head checks remain pending.
+Corrected native Linux exact-head checks PASS: 22d5b38 / run 39107886876,
+locked bootstrap/Ruff, 1104 unit and 50 Chromium checks. The failed prior
+checkpoint remains recorded; this is a corrected hosted checkpoint, not a release freeze.
 
 These checks do not measure actual Gemini accuracy or prove real-service timing,
 deployed isolation or hosted functional journeys. The default app remains
