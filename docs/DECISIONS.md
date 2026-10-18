@@ -83,3 +83,21 @@ timing and prior-policy history remain only in `.local/run-policy.json`. Recover
 verified the prior Goal's persisted blocked state and completed turns; the current
 thread has no Goal. Bounded chat execution proceeds without claiming native
 activation. Current tool permissions are owner-supplied, not expanded by the agent.
+
+## LOCAL14 — actual provider metadata and development admission
+
+A single first-source development extraction may use the existing development pool
+under an explicit matching purpose, with conservative full-model ceilings and
+verified tax-inclusive rates. This does not enlarge or borrow from daily probes,
+protected pools or the tax buffer. Owner no-prior-spend clarification supersedes
+the earlier uncertainty privately. The actual HTTP200 response required documented
+proto3-zero/signature compatibility; exact bytes and failure history remain retained.
+See M2-real-adk-smoke.md. No automatic retry or full-product acceptance follows.
+
+## LOCAL15 — connected workbench confirmation and recovery
+
+Preserve U02 and archived prototypes. The injected local workbench uses owned
+server state; confirmation targets must match the values actually displayed.
+Pending operations retain their original key until reconciliation or confirmed
+session expiry. Full T17/context/allowance/guidance and real-runtime gates remain.
+See M2-connected-workbench.md for reproduced defects and independent verification.

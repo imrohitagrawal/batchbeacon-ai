@@ -24,7 +24,7 @@ package = false
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["src", "."]
 addopts = "-ra --strict-markers"
 markers = [
   "real_service: explicitly authorized real cloud check",

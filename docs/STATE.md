@@ -9,8 +9,8 @@ Fixed packaging reserve protected; full P0 delivery materially at risk on one ma
 Exact finite expiry/freeze/queue live only in `.local/run-policy.json`.
 Owner renewed bounded execution; exact timing stays in the private run policy.
 Controlled integrator handoff admitted within the unchanged freeze/reserve.
-Prior Goal is persisted BLOCKED and its last turns completed. Current thread has
-no Goal; bounded chat work is active. Native `/goal <finite objective>` is supported.
+Prior Goal is persisted BLOCKED and its last turns completed. Current native Goal
+is verified ACTIVE within the unchanged private expiry; no second executor.
 Earlier useful continuation canary and read-only recovery passed; no second executor.
 Current Default / Full Access / never-approval environment was supplied by the owner.
 U09–U12 apply: bounded existing cloud project, INR 6,000 lifetime pools and approved
@@ -43,7 +43,9 @@ T34 pure queue projection/classification independently reviewed; local and hoste
 1176 unit / 50 browser PASS at b0608b9 / run 39108734769. M2-retail-projection.md.
 New atomic summary producers, coherent cold queue reads and persistent refresh
 admission/HTTP pass local independent review. M2-retail-persistence.md records
-bounded scope; exact-head hosted checks and connected UI remain pending.
+bounded scope. Hosted 978465a / run39114701414 PASS:1265 unit/50 Chromium.
+Connected local browser flow now passes independent review; see
+M2-connected-workbench.md. Real persistence/full T17 remain pending.
 T35 pure evaluator executes six cases/nine variants under both wording policies;
 57 focused cases, both independent correction reviews and full local1233/50 PASS.
 Hosted f93762b / run 39110509339 PASS (1233/50); M2-learning-evaluator.md.
@@ -57,7 +59,10 @@ T07 hosted push/branch/PR-merge/merged-main boundaries PASS; M1-hosted-ci.md.
 No enforced required-check rule or release freeze.
 T08 local operator probe and installed-ADK/mock-HTTP checks PASS with independent
 receipt/output/deadline corrections. M1-model-probe-runner.md retains failures.
-Real cost/runtime admission remains closed; no paid model call or deployment.
+One real ADK/Gemini development extraction returned HTTP200/STOP. A provider
+metadata compatibility correction passed independent replay; the same attempt
+reconciled at conservative tax-inclusive INR5.256708708. M2-real-adk-smoke.md.
+No full real-model product journey, deployment or public admission is claimed.
 T09 guest/upload, shared admission, owned evidence, Firestore SDK and private
 Storage adapters locally reviewed. Their successive exact-head hosted checks PASS.
 See M2-session-upload.md, M2-shared-admission.md, M2-observation-history.md,
@@ -65,7 +70,8 @@ M2-firestore-adapter.md and M2-private-storage.md. Four local emulator cases pas
 the owned emulator stopped. Actual service and cross-instance sign-off remain.
 T11 local simulated-action protocol and T12 injected HTTP boundary independently
 reviewed and hosted PASS; M2-simulated-actions.md and M2-local-journey.md.
-Default app unchanged; actual connected product journeys remain incomplete.
+Default preparation app remains separate. Injected local browser journey now
+connects owned upload/extraction/evidence/action/queue/reload; full product pending.
 Recall reasons/context now visible in refined workbench/queue, with exact source
 citations and explicit quantity/legal absence. Raw sources retained those facts;
 earlier reports omitted explicit context. M1-recall-context-verification.md records
@@ -87,18 +93,17 @@ See M2-durable-attempts.md; actual transport, coordinator and runtime remain.
 
 ## External state
 Project ID `batchbeacon-ai` ACTIVE, billing enabled; selected account matches owner hint.
-Firestore API enabled; successful database list empty; Mumbai location available.
-Run/Vertex/Build/Artifact Registry/IAM APIs now enabled and re-listed.
-No project bucket, Mumbai Run service or Mumbai artifact repository observed.
-Fresh explicit-project inventories found no Firestore database, managed Run service
-or Storage bucket. Two existing local preparation servers are retained; neither is
-a deployed service or connected-product proof.
-Cloud Billing API enabled for verified account-currency/SKU reads; no IAM change,
-paid model call or deployment. Account INR and six model/Run SKU rates verified;
-see M1-cloud-pricing.md. Read-only global resource inventory empty within its documented scope. Target-project
-billing report shows zero reported costs; lagged/unbilled spend remains UNKNOWN. G0-X real checks NOT RUN; paid admission remains closed.
+One Native Standard Firestore database and one private Standard image bucket now
+exist in Mumbai. Actual settings: pessimistic transactions, database deletion
+protection, bucket uniform access/PAP, one-day live deletion target and seven-day
+soft retention. No public IAM member. Bounded real-data SDK acceptance is pending;
+no automatic Firestore TTL/physical-deletion claim. No Run deployment exists.
+Existing API/configuration evidence and earlier empty inventories remain historical.
+One real model attempt reconciled; owner-attested zero prior history admitted the
+opening allocation. Current liabilities and receipts remain private. No free-tier
+or promotional-credit assumption, budget increase or public paid endpoint.
 Public GitHub repository created and pushed; README PR #1 merged after hosted PASS.
-No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested.
+No release candidate/freeze. Gemini3.8 Flash tested for the bounded extraction only.
 
 ## Next ready queue
 Acquisition completion is independently reviewed; hosted 583bd4a / run 39103833753
@@ -119,7 +124,8 @@ Corrected hosted 22d5b38 / run 39107886876 PASS (1104 unit / 50 Chromium).
 See M2-reviewed-identity.md; T34 pure queue projection is now locally/hosted checked.
 Shared reservations and unresolved T08 gates precede real-runtime acceptance.
 Continue bounded T08 discovery and T04b review alongside independent local work.
-Complete billing bounds/prior liabilities remain unsubstantiated; paid admission closed.
+First development-call admission and accounting are substantiated; remaining
+real coordinator/data/deployment admissions require their own verified checks.
 Owner-requested reason/symptom/frequency analysis is in RECALL_ANALYTICS.md;
 no analytics implementation or complete-history claim. Missing version-specific
 UK company-notice links corrected in draft context/prototype; independently reviewed.
@@ -131,11 +137,13 @@ No UK predicate promotion or extra recall event is inferred. Human review stays 
 T27 official template downloaded and all16 pages inspected; copy plan prepared.
 M4-template-preparation.md records the unavailable authoring runtime; no final deck.
 T28/T29 early storyboard, judge guide and form copy are drafts, not delivery proof.
-T34 durable-projection and HTTP integration are under final local/hosted verification.
-Next: connect the approved T17 workbench and retail UI to owned service state, then
-T35 owned guidance lifecycle. Continue bounded T08 admission discovery separately.
+T34 durable projection/HTTP hosted checkpoint passed. T17 local connected workbench
+and provider compatibility corrections pass local1292 unit/63 Chrome; independent
+review passed. Exact-head hosted verification remains pending.
+Next: bounded actual data/service integration, real coordinator journey and T35
+owned guidance lifecycle. Complete remaining context/allowance UI and operations.
 Remaining human gates:
 UK/new context, remaining gold/H custody and final concrete submission.
 Next prompt: Read prompts/resume.md, reconcile actual state and the private finite
-policy, then continue T17 connected UI and T35 guidance within remaining authority.
+policy, then continue real service/coordinator integration and T35 guidance within authority.
 Do not restart kickoff, extend freeze/reserve, or create a concurrent executor.

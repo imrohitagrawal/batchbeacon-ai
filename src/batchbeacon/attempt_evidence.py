@@ -121,7 +121,11 @@ def derive_usage(response: ResponseEvidence, request_hash: str,
         if type(usage) is not dict or set(usage) - set(required + optional_counts) \
                 - set(details) - {"trafficType"}:
             raise ValueError("unknown usage fields")
-        counts = [usage[k] for k in required]
+        # Vertex uses implicit-presence proto3 int32 for thoughts_token_count.
+        # Its zero default may be omitted. An unexplained total never infers
+        # nonzero thoughts or reduces an unknown reservation.
+        counts = [usage.get(k, 0) if k == "thoughtsTokenCount" else usage[k]
+                  for k in required]
         if any(type(n) is not int or n < 0 for n in counts) or counts[3] != sum(counts[:3]):
             raise ValueError("incomplete usage")
         for name in optional_counts:
@@ -147,3 +151,21 @@ def derive_usage(response: ResponseEvidence, request_hash: str,
     except (ValueError, TypeError, KeyError, AttributeError, RecursionError, OverflowError):
         pass
     raise ValueError("complete usage unavailable")
+
+
+def candidate_text(parts) -> str:
+    """Return visible text only; retain opaque signature solely in original bytes."""
+    if type(parts) is not list or not parts:
+        raise ValueError("unexpected response parts")
+    for part in parts:
+        if type(part) is not dict or set(part) - {"text", "thoughtSignature"} \
+                or type(part.get("text")) is not str:
+            raise ValueError("unexpected response parts")
+        if "thoughtSignature" in part:
+            signature = part["thoughtSignature"]
+            if type(signature) is not str or not signature:
+                raise ValueError("invalid thought signature")
+            decoded = base64.b64decode(signature, validate=True)
+            if base64.b64encode(decoded).decode() != signature:
+                raise ValueError("invalid thought signature")
+    return "".join(part["text"] for part in parts)

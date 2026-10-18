@@ -28,7 +28,7 @@ from google.adk.telemetry.context import ContentCapturingMode, TelemetryConfig
 from google.genai import types
 from pydantic import Field, model_validator
 
-from batchbeacon.attempt_evidence import AttemptEvidenceLimits, _depth, _unique
+from batchbeacon.attempt_evidence import AttemptEvidenceLimits, _depth, _unique, candidate_text
 from batchbeacon.cloud_policy import ProjectId
 from batchbeacon.contracts import Digest, Nonempty, Record
 from batchbeacon.extraction_input import PreparationPolicy, PreparedInput
@@ -458,10 +458,10 @@ async def _execute_model(config, shared, key, run, prepared, *, transport, crede
             if candidate.get('finishReason') != 'STOP' or 'continuationToken' in candidate:
                 raise ModelFailure('incomplete_candidate')
             parts = candidate.get('content', {}).get('parts')
-            if not isinstance(parts, list) or not parts or any(type(p) is not dict
-                    or set(p) != {'text'} or not isinstance(p['text'], str) for p in parts):
-                raise ModelFailure('unexpected_candidate_parts')
-            raw = ''.join(p['text'] for p in parts).encode()
+            try:
+                raw = candidate_text(parts).encode()
+            except (ValueError, TypeError):
+                raise ModelFailure('unexpected_candidate_parts') from None
             if len(raw) > config.preparation.proposal.max_proposal_bytes:
                 raise ModelFailure('proposal_byte_limit')
             output = ModelOutput(guard.attempt_id, guard.request_hash,

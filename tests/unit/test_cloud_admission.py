@@ -264,3 +264,21 @@ def test_unrepresentable_provider_usage_closes_circuit(tmp_path):
     assert ledger.snapshot()["unknown_attempts"] == 1
     with pytest.raises(AdmissionDenied, match="circuit"):
         ledger.reserve("next", "f" * 64, now=NOW)
+
+
+def test_development_extraction_grant_is_explicit_and_distinct_from_daily_probe():
+    p = policy()
+    daily = grant(p)
+    development = grant(p, pool="development", purpose="development_extraction",
+                        allocation_nanos=250 * NANO)
+    assert development.digest() != daily.digest()
+    validate_admission(p, development, NOW)
+    for updates in ({"pool":"development"}, {"purpose":"development_extraction"}):
+        with pytest.raises(ValueError):
+            grant(p, **updates)
+
+
+def test_operator_adk_run_suppresses_content_telemetry():
+    telemetry = policy().run_config().telemetry
+    assert not telemetry.should_add_content_to_legacy_spans
+    assert not telemetry.should_emit_experimental_telemetry

@@ -248,7 +248,7 @@ def test_exact_response_limit_prefix_and_unknown_total(env):
     b'{"usageMetadata":{},"usageMetadata":{}}',
     wire_response(-1), wire_response(True), wire_response(1.2), wire_response(None),
     wire_response().replace(b'150', b'151'),
-    wire_response().replace(b'"thoughtsTokenCount": 0, ', b''),
+    wire_response().replace(b'"thoughtsTokenCount": 0, ', b'').replace(b'150', b'151'),
     wire_response().replace(b'"totalTokenCount": 150', b'"totalTokenCount": NaN'),
     wire_response(extra=[[[[[[[[[[0]]]]]]]]]])])
 def test_incomplete_or_invalid_usage_keeps_liability_private(env, raw):

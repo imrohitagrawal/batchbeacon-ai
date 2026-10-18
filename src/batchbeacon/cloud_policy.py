@@ -5,6 +5,7 @@ from typing import Annotated, Literal, Self
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from google.adk.agents.run_config import RunConfig
+from google.adk.telemetry.context import ContentCapturingMode, TelemetryConfig
 from google.genai import types
 from pydantic import AwareDatetime, Field, model_validator
 
@@ -113,7 +114,9 @@ class ModelProbePolicy(Record):
         }
 
     def run_config(self) -> RunConfig:
-        return RunConfig(max_llm_calls=self.max_llm_calls, http_options=self.http_options())
+        return RunConfig(max_llm_calls=self.max_llm_calls, http_options=self.http_options(),
+            telemetry=TelemetryConfig(capture_message_content=ContentCapturingMode.NO_CONTENT,
+                genai_semconv_stability_opt_in="stable", adk_experimental_telemetry_opt_in=False))
 
     def generation_config(self) -> types.GenerateContentConfig:
         return types.GenerateContentConfig(
@@ -137,7 +140,8 @@ class ProbeGrant(Record):
 
     project_id: ProjectId
     policy_sha256: Digest
-    pool: Literal["model_probes"]
+    pool: Literal["model_probes", "development"]
+    purpose: Literal["daily_service_probe", "development_extraction"] = "daily_service_probe"
     currency: Literal["INR"]
     allocation_nanos: PositiveMoney
     not_before: AwareDatetime
@@ -147,6 +151,8 @@ class ProbeGrant(Record):
 
     @model_validator(mode="after")
     def ordered(self) -> Self:
+        if (self.pool == "development") != (self.purpose == "development_extraction"):
+            raise ValueError("operator allocation purpose must match its authorized pool")
         if self.expires_at <= self.not_before:
             raise ValueError("grant expiry must follow its start")
         return self

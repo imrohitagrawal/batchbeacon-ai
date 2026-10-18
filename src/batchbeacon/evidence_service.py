@@ -628,7 +628,9 @@ class EvidenceService:
                           "next_result_revision": len(state.results) + 1,
                           "evidence_policy": self.policy.digest(), "run_id": run_id})
 
-    def verification_binding(self, capability, incident_id, *, run_id=None) -> str:
+    def verification_binding(
+        self, capability, incident_id, *, run_id=None, request_key=None
+    ) -> str:
         """Internal input to SharedAdmission.reserve_verification, not a grant.
 
         Its context_state_hash slot must carry THIS combined digest, which binds
@@ -642,7 +644,19 @@ class EvidenceService:
             state = self._check(snapshot, key, incident_id)
             if state.digest() != checked:
                 raise GuestDenied(409, "verification_dependencies_changed")
-            binding[:] = [self._binding(snapshot, state, run_id)]
+            prior = None
+            if request_key is not None:
+                usage = snapshot.usage
+                counter = next((i for i in usage.incidents if i.incident_id == incident_id),
+                               None) if usage and usage.session_id == state.session_id else None
+                if counter is None:
+                    raise GuestDenied(503, "verification_usage_unavailable")
+                prior = next((v for v in counter.verifications
+                              if v.request_key == request_key), None)
+            # Reconcile a reserved/committed operation with its original binding.
+            # publish_verification still checks dependencies before a new commit.
+            binding[:] = [prior.context_state_hash if prior else
+                          self._binding(snapshot, state, run_id)]
             return state
 
         self._transaction(capability, incident_id, read)

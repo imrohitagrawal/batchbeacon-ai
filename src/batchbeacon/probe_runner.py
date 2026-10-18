@@ -27,6 +27,7 @@ from google.genai import types
 from PIL import Image
 from pydantic import model_validator
 
+from batchbeacon.attempt_evidence import candidate_text
 from batchbeacon.cloud_policy import validate_admission
 from batchbeacon.contracts import Digest, Nonempty, Record
 from batchbeacon.operator_admission import AdmissionDenied, OperatorLedger
@@ -281,7 +282,7 @@ class ProbeRun:
         self.record["model_version"] = response.get("modelVersion")
         usage = response.get("usageMetadata", {})
         keys = ("promptTokenCount", "candidatesTokenCount", "thoughtsTokenCount", "totalTokenCount")
-        values = [usage.get(k) for k in keys]
+        values = [usage.get(k, 0) if k == "thoughtsTokenCount" else usage.get(k) for k in keys]
         complete = (
             all(type(v) is int and v >= 0 for v in values)
             and values[3] == sum(values[:3])
@@ -321,11 +322,7 @@ class ProbeRun:
         ):
             raise ValueError("provider did not return one complete candidate")
         parts = candidates[0].get("content", {}).get("parts", [])
-        if not parts or any(
-            set(part) != {"text"} or not isinstance(part["text"], str) for part in parts
-        ):
-            raise ValueError("unexpected response parts")
-        candidate = ProbeOutput.model_validate_json("".join(part["text"] for part in parts))
+        candidate = ProbeOutput.model_validate_json(candidate_text(parts))
         self.record["candidate"] = candidate.model_dump()
         self.record["outcome"] = "succeeded" if complete else "usage_unknown"
 
