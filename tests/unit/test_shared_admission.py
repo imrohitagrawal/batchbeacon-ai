@@ -25,6 +25,7 @@ from batchbeacon.shared_admission import (
     Snapshot,
 )
 from batchbeacon.uploads import sanitize_images
+from tests.unit.durable_fixtures import record_wire, run_binding, wire_response
 from tests.unit.test_cloud_admission import NANO, NOW
 from tests.unit.test_cloud_admission import policy as probe_policy
 from tests.unit.test_guest_boundary import ORIGIN, MemoryObjects, MemoryRepository, picture
@@ -142,9 +143,13 @@ def env():
     return service, store, guests, token, guest.capability_hash, iid, clock, openings
 
 
+def binding(env):
+    return run_binding(env[2], env[3], env[5], env[0].policy.model_configuration_hash)
+
+
 def begin(env, key="r"):
     service, _, _, _, guest_key, iid, _, _ = env
-    return service.begin_run(guest_key, iid, key)
+    return service.begin_run(guest_key, iid, key, binding(env))
 
 
 def reserve(env, run, *, attempt_id=None, operation_key="extract", request_hash="1" * 64):
@@ -216,7 +221,8 @@ def test_parallel_last_funds_and_public_cannot_draw_protected(env):
     ).model_dump_json()
     phase = store.state().phase.model_copy(update={"max_pool_liability_nanos": 6 * NANO})
     service.activate_phase(phase)
-    runs = [service.begin_run(key1, iid1, "r"), service.begin_run(other.capability_hash, iid2, "r")]
+    runs = [service.begin_run(key1, iid1, "r", binding(env)),
+            service.begin_run(other.capability_hash, iid2, "r", run_binding(guests, token2, iid2))]
     services = [service, SharedAdmission(service.policy, service.grant, store, clock=service.clock)]
     keys = [key1, other.capability_hash]
 
@@ -243,7 +249,7 @@ def test_one_active_run_race_fixed_identity_and_lifetime_acquisitions(env):
 
     def start(req):
         try:
-            return service.begin_run(key, iid, req)
+            return service.begin_run(key, iid, req, binding(env))
         except SharedDenied:
             return None
 
@@ -251,7 +257,7 @@ def test_one_active_run_race_fixed_identity_and_lifetime_acquisitions(env):
         results = list(pool.map(start, ["a", "b"]))
     first = next(r for r in results if r)
     assert sum(r is not None for r in results) == 1
-    assert service.begin_run(key, iid, first.request_key) == first
+    assert service.begin_run(key, iid, first.request_key, binding(env)) == first
     clock[0] = first.deadline
     second = begin(env, "second")
     service.finish_run(key, first.id)  # Late old worker must not release the new slot.
@@ -328,21 +334,16 @@ def test_late_reconciliation_uses_bound_price_without_reopening_guest(env):
     attempt = reserve(env, run)
     claim(env, run, attempt)
     clock[0] += timedelta(days=10)
-    service.reconcile(
-        attempt.id, input_tokens=100, output_and_thought_tokens=50, usage_hash="3" * 64
-    )
+    record_wire(service, attempt)
+    service.reconcile(attempt.id)
     expected = attempt.price.cost_nanos(100, 50)
     assert store.state().balance(Pool.PUBLIC).committed == expected
     assert store.state().balance(Pool.PUBLIC).lifetime_attempts == 1
-    service.reconcile(
-        attempt.id, input_tokens=100, output_and_thought_tokens=50, usage_hash="3" * 64
-    )
-    with pytest.raises(SharedDenied, match="conflicting"):
-        service.reconcile(
-            attempt.id, input_tokens=99, output_and_thought_tokens=50, usage_hash="3" * 64
-        )
+    service.reconcile(attempt.id)
+    with pytest.raises(SharedDenied, match="conflict"):
+        record_wire(service, attempt, wire_response(input_tokens=99))
     with pytest.raises(SharedDenied):
-        service.begin_run(key, iid, "new")
+        service.begin_run(key, iid, "new", run.binding)
     with pytest.raises(Exception, match="guest_expired"):
         guests.resolve(token)
 
@@ -355,10 +356,9 @@ def test_overbound_circuit_commits_before_error_and_survives_reopen(env, tokens)
     run = begin(env)
     attempt = reserve(env, run)
     claim(env, run, attempt)
+    record_wire(service, attempt, wire_response(tokens, 1))
     with pytest.raises(SharedDenied, match="usage"):
-        service.reconcile(
-            attempt.id, input_tokens=tokens, output_and_thought_tokens=1, usage_hash="4" * 64
-        )
+        service.reconcile(attempt.id)
     assert store.state().circuit
     reopened = SharedAdmission(service.policy, service.grant, store, clock=service.clock)
     with pytest.raises(SharedDenied, match="circuit"):
@@ -373,10 +373,9 @@ def test_invalid_usage_cannot_refund_unknown(env, bad):
     run = begin(env)
     attempt = reserve(env, run)
     claim(env, run, attempt)
+    record_wire(service, attempt, wire_response(bad, 2))
     with pytest.raises(ValueError):
-        service.reconcile(
-            attempt.id, input_tokens=bad, output_and_thought_tokens=2, usage_hash="5" * 64
-        )
+        service.reconcile(attempt.id)
     assert store.state().balance(Pool.PUBLIC).committed == 6 * NANO
 
 
@@ -420,7 +419,7 @@ def test_foreign_scope_and_policy_change_deny_without_reset(env):
     attempt = reserve(env, run)
     _, other = guests.issue()
     with pytest.raises(SharedDenied):
-        service.begin_run(other.capability_hash, iid, "foreign")
+        service.begin_run(other.capability_hash, iid, "foreign", run.binding)
     with pytest.raises(SharedDenied):
         service.claim_dispatch(
             other.capability_hash,
@@ -443,11 +442,11 @@ def test_missing_established_usage_cannot_reset_lifetime_allowances(env, operati
     session_id = store.guests.get(key).scope.session_id
     if operation == "acquisition":
         for n in range(3):
-            run = service.begin_run(key, iid, str(n))
+            run = service.begin_run(key, iid, str(n), binding(env))
             service.finish_run(key, run.id)
 
         def invoke():
-            return service.begin_run(key, iid, "extra")
+            return service.begin_run(key, iid, "extra", binding(env))
     else:
         for n in range(6):
             service.reserve_verification(key, iid, str(n), "1" * 64)

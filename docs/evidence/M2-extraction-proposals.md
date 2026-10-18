@@ -221,9 +221,12 @@ retry are covered. An independent negative control disabling the new check cause
 15 failures in the new suite. The original failing reproduction and an initial
 invalid duplicate-context test setup are retained separately from corrected
 results. Complete local lock/Ruff, **721 unit and 48 Chrome browser tests** passed.
-Exact-head hosted validation is pending at this checkpoint. This closes the local
-publication finding; application orchestration and real-runtime acceptance remain
-separate.
+[Hosted run 39101623763](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39101623763)
+passed at `f5fcbd6f4fc697e87f02b401c10f78c7022035aa`: locked bootstrap,
+Ruff, 721 unit and 48 Chromium checks. Complete log and remote main were verified.
+This closes the bounded publication finding; application orchestration and
+real-runtime acceptance remain separate. Input-bound shared run identity and
+original attempt evidence follow in [M2-durable-attempts](M2-durable-attempts.md).
 
 T10 still requires the application-integrated ADK workflow with this schema and
 effective configuration, then separately authorized real-provider evidence. Its

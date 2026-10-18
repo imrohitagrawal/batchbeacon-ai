@@ -192,7 +192,12 @@ class FirestoreStores:
 
     def _encode(self, name, kind, record):
         # Validate model_copy results as well as data returned by storage.
-        record = _MODELS[kind].model_validate_json(record.model_dump_json())
+        try:
+            record = _MODELS[kind].model_validate_json(record.model_dump_json())
+        except ValueError:
+            record = None
+        if record is None:
+            raise _unavailable()
         document = Document(name=name, fields={
             "schema": Value(integer_value=1), "kind": Value(string_value=kind),
             "writer_config_hash": Value(string_value=self.policy.digest()),
@@ -209,7 +214,11 @@ class FirestoreStores:
         TypeAdapter(Digest).validate_python(fields["writer_config_hash"].string_value)
         # Operational configuration may change without making old evidence vanish.
         # The original writer hash is retained; domain policy hashes still apply.
-        return _MODELS[kind].model_validate_json(fields["payload"].string_value)
+        try:
+            return _MODELS[kind].model_validate_json(fields["payload"].string_value)
+        except ValueError:
+            pass
+        raise _unavailable()  # Keep private payloads out of validation exception chains.
 
     def _remaining(self, deadline, not_after=None):
         remaining = deadline - self.monotonic()
@@ -297,6 +306,7 @@ class FirestoreStores:
                         counter.verifications):
                 raise _unavailable()
         if any(r.incident_id not in ids or r.calls != len(r.call_operation_keys)
+               or r.calls != len(r.attempt_ids) or len(set(r.attempt_ids)) != len(r.attempt_ids)
                for r in usage.runs):
             raise _unavailable()
 

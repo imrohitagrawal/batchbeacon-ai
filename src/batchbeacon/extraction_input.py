@@ -8,19 +8,20 @@ import json
 from dataclasses import dataclass, field
 from hashlib import sha256
 from io import BytesIO
-from typing import Annotated, Literal, Self
+from typing import Annotated, Self
 
 from google.genai import types
 from PIL import Image
 from pydantic import Field, model_validator
 
-from batchbeacon.contracts import AuthorityNotice, Digest, Nonempty, Record, SourceDependency
+from batchbeacon.contracts import AuthorityNotice, Record
 from batchbeacon.extraction_proposal import (
     ExtractionProposal,
     ProposalPolicy,
     TranslationReport,
     translate_proposal,
 )
+from batchbeacon.extraction_records import InputManifest
 from batchbeacon.guest_service import Capture
 from batchbeacon.uploads import UploadPolicy
 
@@ -47,19 +48,6 @@ class PreparationPolicy(Record):
 
 class InputInvalid(ValueError):
     """Sanitized diagnostic, without source, image or validation payload."""
-
-
-class InputManifest(Record):
-    version: Literal["original-input-1"] = "original-input-1"
-    source: SourceDependency
-    notice_digest: Digest
-    source_bytes: Positive
-    source_characters: Positive
-    captures: tuple[Capture, ...] = Field(min_length=1, max_length=2)
-    prompt_version: Nonempty
-    prompt_hash: Digest
-    schema_hash: Digest
-    policy_hash: Digest
 
 
 @dataclass(frozen=True)

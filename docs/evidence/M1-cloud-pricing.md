@@ -69,3 +69,23 @@ facts; T08 still owns actual bounded model/service/deployment admission.
 Independent read-only settings review found no reproduced blocker: discovery
 bindings, observed/proposed distinctions, ₹6,000 summary arithmetic, policy dates,
 closed admission flags and ignored/untracked private storage all matched.
+
+## Read-only liability follow-up
+
+A bounded independent inventory found no Artifact Registry repositories across all
+46 returned locations, no Cloud Run services in the global list, and no Firestore
+databases, Storage buckets, BigQuery datasets or Pub/Sub resources. Global and
+Mumbai Cloud Build history were empty; other build regions were not exhaustively
+queried. Project-lifetime Admin Activity showed bootstrap activity without an
+observed application resource/build/deployment creation. Vertex invocation/token
+metrics were empty; populated unrelated service metrics provided a telemetry
+positive control. Empty metrics do not prove absence of every billable operation.
+
+The target-project billing report for the current month showed ₹0.00 reported
+cost and no result rows, with savings excluded. Current-month final statements
+were not available. No CSV export was verified. These observations do not prove
+zero incurred, lagged or unbilled liability, nor available account funds. Effective
+inherited Data Access coverage and complete model billing bounds remain unknown.
+Paid admission remains closed. No resource, IAM binding, ledger or model operation
+was created by this follow-up. Detailed scope, exclusions and receipts remain
+private under `.local/run-records/T08-liability-reconciliation/`.

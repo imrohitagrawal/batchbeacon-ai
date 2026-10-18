@@ -30,6 +30,7 @@ from batchbeacon.incident_api import IncidentHTTPPolicy, create_incident_test_ap
 from batchbeacon.shared_admission import Address, Change, SharedAdmission, SharedDenied
 from batchbeacon.uploads import sanitize_images
 from tests.unit.domain_fixtures import NOW, context, known, notice, observation
+from tests.unit.durable_fixtures import record_wire, run_binding, wire_response
 from tests.unit.firestore_rpc_fake import Server, client
 from tests.unit.test_guest_boundary import ORIGIN, MemoryObjects, picture
 from tests.unit.test_shared_admission import env as env
@@ -274,12 +275,13 @@ def test_corrupt_envelopes_deny_without_repair(setup, mutation):
 
 def test_pure_verification_no_budget_and_commit_required_circuit(setup, env):
     stores, server, *_ = setup
-    _, session, incident = owned(setup)
+    token, session, incident = owned(setup)
     service = shared(setup, env)
     service.reserve_verification(session.capability_hash, incident.id, "pure", "c" * 64)
     assert stores.name("budget") not in server.docs
     with pytest.raises(SharedDenied):
-        service.begin_run(session.capability_hash, incident.id, "paid")
+        service.begin_run(session.capability_hash, incident.id, "paid",
+                          run_binding(setup[2], token, incident.id))
     # Explicit test budget inside the recording server only.
     stores.shared.create_budget(env[1].state())
     with pytest.raises(OSError):
@@ -408,10 +410,11 @@ def test_expired_stream_and_callback_denial_preserve_original_outcome(setup):
 
 def test_shared_claim_lost_ack_retains_intent_and_one_usage_reconciliation(setup, env):
     stores, server, *_ = setup
-    _, session, incident = owned(setup)
+    token, session, incident = owned(setup)
     service = shared(setup, env)
     stores.shared.create_budget(env[1].state())
-    run = service.begin_run(session.capability_hash, incident.id, "run")
+    run = service.begin_run(session.capability_hash, incident.id, "run",
+                            run_binding(setup[2], token, incident.id))
     attempt = service.reserve(session.capability_hash, run.id, "b" * 32, "c" * 64,
                               operation_key="extract")
     def lost_claim(request):
@@ -428,9 +431,8 @@ def test_shared_claim_lost_ack_retains_intent_and_one_usage_reconciliation(setup
     with pytest.raises(SharedDenied):
         service.claim_dispatch(session.capability_hash, run.id, attempt.id,
                                attempt.request_hash, attempt.model_configuration_hash)
-    service.reconcile(attempt.id, input_tokens=100, output_and_thought_tokens=10,
-                      usage_hash="d" * 64)
+    record_wire(service, attempt, wire_response(100, 10))
+    service.reconcile(attempt.id)
     budget = saved(setup, "budget")
-    service.reconcile(attempt.id, input_tokens=100, output_and_thought_tokens=10,
-                      usage_hash="d" * 64)
+    service.reconcile(attempt.id)
     assert saved(setup, "budget") == budget

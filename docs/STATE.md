@@ -31,46 +31,48 @@ discovered/loaded. Original workshop, bounded static scan and fresh finish revie
 See SKILLS.md for exact admission, hashes and limited rendered-test status.
 
 ## Tasks and actual evidence
-T01 PASS / G0-L PASS. T02 prepared: native recovery passed; ignored settings structurally valid with
-observed/proposed fields. T08 cost/runtime admission remains closed.
-T03a PASS: independent acceptance before domain code. T03b registry prepared;
-D01–D12 denominator proposed, full human gold audit and H custody PENDING.
-T04a PASS: owner confirmed SFA A/B positives, third-identity D07 negative,
-three actual hashed synthetic labels and limited factual reuse. See sfa-reviewed.json.
-T04b PARTIAL: actual UK original/update browser captures; human/rights review pending.
-T05a/b PASS for reviewed SFA slice: immutable contracts, pure verifier and independent
-correction verification. See M1-domain.md. Real-service action/retail sign-off pending.
-T33 PASS local contracts: immutable records, allowlisted wording, policy admission
-and 54 focused tests. Four reproduced gaps corrected and independently verified.
-See M1-retail-learning-contracts.md; T34/T35 runtime/evaluator still outstanding.
-T06 PASS / U02 approved: current Evidence in focus desktop/phone workbench, queue
-and guidance treatment. Root DESIGN records the approved blue/coral/gold, peach
-selection, pale-blue controls, lavender proposals and mint completed states.
-See M1-visual-approval.md and M1-usability-audit.md: 17/20 scoped audit, 41 browser
-cases and independent 32-case desktop/phone/doubled-text matrix PASS. Controls,
-alignment, enlarged-text/focus and captures independently verified. Earlier
-directions remain history. Native zoom/screen reader/real-device checks and T17
-running-UI integration remain separate; no runtime acceptance follows from U02.
-T07 hosted push/branch/PR-merge/merged-main checks PASS; see M1-hosted-ci.md.
-No enforced required-check rule or release freeze. UI audit hosted b145ac6 PASS;
-its owner approval does not establish runtime behavior.
-T08 LOCAL/PREPARATION: strict operator-only probe/reservation boundary and actual
-installed-ADK/mock-HTTP tests; independent receipt/output/deadline corrections PASS.
-Hosted eee8e26 / run 39079297482 passed locked bootstrap/Ruff, 224 unit and 41
-Chromium checks. Earlier timing failures and corrections remain documented in
-M1-model-probe-runner.md. No paid model or real-runtime claim follows.
-T09 LOCAL/PARTIAL: guest/upload and injected HTTP boundary; 60 focused cases and
-three independently verified corrections. Hosted aeffa42 / run 39080094592 PASS:
-284 unit / 41 Chromium. See M2-session-upload.md and later adapter evidence below.
-Default app unchanged; no actual paid allocation. G0X-cloud-preflight.md records
-remaining real-service, identity, cost and public-admission gates.
-
-Recall-context correction: cited reasons and detailed notice context now appear in
-the refined workbench/queue. Prior raw sources retained these facts; earlier reports
-omitted explicit context. New draft source review pending; SFA predicate approval
-unchanged. Local 289 checkpoint unit / 48 browser PASS, independent context PASS;
-see M1-recall-context-verification.md. Hosted a524924 / run 39081717325 PASS
-with locked bootstrap, 289 unit and 48 Chromium browser tests.
+T01 / G0-L PASS. T02 finite continuation and read-only recovery previously passed.
+T03a and T05a/b reviewed SFA contracts/verifier PASS; T03b denominator proposed,
+full human gold audit and H custody PENDING. See M1-domain.md and source evidence.
+T04a owner-confirmed SFA A/B positives and synthetic D07 negative PASS.
+T04b UK original/update captured; UK/new recall-context human review pending.
+T33 local retail/learning contracts PASS: 54 focused cases, four verified fixes;
+T34/T35 persistence/runtime/evaluator still outstanding. See M1-retail-learning-contracts.md.
+T06 / U02 approved: Evidence in focus desktop/phone workbench, queue and guidance.
+DESIGN preserves blue/coral/gold, peach selection, pale-blue controls, lavender
+proposals and mint completed states. M1-usability-audit.md records 41 browser cases
+and independent desktop/phone/doubled-text checks. Native zoom/screen reader/device
+and T17 connected-UI checks remain; visual approval does not establish runtime behavior.
+T07 hosted push/branch/PR-merge/merged-main boundaries PASS; M1-hosted-ci.md.
+No enforced required-check rule or release freeze.
+T08 local operator probe and installed-ADK/mock-HTTP checks PASS with independent
+receipt/output/deadline corrections. M1-model-probe-runner.md retains failures.
+Real cost/runtime admission remains closed; no paid model call or deployment.
+T09 guest/upload, shared admission, owned evidence, Firestore SDK and private
+Storage adapters locally reviewed. Their successive exact-head hosted checks PASS.
+See M2-session-upload.md, M2-shared-admission.md, M2-observation-history.md,
+M2-firestore-adapter.md and M2-private-storage.md. Four local emulator cases passed;
+the owned emulator stopped. Actual service and cross-instance sign-off remain.
+T11 local simulated-action protocol and T12 injected HTTP boundary independently
+reviewed and hosted PASS; M2-simulated-actions.md and M2-local-journey.md.
+Default app unchanged; actual connected product journeys remain incomplete.
+Recall reasons/context now visible in refined workbench/queue, with exact source
+citations and explicit quantity/legal absence. Raw sources retained those facts;
+earlier reports omitted explicit context. M1-recall-context-verification.md records
+independent review and hosted a524924 / run 39081717325 PASS: 289 unit / 48 Chromium.
+New context remains draft; original SFA predicate approval is unchanged.
+T10 strict untrusted proposals, full source comparison and exact original-input
+preparation independently reviewed. M2-extraction-proposals.md retains corrections,
+source hashes and installed-ADK/mock scope. Hosted 4a7872e / run 39089850101 PASS:
+701 unit / 48 Chromium. Prepared-input digest is not final-wire execution proof.
+OR11 atomic selected-source/current-registry publication correction independently
+verified. Hosted f5fcbd6 / run 39101623763 PASS: bootstrap/Ruff, 721 unit /
+48 Chromium. Historical retries and intentional re-verification preserved.
+Durable input-bound runs and original attempt evidence now implemented locally;
+usage is derived from committed response bytes. One reproduced circuit/storage
+ordering defect corrected and independently verified. 183 focused tests/Ruff PASS;
+full local lock/Ruff, 784 unit / 48 Chrome PASS. Exact-head hosted check pending.
+See M2-durable-attempts.md; actual transport, coordinator and runtime remain.
 
 ## External state
 Project ID `batchbeacon-ai` ACTIVE, billing enabled; selected account matches owner hint.
@@ -79,64 +81,22 @@ Run/Vertex/Build/Artifact Registry/IAM APIs now enabled and re-listed.
 No project bucket, Mumbai Run service or Mumbai artifact repository observed.
 Cloud Billing API enabled for verified account-currency/SKU reads; no IAM change,
 paid model call or deployment. Account INR and six model/Run SKU rates verified;
-see M1-cloud-pricing.md. Billing report has no target-project entry; lagged/unbilled
-spend remains UNKNOWN. G0-X real checks NOT RUN; paid admission remains closed.
+see M1-cloud-pricing.md. Read-only global resource inventory empty within its documented scope. Target-project
+billing report shows zero reported costs; lagged/unbilled spend remains UNKNOWN. G0-X real checks NOT RUN; paid admission remains closed.
 Public GitHub repository created and pushed; README PR #1 merged after hosted PASS.
 No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested.
 
 ## Next ready queue
-T06 approved/documented; T09 guest/upload and recall-context checkpoints hosted PASS.
-Shared admission independently reviewed: 36 focused; hosted 529f911 / run
-39082084124 PASS, 325 unit / 48 Chromium. See M2-shared-admission.md.
-Owned observation/correction history: 50 focused and two independently verified
-corrections; hosted 7ba96be / run 39082896892 PASS, 375 unit / 48 Chromium.
-See M2-observation-history.md. T11 isolated action protocol: 40 focused and two
-verified corrections; hosted 241f94c / run 39083525128 PASS, 415 unit / 48 Chromium.
-See M2-simulated-actions.md; no real actions/database.
-T12 LOCAL/PARTIAL owned HTTP boundary: 62 API + 60 guest cases, two independently
-verified response corrections. Hosted 314ef06 / run 39084510141 PASS, 477 unit /
-48 Chromium with bootstrap/Ruff. See M2-local-journey.md; default app unchanged.
-Unified Firestore SDK adapter now atomically provisions guest/usage and incident/
-usage/evidence/actions; missing state is never silently initialized. Independent
-42 offline SDK tests and four local emulator tests PASS; full local lock/Ruff,
-519 unit and 48 Chrome PASS. The owned loopback emulator was stopped. See
-M2-firestore-adapter.md for exact scope and concurrency/restart limitations.
-Hosted c6ac23b / run 39086202851 PASS: locked bootstrap/Ruff, 519 unit and
-48 Chromium tests. Emulator evidence remains separate. Actual Storage,
-provider/rate-limit integration and connected UI remain; real-service sign-off
-still waits for T08. Private Storage SDK adapter now preserves exact sanitized
-bytes and immutable retention receipts with bounded create-only reconciliation.
-60 focused tests PASS; two reproduced contract corrections independently verified.
-Full local lock/Ruff, 579 unit and 48 Chrome PASS; hosted 0a05b26 / run
-39087658395 passed locked bootstrap/Ruff and the same unit/Chromium counts.
-See M2-private-storage.md for dedicated-client configuration, pinned SDK coupling
-and HTTP cancellation limits. No actual bucket/lifecycle/runtime claim.
-T10 pure proposal translation prepared: strict untrusted schema, complete source
-comparison, bound locations and immutable report preserve disagreements. Known
-raw/value and exception-sanitization contract corrections independently verified.
-80 focused tests PASS; full local lock/Ruff, 659 unit and 48 Chrome PASS.
-Hosted b011615 / run 39088574766 PASS with the same unit/Chromium counts.
-Ten test-local installed-ADK/mock-HTTP compatibility cases independently pass;
-continuation-test correction verified. No product factory or provider/publication
-claim. Full local lock/Ruff, 669 unit and 48 Chrome PASS; hosted da0d341 / run
-39089108195 passed locked bootstrap/Ruff and the same unit/Chromium counts.
-See M2-extraction-proposals.md for scope and reviewed input-preflight acceptance.
-Original-input preflight implemented: exact source/retained-image lineage, shared
-effective proposal limits and changed-binding denial; independent 31 pure + 11
-ADK/mock cases PASS. Actual source/three separate label preparations passed offline
-with explicit source-limit override; no runtime activation. Full local lock/Ruff,
-701 unit and 48 Chrome PASS; hosted 4a7872e / run 39089850101 passed bootstrap,
-Ruff and the same unit/Chromium counts. See same evidence for runtime limitations.
-OR11 source-publication dependency correction independently verified: 20 new plus
-50 existing evidence cases PASS; complete local lock/Ruff, 721 unit and 48 Chrome
-PASS. Exact-head hosted check pending. Atomic selected-source/current-registry
-comparison preserves historical retries and intentional re-verification.
-Next: input-bound shared run identity and durable attempt output, then final-wire
-ADK orchestration. Shared reservations and unresolved T08 gates still precede
-runtime acceptance. See M2-extraction-proposals.md for scope and retained failure.
-UK v3/new source-context human review is pending.
-Actual service sign-off still waits for T08. Continue bounded T08 capacity/service
-discovery and T04b source review preparation alongside independent local work. Complete billing bounds remain unsubstantiated;
-paid admission stays closed. Implement approved visuals when T17 is dependency-ready.
-Next prompt: Continue prompts/01-codex-kickoff.md from STATE and the private run policy;
+Checkpoint durable-attempt evidence, verify exact-head hosted checks, then implement
+owned ADK factory/final-wire transport and coordinator. Bind run eligibility and
+publication atomically; failed/unknown new acquisition must not revive prior results.
+Shared reservations and unresolved T08 gates precede real-runtime acceptance.
+Continue bounded T08 discovery and T04b review alongside independent local work.
+Complete billing bounds/prior liabilities remain unsubstantiated; paid admission closed.
+Owner asked about reason/symptom filters, repeat-recall counts and linked consumer
+notices. Source/scope analysis underway; no complete-history analytics claim or
+P1 implementation inferred. Preserve reviewed source versions and update deduplication.
+Implement approved visuals when T17 is dependency-ready. Remaining human gates:
+UK/new context, remaining gold/H custody and final concrete submission.
+Next prompt: Continue prompts/01-codex-kickoff.md from STATE and private run policy;
 respect renewed finite authority; do not create another native goal or supervisor.

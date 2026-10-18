@@ -15,8 +15,16 @@ from uuid import uuid4
 
 from pydantic import AwareDatetime, Field, TypeAdapter, model_validator
 
+from batchbeacon.attempt_evidence import (
+    AttemptEvidenceLimits,
+    CompleteUsage,
+    ResponseEvidence,
+    derive_usage,
+    response_evidence,
+)
 from batchbeacon.cloud_policy import ModelPrice, Money, PositiveMoney, ProjectId
 from batchbeacon.contracts import Digest, Record
+from batchbeacon.extraction_records import RunBinding
 from batchbeacon.guest_service import GuestSession, OpaqueId, RequestKey
 
 Count = Annotated[int, Field(ge=0)]
@@ -51,6 +59,7 @@ class SharedPolicy(Record):
     max_recaptures: Annotated[int, Field(ge=0, le=2)] = 2
     max_verifications: Annotated[int, Field(ge=1, le=6)] = 6
     run_seconds: Positive = 30
+    evidence_limits: AttemptEvidenceLimits = AttemptEvidenceLimits()
 
     @model_validator(mode="after")
     def sufficient_reserve(self) -> Self:
@@ -171,6 +180,8 @@ class IncidentUsage(Record):
 
 
 class Run(Record):
+    binding: RunBinding
+    attempt_ids: tuple[OpaqueId, ...] = ()
     id: OpaqueId
     incident_id: OpaqueId
     request_key: RequestKey
@@ -206,9 +217,33 @@ class Attempt(Record):
     price: ModelPrice
     billable_input_bound: Positive
     billable_output_and_thought_bound: Positive
+    run_binding_hash: Digest
+    evidence_limits: AttemptEvidenceLimits
+    response: ResponseEvidence | None = Field(default=None, repr=False)
+    complete_usage: CompleteUsage | None = Field(default=None, repr=False)
     dispatch_claimed: bool = False
     usage_hash: Digest | None = None
     actual_nanos: Money | None = None
+
+    @model_validator(mode="after")
+    def coherent_evidence(self) -> Self:
+        if self.response is not None and (not self.dispatch_claimed
+                or self.response.retained_bytes > self.evidence_limits.max_response_bytes):
+            raise ValueError("attempt response inconsistent")
+        if self.complete_usage is not None:
+            if self.response is None or self.complete_usage != derive_usage(
+                    self.response, self.request_hash, self.evidence_limits):
+                raise ValueError("attempt usage inconsistent")
+        if (self.usage_hash is None) != (self.actual_nanos is None):
+            raise ValueError("partial reconciliation receipt")
+        if self.usage_hash is not None and (self.complete_usage is None
+                or self.usage_hash != self.complete_usage.digest()
+                or self.actual_nanos != self.price.cost_nanos(self.complete_usage.input_tokens,
+                    self.complete_usage.output_and_thought_tokens)):
+            raise ValueError("reconciliation receipt inconsistent")
+        if len(self.model_dump_json().encode()) > self.evidence_limits.max_attempt_record_bytes:
+            raise ValueError("attempt record exceeds policy")
+        return self
 
 
 @dataclass(frozen=True)
@@ -380,18 +415,32 @@ class SharedAdmission:
 
         self.store.transact(Address(), change)
 
-    def begin_run(self, guest_key: str, incident_id: str, request_key: str) -> Run:
+    def begin_run(self, guest_key: str, incident_id: str, request_key: str,
+                  binding: RunBinding) -> Run:
+        """Return identity/history; only reserve + a new claim permits dispatch."""
+        binding = RunBinding.model_validate_json(binding.model_dump_json())
         address, run_id, started = Address(guest_key), uuid4().hex, self._now()
 
         def change(snapshot):
-            budget, guest = self._budget(snapshot), self._guest(snapshot, address)
+            guest = self._guest(snapshot, address)
             self._incident(guest, incident_id)
             usage = snapshot.usage
             prior = next((r for r in usage.runs if r.request_key == request_key), None)
             if prior:
-                if prior.incident_id != incident_id:
+                if prior.incident_id != incident_id or prior.binding != binding:
                     raise SharedDenied("run request conflict")
-                return Change(budget, usage)
+                return Change(snapshot.budget, usage, not_after=guest.scope.expires_at)
+            budget = self._budget(snapshot)
+            if binding.application_configuration_hash != self.policy.model_configuration_hash \
+                    or len(binding.model_dump_json().encode()) > \
+                    self.policy.evidence_limits.max_run_binding_bytes:
+                raise SharedDenied("run binding unavailable")
+            incident = next(i for i in guest.incidents if i.id == incident_id)
+            ready = {c.id: c for batch in incident.batches if batch.ready for c in batch.captures}
+            captures = binding.manifest.captures
+            if len({c.id for c in captures}) != len(captures) \
+                    or any(ready.get(c.id) != c for c in captures):
+                raise SharedDenied("run capture unavailable")
             if any(r.terminal is None and self._now() < r.deadline for r in usage.runs):
                 raise SharedDenied("session already has an active run")
             counter = next(
@@ -411,6 +460,7 @@ class SharedAdmission:
             if self._now() >= deadline:
                 raise SharedDenied("run expired before admission")
             run = Run(
+                binding=binding,
                 id=run_id,
                 incident_id=incident_id,
                 request_key=request_key,
@@ -432,11 +482,11 @@ class SharedAdmission:
                     + (counter,),
                 }
             )
-            return Change(budget, usage)
+            return Change(budget, usage, not_after=guest.scope.expires_at)
 
         result = self.store.transact(address, change)
         run = next(r for r in result.usage.runs if r.request_key == request_key)
-        if self._now() >= run.deadline or run.terminal:
+        if self._now() >= result.not_after or (run.id == run_id and self._now() >= run.deadline):
             raise SharedDenied("run ended before admission response")
         return run
 
@@ -454,6 +504,8 @@ class SharedAdmission:
                     or old.run_id != run_id
                     or old.request_hash != request_hash
                     or old.operation_key != operation_key
+                    or old.run_binding_hash != run.binding.digest()
+                    or old.id not in run.attempt_ids
                 ):
                     raise SharedDenied("attempt request conflict")
                 return Change(
@@ -462,6 +514,8 @@ class SharedAdmission:
                     old,
                     not_after=min(run.deadline, guest.scope.expires_at),
                 )
+            if attempt_id in run.attempt_ids:
+                raise SharedDenied("established attempt unavailable")
             if run.calls >= self.policy.max_calls_per_run:
                 raise SharedDenied("run model-call allowance exhausted")
             if (
@@ -491,6 +545,8 @@ class SharedAdmission:
                 request_hash=request_hash,
                 operation_key=operation_key,
                 model_configuration_hash=self.policy.model_configuration_hash,
+                run_binding_hash=run.binding.digest(),
+                evidence_limits=self.policy.evidence_limits,
                 reserved_at=reserved_at,
                 reserved_nanos=amount,
                 price=self.policy.price,
@@ -515,6 +571,7 @@ class SharedAdmission:
                             update={
                                 "calls": r.calls + 1,
                                 "call_operation_keys": (*r.call_operation_keys, operation_key),
+                                "attempt_ids": (*r.attempt_ids, attempt_id),
                             }
                         )
                         if r.id == run_id
@@ -552,6 +609,8 @@ class SharedAdmission:
                 attempt is None
                 or attempt.session_id != guest.scope.session_id
                 or attempt.run_id != run_id
+                or attempt.run_binding_hash != run.binding.digest()
+                or attempt.id not in run.attempt_ids
                 or attempt.request_hash != request_hash
                 or attempt.model_configuration_hash != model_configuration_hash
                 or attempt.policy_hash != budget.policy_hash
@@ -679,28 +738,108 @@ class SharedAdmission:
 
         self.store.transact(address, change)
 
-    def reconcile(
-        self, attempt_id: str, *, input_tokens: int, output_and_thought_tokens: int, usage_hash: str
-    ):
-        """Internal complete-usage receipt, never a guest assertion or retry permit.
+    def inspect_run(self, guest_key: str, run_id: str) -> Run:
+        """Owned history stays readable without paid authority; it grants no dispatch."""
+        address = Address(guest_key)
+        def change(snapshot):
+            guest = self._guest(snapshot, address)
+            run = next((r for r in snapshot.usage.runs if r.id == run_id), None)
+            if run is None:
+                raise SharedDenied("run unavailable")
+            self._incident(guest, run.incident_id)
+            return Change(snapshot.budget, snapshot.usage, not_after=guest.scope.expires_at)
+        result = self.store.transact(address, change)
+        if self._now() >= result.not_after:
+            raise SharedDenied("guest expired or invalid")
+        return next(r for r in result.usage.runs if r.id == run_id)
 
-        Uses the attempt-bound rate even after grant/session/price expiry. No paid
-        execution is reopened. Unknown usage never calls this method/refunds funds.
+    def inspect_attempt(self, guest_key: str, run_id: str, attempt_id: str) -> Attempt:
+        """Internal owned recovery; raw evidence is never a public response model."""
+        address = Address(guest_key, attempt_id)
+        def change(snapshot):
+            guest = self._guest(snapshot, address)
+            run = next((r for r in snapshot.usage.runs if r.id == run_id), None)
+            attempt = snapshot.attempt
+            if run is None or attempt is None or attempt.id not in run.attempt_ids \
+                    or attempt.session_id != guest.scope.session_id or attempt.run_id != run_id \
+                    or attempt.incident_id != run.incident_id \
+                    or attempt.run_binding_hash != run.binding.digest():
+                raise SharedDenied("attempt unavailable")
+            self._incident(guest, run.incident_id)
+            return Change(snapshot.budget, snapshot.usage, attempt,
+                          not_after=guest.scope.expires_at)
+        result = self.store.transact(address, change)
+        if self._now() >= result.not_after:
+            raise SharedDenied("guest expired or invalid")
+        return result.attempt
+
+    @staticmethod
+    def _attempt_record(attempt):
+        try:
+            return Attempt.model_validate_json(attempt.model_dump_json())
+        except ValueError:
+            pass
+        raise SharedDenied("attempt evidence invalid or byte limit")
+
+    def record_response(self, attempt_id: str, request_hash: str, raw: bytes, *,
+                        status_code: int, complete: bool, observed_bytes: int) -> Attempt:
+        """Trusted internal transport only. Original evidence precedes any parsing.
+
+        May complete late; neither guest access nor paid execution is reopened.
+        A stored prefix remains incomplete and cannot later be overwritten.
         """
+        def change(snapshot):
+            budget, attempt = snapshot.budget, snapshot.attempt
+            if budget is None or attempt is None or attempt.grant_hash != budget.grant_hash \
+                    or not attempt.dispatch_claimed or attempt.request_hash != request_hash:
+                raise SharedDenied("response attempt unavailable")
+            response = response_evidence(raw, status_code=status_code, complete=complete,
+                observed_bytes=observed_bytes, limits=attempt.evidence_limits)
+            if attempt.response is not None:
+                if attempt.response != response:
+                    raise SharedDenied("response evidence conflict")
+                return Change(budget, attempt=attempt)
+            attempt = self._attempt_record(attempt.model_copy(update={"response": response}))
+            return Change(budget, attempt=attempt)
+        return self.store.transact(Address(attempt_id=attempt_id), change).attempt
 
-        TypeAdapter(Digest).validate_python(usage_hash)
+    def reconcile(self, attempt_id: str):
+        """Derive complete usage from committed original bytes; never caller totals.
 
+        Uses original attempt limits/rate after expiry. No execution is reopened.
+        Missing, malformed or incomplete evidence leaves the reservation untouched.
+        """
         def change(snapshot):
             budget, attempt = snapshot.budget, snapshot.attempt
             if budget is None or attempt is None or attempt.grant_hash != budget.grant_hash:
                 raise SharedDenied("reservation unavailable for reconciliation")
             if not attempt.dispatch_claimed:
                 raise SharedDenied("no dispatch intent exists for a usage receipt")
+            if attempt.response is None:
+                raise SharedDenied("complete usage unavailable")
+            usage = derive_usage(attempt.response, attempt.request_hash, attempt.evidence_limits)
+            input_tokens, output_and_thought_tokens = (usage.input_tokens,
+                                                       usage.output_and_thought_tokens)
+            usage_hash = usage.digest()
             cost = attempt.price.cost_nanos(input_tokens, output_and_thought_tokens)
             if attempt.usage_hash is not None:
-                if attempt.usage_hash != usage_hash or attempt.actual_nanos != cost:
+                if attempt.usage_hash != usage_hash or attempt.actual_nanos != cost \
+                        or attempt.complete_usage != usage:
                     raise SharedDenied("conflicting usage receipt")
                 return Change(budget, attempt=attempt)
+            balance = budget.balance(attempt.pool)
+            violation = (input_tokens > attempt.billable_input_bound
+                         or output_and_thought_tokens > attempt.billable_output_and_thought_bound
+                         or cost > attempt.reserved_nanos)
+            representation = cost > 2**63 - 1 or balance.incurred_nanos + cost > 2**63 - 1
+            circuit = ("open_representation" if representation
+                       else "open_bound" if violation else None)
+            if circuit and budget.circuit not in {circuit, "open_representation"}:
+                # Commit the stop using the already-durable original response first.
+                # A later expanded-record or adapter byte limit cannot roll it back.
+                return Change(budget.model_copy(update={"circuit": circuit}), attempt=attempt,
+                              denial="usage_circuit_committed")
+            attempt = self._attempt_record(attempt.model_copy(update={"complete_usage": usage}))
             if cost > 2**63 - 1:
                 return Change(
                     budget.model_copy(update={"circuit": "open_representation"}),
@@ -718,26 +857,20 @@ class SharedAdmission:
                     denial="usage exceeds ledger representation",
                 )
             # Validate the bound receipt, including digest format, before committing reductions.
-            attempt = Attempt.model_validate(
-                {**attempt.model_dump(), "usage_hash": usage_hash, "actual_nanos": cost}
-            )
+            attempt = self._attempt_record(attempt.model_copy(
+                update={"usage_hash": usage_hash, "actual_nanos": cost}))
             balance = balance.model_copy(
                 update={
                     "incurred_nanos": incurred,
                     "reserved_nanos": balance.reserved_nanos - attempt.reserved_nanos,
                 }
             )
-            violation = (
-                input_tokens > attempt.billable_input_bound
-                or output_and_thought_tokens > attempt.billable_output_and_thought_bound
-                or cost > attempt.reserved_nanos
-            )
             budget = budget.model_copy(
                 update={
                     "balances": tuple(
                         balance if b.pool == attempt.pool else b for b in budget.balances
                     ),
-                    "circuit": "open_bound" if violation else budget.circuit,
+                    "circuit": budget.circuit,
                 }
             )
             return Change(
@@ -746,6 +879,9 @@ class SharedAdmission:
                 denial="billed usage exceeded its bound" if violation else None,
             )
 
-        result = self.store.transact(Address(attempt_id=attempt_id), change)
+        address = Address(attempt_id=attempt_id)
+        result = self.store.transact(address, change)
+        if result.denial == "usage_circuit_committed":
+            result = self.store.transact(address, change)
         if result.denial:
             raise SharedDenied(result.denial)
