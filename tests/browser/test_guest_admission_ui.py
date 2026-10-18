@@ -51,3 +51,30 @@ def test_navigation_during_admission_loads_selected_view_after_success(connected
     expect(page.locator("#queue-status")).to_contain_text("Manual refresh complete")
     expect(page.locator("#refresh-queue")).to_be_enabled()
     assert not errors
+
+
+@pytest.mark.parametrize("timezone, date, clock, zone", [
+    ("Asia/Kolkata", "20 Oct 2026", "03:39", "GMT+5:30"),
+    ("UTC", "19 Oct 2026", "22:09", "UTC"),
+])
+def test_guest_expiry_is_a_dated_local_time_not_a_countdown(
+    connected_browser, timezone, date, clock, zone
+):
+    original, _, _, errors = connected_browser
+    context = original.context.browser.new_context(locale="en-GB", timezone_id=timezone)
+    page = context.new_page()
+    try:
+        def session(route):
+            response = route.fetch()
+            data = response.json()
+            data["expires_at"] = "2026-10-19T22:09:07+00:00"
+            route.fulfill(response=response, json=data)
+        page.route("**/api/guest", session)
+        page.goto(original.url)
+        expect(page.locator("#start-sample")).to_be_enabled()
+        label = page.locator("#session-state")
+        for value in ("Guest shop · expires", date, clock, zone):
+            expect(label).to_contain_text(value)
+        assert not errors
+    finally:
+        context.close()
