@@ -1,5 +1,7 @@
 # BatchBeacon AI: competitive narration v4
 
+> **Historical media production draft:** This page preserves the planned 230-second / 160-second edits. The actual **220-second final submission video** is [public here](https://youtu.be/IpY2_GeR4Ic); see [STATE](../STATE.md#final-submission). Do not present the draft timelines as the submitted cut.
+
 Packaging draft. The public prototype and real-AI journey are verified; the 230-second submission and 160-second alternative videos are exported; public hosting/playback remains pending. Actual label → Gemini/ADK → deterministic check → explicit simulated hold → Firestore queue narrative preserved. Original v3c source and audio are unchanged.
 
 ## Submission — 230 seconds

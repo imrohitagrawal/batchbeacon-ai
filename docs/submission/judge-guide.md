@@ -1,5 +1,7 @@
 # BatchBeacon AI: judge guide
 
+**Live app:** [batchbeacon.stackclimb.com](https://batchbeacon.stackclimb.com) · **Submitted real-system video:** [3:40 demonstration](https://youtu.be/IpY2_GeR4Ic) · **Media and screenshots:** [product showcase](../SHOWCASE.md)
+
 BatchBeacon connects the package in hand to the conditions in selected official recall evidence. The demonstration uses synthetic labels, historical sources and simulated actions.
 
 ## Try the retailer journey
@@ -40,7 +42,7 @@ Public source: https://github.com/imrohitagrawal/batchbeacon-ai
 
 Live prototype: https://batchbeacon.stackclimb.com
 
-Final video and PDF links remain pending. The [owner-approved scope](release-scope.md) lists incomplete internal acceptance. This is a bounded synthetic demonstration: if an allowance or provider capacity is unavailable, retain/reconcile the existing case rather than repeat extraction. Private Operations links and guest identifiers are excluded.
+**Submitted package:** the official organizer dashboard confirmed submission of the reviewed 15-page PDF, [220-second public demo video](https://youtu.be/IpY2_GeR4Ic), live URL and repository before the deadline; [STATE](../STATE.md#final-submission) records the redacted result. Formal winner/shortlisting status is not implied. The [owner-approved scope](release-scope.md) lists incomplete internal acceptance. This is a bounded synthetic demonstration: if an allowance or provider capacity is unavailable, retain/reconcile the existing case rather than repeat extraction. Private Operations links and guest identifiers are excluded.
 
 
 Verified fallback: https://batchbeacon-ai-xotgrrfbcq-el.a.run.app . Sessions are
