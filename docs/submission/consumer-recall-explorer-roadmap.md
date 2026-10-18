@@ -49,3 +49,9 @@ Related future retailer foundation: [AUTH-01 persistent accounts](../ROADMAP.md#
 adds Google/email sign-in and account/shop-owned saved work across sessions and
 devices, with logout/revocation, roles, retention/deletion and bounded usage.
 It is not implemented; public consumer recall browsing need not require login.
+
+Related later extension: [REG-01 destination-market requirements](../ROADMAP.md#reg-01--destination-market-requirements-review)
+would help producers/importers identify ingredient/category/quantity restrictions
+in another market using reviewed official rules. This is separate from recall
+history and requires specialist review; no compliance or import clearance is
+implemented or implied.

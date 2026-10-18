@@ -4,8 +4,8 @@ BatchBeacon connects the package in hand to the conditions in selected official 
 
 ## Try the retailer journey
 
-1. Open the [live prototype](https://batchbeacon.stackclimb.com). A bounded synthetic guest shop opens automatically.
-2. Choose **Camembert Superieur Au Lait Cru** and the historical SFA cheese notice, then **Use this label**. Wait for the label image and choose **Extract and check**. Gemini proposes fields through one bounded ADK workflow.
+1. Open the [live prototype](https://batchbeacon.stackclimb.com). A bounded guest shop opens automatically. **Take the guided tour** is optional and uses no AI allowance.
+2. Choose the **Camembert Superieur Au Lait Cru** preview (the English explanation is under **About this example**). The displayed historical SFA notice is the only reviewed source; its help explains the scope. Choose **Use this label**. Wait for the label image and choose **Extract and check**. Gemini proposes fields through one bounded ADK workflow.
 3. Inspect the label beside the source conditions. The server compares product identity before lot, date and jurisdiction.
 4. Review the result and explicitly confirm a simulated hold.
 5. Refresh, open the retail queue and resume the same saved investigation. Counts and statuses belong to this guest shop.
@@ -47,6 +47,7 @@ Verified fallback: https://batchbeacon-ai-xotgrrfbcq-el.a.run.app . Sessions are
 separate between hostnames. This demo uses private, expiring guest shops, without
 account login/logout or cross-device recovery. Anonymous users can consume the
 finite public allowance; exhausted capacity is not automatically replenished.
-The deployed source is [53891c6d](https://github.com/imrohitagrawal/batchbeacon-ai/tree/53891c6d0a7d392c9ce0991dbb23a502f4247afe).
+The deployed source is [04546e09](https://github.com/imrohitagrawal/batchbeacon-ai/tree/04546e0944adfed521efcd3b20e7fa7387c39101).
 The hosted narrow-screen failure was corrected and independently verified. The live
-release includes an optional five-step guided overlay and the written walkthrough. See [correction evidence](../evidence/M4-ui-domain-correction.md).
+release includes a prominent optional five-step guided overlay, actual sample-label
+previews, accessible example/source explanations and visible current/future scope. See [correction evidence](../evidence/M4-ui-domain-correction.md).

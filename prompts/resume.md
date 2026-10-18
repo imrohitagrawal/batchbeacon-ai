@@ -11,3 +11,5 @@ Preserve P0-01–13/OPS and 160/230-second videos. U02 / UI-SELECTED is approved
 Choose the earliest dependency-ready unfinished task: first slice (02), core/retail/learning/operations completion (03), independent review (04), release/submission (05). Preserve failures and H-case custody; do not merge L-suite checks into model-quality denominators. Reopen only affected stale evidence.
 
 Continue authorized useful work after bounded diagnosis. Update public STATE with sanitized observed progress, private-policy pointer/redacted status, next task and relevant evidence; actual timing/process details stay private. Under a still-valid admitted native goal continue its allowed queue without another “continue.” If no permitted work remains, preserve a concrete checkpoint/blocker. A terminated CLI requires actual supported resumption; repository text cannot restart it.
+
+Latest submission checkpoint: [accepted public release and artifact handoff](../docs/evidence/HANDOFF-2026-10-18-submission-candidate.md). Reconcile the actual private expiry and owner-paused video decision before continuing; this pointer does not renew execution authority.

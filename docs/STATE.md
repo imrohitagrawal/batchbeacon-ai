@@ -22,13 +22,13 @@ into a pass. Consumer discovery/image extraction are future scope, not new featu
 [Live prototype](https://batchbeacon.stackclimb.com) ·
 [Cloud Run fallback](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app) ·
 [public source](https://github.com/imrohitagrawal/batchbeacon-ai).
-Deployed application commit `53891c6d0a7d392c9ce0991dbb23a502f4247afe` passed
-[hosted checks39142583242](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39142583242):
-1,335 unit,77 browser and29 edge checks. Image:
-`sha256:5b7134d8a3620e12a11b9ea27ec25db9012ea3ebd6609dee8039b8afa1d77243`.
+Deployed application commit `04546e0944adfed521efcd3b20e7fa7387c39101` passed
+[hosted checks39144095298](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39144095298):
+1,335 unit,78 browser and29 edge checks. Image:
+`sha256:fdba434e1a46ee080d2bdbda591048b2cd97bc49e9d90ce35611e568c418a696`.
 The earlier narrow-screen failure was corrected by allowing the source link to
-wrap; exact hosted verification passed. The live release now includes the optional
-five-step overlay and neutral loading copy. Earlier failed evidence is preserved.
+wrap; exact hosted verification passed. The live release includes the top tutorial, sample-image previews, English/source
+help and current/future product scope. Earlier failed evidence is preserved.
 
 Independent readback confirms exact image/assets,100% traffic, unchanged IAM,
 namespace and limits: min0/max2, concurrency1, CPU1/1GiB, timeout60s, no CPU boost.
@@ -38,7 +38,8 @@ was unchanged. Buckets and technical Operations remain private.
 A fresh custom-host browser completed actual Gemini/ADK extraction, deterministic
 historical-SFA comparison, explicit simulated hold, owned queue and phone reload.
 Separate actual upload acknowledgement-loss recovery and guestless/foreign/CSRF
-checks passed. Last ledger readback:10 lifetime model attempts,13/22 guests and
+checks passed. The last model-journey ledger readback (before later UI observations) showed
+10 lifetime model attempts,13/22 guests and
 zero reservations; four additional public guest issuances remain unattributed,
 within unchanged limits. Do not claim all new sessions belonged to our tests.
 Exact charges/configuration and private IDs remain in ignored evidence.
@@ -68,16 +69,28 @@ U19's UI/domain correction is deployed and both hostnames have exact asset,
 image, runtime and access readback. Purpose, audience, example cards, four-step
 journey, evidence hierarchy and guidance stages follow the approved design.
 The source-link reflow defect is fixed. The overlay supports Back, Next/Done,
-Skip, Escape and focus restoration without model/API actions. Final deployed
-same-guest desktop/phone checks observed all five overlay steps, Back, reopening,
-Escape and Skip with zero model/feature writes; no all-features pass is claimed.
+Skip, Escape and focus restoration without model/API actions. On the preceding53891c6 overlay release, deployed same-guest desktop/phone
+checks observed all five steps, Back, reopening, Escape and Skip with zero
+model/feature writes. The final04546e09 hosted suite covers all five steps; its
+fresh live observation checked step1, reopening and Escape. No all-features or
+fully blinded usability pass is claimed.
 
-Owner review identified remaining clarity issues: text-only example cards say
-Synthetic image before the image is loaded, French product names lack English
-explanations, and the single reviewed source appears in a dropdown. The tour is visible in the first phone viewport but sits low in the introduction. These are not silently
-marked fixed by the overlay release. No additional source or matching scope was
-admitted. [Correction evidence](evidence/M4-ui-domain-correction.md) separates
-local, hosted, deployed and remaining observations. No backend or budget reset.
+Owner-identified clarity corrections are now deployed: each example displays its
+actual sample PNG; keyboard/touch About this example explains French names and
+sample-image meaning; one reviewed historical source is labelled with its own
+help; the tutorial starts the introduction. The wider purpose and a visible
+Available now / Planned note distinguish consumer/account/cross-country/aggregate
+roadmap from current delivery. Final fresh-context observation confirmed desktop
+purpose, actual previews, keyboard English help and the tutorial in the first
+phone viewport. It issued one guest and no model/feature writes. A source-help
+locator timed out; queue/guidance loading did not settle within that attempt.
+A separate existing-guest packaging observation reopened the saved actual-AI
+investigation, owned queue and phone hold on the final release without another
+model call. These observations are distinct from the earlier real-AI journey.
+No additional source, provider allowance or backend rule was admitted.
+[Correction evidence](evidence/M4-ui-domain-correction.md) preserves failed
+candidate, corrected exact-hosted, deployed and browser evidence separately.
+
 Anonymous guest sessions have no account login/logout; residual public allowance
 exhaustion and non-model traffic cost are explicitly disclosed there.
 
@@ -86,16 +99,22 @@ exhaustion and non-model traffic cost are explicitly disclosed there.
 Registered team: Bugging Debuggers; official member spelling is Priyanka Shelke.
 The prescribed-template audience deck includes differentiation, both existing
 workspaces, stakeholder benefits and planned Consumer Recall Explorer/notice imagery.
-The 15-page native-authored companion PDF is below5MB; editable PPTX is retained.
+The v22 audience candidate has15pages, an editable PPTX and a2,627,545-byte
+companion PDF. All four embedded product screenshots are current live custom-host
+captures; C4 and stakeholder flows are editable diagram objects. All16template
+slots and19prompts, including both optional sections, are accounted for. The
+public video URL is still an explicit placeholder, so this is a review candidate.
+Independent exact-file template, claims, privacy and layout review passed.
 Both complete videos measure230/160seconds at1080p with actual reviewed footage.
 The submission cut passed decoded-frame lineage/privacy checks; public hosting,
 playback, final PDF/link binding and final submission remain. Final exported duration/size and links must be checked before OWNER-SUBMIT.
 
 Video revisions/uploads are paused at the owner’s request pending review of the
-existing cuts. Next: finish final overlay browser evidence and PDF/diagram updates,
-refresh accepted-release guide/source artifacts,
+existing cuts. Next: bind the owner-approved public video after the pause is lifted,
+finalize and verify the PDF,
 complete the authenticated form, request OWNER-SUBMIT on the concrete package and
 current terms, then retain an actual receipt. No form submission has occurred.
 Evidence: [recovery](evidence/M3-submission-recovery.md), [scope](submission/release-scope.md),
-[consumer roadmap](submission/consumer-recall-explorer-roadmap.md), [resume](../prompts/resume.md).
+[consumer roadmap](submission/consumer-recall-explorer-roadmap.md),
+[candidate handoff](evidence/HANDOFF-2026-10-18-submission-candidate.md), [resume](../prompts/resume.md).
 Private paths remain ignored and untracked.

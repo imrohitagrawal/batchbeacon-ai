@@ -180,3 +180,86 @@ keyboard/touch disclosures outside the radio labels, the existing tour moved to
 the start of the introduction, and a labelled single historical source panel.
 Product names, image bytes, matching inputs and backend rules remain unchanged.
 This next candidate is local until its own exact hosted/build/deployment acceptance.
+
+
+### Accepted example clarity and roadmap release
+
+Application `04546e0944adfed521efcd3b20e7fa7387c39101`, image
+`sha256:fdba434e1a46ee080d2bdbda591048b2cd97bc49e9d90ce35611e568c418a696`, passed exact hosted run39144095298:
+1,335 unit,78 browser,29 edge checks and Ruff. Five independent focused checks
+verified preview bytes, native disclosure keyboard/touch behavior, source identity,
+top tour visibility and320/390/1440 reflow including doubled text. These are
+engineering/UI checks, not a model-quality evaluation.
+
+A candidate coupled source-help copy to a transport selection key. The same
+reviewed notice in the local fixture used another key, reproducing a required
+contract failure. The fix binds copy to canonical notice family/version. Its
+queued build was cancelled and the full reserved charge retained. The corrected
+exact candidate passed hosted checks before its single replacement build.
+
+Independent image normalization and actual deployment verify unchanged backend,
+namespace, runtime, IAM and limits. Both hostnames serve exact candidate assets
+with no-store and100% traffic. A stale verification helper expected asset version2;
+actual HTML correctly linked version3. Six bounded reads of the actual linked
+assets corrected that evidence failure; original records were preserved. Final
+deployment receipt has31passing checks. No model, guest or feature write was made
+by those deployment checks.
+
+Conservative build/registry commitment is INR327: INR297 from the existing300pool,
+including the cancelled-build reserve, plus INR30 from existing critical-repair
+contingency. A prior INR10operations reservation remains; INR360contingency is
+uncommitted. The INR6,000 lifetime ceiling is unchanged. No new Cloudflare plan,
+Worker/DNS change or additional infrastructure was introduced in this final UI pass.
+
+The authenticated form reconfirmed3–4minute video, PDF up to5MB and1024description
+characters. Current theme/custom-host/repository/description are prepared in the
+browser; no persisted-draft or submitted-receipt claim follows. PDF/video fields
+and final OWNER-SUBMIT remain open.
+
+
+### Final live usability and packaging observations
+
+A fresh unauthenticated context on04546e09 made12HTTP requests and issued one
+new guest, with zero model/feature writes. Desktop purpose, the current/planned
+boundary, all three actual preview images and keyboard English-name help were
+observed. The tour is in the first390px phone viewport beside Choose an example.
+Step1 fits on desktop/phone; Escape and reopening were observed. Steps2–5 were
+not repeated in this attempt (earlier53891c6 live proof and exact045 hosted
+checks remain separate). The reviewer had previous project exposure; this is a
+fresh browser, not a blinded participant study. A source-help locator timeout
+and unsettled empty queue/guidance views limit this attempt; neither is silently
+marked passed.
+
+A separate existing-custom-host-guest packaging capture made20HTTP requests,
+zero new guest/model/feature writes. It reopened the retained actual-AI evidence,
+owned queue and saved hold on phone, and rendered current guidance. It did not
+repeat extraction, confirmation or guidance activation. All new application
+images for the deck come from the live custom hostname on04546e09; native clips
+exclude private identifiers and are independently reviewed before embedding.
+
+Onboarding supports the product-experience rubric. Completion time, assistance
+rate, repeat use and adoption are proposed pilot measures, not achieved results.
+The exact original template audit accounts for16slots and19content prompts,
+including both optional slots. The public demo-video URL remains missing under
+the owner's pause; no complete-submission or receipt claim follows.
+
+
+### Consolidated presentation review
+
+The final v22 review candidate accounts for all16original template slots and
+19content prompts, including both optional sections. Independent exact-file
+review passed privacy, template fidelity, claim boundaries and fit. All15PDF
+pages match the inspected renders; size is2,627,545bytes. Four embedded product
+images are exact cleared04546e09 live custom-host captures; five original
+organizer assets remain. The editable stakeholder flow and C4 views distinguish
+current retail use from planned consumer/producer/authority scope. Model/service
+claims separate actual Gemini3.8Flash/ADK use from future research and accounts.
+A suspected missing header in one display was not reproduced in the exact PDF
+or independent renders; no artifact correction was warranted.
+
+Primary-source competitor research confirms overlap in scanning, dashboards,
+international monitoring and human review. The pitch makes no exclusive-capability
+or superiority claim. Brand recall counts are not risk/credibility scores, and
+REG-01 destination-market rule review remains a future proposal. The only missing
+template deliverable is the public video URL; final PDF/video binding, authenticated
+upload, OWNER-SUBMIT and receipt remain open. No video revision/upload was made.

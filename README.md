@@ -8,7 +8,9 @@ The real historical-SFA journey has run on Google Cloud Run with Gemini through 
 
 See the [architecture and trust boundaries](docs/submission/architecture.md):
 C4-style system context, deployed Cloudflare/Cloud Run components, and the
-evidence-to-action journey, with editable Mermaid sources.
+evidence-to-action journey, with editable Mermaid sources. The
+[Google technology evidence map](docs/submission/google-technology-evidence.md)
+explains each service’s actual role and planned extensions.
 
 ## How it works
 
@@ -22,7 +24,8 @@ Guidance adaptation changes only allowlisted wording after fixed evaluation and 
 
 The current demonstration uses synthetic labels and selected historical SFA evidence. UK FSA matching remains review-only. No result establishes food safety or permission to consume or sell. No real inventory changes occur. Protected quality evaluation, measured competitor superiority and production economics are not claimed.
 
-The proposed Consumer Recall Explorer adds accessible mobile search by product, brand, country, date and reported hazard, with official actions and affected lots. Planned ATT-01 supplies reviewed notice/PDF imagery; proposed CON-01 uses it for candidate discovery before exact identity/lot confirmation. Neither image extraction nor catalogue visual retrieval is implemented. Frequency needs a time window, declared source coverage and deduplicated events. Reported hazards/allergens/pathogens remain separate from officially confirmed illness reports; counts imply neither disease causation nor brand safety. Consumer discovery and permissioned aggregate insights are future capabilities. See the [roadmap proposal](docs/submission/consumer-recall-explorer-roadmap.md).
+The proposed Consumer Recall Explorer adds accessible mobile search by product, brand, country, date and reported hazard, with official actions and affected lots. Planned ATT-01 supplies reviewed notice/PDF imagery; proposed CON-01 uses it for candidate discovery before exact identity/lot confirmation. Neither image extraction nor catalogue visual retrieval is implemented. Frequency needs a time window, declared source coverage and deduplicated events. Reported hazards/allergens/pathogens remain separate from officially confirmed illness reports; counts imply neither disease causation nor brand safety. Consumer discovery and permissioned aggregate insights are future capabilities. See the [roadmap proposal](docs/submission/consumer-recall-explorer-roadmap.md) and
+[competitive positioning and stakeholder analysis](docs/submission/competitive-positioning.md).
 
 ## Pilot proposal
 
@@ -55,6 +58,7 @@ Verified fallback: https://batchbeacon-ai-xotgrrfbcq-el.a.run.app . Sessions are
 separate between hostnames. This demo uses private, expiring guest shops, without
 account login/logout or cross-device recovery. Anonymous users can consume the
 finite public allowance; exhausted capacity is not automatically replenished.
-The deployed source is [53891c6d](https://github.com/imrohitagrawal/batchbeacon-ai/tree/53891c6d0a7d392c9ce0991dbb23a502f4247afe).
+The deployed source is [04546e09](https://github.com/imrohitagrawal/batchbeacon-ai/tree/04546e0944adfed521efcd3b20e7fa7387c39101).
 The hosted narrow-screen failure was corrected and independently verified. The live
-release includes an optional five-step guided overlay and the written walkthrough. See [correction evidence](docs/evidence/M4-ui-domain-correction.md).
+release includes a prominent optional five-step guided overlay, actual sample-label
+previews, accessible example/source explanations and visible current/future scope. See [correction evidence](docs/evidence/M4-ui-domain-correction.md).

@@ -1,26 +1,48 @@
 # BatchBeacon AI: working prescribed-template copy
 
-Prescribed-template copy for the accepted public demonstration; final video linkage remains pending. Registered team Bugging Debuggers; leader Rohit Agrawal; members Niharika Aggarwal, Aayushi Priya, Priyanka Shelke. Application evidence binds deployed source head `48c15250`; later packaging revisions do not imply an application rebuild.
+Prescribed-template copy for the accepted public demonstration; final video linkage remains pending. Registered team Bugging Debuggers; leader Rohit Agrawal; members Niharika Aggarwal, Aayushi Priya, Priyanka Shelke. Application evidence binds deployed source head `04546e0944adfed521efcd3b20e7fa7387c39101`; later packaging revisions do not imply an application rebuild.
 
-## 3. Does this exact package match the notice?
+## 3. Recall information that leads to accountable action
 
-Official recall notices describe products, batches, dates and markets. Retail workers must connect those conditions to the physical package in hand.
+BatchBeacon helps turn recall notices into accountable action on the exact product
+in someone's hands. The immediate user is a retail worker or manager who needs to
+connect an official notice to a package, review the evidence and hand the case to
+the next person without losing the decision trail.
 
-BatchBeacon turns a label photo into an inspectable comparison and an explicit simulated action that the next person can resume.
+The working retail workflow is the starting point for a broader platform: consumer
+recall discovery, producer response and permissioned authority insights across
+markets. Expansion would preserve each country's notice scope, affected batches,
+dates and official instructions. It would not grant worldwide safety clearance.
 
-Retail workflow first. A future Consumer Recall Explorer and permissioned retailer and country-authority insights extend the vision.
+Proposed adoption path: validate the retailer workflow with a bounded pilot, then
+add persistent accounts and reviewed sources before consumer and authority views.
+The pilot must measure completion, review burden and operating cost before any
+claim of adoption, commercial return or harm reduction.
 
-Clearer information connects producers, sellers, authorities and citizens without inventing certainty.
+## 4. Opportunities: the full vision and current proof
 
-## 4. Our USP is the inspectable path to action
+**How different is it from other existing ideas?** Our vision connects retail
+investigations, consumer recall discovery and permissioned producer/regulator
+insights around the same official evidence. This is the proposed product approach;
+exclusive capability or competitor superiority has not been established.
 
-AI extraction you can inspect. The proposed fields stay beside the label and source conditions.
+**How will it solve the problem?** Retailers review affected stock; consumers find
+batch-specific notices and official actions; producers and authorities examine
+recurring issues and response gaps. Country, date and coverage stay visible.
 
-Identity-first rules you can test. A changed source requires renewed review before another action.
+**USP of the proposed solution:** AI helps read the evidence; rules and people own
+the response. Each reviewed decision retains its source and reasoning, creating a
+foundation for trustworthy follow-up across markets.
 
-An action a human must confirm. Guidance you can evaluate, activate deliberately and revert.
+**Live today:** retail investigation and saved demo actions. **Planned:** consumer
+discovery and aggregate insights. Counts are not brand-risk rankings.
 
-Existing scanning, alerts, audit tools and analytics set the baseline. BatchBeacon connects these decision boundaries in one workflow.
+Short vision diagram: official recall → product and batch evidence → reviewed
+response → retailer investigation (live demonstration), consumer instructions
+(planned), producer/regulator trends (planned). One batch in a specified market
+does not mean every product from that brand worldwide is affected.
+
+See the [primary-source competitive and stakeholder review](competitive-positioning.md).
 
 ## 5. From label evidence to a saved human decision
 
@@ -38,15 +60,20 @@ Retail console: owned queue counts and status, missing evidence, resumable cases
 
 Private Operations: verified deployment resources, monitoring dashboard, alert-policy setup and bounded cost oversight.
 
-## 9. Google AI performs a bounded, meaningful task
+## 9. Google technologies enable the product's critical capabilities
 
-Gemini reads the label. ADK coordinates the extraction workflow and returns structured proposals.
+| Technology | Implemented capability | User/product value | Planned extension |
+| --- | --- | --- | --- |
+| Vertex AI Gemini + Google ADK | Actual image-to-structured-field proposals in one bounded workflow. | Helps interpret package evidence while keeping AI output reviewable. | Reviewed notice extraction and language assistance; governed source workflows. |
+| Google Cloud Run | One hosted application and deterministic server verifier. | Public access with centrally enforced ownership, source and action rules. | APIs for consumer and permissioned partner experiences, after admission. |
+| Firebase/Cloud Firestore | Owned investigation/action persistence and transactional allowance accounting. | Resumable handover, unknown-outcome recovery and consistent controls. | Account-linked work and permissioned aggregate views. |
+| Google Cloud Storage | Private sanitized label images. | Review the actual input behind a decision. | Permitted notice/PDF imagery with provenance and retention controls. |
+| Firebase Authentication | Not implemented. | No current account-login claim. | Google/email sign-in, sign-out/revocation and continuity across devices. |
 
-Cloud Run hosts one application. Deterministic server code owns comparison, ownership, currentness and action creation.
-
-Firestore persists evidence and actions. Private Cloud Storage retains sanitized image inputs.
-
-Native HTML/CSS keeps the retail interface responsive. No automatic real-stock action follows model output.
+AI proposes fields; deterministic server code owns comparison and authorization;
+a person explicitly confirms a demo inventory action. Cloud services alone do not
+establish accuracy, security or compliance. Current verification evidence supports
+the particular controls implemented, not a generic vendor guarantee.
 
 ## 10. A bounded route to a retailer pilot
 
@@ -67,7 +94,7 @@ Actual public screenshots show the label and source comparison, explicit confirm
 
 One historical SFA journey: actual Gemini/ADK, explicit hold and persisted queue after refresh.
 
-1,335 unit checks, 77 hosted browser checks and 29 edge checks: engineering coverage across deterministic and browser boundaries.
+1,335 unit checks, 78 hosted browser checks and 29 edge checks: engineering coverage across deterministic and browser boundaries.
 
 Six fixed guidance cases/nine variants: verified deployed evaluation, activation and rollback. These are not model-accuracy percentages; protected evaluation and a competitive baseline remain incomplete.
 
@@ -127,7 +154,7 @@ All 16 template slots are accounted for. Existing assets, masters, layout and sh
 
 Template slide 7 is a two-workspace comparison with a large right-side screenshot area. Template slide 11 reserves the main canvas for actual journey captures, with three short proof-point captions.
 
-Template slide 12 uses three native evidence cards: one illustrated actual SFA journey, 1,335 unit plus 77 hosted browser checks, and six fixed guidance cases/nine variants. These are engineering evidence, not an accuracy denominator. Counts bind exact application head `53891c6d` and hosted run `39142583242`.
+Template slide 12 uses three native evidence cards: one illustrated actual SFA journey, 1,335 unit plus 78 hosted browser checks, and six fixed guidance cases/nine variants. These are engineering evidence, not an accuracy denominator. Counts bind exact application head `04546e09` and hosted run `39144095298`.
 
 Template slide 15 compares product/producer, retailer/company, individual user, citizens, society, accountability and nation/authority value. Current dashboard users are retail staff/demo managers and the operator. Consumer/authority views are future permissioned work. Potential societal benefit and pilot metrics are explicitly unmeasured.
 
@@ -136,3 +163,17 @@ The audience PPTX contains 15 pages. Organizer download-instruction slot 2 was i
 ## Consumer roadmap revision v5
 
 Consumer Recall Explorer is a future public dashboard (CON-01) extending planned attachment/image evidence (ATT-01). Current photographed-label extraction does not implement catalogue visual retrieval or notice/PDF product-image extraction. The 15-page audience variant retains all original assets and native shape geometry. Slot 15 retains the stakeholder matrix and paired-pilot measurement proposal. See [roadmap proposal](consumer-recall-explorer-roadmap.md).
+
+
+## First-use experience and adoption evidence
+
+The 10% product-experience criterion is supported by an optional five-step guided
+tour near the top, actual example-image previews, keyboard/touch explanations,
+plain-English product-name help, a four-step journey and a saved retail queue.
+Current live screenshots are captured from https://batchbeacon.stackclimb.com.
+These are delivered usability features and scoped observations, not measured
+adoption improvements. Proposed pilot measures: first-investigation completion,
+time to a reviewed response, assistance needed, recapture recovery and repeat use.
+Consumer adoption and multinational coverage remain future hypotheses.
+
+Detailed supporting review: [Google technology capabilities and evidence](google-technology-evidence.md).

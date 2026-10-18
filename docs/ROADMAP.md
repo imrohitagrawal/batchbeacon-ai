@@ -82,3 +82,37 @@ session; another account/shop cannot read or alter records; expiry does not dele
 retained account work; deletion and retention policies are tested; sign-up abuse
 cannot reset global model spending. Account identity supplements anti-abuse controls;
 it does not prove the user is trustworthy or eliminate denial-of-service costs.
+
+## REG-01 — Destination-market requirements review
+
+**Future discovery proposal. Not implemented or admitted for this release.**
+Requested alongside the cross-country recall vision; distinct from CON-01 recall
+search and ATT-01 notice-image evidence. Help a producer/importer compare a product
+formulation with reviewed requirements in a destination market and prepare
+questions for a qualified regulatory reviewer. Recall history alone cannot prove
+compliance, import eligibility or permission to sell.
+
+Flow: product/formulation → destination/category/date → official rule evidence →
+possible restriction, missing information or applicable condition → specialist review.
+
+Inputs require normalized ingredient identity, formulation quantity/concentration,
+food category, intended use/population, label and intended market/date. A photo
+alone may not supply the needed concentration or specifications; ask for missing
+facts instead of inferring them. Rules may concern additive authorization and
+limits, allergens/labelling, specifications and effective dates, with exceptions
+and transitional provisions preserved.
+
+Before implementation: choose one reviewed country pair and food category, obtain
+source/reuse and legal-domain review, define version/freshness controls, curate
+allowed/restricted/conditional/unknown cases, test unit conversion and identity
+ambiguity, and admit budget/security separately. Distinguish proposed rules and
+trade notifications from enacted, effective requirements. Expired or unreviewed
+rules must yield needs-review, not compliance approval. No autonomous filing,
+enforcement or launch authorization.
+
+Primary references: [EU food-additive conditions](https://food.ec.europa.eu/food-safety/food-improvement-agents/additives/eu-rules_en),
+[EU additives database](https://food.ec.europa.eu/food-safety/food-improvement-agents/additives/database_en),
+[ePing product-requirement notifications](https://www.epingalert.org/).
+These establish relevant source types and existing prior art, not completed
+integration or worldwide coverage. Future output must cite the actual applicable
+rule and date; a notification feed alone is not a complete legal rules database.
