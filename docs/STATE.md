@@ -88,9 +88,11 @@ Public GitHub repository created and pushed; README PR #1 merged after hosted PA
 No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested.
 
 ## Next ready queue
-Acquisition completion and latest-run eligibility are locally implemented; two
-independently reproduced deadline/history defects corrected. See M2-acquisition-completion.md.
-Continue owned ADK factory/final-wire transport and coordinator integration.
+Acquisition completion is independently reviewed; hosted 583bd4a / run 39103833753
+PASS (820 unit / 50 Chromium). See M2-acquisition-completion.md.
+Owned ADK factory and final HTTP boundary pass independent local wire/redaction
+reviews. M2-model-runtime.md records corrections and 884 unit / 50 Chrome PASS;
+exact-head hosted validation pending. Continue owned coordinator/status integration.
 Shared reservations and unresolved T08 gates precede real-runtime acceptance.
 Continue bounded T08 discovery and T04b review alongside independent local work.
 Complete billing bounds/prior liabilities remain unsubstantiated; paid admission closed.

@@ -134,7 +134,7 @@ def test_candidate_is_ineligible_until_immutable_timely_completion(acquisition):
     original = Document(server.docs[name])
     a[0][5][0] += timedelta(seconds=31)
     assert complete(a, run).current  # Reconcile original on-time proof, no new publication.
-    assert Document.serialize(server.docs[name]) == Document.serialize(original)
+    assert Document(server.docs[name]) == original
     a[0][3].correct(a[2], a[4].id, 'edit', 2, 'LOT',
                    known('232511', evidence=a[5].captures[0]))
     assert not view(a).current
@@ -142,7 +142,7 @@ def test_candidate_is_ineligible_until_immutable_timely_completion(acquisition):
     a[1].reserve_verification(a[3].capability_hash, a[4].id, 'reverify', binding)
     a[0][3].publish_verification(a[2], a[4].id, 'reverify', binding)
     assert view(a).current
-    assert Document.serialize(server.docs[name]) == Document.serialize(original)
+    assert Document(server.docs[name]) == original
 
 
 @pytest.mark.parametrize('delta,eligible', [(-1, True), (0, False), (1, False)])

@@ -42,7 +42,12 @@ markers, unchanged historical retries, conflicting receipts and source/correctio
 later-acquisition races. No remaining required finding was identified in this scope.
 
 Complete local checks passed locked dependency validation, Ruff, 820 unit tests
-and 50 Chrome browser tests. Exact-head hosted validation is pending. Installed
+and 50 Chrome browser tests. [Hosted run 39103833753](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39103833753)
+passed at `583bd4a2ab13974a8c930fbea034c7fa42bd078e` with the same unit/Chromium
+counts and locked bootstrap. A subsequent assertion-only correction compares
+protobuf documents structurally: map serialization order had caused an intermittent
+false test failure. Independent verification retained the failure and proved the
+new assertion still detects payload and server-timestamp changes. Installed
 SDK tests use explicit RPC fakes, not actual Firestore timing or cross-instance
 runtime evidence. Human source review, T08 paid admission and final submission
 remain separate gates. The owned model factory and coordinator are next.

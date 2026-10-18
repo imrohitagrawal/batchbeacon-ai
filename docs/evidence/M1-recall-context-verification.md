@@ -53,7 +53,9 @@ route transition; production code did not need a correction for that setup issue
 
 Complete local lock/Ruff, 790 unit and 50 Chrome browser checks passed before the
 next backend increment. Approved SFA JSON is unchanged. Exact-head hosted checks
-are pending. No PDF content, redistribution rights, runtime or human source review
+passed: [run 39103064027](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39103064027)
+at `0702e3ddbe50a4ea38561a461dd347a09d4ecd8f`, 790 unit / 50 Chromium, locked
+bootstrap and Ruff. No PDF content, redistribution rights, runtime or human source review
 is implied. Impeccable clarify/craft-floor guidance and existing PRODUCT/DESIGN
 were applied directly after the non-executable launcher failed; no engine ran.
 Private receipts/captures are in `.local/run-records/recall-links-review/`.
