@@ -157,3 +157,14 @@ and reviewed solution description. It does not authorize new material terms,
 deployment changes or broader spending. Actual platform completion must still
 be verified and recorded separately. Exact artifact hashes and operational
 receipt belong in the ignored local submission evidence.
+
+## U24 — guest expiry and guidance clarity
+
+On 19 October 2026 the owner identified the clock-only guest-expiry label as
+ambiguous and requested clear wording. Show the expiry date, local clock time
+and timezone; the existing eight-hour session duration remains unchanged.
+The owner also reported that Refresh guidance records appears to do nothing and
+asked what the disabled guidance controls mean. Add visible successful-refresh
+feedback and concise purpose/prerequisite explanations. This is a bounded clarity
+correction alongside U23, not a change to guidance eligibility, evaluation,
+authorization, session duration or model budgets.

@@ -185,3 +185,22 @@ def test_old_saved_request_does_not_replace_current_capture_guidance_after_corre
     expect(page.locator("#owned-guidance")).to_contain_text("Saved under")
     assert page.locator("#capture-instruction").text_content() != prior.instructions[0].text
     assert not errors
+
+
+def test_refresh_reports_completion_and_preserves_failures(learning_browser):
+    page, c, learning, errors = learning_browser
+    page.locator("nav [data-view=guidance]").click()
+    expect(page.locator("#guidance-state-title")).to_contain_text("revision 1")
+    c[3][5][0] += timedelta(seconds=learning.policy.refresh_interval_seconds)
+    requests = []
+    page.on("request", lambda r: requests.append((r.method, r.url)))
+    page.locator("#learning-refresh").click()
+    expect(page.locator("#app-status")).to_have_text("Capture guidance records refreshed.")
+    assert len(requests) == 1 and requests[0][0] == "GET"
+    assert requests[0][1].endswith("/api/learning")
+    page.route("**/api/learning", lambda route: route.fulfill(
+        status=503, json={"error": "evidence_temporarily_unavailable"}))
+    page.locator("#learning-refresh").click()
+    expect(page.locator("#app-status")).to_have_text("evidence temporarily unavailable")
+    expect(page.locator("#learning-counts")).to_contain_text("historical")
+    assert not errors
