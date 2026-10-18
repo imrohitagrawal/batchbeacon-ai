@@ -64,3 +64,14 @@ approval of uncreated fixtures, all D gold or H custody. D01–D24 human audit a
 protected H01–H08 custody remain separate. Do not put protected answers in this
 repository or send them into the builder conversation. Keep H cases outside the
 builder-visible workspace with their custodian until the frozen final run.
+
+
+## Subsequent context correction — pending review
+
+The original checklist above omitted explicit recall reasons, health risks and
+notice actions. They remained in the saved source captures. See the
+[context completeness audit and proposed addendum](M1-recall-context.md) for both
+authorities, quantities, legal-action absence and exact citations. The original
+SFA approval is preserved; it does not silently approve this new contextual data.
+Current UK rights/reuse preparation is in the private v3 review packet; the older
+copyright-link observation above is retained as history.

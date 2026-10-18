@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BatchBeacon · Evidence in focus</title><link rel="icon" type="image/svg+xml" href="mark.svg"><link rel="stylesheet" href="style.css?v=usability-03"><script src="prototype.js?v=usability-03" defer></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BatchBeacon · Evidence in focus</title><link rel="icon" type="image/svg+xml" href="mark.svg"><link rel="stylesheet" href="style.css?v=recall-context-01"><script src="prototype.js?v=recall-context-01" defer></script></head>
 <body>
 <a class="skip" href="#main">Skip to main content</a>
 <div class="prototype-note"><strong>Visual prototype</strong><span>Synthetic examples · no live checks or saved actions</span></div>
@@ -35,6 +35,18 @@
           <section class="comparison-panel" aria-labelledby="comparison-title">
             <div class="section-head"><h2 id="comparison-title">Evidence, side by side</h2><span class="source-pill" id="source-pill">SFA · Singapore</span></div>
             <div class="source-summary"><div><strong id="source-title">Raw-milk cheese recall</strong><p id="source-date">Notice issued 9 October 2026 · Singapore</p></div><a id="source-link" href="https://www.sfa.gov.sg/news-publications/newsroom/recall-of-raw-milk-cheese-products-due-to-potential-presence-of-shiga-toxin-producing-escherichia-coli" target="_blank" rel="noreferrer">Open source </a></div>
+            <section class="recall-context" aria-labelledby="recall-context-title">
+              <h3 id="recall-context-title">Why this notice was issued</h3>
+              <p id="recall-reason">Recall context is loading.</p>
+              <p id="recall-basis" class="context-line"></p>
+              <p id="recall-relation" class="context-line">This describes the notice, not a contamination test of your item.</p>
+                <p id="recall-review" class="context-line">Context addition · human source review pending</p>
+              <details id="recall-details"><summary>Recall details: risks, quantities and actions</summary>
+                <dl id="recall-facts"></dl><p id="recall-attribution" class="context-line"></p>
+                <a id="recall-licence" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noreferrer" hidden>Open Government Licence v3.0</a>
+              </details>
+              <p class="context-line" id="recall-citation"></p>
+            </section>
             <p class="comparison-intro">Identity first. Select a field to inspect its paired evidence.</p>
             <div class="comparison-table" role="table" aria-label="Label and source evidence comparison">
               <div class="comparison-row table-heading" role="row"><span role="columnheader">Field</span><span role="columnheader">Your label</span><span role="columnheader">Recall notice</span><span role="columnheader">Result</span></div>
@@ -57,15 +69,15 @@
         <div class="page-heading"><div><h1 id="retail-title">Your shop’s review queue</h1><p>Start with changed sources, then resolve missing evidence and pending decisions.</p></div><button class="button primary" id="new-review">Start a sample review </button></div>
         <p class="queue-count">6 illustrative incidents · 2 need attention · 1 simulated hold</p>
         <div class="queue-toolbar"><label for="queue-filter">Show</label><select id="queue-filter"><option value="all">All incidents</option><option value="attention">Needs attention</option><option value="held">Simulated holds</option><option value="empty">No matching examples</option></select><span>Illustrative snapshot · never a global shop view</span></div>
-        <div class="queue-table" role="list" aria-label="Synthetic shop incidents"><div class="queue-row queue-heading" aria-hidden="true"><span>Product / incident</span><span>Market</span><span>Current state</span><span>Next step</span></div>
-          <div role="listitem"><a class="queue-row" href="#workbench" data-scenario="stale" data-category="attention"><div><strong>Alyan Chocolate Truffles</strong><small>120 g · BB-0039</small></div><span>Scotland</span><span class="state-tag amber">Source changed</span><span>Review new scope</span></a></div>
-          <div role="listitem"><a class="queue-row" href="#workbench" data-scenario="missing" data-category="attention"><div><strong>Camembert Superieur Au Lait Cru</strong><small>250 g · BB-0041</small></div><span>Singapore</span><span class="state-tag amber">Needs evidence</span><span>Capture date panel</span></a></div>
-          <div role="listitem"><a class="queue-row" href="#workbench" data-scenario="match" data-category="review"><div><strong>Camembert Superieur Au Lait Cru</strong><small>250 g · BB-0042</small></div><span>Singapore</span><span class="state-tag coral">Human decision</span><span>Review evidence</span></a></div>
-          <div role="listitem"><a class="queue-row" href="#workbench" data-scenario="held" data-category="held"><div><strong>Bertrand Pere &amp; Fils Camembert</strong><small>250 g · BB-0038</small></div><span>Singapore</span><span class="state-tag completed">Simulated hold</span><span>View history</span></a></div>
-          <div role="listitem"><a class="queue-row" href="#workbench" data-scenario="negative" data-category="closed"><div><strong>Meadow Vale Brie</strong><small>250 g · BB-0040 · invented identity</small></div><span>Singapore</span><span class="state-tag neutral">No match in scope</span><span>View evidence</span></a></div>
-          <div role="listitem"><a class="queue-row" href="#workbench" data-scenario="failure" data-category="review"><div><strong>Alyan Knafeh &amp; Pistachio Chocolate</strong><small>100 g · BB-0043</small></div><span>England</span><span class="state-tag neutral">Review required</span><span>Resolve check failure</span></a></div>
+        <div class="queue-table" role="list" aria-label="Synthetic shop incidents"><div class="queue-row queue-heading" aria-hidden="true"><span>Product / incident / notice reason</span><span>Market</span><span>Current state</span><span>Next step</span></div>
+          <div role="listitem"><a class="queue-row" href="#workbench" data-scenario="stale" data-category="attention"><div><strong>Alyan Chocolate Truffles</strong><small>120 g · BB-0039</small><small class="queue-reason">Recall context is loading.</small></div><span>Scotland</span><span class="state-tag amber">Source changed</span><span>Review new scope</span></a></div>
+          <div role="listitem"><a class="queue-row" href="#workbench" data-scenario="missing" data-category="attention"><div><strong>Camembert Superieur Au Lait Cru</strong><small>250 g · BB-0041</small><small class="queue-reason">Recall context is loading.</small></div><span>Singapore</span><span class="state-tag amber">Needs evidence</span><span>Capture date panel</span></a></div>
+          <div role="listitem"><a class="queue-row" href="#workbench" data-scenario="match" data-category="review"><div><strong>Camembert Superieur Au Lait Cru</strong><small>250 g · BB-0042</small><small class="queue-reason">Recall context is loading.</small></div><span>Singapore</span><span class="state-tag coral">Human decision</span><span>Review evidence</span></a></div>
+          <div role="listitem"><a class="queue-row" href="#workbench" data-scenario="held" data-category="held"><div><strong>Bertrand Pere &amp; Fils Camembert</strong><small>250 g · BB-0038</small><small class="queue-reason">Recall context is loading.</small></div><span>Singapore</span><span class="state-tag completed">Simulated hold</span><span>View history</span></a></div>
+          <div role="listitem"><a class="queue-row" href="#workbench" data-scenario="negative" data-category="closed"><div><strong>Meadow Vale Brie</strong><small>250 g · BB-0040 · invented identity</small><small class="queue-reason">Recall context is loading.</small></div><span>Singapore</span><span class="state-tag neutral">No match in scope</span><span>View evidence</span></a></div>
+          <div role="listitem"><a class="queue-row" href="#workbench" data-scenario="failure" data-category="review"><div><strong>Alyan Knafeh &amp; Pistachio Chocolate</strong><small>100 g · BB-0043</small><small class="queue-reason">Recall context is loading.</small></div><span>England</span><span class="state-tag neutral">Review required</span><span>Resolve check failure</span></a></div>
         </div><div id="empty-queue" class="empty-state" hidden><h2>No examples match this filter</h2><p>Choose “All incidents” to return to your shop’s queue.</p><button class="button secondary" id="reset-filter">Show all incidents</button></div>
-        <div class="capability-row"><strong>Workspace capability</strong><span>Visual prototype only. Live extraction, persistence and source currentness have not been connected.</span></div>
+        <p class="queue-context-note">Notice reasons describe the cited recall, not a test of an individual item. Context additions await human source review.</p><div id="queue-sources" class="queue-sources" aria-label="Recall notice citations"></div><div class="capability-row"><strong>Workspace capability</strong><span>Visual prototype only. Live extraction, persistence and source currentness have not been connected.</span></div>
       </section>
       <section id="guidance" class="view" hidden aria-labelledby="guidance-title">
         <div class="page-heading"><div><h1 id="guidance-title">Improve the next capture</h1><p>Turn structured feedback into a small, evaluated guidance change for this shop.</p></div><span class="tag">Wording only</span></div>

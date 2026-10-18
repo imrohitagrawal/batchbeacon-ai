@@ -313,3 +313,16 @@ application integration must rerun affected state paths and accessibility checks
 - Don't make reset, recapture or evidence inspection look like inert text.
 - Don't hide overflow by clipping required evidence or focus indicators.
 - Don't treat prototype tests or visual approval as runtime or source-truth acceptance.
+
+
+## Recall-context extension
+
+The owner requested explicit cited reasons and notice details after U02 approval.
+Keep the approved visual system: a visible reason and reported basis in the
+comparison panel, a blue native disclosure for detailed context, and a short
+notice-reason line under each queue product. Direct dated source links remain
+underlined. Expanded details use definition-list headings and body values;
+quantity and legal absence are explicit. Context follows the exact source version
+and remains separate from the comparison result and simulated action state.
+This is a faithful information extension, not a new palette or visual direction.
+New source facts retain their separate human-review gate.

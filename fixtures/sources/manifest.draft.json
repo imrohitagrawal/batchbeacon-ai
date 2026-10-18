@@ -56,7 +56,8 @@
       "capture_sha256": "b9cdc646e2ea8a38235c6287cbfcfaee35bc4c806bcc47ba1190afb643e91d88",
       "capture_path_private": ".local/source-review/sfa.html",
       "facts_sha256": "e96ae01915a38fa8077a51db7ac64b94ff2074c166ce856c7d9685c0aa5ca1b5",
-      "human_review": "PENDING"
+      "human_review": "PENDING",
+      "context_ref": "context.draft.json#sfa-cheese-2026-10-09"
     },
     {
       "id": "FSA-PRIN-47-2026",
@@ -107,7 +108,8 @@
       "capture_sha256": "eaa2d450ea8297d41f262fe87ee09f249693b986a610056ed9f6c23c314eee41",
       "capture_path_private": ".local/source-review/uk-original-main.txt",
       "facts_sha256": "e8dd3f1ebb72a4988512891dfa2267d0c61c15711e9b2cf56196f7e0e72de01d",
-      "human_review": "PENDING"
+      "human_review": "PENDING",
+      "context_ref": "context.draft.json#FSA-PRIN-47-2026"
     },
     {
       "id": "FSA-PRIN-47-2026-update-1",
@@ -160,7 +162,8 @@
       "capture_sha256": "30323780ab5676ad9960ec0760e8c728577e5ac08ac2e6f798579f3691324043",
       "capture_path_private": ".local/source-review/uk-update-main.txt",
       "facts_sha256": "e8dd3f1ebb72a4988512891dfa2267d0c61c15711e9b2cf56196f7e0e72de01d",
-      "human_review": "PENDING"
+      "human_review": "PENDING",
+      "context_ref": "context.draft.json#FSA-PRIN-47-2026-update-1"
     }
   ]
 }

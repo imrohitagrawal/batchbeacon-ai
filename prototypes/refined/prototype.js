@@ -1,6 +1,61 @@
-// Reversible visual-state examples only. No fetch, model call, storage or saved action.
+// Reversible visual-state examples; reads only the local draft source-context JSON.
+// No model call, upload, storage or saved action.
 const $ = (id) => document.getElementById(id);
 const views = ['workbench', 'retail', 'guidance'];
+let recallManifest = null;
+let recallScenario = 'match';
+const sourceForScenario = (name) => name === 'stale' ? 'FSA-PRIN-47-2026' : name === 'failure' ? 'FSA-PRIN-47-2026-update-1' : 'sfa-cheese-2026-10-09';
+const factText = (fact) => fact?.state === 'STATED' && fact.text ? fact.text : fact?.state === 'NOT_STATED' ? 'Not stated in this notice.' : 'Not verified from this notice.';
+function citation(notice, prefix = '') {
+  const a = document.createElement('a'); a.href = notice.source_url;
+  a.textContent = prefix + notice.citation_label; a.target = '_blank'; a.rel = 'noreferrer';
+  return a;
+}
+function renderRecallContext() {
+  const notice = recallManifest?.notices.find(n => n.source_id === sourceForScenario(recallScenario));
+  $('recall-facts').replaceChildren(); $('recall-citation').replaceChildren();
+  $('recall-attribution').textContent = ''; $('recall-licence').hidden = true;
+  $('recall-relation').textContent = recallScenario === 'negative'
+    ? 'Compared notice only. No matching recall reason is established for this invented product.'
+    : 'This describes the notice, not a contamination test of your item.';
+  if (!notice) {
+    $('recall-reason').textContent = 'Recall context unavailable';
+    $('recall-basis').textContent = 'Open the official source to review the recall reason and details.';
+    $('recall-review').textContent = 'Context could not be loaded; no missing detail is treated as absent from the notice.';
+    return;
+  }
+  $('recall-reason').textContent = factText(notice.reason);
+  $('recall-basis').textContent = factText(notice.basis);
+  $('recall-review').textContent = 'Context addition · human source review pending';
+  const labels = {health_risks:'Authority-stated health risks',affected_products:'Affected packs, identifiers and dates',total_quantity:'Total quantity recalled / batch volume',businesses:'Recalling business / importers',company_action:'Company action at publication',regulatory_action:'Regulatory action at publication',legal_action:'Legal proceedings / penalties',consumer_advice:'Authority advice to buyers',geography:'Notice geography'};
+  Object.entries(labels).forEach(([key,label]) => {
+    const dt = document.createElement('dt'); dt.textContent = label;
+    const dd = document.createElement('dd'); dd.textContent = factText(notice[key]);
+    if(notice[key]?.locator) { const loc = document.createElement('small'); loc.className = 'fact-locator'; loc.textContent = 'Source section: ' + notice[key].locator; dd.append(loc); }
+    $('recall-facts').append(dt,dd);
+  });
+  $('recall-citation').append(citation(notice, 'Source: '));
+  $('recall-attribution').textContent = notice.attribution;
+  $('recall-licence').hidden = !notice.source_id.startsWith('FSA-');
+}
+function renderQueueReasons() {
+  document.querySelectorAll('.queue-row[data-scenario]').forEach(row => {
+    const notice = recallManifest?.notices.find(n => n.source_id === sourceForScenario(row.dataset.scenario));
+    row.querySelector('.queue-reason').textContent = row.dataset.scenario === 'negative'
+      ? 'No matching recall reason established.'
+      : notice ? 'Notice reason: ' + factText(notice.reason) + ' · ' + notice.citation_label
+      : 'Recall context unavailable · open review for source.';
+  });
+  $('queue-sources').replaceChildren();
+  recallManifest?.notices.forEach(notice => $('queue-sources').append(citation(notice)));
+}
+fetch('source-context.json', {cache: 'no-store'}).then(response => {
+  if (!response.ok) throw new Error('Context unavailable');
+  return response.json();
+}).then(data => {
+  if (data.version !== 'recall-context-draft-1' || !Array.isArray(data.notices)) throw new Error('Context unavailable');
+  recallManifest = data;
+}).catch(() => { recallManifest = null; }).finally(() => { renderRecallContext(); renderQueueReasons(); });
 function showView(event) {
   const requested = (event?.newURL ? new URL(event.newURL).hash : location.hash).slice(1);
   const current = views.includes(requested) ? requested : document.querySelector('.view:not([hidden])')?.id || 'workbench';
@@ -17,6 +72,7 @@ const scenarios = {
   failure: ['Review required', 'The check is unavailable. Retained evidence remains visible, but it cannot support a current match or clearance.', 'Illustrative service failure · no live model was called. Retrying must remain within the incident allowance.', 'Preview review request →']
 };
 function statePreview(name) {
+  recallScenario = name; $('recall-details').open = false; renderRecallContext();
   const held = name === 'held';
   if (held) name = 'match';
   $('scenario').value = name; $('toast').hidden = true;

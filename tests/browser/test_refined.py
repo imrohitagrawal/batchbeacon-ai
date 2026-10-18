@@ -342,3 +342,71 @@ def test_rendered_default_text_contrast_and_minimum_legibility(refined, view):
       return failures;
     }""")
     assert findings == []
+
+
+def test_recall_reason_is_visible_and_details_preserve_quantity_and_citations(refined):
+    expect(refined.locator('#recall-reason')).to_contain_text('Possible Shiga toxin')
+    details = refined.locator('#recall-details')
+    details.locator('summary').focus()
+    refined.keyboard.press('Enter')
+    expect(details).to_contain_text('diarrhoea, stomach cramps and vomiting')
+    expect(details).to_contain_text('SFA directed')
+    for label in ['Total quantity recalled / batch volume', 'Legal proceedings / penalties']:
+        expect(details.locator('dt').filter(has_text=label).locator('+ dd')).to_contain_text(
+            'Not stated in this notice.'
+        )
+    expect(refined.locator('#recall-citation a')).to_have_attribute(
+        'href', re.compile(r'^https://www.sfa.gov.sg/')
+    )
+    expect(refined.locator('#recall-review')).to_contain_text('human source review pending')
+
+
+def test_context_follows_exact_uk_version_then_negative_without_reason_leak(refined):
+    refined.get_by_role('link', name='Retail queue', exact=True).click()
+    expect(refined.locator('[data-scenario=stale] .queue-reason')).to_contain_text('Salmonella')
+    expect(refined.locator('#queue-sources a')).to_have_count(3)
+    refined.locator('[data-scenario=stale]').click()
+    expect(refined.locator('#recall-reason')).to_have_text('Salmonella contamination')
+    expect(refined.locator('#recall-citation a')).to_have_attribute(
+        'href', 'https://alerts.food.gov.uk/news-alerts/alert/FSA-PRIN-47-2026'
+    )
+    refined.locator('#recall-details summary').click()
+    expect(refined.locator('#recall-facts')).to_contain_text('World of Sweets')
+    expect(refined.locator('#recall-facts')).to_contain_text('point-of-sale notices will')
+    expect(refined.locator('#recall-facts')).to_contain_text('enforcement order is not stated')
+    expect(refined.locator('#recall-facts')).not_to_contain_text('Wales')
+    refined.get_by_role('link', name='Retail queue', exact=True).click()
+    refined.locator('[data-scenario=failure]').click()
+    expect(refined.locator('#recall-citation a')).to_have_attribute(
+        'href', re.compile('update-1$')
+    )
+    assert refined.locator('#recall-details').get_attribute('open') is None
+    refined.locator('#recall-details summary').click()
+    expect(refined.locator('#recall-facts')).to_contain_text('Wales and Scotland')
+    refined.get_by_role('link', name='Retail queue', exact=True).click()
+    expect(refined.locator('[data-scenario=negative] .queue-reason')).to_have_text(
+        'No matching recall reason established.'
+    )
+    refined.locator('[data-scenario=negative]').click()
+    expect(refined.locator('#recall-reason')).not_to_contain_text('Salmonella')
+    expect(refined.locator('#recall-relation')).to_contain_text('Compared notice only')
+    expect(refined.locator('#confirm-open')).to_be_disabled()
+
+
+def test_context_load_failure_is_unknown_not_absence(refined):
+    refined.route('**/source-context.json', lambda route: route.abort())
+    refined.reload()
+    expect(refined.locator('#recall-reason')).to_have_text('Recall context unavailable')
+    refined.locator('#recall-details summary').click()
+    expect(refined.locator('#recall-details')).not_to_contain_text('Not stated in this notice')
+    expect(refined.locator('#recall-citation')).to_be_empty()
+
+
+@pytest.mark.parametrize('width', [320, 390, 720, 1440])
+def test_expanded_recall_details_reflow_at_normal_and_doubled_text(refined, width):
+    refined.set_viewport_size({'width': width, 'height': 900})
+    expect(refined.locator('#recall-reason')).to_contain_text('Possible')
+    refined.locator('#recall-details summary').click()
+    assert refined.evaluate('document.documentElement.scrollWidth <= innerWidth')
+    refined.add_style_tag(content=':root { font-size: 32px !important; }')
+    assert refined.evaluate('document.documentElement.scrollWidth <= innerWidth')

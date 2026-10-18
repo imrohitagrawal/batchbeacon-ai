@@ -1,0 +1,195 @@
+{
+  "version": "recall-context-draft-1",
+  "status": "HUMAN_REVIEW_PENDING",
+  "notices": [
+    {
+      "capture_sha256": "b9cdc646e2ea8a38235c6287cbfcfaee35bc4c806bcc47ba1190afb643e91d88",
+      "source_id": "sfa-cheese-2026-10-09",
+      "source_url": "https://www.sfa.gov.sg/news-publications/newsroom/recall-of-raw-milk-cheese-products-due-to-potential-presence-of-shiga-toxin-producing-escherichia-coli",
+      "citation_label": "SFA \u00b7 9 Oct 2026",
+      "human_review": "PENDING",
+      "attribution": "Source: Singapore Food Agency, 9 October 2026. Limited factual summary; historical synthetic demonstration; no SFA endorsement.",
+      "reason": {
+        "state": "STATED",
+        "text": "Possible Shiga toxin-producing E. coli (STEC)",
+        "locator": "Title and paragraph 1"
+      },
+      "basis": {
+        "state": "STATED",
+        "text": "SFA cites a European RASFF notification about possible STEC in Fromagerie Gillot raw-milk cheeses.",
+        "locator": "Paragraph 1"
+      },
+      "health_risks": {
+        "state": "STATED",
+        "text": "SFA warns of potentially serious infections, including diarrhoea, stomach cramps and vomiting; contaminated food may look and smell normal.",
+        "locator": "Paragraph 3"
+      },
+      "affected_products": {
+        "state": "STATED",
+        "text": "Both cheeses: 250 g packs, France, lot 232511, best before 17 October 2026. Pack size is not the total quantity recalled.",
+        "locator": "Paragraph 5: both product blocks"
+      },
+      "businesses": {
+        "state": "STATED",
+        "text": "Camembert Superieur: Cold Storage Singapore (1983) Pte Ltd. Bertrand Pere & Fils: Little Farms Pte Ltd.",
+        "locator": "Paragraph 5: importer fields"
+      },
+      "company_action": {
+        "state": "STATED",
+        "text": "Recall ongoing as of the 9 October 2026 notice.",
+        "locator": "Paragraph 2"
+      },
+      "regulatory_action": {
+        "state": "STATED",
+        "text": "SFA directed the two named importers to recall the implicated products.",
+        "locator": "Paragraph 2"
+      },
+      "consumer_advice": {
+        "state": "STATED",
+        "text": "SFA advises against consuming implicated products; buyers with health concerns after consumption should seek medical advice. Read the notice for the complete advice.",
+        "locator": "Paragraph 4"
+      },
+      "geography": {
+        "state": "STATED",
+        "text": "Singapore; products originate from France.",
+        "locator": "Paragraphs 2 and 5"
+      },
+      "total_quantity": {
+        "state": "NOT_STATED",
+        "text": null,
+        "locator": "Complete notice reviewed; no total units/weight or batch-volume figure"
+      },
+      "legal_action": {
+        "state": "NOT_STATED",
+        "text": null,
+        "locator": "Complete notice reviewed; no proceedings, fine or court finding stated"
+      }
+    },
+    {
+      "capture_sha256": "eaa2d450ea8297d41f262fe87ee09f249693b986a610056ed9f6c23c314eee41",
+      "source_id": "FSA-PRIN-47-2026",
+      "source_url": "https://alerts.food.gov.uk/news-alerts/alert/FSA-PRIN-47-2026",
+      "citation_label": "FSA \u00b7 24 Sep 2026 \u00b7 original",
+      "human_review": "PENDING",
+      "attribution": "Source: Food Standards Agency. Contains public sector information licensed under the Open Government Licence v3.0. Historical synthetic demonstration; no FSA endorsement.",
+      "reason": {
+        "state": "STATED",
+        "text": "Salmonella contamination",
+        "locator": "Title and introductory paragraph"
+      },
+      "basis": {
+        "state": "STATED",
+        "text": "FSA reports Salmonella was found in both products.",
+        "locator": "Introductory paragraph"
+      },
+      "health_risks": {
+        "state": "STATED",
+        "text": "FSA lists fever, diarrhoea and abdominal cramps as usual symptoms.",
+        "locator": "Risk statement"
+      },
+      "affected_products": {
+        "state": "STATED",
+        "text": "Truffles: 120 g, product code 319456. Knafeh and pistachio milk chocolate: 100 g, product code 318591. All best-before dates; lot restriction not stated.",
+        "locator": "Product Details: both product blocks"
+      },
+      "businesses": {
+        "state": "STATED",
+        "text": "World of Sweets",
+        "locator": "Introductory paragraph"
+      },
+      "company_action": {
+        "state": "STATED",
+        "text": "World of Sweets is recalling both products; point-of-sale notices will be displayed in stores selling them.",
+        "locator": "Actions taken by the company"
+      },
+      "regulatory_action": {
+        "state": "STATED",
+        "text": "FSA published this Product Recall Information Notice. A specific enforcement order is not stated.",
+        "locator": "Notice reference and About product recalls and withdrawals"
+      },
+      "consumer_advice": {
+        "state": "STATED",
+        "text": "FSA advises buyers not to eat these products and to return them for a full refund. Read the notice for the complete advice.",
+        "locator": "Our advice to consumers"
+      },
+      "geography": {
+        "state": "STATED",
+        "text": "England and Northern Ireland.",
+        "locator": "Geography heading"
+      },
+      "total_quantity": {
+        "state": "NOT_STATED",
+        "text": null,
+        "locator": "Complete notice reviewed; no total units/weight or batch-volume figure"
+      },
+      "legal_action": {
+        "state": "NOT_STATED",
+        "text": null,
+        "locator": "Complete notice reviewed; no proceedings, fine or court finding stated"
+      }
+    },
+    {
+      "capture_sha256": "30323780ab5676ad9960ec0760e8c728577e5ac08ac2e6f798579f3691324043",
+      "source_id": "FSA-PRIN-47-2026-update-1",
+      "source_url": "https://alerts.food.gov.uk/news-alerts/alert/FSA-PRIN-47-2026-update-1",
+      "citation_label": "FSA \u00b7 25 Sep 2026 \u00b7 update 1",
+      "human_review": "PENDING",
+      "attribution": "Source: Food Standards Agency. Contains public sector information licensed under the Open Government Licence v3.0. Historical synthetic demonstration; no FSA endorsement.",
+      "reason": {
+        "state": "STATED",
+        "text": "Salmonella contamination",
+        "locator": "Title and introductory paragraph"
+      },
+      "basis": {
+        "state": "STATED",
+        "text": "FSA reports Salmonella was found in both products.",
+        "locator": "Introductory paragraph"
+      },
+      "health_risks": {
+        "state": "STATED",
+        "text": "FSA lists fever, diarrhoea and abdominal cramps as usual symptoms.",
+        "locator": "Risk statement"
+      },
+      "affected_products": {
+        "state": "STATED",
+        "text": "Truffles: 120 g, product code 319456. Knafeh and pistachio milk chocolate: 100 g, product code 318591. All best-before dates; lot restriction not stated.",
+        "locator": "Product Details: both product blocks"
+      },
+      "businesses": {
+        "state": "STATED",
+        "text": "World of Sweets",
+        "locator": "Introductory paragraph"
+      },
+      "company_action": {
+        "state": "STATED",
+        "text": "World of Sweets is recalling both products; point-of-sale notices will be displayed in stores selling them.",
+        "locator": "Actions taken by the company"
+      },
+      "regulatory_action": {
+        "state": "STATED",
+        "text": "FSA published this Product Recall Information Notice. A specific enforcement order is not stated.",
+        "locator": "Notice reference and About product recalls and withdrawals"
+      },
+      "consumer_advice": {
+        "state": "STATED",
+        "text": "FSA advises buyers not to eat these products and to return them for a full refund. Read the notice for the complete advice.",
+        "locator": "Our advice to consumers"
+      },
+      "geography": {
+        "state": "STATED",
+        "text": "England, Northern Ireland, Wales and Scotland.",
+        "locator": "Introductory paragraph"
+      },
+      "total_quantity": {
+        "state": "NOT_STATED",
+        "text": null,
+        "locator": "Complete notice reviewed; no total units/weight or batch-volume figure"
+      },
+      "legal_action": {
+        "state": "NOT_STATED",
+        "text": null,
+        "locator": "Complete notice reviewed; no proceedings, fine or court finding stated"
+      }
+    }
+  ]
+}

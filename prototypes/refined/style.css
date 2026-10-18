@@ -280,3 +280,21 @@ dialog p { font-size: .875rem; margin: 12px 0; }
 }
 @media (prefers-reduced-motion: no-preference) { .field-selected { animation: evidence-selected 160ms ease-out; } @keyframes evidence-selected { from { background: white; } to { background: var(--selected); } } }
 @media (forced-colors: active) { .example-choices label:has(input:checked), .field-selected { outline-color: Highlight; } button:disabled { color: GrayText; } nav a[aria-current] { border: 2px solid Highlight; } select { appearance: auto; background-image: none; padding-right: 12px; } }
+
+/* Cited notice context follows the approved evidence and disclosure roles. */
+.recall-context { border-block: 1px solid var(--line); padding: 16px 0; margin: 18px 0; }
+.recall-context h3 { font-size: .875rem; }
+#recall-reason { font-size: 1rem; font-weight: 650; margin-top: 6px; }
+.recall-context .context-line { margin: 8px 0 0; }
+#recall-details { margin-top: 14px; font-size: .875rem; }
+#recall-details summary { border: 1px solid var(--control); border-radius: 8px; min-height: 48px; padding: 12px; color: var(--brand-navy); background: var(--secondary-surface); font-weight: 600; }
+#recall-details summary:hover { background: var(--secondary-hover); }
+#recall-facts { margin: 12px 0 18px; }
+#recall-facts dt { color: var(--ink); font-size: .8125rem; font-weight: 650; }
+#recall-facts dd { font-size: .875rem; overflow-wrap: anywhere; }
+.fact-locator { display: block; color: var(--muted); font-size: .75rem; margin-top: 4px; }
+.queue-context-note { font-size: .8125rem; color: var(--muted); margin: 16px 0 8px; }
+.queue-sources { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: .8125rem; }
+.queue-sources a { display: inline-flex; align-items: center; min-height: 44px; }
+
+#recall-citation a, #recall-licence { display: inline-flex; align-items: center; min-height: 44px; }

@@ -22,6 +22,20 @@ Support Singapore Food Agency and UK Food Standards Agency, two countries includ
 
 **AC-03:** The UI shows the exact checked authority, jurisdiction, version/date, coverage and historical/live status at the result. Original UK evidence is explicitly historical. A new result cannot silently treat an unavailable or changed source as current. Full authority pages, images and logos are not publicly bundled without permitted rights.
 
+**AC-03 context addition (owner, 18 October 2026):** Preserve and cite the notice’s
+recall reason and reported basis, authority-stated health risks, affected packs /
+identifiers / lot-date restrictions, total recalled quantity when stated, actors,
+company actions, regulatory actions, reported legal proceedings and authority
+consumer guidance. The reason must be findable in the workbench and retail queue;
+detailed context may use a clearly actionable disclosure. Bind to the exact notice
+version/capture, preserve possible versus confirmed-at-source wording, and keep
+NOT_STATED distinct from UNKNOWN. Pack size is not aggregate recalled quantity;
+a regulatory notice is not proof of legal proceedings. Attribute historical
+source summaries and link complete advice; no personalized medical advice or
+individual-item contamination finding. New context requires source review and
+cannot silently inherit an existing predicate approval. See
+[context audit](../docs/evidence/M1-recall-context.md).
+
 ### P0-02 Real source and label extraction
 
 Gemini extracts proposed notice rules and label identity/lot/date fields using a validated structured schema and evidence locations. Default candidate is `gemini-3.8-flash`; actual availability, endpoint, settings, SDK and quota must be verified locally. Preserve source-specific codes `319456` and `318591` as product codes, not invented GTINs. Reviewed brand/product/variant/pack identity is usable when a source code is not printed on the package.

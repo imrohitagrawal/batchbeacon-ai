@@ -84,8 +84,10 @@ verified all three corrections, plus cancellation, timeout and lost-write-respon
 recovery. No remaining reproduced blocker in this local increment. Full local
 locked checks/Ruff, **284 unit tests and 41 Chrome browser tests passed**.
 The existing FastAPI/Starlette TestClient deprecation warning remains advisory;
-no dependency was changed. Hosted verification of this checkpoint is pending.
-Real paid admission remains closed.
+no dependency was changed. [Hosted run 39080094592](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39080094592)
+passed at `aeffa42bef95ac5374d98dd01612a549594ec670`: locked bootstrap, browser
+installation, lock/Ruff, **284 unit and 41 Chromium browser tests**. Full logs
+were inspected and remote main verified. Real paid admission remains closed.
 
 Implementation references: [Starlette requests](https://www.starlette.io/requests/)
 explains streaming and parser controls; file sizes need their own limits.

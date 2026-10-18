@@ -13,7 +13,7 @@ U09–U12 apply: bounded existing cloud project, INR 6,000 lifetime pools and ap
 GitHub publication. No extra purchase, privilege expansion or public paid endpoint.
 Owner approved dedicated repository initialization and the concrete SFA first slice.
 U02 / UI-SELECTED approved by owner; see M1-visual-approval.md and root DESIGN.
-Remaining human gates: UK/remaining gold/H custody and final submission.
+Remaining human gates: UK/new recall context, remaining gold/H custody and final submission.
 
 ## Workspace and capability
 Dedicated Git root, main branch; T33 contracts and current visual candidate independently reviewed.
@@ -72,9 +72,16 @@ T09 LOCAL/PARTIAL: server guest/upload adapters and isolated HTTP test factory;
 default app unchanged. 60 focused tests; three reproduced defects corrected and
 independently verified. Full local lock/Ruff, 284 unit and 41 Chrome tests PASS.
 See M2-session-upload.md. Shared paid admission, observation/correction persistence,
-actual Firestore/Storage and deployed isolation still pending; hosted check pending.
+actual Firestore/Storage and deployed isolation still pending. Hosted aeffa42 /
+run 39080094592 PASS: locked bootstrap, lock/Ruff, 284 unit and 41 Chromium tests.
 No actual paid allocation initialized; complete runtime admission remains closed.
 See G0X-cloud-preflight.md for scoped independent review and remaining cases.
+
+Recall-context correction: cited reasons and detailed notice context now appear in
+the refined workbench/queue. Prior raw sources retained these facts; earlier reports
+omitted explicit context. New draft source review pending; SFA predicate approval
+unchanged. Local 289 checkpoint unit / 48 browser PASS, independent context PASS;
+see M1-recall-context-verification.md. Hosted checkpoint pending.
 
 ## External state
 Project ID `batchbeacon-ai` ACTIVE, billing enabled; selected account matches owner hint.
@@ -89,8 +96,8 @@ Public GitHub repository created and pushed; README PR #1 merged after hosted PA
 No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested.
 
 ## Next ready queue
-T06 approved/documented. Verify the T09 local checkpoint in hosted CI, then
-continue its shared admission/counter contracts and source-review preparation.
+T06 approved/documented; T09 local checkpoint hosted PASS. Continue shared
+admission/counter contracts and the prepared UK source/label review packet.
 Actual service sign-off still waits for T08. Continue bounded T08 capacity/service
 discovery and T04b source review preparation alongside independent local work. Complete billing bounds remain unsubstantiated;
 paid admission stays closed. Implement approved visuals when T17 is dependency-ready.
