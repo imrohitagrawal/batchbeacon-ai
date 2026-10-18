@@ -125,8 +125,11 @@ ADK/mock cases PASS. Actual source/three separate label preparations passed offl
 with explicit source-limit override; no runtime activation. Full local lock/Ruff,
 701 unit and 48 Chrome PASS; hosted 4a7872e / run 39089850101 passed bootstrap,
 Ruff and the same unit/Chromium counts. See same evidence for runtime limitations.
-Next: application ADK orchestration with shared admission and durable output,
-preserving prepared-input versus final-wire identity and unresolved T08 gates.
+Next: correct reproduced OR11 before application ADK orchestration. An isolated
+old-epoch extraction was accepted after current source advancement and could gain
+current simulated-hold eligibility; no deployed exposure or changed-content match
+claim. See M2-extraction-proposals.md. Shared admission, durable attempt output,
+final-wire identity and unresolved T08 gates still precede runtime acceptance.
 UK v3/new source-context human review is pending.
 Actual service sign-off still waits for T08. Continue bounded T08 capacity/service
 discovery and T04b source review preparation alongside independent local work. Complete billing bounds remain unsubstantiated;

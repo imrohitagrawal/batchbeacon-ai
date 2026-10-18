@@ -200,6 +200,23 @@ provider-execution receipt.
 
 ## Remaining integration gates
 
+**Open OR11 / REQUIRED_CONTRACT:** a subsequent isolated fake-store reproduction
+advanced the current notice/context from source epoch 1 to 2 before recording an
+extraction whose envelope still named epoch 1. `record_extraction()` accepted the
+old dependency; later verification reported a current matched result with simulated
+hold eligibility. Source content was unchanged in this test, so this demonstrates
+a dependency/currentness contract gap, not a real-world incorrect product match
+or deployed exposure. The internal API currently trusts adapter provenance.
+
+The next correction must check the selected source dependencies atomically at the
+responsible publication boundary, preserve historical/failed attempt evidence,
+and retain idempotent reconciliation without publishing a new stale observation.
+Reproduce source-change races and duplicate/lost-ack behavior, then independently
+verify the correction and run complete local/hosted checks. No correction is
+claimed here. The failed reproduction is retained privately; application runtime
+integration acceptance remains blocked by this finding. Earlier component passes
+remain scoped evidence, not proof of this previously untested boundary.
+
 T10 still requires the application-integrated ADK workflow with this schema and
 effective configuration, then separately authorized real-provider evidence. Its
 consumer must
