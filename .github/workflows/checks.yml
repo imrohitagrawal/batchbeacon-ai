@@ -28,5 +28,7 @@ jobs:
         env:
           BATCHBEACON_BROWSER_CHECKS: '1'
         run: ./scripts/check.sh
+      - name: Fixed-host edge security checks
+        run: node --test tests/edge/worker.test.mjs
       - name: Explicit remaining gates
         run: echo 'Real cloud/model tests, hosted product journeys and release gates are NOT part of this preparation workflow.'

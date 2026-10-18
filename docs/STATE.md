@@ -38,7 +38,7 @@ A fresh empty-cookie browser, without authentication headers, completed actual
 Gemini/ADK label extraction, deterministic historical-SFA comparison, explicit
 checkbox-confirmed simulated hold, reload, owned queue and phone-layout checks.
 Independent ledger readback confirms one new attempt/action and unchanged limits.
-Nine lifetime model attempts and six guests are charged; zero model reservations
+The last readback records nine lifetime model attempts and seven guests; zero model reservations
 remain. The finite PUBLIC phase preserves prior balances; no reset occurred.
 Exact accounts, charges/configuration and private IDs remain in ignored evidence.
 
@@ -61,15 +61,23 @@ Exact accounts, charges/configuration and private IDs remain in ignored evidence
   firing/closure and observed physical cleanup remain incomplete under U18.
   No food-safety, real-inventory, worldwide-coverage or model-accuracy claim follows.
 
+## Critical correction in verification
+
+U19 admits restoration of the approved UI and a dedicated StackClimb Worker.
+The custom hostname currently returns HTTPS200, but remains unaccepted pending
+full deployed verification. The fallback above remains the accepted URL.
+[Correction evidence](evidence/M4-ui-domain-correction.md) separates local and
+hosted evidence; no backend verifier, runtime, namespace or budget reset changed.
+
 ## Submission packaging and next action
 
 Registered team: Bugging Debuggers; official member spelling is Priyanka Shelke.
 The prescribed-template audience deck includes differentiation, both existing
 workspaces, stakeholder benefits and planned Consumer Recall Explorer/notice imagery.
 The 15-page native-authored companion PDF is below5MB; editable PPTX is retained.
-Measured narration is230/160seconds. Approved actual public screenshots are ready;
-final video assembly/public playback, complete PDF/link binding and final audits
-remain. Final exported duration/size and links must be checked before OWNER-SUBMIT.
+Both complete videos measure230/160seconds at1080p with actual reviewed footage.
+The submission cut passed decoded-frame lineage/privacy checks; public hosting,
+playback, final PDF/link binding and final submission remain. Final exported duration/size and links must be checked before OWNER-SUBMIT.
 
 Next: finish audited video/PDF, refresh accepted-release guide/source artifacts,
 complete the authenticated form, request OWNER-SUBMIT on the concrete package and

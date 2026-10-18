@@ -15,3 +15,27 @@ button:disabled { cursor: not-allowed; }
 @media (max-width: 760px) { #session-state { display: none; } }
 
 .field-detail { overflow-wrap: anywhere; }
+
+.journey-intro { max-width: 1040px; margin: 0 0 24px; }
+.journey-intro > p { color: var(--muted); font-size: .9375rem; line-height: 1.6; }
+.journey-intro strong { color: var(--ink); }
+.journey-steps { gap: 16px 32px; flex-wrap: wrap; margin: 16px 0 0; color: var(--ink); }
+.examples > .preview-toolbar, .examples > .context-line { margin: 0 16px 16px; }
+#example-cards { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+#action-help { margin-top: 14px; line-height: 1.5; }
+.guidance-block { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
+.guidance-block h3, .guidance-block p { margin-bottom: 12px; }
+.guidance-block > button, #learning-refresh { margin: 6px 8px 6px 0; }
+.guidance-block > label { display: block; margin: 18px 0 8px; }
+.wording-comparison { margin: 20px 0; }
+.wording-comparison > div > div { margin-top: 12px; line-height: 1.6; }
+#learning-history { margin-top: 16px; font-size: .875rem; }
+#learning-history p { margin: 8px 0; }
+.queue-heading { padding: 12px 24px; }
+@media (max-width: 760px) { .journey-intro { margin-bottom: 16px; } .journey-steps { display: grid; grid-template-columns: 1fr 1fr; } #example-cards { grid-template-columns: 1fr; } .preview-toolbar select { max-width: 100%; } }
+
+.guidance-block select { max-width: 100%; width: 100%; }
+.guidance-main, .guidance-block, .wording-comparison > div { min-width: 0; overflow-wrap: anywhere; }
+
+.journey-start { display: none; }
+@media (max-width: 760px) { .journey-start { display: inline-flex; margin: 0 0 16px; } }

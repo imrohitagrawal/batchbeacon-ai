@@ -172,3 +172,27 @@ its single learning GET performs disclosed refresh bookkeeping.
 
 Final media links, complete PDF and OWNER-SUBMIT remain open. U18 does not relabel
 any omitted internal acceptance as passed or accept material competition terms.
+
+
+## Submission media verification
+
+The public documentation checkpoint `848f2e18` passed hosted run
+[39134890724](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39134890724):
+Ruff, 1,335 unit and 70 browser checks. The deployed application remains `48c15250`.
+
+The 15-page prescribed-template PDF includes actual public comparison, explicit
+confirmation and reopened mobile-result captures, plus scoped deployed guidance
+evaluation/activation/rollback evidence. Independent review verified template
+artwork, screenshot provenance/privacy, visible layout and public app/source links.
+Fourteen stale preparation-era PPT notes were corrected to the accepted release;
+all other PPT parts and competitor citations were verified unchanged.
+
+The submission video measures exactly230seconds at1920×1080 with48kHz AAC and
+fully decodes. All6,900 decoded frames match the ordered reviewed components.
+Actual footage retains chronological extraction, comparison, confirmation, queue
+and reopened-result states; held frames and privacy masks are disclosed. A single
+private identifier at an initial transition was removed by trimming that frame;
+independent review verified the corrected excerpt. A separate composition-fit
+experiment was corrected before publication. Failed drafts remain private and
+excluded. Audio timing/signal checks are distinct from listening/pronunciation
+review. Public hosting/playback and final OWNER-SUBMIT remain open.

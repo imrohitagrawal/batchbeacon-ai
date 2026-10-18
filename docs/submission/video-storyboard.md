@@ -1,6 +1,6 @@
 # BatchBeacon AI: competitive narration v4
 
-Packaging draft. The public prototype and real-AI journey are verified; final exported video and media link remain pending. Actual label → Gemini/ADK → deterministic check → explicit simulated hold → Firestore queue narrative preserved. Original v3c source and audio are unchanged.
+Packaging draft. The public prototype and real-AI journey are verified; the 230-second submission and 160-second alternative videos are exported; public hosting/playback remains pending. Actual label → Gemini/ADK → deterministic check → explicit simulated hold → Firestore queue narrative preserved. Original v3c source and audio are unchanged.
 
 ## Submission — 230 seconds
 
@@ -76,4 +76,4 @@ Future work includes a public Consumer Recall Explorer, images from official not
 
 ## Validation and remaining media work
 
-Both new cuts measure exactly 230.000/160.000 seconds at 48 kHz mono PCM. Every complete spoken segment fits before its reserved pause; no speech was truncated. Peak level is -1.8 dBFS in each cut. Local tempo correction applies only to two submission scenes and remains below the admitted 1.2 ceiling. Listening/pronunciation review is pending: no actual audio playback feedback was available in this file-generation route. Actual visual evidence, public hosting and fresh playback validation remain required. Engineering counts are bound to successful exact-head hosted run 39130978886 (1,335 unit, 70 browser; HEAD 48c15250c76f7b5adf3cea673384d3be0007661e).
+Both new cuts measure exactly 230.000/160.000 seconds at 48 kHz mono PCM. Every complete spoken segment fits before its reserved pause; no speech was truncated. Peak level is -1.8 dBFS in each cut. Local tempo correction applies only to two submission scenes and remains below the admitted 1.2 ceiling. Listening/pronunciation review is pending: no actual audio playback feedback was available in this file-generation route. Both complete videos are 1920×1080 H.264 with 48 kHz AAC and decode fully. Actual public footage, approved scoped screenshots and presentation content are combined with visible edited-recording/held-frame disclosures. Public hosting and fresh playback validation remain required. Engineering counts are bound to successful exact-head hosted run 39130978886 (1,335 unit, 70 browser; HEAD 48c15250c76f7b5adf3cea673384d3be0007661e).

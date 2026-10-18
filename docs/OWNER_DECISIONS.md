@@ -74,3 +74,15 @@ real Gemini/ADK, deterministic checks, human-confirmed simulated holds, persiste
 queue and tested guidance evaluation/activation/rollback. Security, finite budgets,
 fresh public-browser acceptance, official artifacts and final OWNER-SUBMIT/material
 terms retain their gates. UK is review-only; ATT-01/CON-01 remain future scope.
+
+## U19 — bounded critical UI and custom-host correction
+
+The owner explicitly requested restoration of the approved Evidence in focus UI,
+first-time visitor usability verification, and a dedicated Cloudflare Worker for
+batchbeacon.stackclimb.com using the inspected CaféMesh hosting pattern. This is
+a narrow correction during freeze, not new feature development. The canonical
+Cloud Run URL remains the fallback; the custom host is preferred only after
+security, cost, TLS and actual fresh-browser journey acceptance. CaféMesh resources
+must remain unchanged. No paid plan, account security change, new Goal, budget or
+execution-window extension is authorized. U17/U18 and U16 OWNER-SUBMIT remain.
+Exact time box and admission are private in `.local/run-policy.json`.
