@@ -28,7 +28,7 @@ Future scope: [B0–B3 roadmap and ATT-01 PDF/image evidence](ROADMAP.md). Plann
 ## Judge-facing public entry points
 
 - [Product gallery and live-demo provenance](SHOWCASE.md): explicit distinction between reviewed visual-candidate screenshots, final release video and actual deployment evidence.
-- [Repository metadata and owner-only merge configuration](REPOSITORY_SETTINGS.md): About, homepage, technology topics, social preview, CODEOWNERS and server-side branch rules.
+- [Full repository organization/enterprise audit](REPOSITORY_AUDIT.md): verified strengths, issues, decisions and outstanding acceptance.\n- [Repository metadata and owner-only merge configuration](REPOSITORY_SETTINGS.md): About, homepage, technology topics, social preview, CODEOWNERS and server-side branch rules.
 - [Judge guide](submission/judge-guide.md), [C4-style architecture and trust boundaries](submission/architecture.md), [technical evidence index](submission/evidence-index.md), [Google technology evidence](submission/google-technology-evidence.md).
 - [Latest release and submitted package](STATE.md#final-submission): current redacted record supersedes pre-submission status wording elsewhere in the archive.
 
