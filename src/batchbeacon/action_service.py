@@ -11,6 +11,7 @@ from uuid import uuid4
 
 from pydantic import Field, model_validator
 
+from batchbeacon.acquisition import StoredCompletion
 from batchbeacon.contracts import (
     ActionRecord,
     ActionType,
@@ -31,6 +32,7 @@ from batchbeacon.evidence_service import (
     replace,
 )
 from batchbeacon.guest_service import GuestDenied, GuestSession, OpaqueId, RequestKey
+from batchbeacon.shared_admission import SessionUsage
 
 
 class ActionPolicy(Record):
@@ -127,6 +129,8 @@ class ActionSnapshot:
     evidence: EvidenceState | None
     environment: EvidenceEnvironment | None
     actions: ActionState | None
+    usage: SessionUsage | None = None
+    completion: StoredCompletion | None = None
 
 
 class ActionStore(Protocol):
@@ -167,7 +171,7 @@ class ActionService:
 
     def _check(self, snapshot, key, incident_id):
         evidence = self.evidence._check(EvidenceSnapshot(snapshot.guest, snapshot.evidence,
-                                                        snapshot.environment), key, incident_id)
+            snapshot.environment, snapshot.usage, snapshot.completion), key, incident_id)
         if snapshot.environment is None:
             raise GuestDenied(503, "source_state_unavailable")
         state = snapshot.actions
@@ -217,6 +221,9 @@ class ActionService:
                 or result.verifier_version != VERIFIER_VERSION:
             return False
         try:
+            if not self.evidence._acquisition_current(EvidenceSnapshot(snapshot.guest,
+                    evidence, environment, snapshot.usage, snapshot.completion), evidence):
+                return False
             self.evidence._ready(
                 EvidenceSnapshot(snapshot.guest, evidence, environment), evidence.incident_id,
                 evidence.observations[-1].observation.captures)

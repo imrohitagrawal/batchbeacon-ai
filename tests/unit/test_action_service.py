@@ -46,7 +46,7 @@ class ActionStoreFake:
             def snapshot():
                 return ActionSnapshot(self.evidence.guests.get(key),
                     self.evidence.state(key, incident), self.evidence.environment,
-                    self.state(key, incident))
+                    self.state(key, incident), self.evidence.usage.get(key))
             first_snapshot = snapshot()
             first = change(first_snapshot)
             self.before_retry()

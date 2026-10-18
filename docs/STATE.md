@@ -88,16 +88,16 @@ Public GitHub repository created and pushed; README PR #1 merged after hosted PA
 No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested.
 
 ## Next ready queue
-Checkpoint durable-attempt evidence, verify exact-head hosted checks, then implement
-owned ADK factory/final-wire transport and coordinator. Bind run eligibility and
-publication atomically; failed/unknown new acquisition must not revive prior results.
+Acquisition completion and latest-run eligibility are locally implemented; two
+independently reproduced deadline/history defects corrected. See M2-acquisition-completion.md.
+Continue owned ADK factory/final-wire transport and coordinator integration.
 Shared reservations and unresolved T08 gates precede real-runtime acceptance.
 Continue bounded T08 discovery and T04b review alongside independent local work.
 Complete billing bounds/prior liabilities remain unsubstantiated; paid admission closed.
 Owner-requested reason/symptom/frequency analysis is in RECALL_ANALYTICS.md;
 no analytics implementation or complete-history claim. Missing version-specific
 UK company-notice links corrected in draft context/prototype; independently reviewed.
-Full local 790 unit / 50 Chrome PASS; exact-head hosted validation pending.
+Local 790 unit / 50 Chrome and hosted 0702e3d / run 39103064027 PASS.
 Source/human review stays separate, including the new link-only addendum.
 Implement approved visuals when T17 is dependency-ready. Remaining human gates:
 UK/new context, remaining gold/H custody and final concrete submission.

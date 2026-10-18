@@ -25,6 +25,7 @@ from google.cloud.firestore_v1.types import (
 )
 from pydantic import Field, TypeAdapter, model_validator
 
+from batchbeacon.acquisition import AcquisitionCompletion, StoredCompletion
 from batchbeacon.action_service import ActionPolicy, ActionSnapshot, ActionState
 from batchbeacon.cloud_policy import ProjectId
 from batchbeacon.contracts import Digest, Record
@@ -90,6 +91,7 @@ class _Transaction:
     def __init__(self, owner, transaction_id, deadline):
         self.owner, self.id, self.deadline = owner, transaction_id, deadline
         self.reads, self.writes = {}, {}
+        self.timestamps = {}
         self.read_bytes = 0
         self.not_after = None
 
@@ -125,6 +127,11 @@ class _Transaction:
                     raise _unavailable()
                 self.reads[name] = self.owner._decode(response.found, pending[name]) \
                     if kind == "found" else None
+                if kind == "found":
+                    document = type(response.found).pb(response.found)
+                    self.timestamps[name] = (
+                        response.found.create_time if document.HasField("create_time") else None,
+                        response.found.update_time if document.HasField("update_time") else None)
             if seen != set(pending):
                 raise _unavailable()
         return {name: self.reads[name] for name in specifications}
@@ -141,7 +148,7 @@ class _Transaction:
 
 _MODELS = {"guest": GuestSession, "usage": SessionUsage, "evidence": EvidenceState,
            "actions": ActionState, "environment": EvidenceEnvironment,
-           "budget": Budget, "attempt": Attempt}
+           "budget": Budget, "attempt": Attempt, "completion": AcquisitionCompletion}
 
 
 class FirestoreStores:
@@ -163,7 +170,7 @@ class FirestoreStores:
             raise ValueError("unknown persistence kind")
         if kind in {"guest", "usage", "evidence", "actions"}:
             TypeAdapter(Digest).validate_python(key)
-        elif kind == "attempt":
+        elif kind in {"attempt", "completion"}:
             TypeAdapter(OpaqueId).validate_python(key)
         elif kind == "environment":
             key = self.policy.environment_id
@@ -433,24 +440,69 @@ class _Evidence:
     def __init__(self, store):
         self.store = store
 
+    def snapshot(self, tx, key, incident):
+        s = self.store
+        guest, usage = s._guest(tx, key)
+        names = {s.name("evidence", key, incident): "evidence",
+                 s.name("environment"): "environment"}
+        records = tx.read(names)
+        state = s._child(records[s.name("evidence", key, incident)], guest, incident, "evidence")
+        environment = records[s.name("environment")]
+        if environment is None:
+            raise _unavailable()
+        latest = next((r for r in reversed(usage.runs) if r.incident_id == incident), None)
+        proof = None
+        if latest is not None:
+            name = s.name("completion", latest.id)
+            record = tx.read({name: "completion"})[name]
+            if record is not None:
+                created, updated = tx.timestamps[name]
+                if created is None or updated is None or (record.run_id, record.session_id,
+                    record.incident_id) != (latest.id, guest.scope.session_id, incident):
+                    raise _unavailable()
+                proof = StoredCompletion(record, created, updated)
+        return EvidenceSnapshot(guest, state, environment, usage, proof)
+
     def transact(self, key, incident, change):
         s = self.store
         def operate(tx):
-            guest, usage = s._guest(tx, key)
-            names = {s.name("evidence", key, incident): "evidence",
-                     s.name("environment"): "environment"}
-            records = tx.read(names)
-            state = s._child(records[s.name("evidence", key, incident)], guest,
-                             incident, "evidence")
-            environment = records[s.name("environment")]
-            if environment is None:
-                raise _unavailable()
-            result = change(EvidenceSnapshot(guest, state, environment, usage))
-            s._child(result, guest, incident, "evidence")
-            tx.limit_to(guest.scope.expires_at)
+            snapshot = self.snapshot(tx, key, incident)
+            result = change(snapshot)
+            s._child(result, snapshot.guest, incident, "evidence")
+            tx.limit_to(snapshot.guest.scope.expires_at)
+            # Candidate/history writes can complete late, but only immutable
+            # completion server metadata can make their results eligible.
             tx.write(s.name("evidence", key, incident), "evidence", result)
             return result
         return s.run(operate)
+
+    def complete(self, key, incident, run_id, change):
+        s = self.store
+        def operate(tx):
+            snapshot = self.snapshot(tx, key, incident)
+            name = s.name("completion", run_id)
+            if name not in tx.reads:
+                raise _unavailable()
+            receipt = change(snapshot)
+            if (receipt.run_id, receipt.session_id, receipt.incident_id) != (
+                    run_id, snapshot.guest.scope.session_id, incident):
+                raise _unavailable()
+            prior = tx.reads[name]
+            if prior is not None and prior != receipt:
+                raise _unavailable()
+            run = next(r for r in snapshot.usage.runs if r.id == run_id)
+            if (prior is None and run.completion_hash is not None) or (
+                    prior is not None and run.completion_hash != receipt.digest()):
+                raise _unavailable()
+            tx.limit_to(snapshot.guest.scope.expires_at)
+            if prior is None:
+                tx.limit_to(receipt.deadline)
+                tx.write(name, "completion", receipt, create=True)
+                usage = replace(snapshot.usage, runs=tuple(
+                    replace(r, completion_hash=receipt.digest()) if r.id == run_id else r
+                    for r in snapshot.usage.runs))
+                tx.write(s.name("usage", key), "usage", usage)
+        s.run(operate)
 
 
 class _Actions:
@@ -460,19 +512,14 @@ class _Actions:
     def transact(self, key, incident, change):
         s = self.store
         def operate(tx):
-            guest, _ = s._guest(tx, key)
-            names = {s.name("evidence", key, incident): "evidence",
-                     s.name("actions", key, incident): "actions",
-                     s.name("environment"): "environment"}
+            snapshot = s.evidence.snapshot(tx, key, incident)
+            guest, evidence, environment = snapshot.guest, snapshot.state, snapshot.environment
+            names = {s.name("actions", key, incident): "actions"}
             records = tx.read(names)
-            evidence = s._child(records[s.name("evidence", key, incident)], guest,
-                                incident, "evidence")
             actions = s._child(records[s.name("actions", key, incident)], guest,
                                incident, "actions")
-            environment = records[s.name("environment")]
-            if environment is None:
-                raise _unavailable()
-            result = change(ActionSnapshot(guest, evidence, environment, actions))
+            result = change(ActionSnapshot(guest, evidence, environment, actions,
+                                          snapshot.usage, snapshot.completion))
             s._child(result, guest, incident, "actions")
             tx.limit_to(guest.scope.expires_at)
             tx.write(s.name("actions", key, incident), "actions", result)

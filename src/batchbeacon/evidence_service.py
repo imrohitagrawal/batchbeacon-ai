@@ -14,6 +14,7 @@ from typing import Annotated, Literal, Protocol, Self
 
 from pydantic import Field, model_validator
 
+from batchbeacon.acquisition import AcquisitionCompletion, StoredCompletion
 from batchbeacon.contracts import (
     AuthorityNotice,
     Correction,
@@ -120,6 +121,7 @@ class SavedExtraction(Record):
     revision: Annotated[int, Field(ge=1)]
     recorded_at: datetime
     envelope: ExtractionEnvelope
+    run_id: OpaqueId | None = None
 
 
 class SavedObservation(Record):
@@ -200,6 +202,7 @@ class EvidenceSnapshot:
     state: EvidenceState | None
     environment: EvidenceEnvironment | None
     usage: SessionUsage | None = None
+    completion: StoredCompletion | None = None
 
 
 class EvidenceStore(Protocol):
@@ -215,6 +218,11 @@ class EvidenceStore(Protocol):
         self, guest_key: str, incident_id: str,
         change: Callable[[EvidenceSnapshot], EvidenceState],
     ) -> EvidenceState: ...
+
+    def complete(self, guest_key: str, incident_id: str, run_id: str,
+                 change: Callable[[EvidenceSnapshot], AcquisitionCompletion]) -> None:
+        """Create-only immutable receipt; reread exposes original server timestamps."""
+        ...
 
 
 @dataclass(frozen=True)
@@ -295,13 +303,71 @@ class EvidenceService:
                        for family, dependency in expected.items()):
             raise GuestDenied(409, "extraction_sources_changed")
 
+    @staticmethod
+    def _latest_run(snapshot, state):
+        if snapshot.usage is None or snapshot.usage.session_id != state.session_id:
+            raise GuestDenied(503, "acquisition_state_unavailable")
+        return next((run for run in reversed(snapshot.usage.runs)
+                     if run.incident_id == state.incident_id), None)
+
+    def _acquisition_current(self, snapshot, state):
+        """All result/action consumers use the latest run's immutable completion."""
+        run = self._latest_run(snapshot, state)
+        if run is None:
+            return bool(state.extractions and state.extractions[-1].run_id is None
+                        and state.extractions[-1].envelope.provenance != "live")
+        proof = snapshot.completion
+        if proof is None or not proof.timely() or not state.observations:
+            return False
+        receipt = proof.record
+        if run.completion_hash != receipt.digest():
+            return False
+        if (receipt.run_id, receipt.session_id, receipt.incident_id, receipt.binding_hash,
+                receipt.deadline) != (run.id, state.session_id, state.incident_id,
+                                    run.binding.digest(), run.deadline) \
+                or proof.created_at < run.started_at \
+                or receipt.extraction_revision != len(state.extractions) \
+                or receipt.observation_revision > len(state.observations) \
+                or receipt.result_revision > len(state.results):
+            return False
+        saved = state.extractions[-1]
+        observation = state.observations[receipt.observation_revision - 1].observation
+        result = state.results[receipt.result_revision - 1]
+        return bool(saved.run_id == run.id and saved.digest() == receipt.extraction_hash
+            and saved.envelope.validation == "VALID"
+            and observation.digest() == receipt.observation_hash
+            and result.digest() == receipt.result_hash
+            and observation.revision == run.binding.expected_observation_revision + 1
+            and result.observation_revision == observation.revision
+            and state.observations[-1].extraction_revision == saved.revision
+            and any(r.key == receipt.extraction_key and r.kind == "extraction"
+                    and r.revision == saved.revision for r in state.receipts)
+            and any(r.key == receipt.verification_key and r.kind == "verification"
+                    and r.revision == result.revision for r in state.receipts))
+
+    def _running_acquisition(self, snapshot, state, run_id, *, envelope=None):
+        run = self._latest_run(snapshot, state)
+        if run is None or run.id != run_id or run.terminal \
+                or not run.started_at <= self.guest._now() < run.deadline:
+            raise GuestDenied(409, "acquisition_not_running")
+        if envelope is not None:
+            manifest = run.binding.manifest
+            if envelope.configuration_hash != run.binding.application_configuration_hash \
+                    or envelope.sources != (manifest.source,) \
+                    or envelope.prompt_version != manifest.prompt_version \
+                    or envelope.captures != tuple(c.evidence() for c in manifest.captures) \
+                    or envelope.started_at < run.started_at \
+                    or envelope.completed_at >= run.deadline:
+                raise GuestDenied(409, "acquisition_binding_changed")
+        return run
+
     def record_extraction(self, capability, incident_id, request_key, expected_revision,
-                          envelope: ExtractionEnvelope) -> EvidenceReceipt:
+                          envelope: ExtractionEnvelope, *, run_id=None) -> EvidenceReceipt:
         """INTERNAL trusted-adapter API; never deserialize it from a guest endpoint."""
         if type(expected_revision) is not int or expected_revision < 0:
             raise GuestDenied(422, "observation_revision_invalid")
         payload = canonical({"kind": "extraction", "expected": expected_revision,
-                             "envelope": envelope.model_dump(mode="json")})
+                             "envelope": envelope.model_dump(mode="json"), "run_id": run_id})
         now = self.guest._now()
         if len(envelope.redacted_output_json.encode()) > self.policy.max_raw_bytes \
                 or envelope.completed_at > now:
@@ -315,6 +381,14 @@ class EvidenceService:
                 return state
             if len(state.observations) != expected_revision:
                 raise GuestDenied(409, "observation_changed")
+            latest = self._latest_run(snapshot, state)
+            if run_id is not None:
+                run = self._running_acquisition(snapshot, state, run_id, envelope=envelope)
+                if run.binding.expected_observation_revision != expected_revision \
+                        or any(e.run_id == run_id for e in state.extractions):
+                    raise GuestDenied(409, "acquisition_binding_changed")
+            elif latest is not None or envelope.provenance == "live":
+                raise GuestDenied(409, "acquisition_binding_required")
             if envelope.validation == "VALID":
                 # Only new publication needs this fresh binding. Identical committed
                 # retries above reconcile history; explicit failures retain their
@@ -324,7 +398,7 @@ class EvidenceService:
                 raise GuestDenied(422, "extraction_envelope_invalid")
             self._ready(snapshot, incident_id, envelope.captures)
             saved = SavedExtraction(revision=len(state.extractions) + 1,
-                                    recorded_at=now, envelope=envelope)
+                                    recorded_at=now, envelope=envelope, run_id=run_id)
             observations = state.observations
             if envelope.values is not None:
                 identity = ProductIdentity(**envelope.values.identity.model_dump())
@@ -359,6 +433,8 @@ class EvidenceService:
                 return state
             if not state.observations or len(state.observations) != expected_revision:
                 raise GuestDenied(409, "observation_changed")
+            if not self._acquisition_current(snapshot, state):
+                raise GuestDenied(409, "acquisition_incomplete")
             saved = state.observations[-1]
             obs = saved.observation
             # Restrict corrections to already retained input panels. Recapture is
@@ -411,7 +487,7 @@ class EvidenceService:
             raise GuestDenied(503, "source_state_unavailable")
         return snapshot.environment
 
-    def _binding(self, snapshot, state):
+    def _binding(self, snapshot, state, run_id=None):
         if not state.observations:
             raise GuestDenied(409, "observation_required")
         if state.extractions[-1].envelope.validation != "VALID" \
@@ -420,12 +496,19 @@ class EvidenceService:
             # decisions. Editing or replaying the older successful receipt cannot
             # erase that failure. Recovery requires new validated extraction.
             raise GuestDenied(409, "latest_extraction_invalid")
+        if run_id is not None:
+            self._running_acquisition(snapshot, state, run_id,
+                                      envelope=state.extractions[-1].envelope)
+            if state.extractions[-1].run_id != run_id:
+                raise GuestDenied(409, "acquisition_binding_changed")
+        elif not self._acquisition_current(snapshot, state):
+            raise GuestDenied(409, "acquisition_incomplete")
         return canonical({"observation": state.observations[-1].observation.digest(),
                           "environment": self._environment(snapshot).digest(),
                           "next_result_revision": len(state.results) + 1,
-                          "evidence_policy": self.policy.digest()})
+                          "evidence_policy": self.policy.digest(), "run_id": run_id})
 
-    def verification_binding(self, capability, incident_id) -> str:
+    def verification_binding(self, capability, incident_id, *, run_id=None) -> str:
         """Internal input to SharedAdmission.reserve_verification, not a grant.
 
         Its context_state_hash slot must carry THIS combined digest, which binds
@@ -439,14 +522,14 @@ class EvidenceService:
             state = self._check(snapshot, key, incident_id)
             if state.digest() != checked:
                 raise GuestDenied(409, "verification_dependencies_changed")
-            binding[:] = [self._binding(snapshot, state)]
+            binding[:] = [self._binding(snapshot, state, run_id)]
             return state
 
         self._transaction(capability, incident_id, read)
         return binding[0]
 
     def publish_verification(
-        self, capability, incident_id, request_key, binding
+        self, capability, incident_id, request_key, binding, *, run_id=None
     ) -> EvidenceReceipt:
         """Internal deterministic result computation; no client result accepted.
 
@@ -462,7 +545,7 @@ class EvidenceService:
             state = self._check(snapshot, key, incident_id)
             if self._receipt(state, request_key, payload):
                 return state
-            if state.digest() != checked or self._binding(snapshot, state) != binding:
+            if state.digest() != checked or self._binding(snapshot, state, run_id) != binding:
                 raise GuestDenied(409, "verification_dependencies_changed")
             usage = snapshot.usage
             counter = next((i for i in usage.incidents if i.incident_id == incident_id), None) \
@@ -482,6 +565,60 @@ class EvidenceService:
         state = self._transaction(capability, incident_id, change)
         return self._receipt(state, request_key, payload)
 
+    def complete_acquisition(self, capability, incident_id, run_id,
+                             extraction_key, verification_key):
+        """Create exact immutable completion proof; server creation time gates acceptance."""
+        key = self.guest._key(capability)
+        created = []
+
+        def change(snapshot):
+            state = self._check(snapshot, key, incident_id)
+            if snapshot.completion is not None:
+                created.clear()
+                old = snapshot.completion.record
+                if (old.run_id, old.extraction_key, old.verification_key) != (
+                        run_id, extraction_key, verification_key):
+                    raise GuestDenied(409, "completion_conflict")
+                return old
+            run = self._running_acquisition(snapshot, state, run_id)
+            if not state.extractions or not state.observations or not state.results:
+                raise GuestDenied(409, "acquisition_incomplete")
+            saved, obs, result = (state.extractions[-1], state.observations[-1].observation,
+                                  state.results[-1])
+            self._running_acquisition(snapshot, state, run_id, envelope=saved.envelope)
+            self._extraction_sources(snapshot, saved.envelope.sources)
+            if saved.run_id != run_id or saved.envelope.validation != "VALID" \
+                    or obs.revision != run.binding.expected_observation_revision + 1 \
+                    or result.observation_revision != obs.revision \
+                    or state.active_result != result.revision \
+                    or not is_current(result, observation_revision=obs.revision,
+                        context=self._environment(snapshot).at(self.guest._now(), result.revision),
+                        policy=self._environment(snapshot).verifier_policy) \
+                    or not any(r.key == extraction_key and r.kind == "extraction"
+                               and r.revision == saved.revision for r in state.receipts) \
+                    or not any(r.key == verification_key and r.kind == "verification"
+                               and r.revision == result.revision for r in state.receipts):
+                raise GuestDenied(409, "completion_dependencies_changed")
+            receipt = AcquisitionCompletion(run_id=run_id, session_id=state.session_id,
+                incident_id=incident_id, binding_hash=run.binding.digest(), deadline=run.deadline,
+                extraction_key=extraction_key, extraction_revision=saved.revision,
+                extraction_hash=saved.digest(), observation_revision=obs.revision,
+                observation_hash=obs.digest(), verification_key=verification_key,
+                result_revision=result.revision, result_hash=result.digest())
+            created[:] = [receipt]
+            return receipt
+
+        self.guest._storage(self.store.complete, key, incident_id, run_id, change)
+        # Lost/late commit acknowledgments cannot produce fresh success. A later read
+        # may resolve an on-time server receipt without starting model work again.
+        self.guest.resolve(capability)
+        if created and self.guest._now() >= created[0].deadline:
+            raise GuestDenied(409, "acquisition_deadline_elapsed")
+        result = self.read_evidence(capability, incident_id)
+        if created and self.guest._now() >= created[0].deadline:
+            raise GuestDenied(409, "acquisition_deadline_elapsed")
+        return result
+
     def read_evidence(self, capability, incident_id, revision=None) -> EvidenceView:
         key = self.guest._key(capability)
         views, environments = [], []
@@ -500,6 +637,7 @@ class EvidenceService:
             result = next((r for r in reversed(state.results)
                            if obs and r.observation_revision == obs.revision), None)
             current = bool(result and state.active_result == result.revision
+                           and self._acquisition_current(snapshot, state)
                            and obs.revision == len(state.observations)
                            and is_current(result, observation_revision=obs.revision,
                                context=environment.at(self.guest._now(), len(state.results)),

@@ -182,6 +182,7 @@ class IncidentUsage(Record):
 class Run(Record):
     binding: RunBinding
     attempt_ids: tuple[OpaqueId, ...] = ()
+    completion_hash: Digest | None = None
     id: OpaqueId
     incident_id: OpaqueId
     request_key: RequestKey
@@ -269,6 +270,12 @@ class Change:
     # A denial that MUST commit (e.g. circuit opening) is data until after commit.
     denial: str | None = None
     not_after: datetime | None = None
+
+
+@dataclass(frozen=True)
+class RunAdmission:
+    run: Run
+    fresh: bool
 
 
 class SharedStore(Protocol):
@@ -418,6 +425,13 @@ class SharedAdmission:
     def begin_run(self, guest_key: str, incident_id: str, request_key: str,
                   binding: RunBinding) -> Run:
         """Return identity/history; only reserve + a new claim permits dispatch."""
+        return self.admit_run(guest_key, incident_id, request_key, binding).run
+
+    def admit_run(self, guest_key: str, incident_id: str, request_key: str,
+                  binding: RunBinding, *, not_after: datetime | None = None) -> RunAdmission:
+        """Fresh is true only for this newly acknowledged acquisition admission."""
+        if not_after is not None and (not_after.tzinfo is None or not_after.utcoffset() is None):
+            raise SharedDenied("aware execution deadline required")
         binding = RunBinding.model_validate_json(binding.model_dump_json())
         address, run_id, started = Address(guest_key), uuid4().hex, self._now()
 
@@ -456,6 +470,7 @@ class SharedAdmission:
                 guest.scope.expires_at,
                 budget.phase.expires_at,
                 self.grant.expires_at,
+                not_after or guest.scope.expires_at,
             )
             if self._now() >= deadline:
                 raise SharedDenied("run expired before admission")
@@ -488,7 +503,7 @@ class SharedAdmission:
         run = next(r for r in result.usage.runs if r.request_key == request_key)
         if self._now() >= result.not_after or (run.id == run_id and self._now() >= run.deadline):
             raise SharedDenied("run ended before admission response")
-        return run
+        return RunAdmission(run, run.id == run_id)
 
     def reserve(
         self, guest_key: str, run_id: str, attempt_id: str, request_hash: str, *, operation_key: str

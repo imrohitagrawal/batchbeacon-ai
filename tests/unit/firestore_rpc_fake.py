@@ -4,6 +4,7 @@ Independent clients share this fake server. Emulator/cloud checks are separate.
 The production adapter does not use this process-local lock or memory state.
 """
 
+from datetime import UTC, datetime
 from threading import RLock
 
 from google.api_core import exceptions
@@ -27,10 +28,16 @@ class Server:
         self.after_commit = lambda request: None
         self.read_transform = lambda responses: responses
         self.fail, self.rollback_fails, self.aborts = None, False, 0
+        self.clock = lambda: datetime.now(UTC)
 
     def seed(self, document):
         with self.lock:
-            self.docs[document.name] = Document(document)
+            saved = Document(document)
+            timestamp = self.clock()
+            saved.create_time = (self.docs[document.name].create_time if document.name in self.docs
+                                 else timestamp)
+            saved.update_time = timestamp
+            self.docs[document.name] = saved
             self.versions[document.name] = self.versions.get(document.name, 0) + 1
 
     def rpc(self, name, request, **options):
@@ -68,7 +75,7 @@ class Server:
             for write in request.writes:
                 self.seed(write.update)
         self.after_commit(request)
-        return CommitResponse()
+        return CommitResponse(commit_time=self.clock())
 
 
 class RecordingTransport(FirestoreTransport):
