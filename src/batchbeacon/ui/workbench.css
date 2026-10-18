@@ -59,3 +59,5 @@ button:disabled { cursor: not-allowed; }
 .example-help p { padding: 0 12px; margin: 0 0 12px; font-size: .875rem; line-height: 1.6; overflow-wrap: anywhere; }
 
 .single-source { flex: 1 1 240px; margin: 0; padding: 12px; background: var(--evidence-surface); border-radius: 8px; font-size: .875rem; line-height: 1.5; overflow-wrap: anywhere; }
+
+.source-explainer { flex: 1 1 240px; min-width: 0; }

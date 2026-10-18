@@ -134,6 +134,14 @@ def test_example_previews_explanations_and_top_tour(connected_browser):
     assert cards.count() == 3
     expect(page.locator('#source-choice')).not_to_be_visible()
     expect(page.locator('#single-source')).to_contain_text('One historical notice')
+    source_help = page.locator('#source-help summary')
+    source_help.focus()
+    source_help.press('Enter')
+    expect(page.locator('#source-explanation')).to_contain_text(
+        'This check uses the Singapore Food Agency (SFA) cheese recall notice '
+        'published on 9 October 2026.'
+    )
+    source_help.press('Space')
     images = cards.locator('img')
     for image in images.all():
         expect(image).to_be_visible()
