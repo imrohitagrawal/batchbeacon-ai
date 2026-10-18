@@ -228,9 +228,9 @@ def test_current_changed_source_review_can_retain_old_checked_dependencies(actio
     assert rig[1].environment.context.current_sources[0].epoch == 2
 
 
-def test_scope_negative_enables_neither_action(actions):
+def test_unproven_resolution_enables_neither_action(actions):
     rig = actions[2]
-    # An explicit test-only reviewed resolver enables a fully scoped negative.
+    # Unproven stored resolution is rejected; valid reviewed negatives are integrated separately.
     from tests.unit.domain_fixtures import observation
     correct(rig)
     evidence = rig[1].state(rig[3].capability_hash, rig[4].id)
@@ -241,11 +241,12 @@ def test_scope_negative_enables_neither_action(actions):
     saved = replace(saved, observation=replace(saved.observation, identity=identity))
     rig[1].states[(rig[3].capability_hash, rig[4].id)] = replace(evidence,
         observations=(*evidence.observations[:-1], saved)).model_dump_json()
-    publish(rig, key="negative")
+    with pytest.raises(GuestDenied, match="identity_history_unavailable"):
+        publish(rig, key="negative")
     for kind in (HOLD, REVIEW):
         with pytest.raises(GuestDenied) as error:
             target(actions, kind)
-        assert error.value.code == "action_not_eligible"
+        assert error.value.code == "identity_history_unavailable"
 
 
 def test_concurrent_different_keys_dedupe_one_action_and_protect_each_key(actions):

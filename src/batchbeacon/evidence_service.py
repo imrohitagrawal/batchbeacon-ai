@@ -10,6 +10,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
 from hashlib import sha256
+from itertools import pairwise
 from typing import Annotated, Literal, Protocol, Self
 
 from pydantic import Field, model_validator
@@ -34,6 +35,13 @@ from batchbeacon.contracts import (
 )
 from batchbeacon.domain.verifier import is_current, is_current_evidence, verify
 from batchbeacon.guest_service import GuestDenied, GuestService, GuestSession, OpaqueId, RequestKey
+from batchbeacon.identity_resolution import (
+    AdmittedIdentities,
+    IdentityAdmission,
+    IdentityReceipt,
+    decide_identity,
+    identity_receipt,
+)
 from batchbeacon.shared_admission import SessionUsage
 
 
@@ -46,6 +54,42 @@ def canonical(value) -> str:
     return sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
+def corrected_observation(obs, field, replacement, now):
+    """Replay one typed correction; identity edits permanently clear resolution."""
+    targets = []
+    if field in {"PRODUCT_NAME", "PACK"}:
+        targets.append(("identity", "name" if field == "PRODUCT_NAME" else "pack"))
+    targets.extend(("field", i) for i, v in enumerate(obs.fields) if v.field.value == field)
+    targets.extend(("code", i) for i, v in enumerate(obs.identity.identifiers)
+                   if v.kind.value == field)
+    if len(targets) != 1:
+        raise GuestDenied(422, "correction_target_unsupported")
+    kind, index = targets[0]
+    if kind == "identity":
+        previous = getattr(obs.identity, index)
+        identity = replace(obs.identity, **{index: replacement}, resolved_name=None,
+                           resolution_review_hash=None)
+        fields = obs.fields
+    elif kind == "field":
+        previous = obs.fields[index].observation
+        fields = tuple(replace(v, observation=replacement) if i == index else v
+                       for i, v in enumerate(obs.fields))
+        identity = obs.identity
+    else:
+        previous = obs.identity.identifiers[index].observation
+        identity = replace(obs.identity, identifiers=tuple(
+            replace(v, observation=replacement) if i == index else v
+            for i, v in enumerate(obs.identity.identifiers)),
+            resolved_name=None, resolution_review_hash=None)
+        fields = obs.fields
+    if replacement.value_type != previous.value_type:
+        raise GuestDenied(422, "correction_type_mismatch")
+    correction = Correction(field=field, previous=previous, replacement=replacement,
+                            actor_session=obs.session_id, recorded_at=now)
+    return replace(obs, revision=obs.revision + 1, identity=identity, fields=fields,
+                   corrections=(*obs.corrections, correction))
+
+
 class EvidencePolicy(Record):
     version: Nonempty = "owned-evidence-1"
     max_raw_bytes: Annotated[int, Field(gt=0)] = 32768
@@ -53,6 +97,7 @@ class EvidencePolicy(Record):
     max_extractions: Annotated[int, Field(gt=0)] = 3
     max_observations: Annotated[int, Field(gt=0)] = 24
     max_receipts: Annotated[int, Field(gt=0)] = 40
+    identity_admission: IdentityAdmission | None = None
 
     @model_validator(mode="after")
     def coherent(self) -> Self:
@@ -122,6 +167,7 @@ class SavedExtraction(Record):
     recorded_at: datetime
     envelope: ExtractionEnvelope
     run_id: OpaqueId | None = None
+    identity_receipt: IdentityReceipt | None = None
 
 
 class SavedObservation(Record):
@@ -236,10 +282,14 @@ class EvidenceView:
 
 
 class EvidenceService:
-    def __init__(self, guest: GuestService, store: EvidenceStore, policy: EvidencePolicy):
+    def __init__(self, guest: GuestService, store: EvidenceStore, policy: EvidencePolicy,
+                 *, identities: AdmittedIdentities | None = None):
         if store is None:
             raise ValueError("explicit evidence store required")
         self.guest, self.store, self.policy = guest, store, policy
+        if (identities.admission if identities else None) != policy.identity_admission:
+            raise ValueError("identity_catalog_policy_mismatch")
+        self.identities = identities
 
     def _check(self, snapshot, key, incident_id):
         guest = self.guest._live(snapshot.guest, key)
@@ -249,7 +299,63 @@ class EvidenceService:
                 or state.incident_id != incident_id or state.policy_hash != self.policy.digest():
             raise GuestDenied(503, "evidence_state_unavailable")
         self._limits(state)
+        self._identity_history(snapshot, state)
         return state
+
+    def identity_decision(self, values, captures, sources):
+        return decide_identity(self.identities, values, captures, sources)
+
+    def _identity_history(self, snapshot, state):
+        for saved in state.extractions:
+            envelope = saved.envelope
+            if envelope.values is None:
+                if saved.identity_receipt is not None:
+                    raise GuestDenied(503, "identity_history_unavailable")
+                continue
+            decision = self.identity_decision(envelope.values, envelope.captures, envelope.sources)
+            expected = None
+            if decision.state == "DISAGREES":
+                raise GuestDenied(503, "identity_history_unavailable")
+            if decision.state == "RESOLVED":
+                run = next((r for r in snapshot.usage.runs if r.id == saved.run_id), None) \
+                    if snapshot.usage else None
+                if run is None:
+                    raise GuestDenied(503, "identity_history_unavailable")
+                expected = identity_receipt(self.identities, decision, envelope.values,
+                                            envelope.captures, envelope.sources, run)
+            if saved.identity_receipt != expected:
+                raise GuestDenied(503, "identity_history_unavailable")
+            linked = tuple(o.observation for o in state.observations
+                           if o.extraction_revision == saved.revision)
+            identity = ProductIdentity(**envelope.values.identity.model_dump(),
+                resolved_name=expected.resolved_name if expected else None,
+                resolution_review_hash=(expected.historical_reviewed_label_manifest_hash
+                                        if expected else None))
+            if not linked:
+                raise GuestDenied(503, "identity_history_unavailable")
+            first = ProductObservation(session_id=state.session_id, incident_id=state.incident_id,
+                revision=linked[0].revision, captures=envelope.captures, identity=identity,
+                fields=envelope.values.fields, model_id=envelope.model_id,
+                prompt_version=envelope.prompt_version)
+            if linked[0] != first:
+                raise GuestDenied(503, "identity_history_unavailable")
+            # Validate every append against its predecessor, including all captures,
+            # typed values and correction history. A cleared proof cannot reappear,
+            # and an unchanged proof cannot migrate to different identity values.
+            for previous, current in pairwise(linked):
+                if len(current.corrections) != len(previous.corrections) + 1:
+                    raise GuestDenied(503, "identity_history_unavailable")
+                correction = current.corrections[-1]
+                try:
+                    replayed = corrected_observation(previous, correction.field,
+                        correction.replacement, correction.recorded_at)
+                except (GuestDenied, ValueError) as exc:
+                    raise GuestDenied(503, "identity_history_unavailable") from exc
+                if replayed != current:
+                    raise GuestDenied(503, "identity_history_unavailable")
+        revisions = tuple(o.extraction_revision for o in state.observations)
+        if revisions != tuple(sorted(revisions)):
+            raise GuestDenied(503, "identity_history_unavailable")
 
     def _limits(self, state):
         if len(state.extractions) > self.policy.max_extractions \
@@ -410,6 +516,7 @@ class EvidenceService:
             if len(state.observations) != expected_revision:
                 raise GuestDenied(409, "observation_changed")
             latest = self._latest_run(snapshot, state)
+            run = None
             if run_id is not None:
                 run = self._running_acquisition(snapshot, state, run_id, envelope=envelope)
                 if run.binding.expected_observation_revision != expected_revision \
@@ -425,11 +532,25 @@ class EvidenceService:
             if envelope.started_at < snapshot.guest.scope.issued_at:
                 raise GuestDenied(422, "extraction_envelope_invalid")
             self._ready(snapshot, incident_id, envelope.captures)
+            proof = None
+            if envelope.values is not None:
+                decision = self.identity_decision(envelope.values, envelope.captures,
+                                                  envelope.sources)
+                if decision.state == "DISAGREES":
+                    raise GuestDenied(422, "identity_evidence_disagreement")
+                if decision.state == "RESOLVED":
+                    if run is None:
+                        raise GuestDenied(409, "identity_resolution_run_required")
+                    proof = identity_receipt(self.identities, decision, envelope.values,
+                                              envelope.captures, envelope.sources, run)
             saved = SavedExtraction(revision=len(state.extractions) + 1,
-                                    recorded_at=now, envelope=envelope, run_id=run_id)
+                recorded_at=now, envelope=envelope, run_id=run_id, identity_receipt=proof)
             observations = state.observations
             if envelope.values is not None:
                 identity = ProductIdentity(**envelope.values.identity.model_dump())
+                if proof is not None:
+                    identity = replace(identity, resolved_name=proof.resolved_name,
+                        resolution_review_hash=proof.historical_reviewed_label_manifest_hash)
                 obs = ProductObservation(
                     session_id=state.session_id, incident_id=incident_id,
                     revision=len(observations) + 1, captures=envelope.captures,
@@ -468,38 +589,7 @@ class EvidenceService:
             # Restrict corrections to already retained input panels. Recapture is
             # a new extraction with its own input identity and lifetime admission.
             self._ready(snapshot, incident_id, obs.captures)
-            targets = []
-            if field in {"PRODUCT_NAME", "PACK"}:
-                targets.append(("identity", "name" if field == "PRODUCT_NAME" else "pack"))
-            targets.extend(("field", i) for i, v in enumerate(obs.fields) if v.field.value == field)
-            targets.extend(("code", i) for i, v in enumerate(obs.identity.identifiers)
-                           if v.kind.value == field)
-            if len(targets) != 1:
-                raise GuestDenied(422, "correction_target_unsupported")
-            kind, index = targets[0]
-            if kind == "identity":
-                previous = getattr(obs.identity, index)
-                identity = replace(obs.identity, **{index: replacement}, resolved_name=None,
-                                   resolution_review_hash=None)
-                fields = obs.fields
-            elif kind == "field":
-                previous = obs.fields[index].observation
-                fields = tuple(replace(v, observation=replacement) if i == index else v
-                               for i, v in enumerate(obs.fields))
-                identity = obs.identity
-            else:
-                previous = obs.identity.identifiers[index].observation
-                identity = replace(obs.identity, identifiers=tuple(
-                    replace(v, observation=replacement) if i == index else v
-                    for i, v in enumerate(obs.identity.identifiers)),
-                    resolved_name=None, resolution_review_hash=None)
-                fields = obs.fields
-            if replacement.value_type != previous.value_type:
-                raise GuestDenied(422, "correction_type_mismatch")
-            correction = Correction(field=field, previous=previous, replacement=replacement,
-                                    actor_session=state.session_id, recorded_at=now)
-            updated = replace(obs, revision=obs.revision + 1, identity=identity, fields=fields,
-                              corrections=(*obs.corrections, correction))
+            updated = corrected_observation(obs, field, replacement, now)
             return self._append(state, EvidenceReceipt(key=request_key, payload_hash=payload,
                                 kind="correction", revision=updated.revision),
                                 observations=(*state.observations, SavedObservation(

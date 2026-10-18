@@ -265,17 +265,8 @@ def test_stale_unknown_target_ambiguous_code_and_wrong_type_rejected(rig):
     assert len(view(rig).state.observations) == 1
 
 
-def test_identity_edit_clears_resolution_and_ambiguous_date_preserved(rig):
+def test_unresolved_identity_edit_and_ambiguous_date_preserved(rig):
     extract(rig)
-    # Simulate a separately reviewed resolver's persisted identity; no client setter.
-    store, session, incident = rig[1], rig[3], rig[4]
-    state = store.state(session.capability_hash, incident.id)
-    saved = state.observations[0]
-    resolved = replace(saved.observation.identity, resolved_name="old",
-                       resolution_review_hash="b" * 64)
-    saved = replace(saved, observation=replace(saved.observation, identity=resolved))
-    store.states[(session.capability_hash, incident.id)] = replace(
-        state, observations=(saved,)).model_dump_json()
     correct(rig, field="PRODUCT_NAME", value="new name")
     assert view(rig).observation.identity.resolved_name is None
     correct(rig, key="date", expected=2, field="BEST_BEFORE",
@@ -347,33 +338,18 @@ def test_stale_or_unreserved_result_cannot_publish(rig, change):
         assert not view(rig).state.results
 
 
-@pytest.mark.parametrize("negative", [False, True])
-def test_currentness_ignores_allowance_and_invalidates_positive_and_negative(rig, negative):
+def test_positive_currentness_ignores_allowance_and_invalidates_source_change(rig):
     extract(rig)
-    if negative:
-        correct(rig)
-        # Explicit test-only reviewed identity resolution, not model input.
-        store, session, incident = rig[1], rig[3], rig[4]
-        state = store.state(session.capability_hash, incident.id)
-        saved = state.observations[-1]
-        identity = replace(saved.observation.identity,
-            resolved_name=saved.observation.identity.name.value,
-            resolution_review_hash=observation().identity.resolution_review_hash)
-        saved = replace(saved, observation=replace(saved.observation, identity=identity))
-        store.states[(session.capability_hash, incident.id)] = replace(
-            state, observations=(*state.observations[:-1], saved)).model_dump_json()
     for i in range(6):
         publish(rig, key=f"verify{i}")
     before = view(rig)
-    assert before.current
-    assert before.hold_eligible is (not negative)
-    assert before.result.verdict == (Verdict.NOT_LISTED_IN_CHECKED_NOTICES if negative
-                                     else Verdict.MATCHED_HOLD_FOR_REVIEW)
+    assert before.current and before.hold_eligible
+    assert before.result.verdict == Verdict.MATCHED_HOLD_FOR_REVIEW
     rig[1].environment = replace(rig[1].environment, context=replace(
         rig[1].environment.context, live_status=LiveStatus.FAILED))
     current = view(rig)
     assert not current.current and not current.hold_eligible
-    correct(rig, key="later", expected=2 if negative else 1, value="new")
+    correct(rig, key="later", expected=1, value="new")
     assert view(rig).state.active_result is None
     assert len(rig[1].usage[rig[3].capability_hash].incidents[0].verifications) == 6
 

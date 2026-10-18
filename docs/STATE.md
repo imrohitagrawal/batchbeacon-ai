@@ -97,8 +97,9 @@ journey, with shared source-semantic currentness and request-key recovery. Local
 936 unit / 50 Chrome PASS and independent verification passed; hosted 6cdb8e6 /
 run 39105457566 PASS with 936 unit / 50 Chromium. See M2-extraction-coordinator.md.
 Injected extraction HTTP: 65 focused + 15 independent probes PASS; full local
-1001 unit / 50 Chrome PASS; hosted pending.
-M2-extraction-http.md records scope. Reviewed identity resolution remains next.
+1001 unit / 50 Chrome PASS; hosted 0ba9a5a / run 39106007139 PASS (1001/50).
+M2-extraction-http.md records scope. Reviewed synthetic identity integration has
+84 scoped PASS; identity lineage corrections independently verified; local1084/50 PASS. See M2-reviewed-identity.md.
 Shared reservations and unresolved T08 gates precede real-runtime acceptance.
 Continue bounded T08 discovery and T04b review alongside independent local work.
 Complete billing bounds/prior liabilities remain unsubstantiated; paid admission closed.

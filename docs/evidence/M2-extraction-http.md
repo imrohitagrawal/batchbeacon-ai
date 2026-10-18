@@ -42,7 +42,8 @@ that cannot assert authority, session/incident denial, unknown completion recove
 private errors/headers, expiry, event-loop responsiveness, worker cancellation,
 capacity overrides and default-app absence. Independent verification passed all 65 primary cases and 15 additional probes;
 negative controls reproduced both original defects. Full local locked/Ruff checks
-passed 1001 unit and 50 Chrome tests. Exact-head hosted validation is pending. These are local protocol tests, not actual
+passed 1001 unit and 50 Chrome tests. Hosted `0ba9a5a` / run `39106007139`
+passed locked bootstrap, Ruff, 1001 unit and 50 Chromium tests. These are local protocol tests, not actual
 model accuracy, deployed performance, real Firestore or user-facing runtime proof.
 
 The approved UI is unchanged. Identity-fixture resolution, source orchestration,

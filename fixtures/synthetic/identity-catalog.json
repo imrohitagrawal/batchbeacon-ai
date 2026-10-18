@@ -1,0 +1,53 @@
+{
+  "admitted_manifest_sha256": "bfdaa35645036912811bc03779837aaa88976fd529ef6aab990536446efeff43",
+  "approved_source_record_sha256": "4767708b0890394753cac11df693784a649c7f9388bf452eac8abafb4050deac",
+  "existing_review_record_sha256": "3d2e0525ec2d703bee248daa87da8ca1631a37049cb2a64c7e7008b896d59f75",
+  "historical_reviewed_label_manifest_sha256": "e3c09908f1b786b5707ef9ea6cda502ca53ac3415d00c3063f2f778be16d2be5",
+  "historical_reviewed_packet_sha256": "4c998330378ecad9564a1525f006d32cd5642ec60051551085e2ff322a98585b",
+  "identities": [
+    {
+      "approved_image_sha256": "46afdcc4256ceaa09ac4aa12033b9fd7778d65880001584de8a6a0229952f8bd",
+      "fixture_id": "sfa-a",
+      "height": 700,
+      "jurisdiction": "SG",
+      "mime_type": "image/png",
+      "name": "Camembert Superieur Au Lait Cru",
+      "pack_text": "250 g",
+      "synthetic": true,
+      "width": 1000
+    },
+    {
+      "approved_image_sha256": "eae275a98b1226cc4047a979476f097318a04d7b9117cc5fc9bcf3b6e6b3131e",
+      "fixture_id": "sfa-b",
+      "height": 700,
+      "jurisdiction": "SG",
+      "mime_type": "image/png",
+      "name": "Bertrand Pere & Fils Camembert au lait cru",
+      "pack_text": "250 g",
+      "synthetic": true,
+      "width": 1000
+    },
+    {
+      "approved_image_sha256": "c3e93bdf35ec94b7fc855e6cd4f948db7a8be42f99dd748cfda32ce2fe8be9ac",
+      "fixture_id": "sfa-third",
+      "height": 700,
+      "jurisdiction": "SG",
+      "mime_type": "image/png",
+      "name": "Meadow Vale Brie",
+      "pack_text": "250 g",
+      "synthetic": true,
+      "width": 1000
+    }
+  ],
+  "normalization": "name-casefold-whitespace-v1; pack exact rendered text",
+  "source_scope": {
+    "capture_sha256": "b9cdc646e2ea8a38235c6287cbfcfaee35bc4c806bcc47ba1190afb643e91d88",
+    "family": "sfa-cheese-2026",
+    "id": "sfa-cheese-2026-10-09",
+    "jurisdictions": [
+      "SG"
+    ]
+  },
+  "status": "TECHNICAL_PROJECTION_OF_EXISTING_APPROVAL_NOT_NEW_HUMAN_REVIEW",
+  "version": "synthetic-identity-projection-1"
+}

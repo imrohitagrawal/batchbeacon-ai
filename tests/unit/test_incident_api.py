@@ -17,7 +17,7 @@ from starlette.requests import Request
 from batchbeacon.action_service import ActionService
 from batchbeacon.app import app as preparation_app
 from batchbeacon.evidence_service import EvidenceService, replace
-from batchbeacon.guest_service import csrf_for
+from batchbeacon.guest_service import GuestDenied, csrf_for
 from batchbeacon.incident_api import (
     CorrectionCommand,
     IncidentHTTPPolicy,
@@ -438,7 +438,7 @@ def test_existing_body_free_routes_reject_stray_input(api):
         assert api[0].get(path).status_code == 200
 
 
-def test_scoped_negative_cannot_prepare_or_confirm_either_action(api):
+def test_unproven_resolution_cannot_prepare_or_confirm_either_action(api):
     from tests.unit.domain_fixtures import observation
     old = confirmation(api)
     rig = api[3][2]
@@ -451,13 +451,13 @@ def test_scoped_negative_cannot_prepare_or_confirm_either_action(api):
     saved = replace(saved, observation=replace(saved.observation, identity=identity))
     rig[1].states[(rig[3].capability_hash, rig[4].id)] = replace(state,
         observations=(*state.observations[:-1], saved)).model_dump_json()
-    publish(rig, key="negative-wire")
-    data = api[0].get(api[2] + "/evidence").json()
-    assert data["current"] and data["result"]["verdict"] == "NOT_LISTED_IN_CHECKED_NOTICES"
+    with pytest.raises(GuestDenied, match="identity_history_unavailable"):
+        publish(rig, key="negative-wire")
+    assert api[0].get(api[2] + "/evidence").status_code == 503
     for kind in (HOLD, REVIEW):
         assert api[0].get(api[2] + "/actions/prepare", params={
-            "action_type": kind.value}).status_code == 409
-    assert api[0].post(api[2] + "/actions", headers=api[1], json=old).status_code == 409
+            "action_type": kind.value}).status_code == 503
+    assert api[0].post(api[2] + "/actions", headers=api[1], json=old).status_code == 503
     assert not action_state(api).actions
 
 
