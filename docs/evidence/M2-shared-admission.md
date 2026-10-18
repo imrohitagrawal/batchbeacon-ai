@@ -62,7 +62,10 @@ revocation is not claimed.
 
 **36 focused cases and Ruff passed** at independently bound source/test hashes.
 Full local locked checks passed: **325 unit and 48 Chrome browser tests**.
-Hosted checkpoint verification is pending.
+[Hosted run 39082084124](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39082084124)
+passed at `529f911725a8c98b2f9b07918ed1bb14091c851e`: locked bootstrap,
+browser installation, lock/Ruff, 325 unit and 48 Chromium browser checks. The full
+log was inspected. This is hosted test evidence, not a deployed product journey.
 Detailed acceptance, original failures, corrections and reviewer receipts remain
 in ignored `.local/run-records/`. Counts overlap with full-suite totals.
 

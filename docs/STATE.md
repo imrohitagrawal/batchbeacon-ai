@@ -99,9 +99,14 @@ No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested
 ## Next ready queue
 T06 approved/documented; T09 guest/upload and recall-context checkpoints hosted PASS.
 Shared admission protocol independently reviewed (36 focused cases), full local
-325 unit / 48 browser PASS; see M2-shared-admission.md. Hosted checkpoint pending.
-Actual store/provider/rate-limit integration remains. Next: T09 owned observation/
-correction persistence; UK v3/new source-context human review is pending.
+325 unit / 48 browser PASS; see M2-shared-admission.md. Hosted 529f911 / run
+39082084124 PASS with the same unit/browser counts and locked bootstrap/Ruff.
+Owned observation/extraction/correction history independently reviewed: two
+reproduced defects corrected and independently verified, 50 focused tests PASS.
+Full local 375 unit / 48 Chrome PASS; hosted checkpoint pending. See
+M2-observation-history.md. Actual store/provider/rate-limit integration remains.
+Next: isolated T11 action transaction boundary; requirements-first review underway.
+UK v3/new source-context human review is pending.
 Actual service sign-off still waits for T08. Continue bounded T08 capacity/service
 discovery and T04b source review preparation alongside independent local work. Complete billing bounds remain unsubstantiated;
 paid admission stays closed. Implement approved visuals when T17 is dependency-ready.
