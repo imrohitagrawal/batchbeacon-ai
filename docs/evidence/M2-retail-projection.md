@@ -76,7 +76,10 @@ Full local locked bootstrap/Ruff, 1176 unit and 50 Chrome checks PASS. One
 independent review passed 126 scoped tests plus five private probes and two
 correction-disable controls. A separate allowance/context review passed 126 scoped cases plus ten private
 probes, including quota and stale-usage negative controls. All three corrections
-received independent verification. Exact-head hosted checks are pending. Representative complete A/B/third projections measure
+received independent verification. Hosted checkpoint `b0608b9`,
+[run 39108734769](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39108734769),
+passed locked bootstrap/Ruff, 1176 unit and 50 Chromium checks; the remote head
+was verified. Representative complete A/B/third projections measure
 10,388–11,022 UTF-8 bytes; a complete 20-incident view with one checked incident
 and 19 drafts measures 15,454–15,467 bytes. These are fixture measurements, not
 maximum possible record sizes.

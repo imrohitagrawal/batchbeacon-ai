@@ -37,9 +37,12 @@ full human gold audit and H custody PENDING. See M1-domain.md and source evidenc
 T04a owner-confirmed SFA A/B positives and synthetic D07 negative PASS.
 T04b UK original/update captured; UK/new recall-context human review pending.
 T33 local retail/learning contracts PASS: 54 focused cases, four verified fixes;
-T34 pure queue projection/classification has 126 focused tests and full local
-1176 unit / 50 Chrome PASS; independent review and hosted checks in progress. M2-retail-projection.md scopes this increment.
-T34 persistence/HTTP and T35 evaluator remain open; M1-retail-learning-contracts.md.
+T34 pure queue projection/classification independently reviewed; local and hosted
+1176 unit / 50 browser PASS at b0608b9 / run 39108734769. M2-retail-projection.md.
+T35 pure evaluator executes six cases/nine variants under both wording policies;
+57 focused cases, both independent correction reviews and full local1233/50 PASS.
+Hosted checkpoint evidence pending; see M2-learning-evaluator.md. T34 persistence/
+HTTP and T35 owned attempts/activation/runtime remain open.
 T06 / U02 approved: Evidence in focus desktop/phone workbench, queue and guidance.
 DESIGN preserves blue/coral/gold, peach selection, pale-blue controls, lavender
 proposals and mint completed states. M1-usability-audit.md records 41 browser cases
@@ -105,7 +108,7 @@ local1084/50 PASS, but hosted388dca9 failed on PNG encoding portability.
 Correction derives exact normalized aliases from approved originals and sends
 unsupported encodings to review; independent checks and local1104/50 PASS.
 Corrected hosted 22d5b38 / run 39107886876 PASS (1104 unit / 50 Chromium).
-See M2-reviewed-identity.md; T34 pure queue projection is under independent review.
+See M2-reviewed-identity.md; T34 pure queue projection is now locally/hosted checked.
 Shared reservations and unresolved T08 gates precede real-runtime acceptance.
 Continue bounded T08 discovery and T04b review alongside independent local work.
 Complete billing bounds/prior liabilities remain unsubstantiated; paid admission closed.

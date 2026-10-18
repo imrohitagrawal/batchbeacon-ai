@@ -1,0 +1,1934 @@
+{
+  "version": "learning-inputs-1",
+  "scope": "SYNTHETIC_TECHNICAL_ONLY_NO_HUMAN_APPROVAL",
+  "variants": [
+    {
+      "case": "L01",
+      "variant": "LOT_REQUIRED",
+      "notice": {
+        "dependency": {
+          "family": "synthetic-learning-family",
+          "version": "learning-LOT_REQUIRED",
+          "content_hash": "42379ee1156bc2c0f7674d3d1c70d8f38469ad37ef265e492420f8f5c1b9cc9e",
+          "epoch": 1,
+          "review_revision": 1
+        },
+        "authority": "Synthetic fixture authority — not a regulator",
+        "original_url": "https://example.invalid/learning",
+        "final_url": "https://example.invalid/learning",
+        "published_at": "2026-10-17",
+        "retrieved_at": "2026-10-18T00:00:00Z",
+        "jurisdictions": [
+          "SYNTHETIC"
+        ],
+        "review": {
+          "revision": 1,
+          "reviewer": "Synthetic technical oracle; no human approval claimed",
+          "reviewed_at": "2026-10-18T00:00:00Z",
+          "record_hash": "dcb22465012fcade5b2bf37f7f8d5e4935cfdd13fe5d44eba7e9604f5b3f7857",
+          "rights_basis": "Entirely invented technical fixture; not an approved real source"
+        },
+        "interpretation_complete": true,
+        "source_available": true,
+        "source_proposal_agrees": true,
+        "products": [
+          {
+            "id": "fictional-product",
+            "identity": {
+              "canonical_name": "Learning Fixture Cheese",
+              "reviewed_aliases": [],
+              "pack": "250 g",
+              "pack_material": true,
+              "identifiers": [],
+              "evidence": [
+                {
+                  "kind": "SOURCE",
+                  "artifact_id": "learning-LOT_REQUIRED",
+                  "sha256": "42379ee1156bc2c0f7674d3d1c70d8f38469ad37ef265e492420f8f5c1b9cc9e",
+                  "locator": "Synthetic technical fixture; no real notice"
+                }
+              ],
+              "normalization": "name-casefold-whitespace-v1"
+            },
+            "predicates": [
+              {
+                "field": "LOT",
+                "operator": "EXACT",
+                "value_type": "TEXT",
+                "values": [
+                  "000Ab"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-LOT_REQUIRED",
+                    "sha256": "42379ee1156bc2c0f7674d3d1c70d8f38469ad37ef265e492420f8f5c1b9cc9e",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              },
+              {
+                "field": "BEST_BEFORE",
+                "operator": "NOT_SPECIFIED",
+                "value_type": "DATE",
+                "values": [],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-LOT_REQUIRED",
+                    "sha256": "42379ee1156bc2c0f7674d3d1c70d8f38469ad37ef265e492420f8f5c1b9cc9e",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "observation": {
+        "session_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "incident_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "revision": 1,
+        "captures": [
+          {
+            "kind": "CAPTURE",
+            "artifact_id": "label-LOT_REQUIRED",
+            "sha256": "305b797ecd9145563af94159b16f4fc1aced490413eb358a8ba566ce35a7ceed",
+            "locator": "Synthetic typed label; no uploaded image"
+          }
+        ],
+        "identity": {
+          "name": {
+            "raw": "Learning Fixture Cheese",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "Learning Fixture Cheese",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-LOT_REQUIRED",
+                "sha256": "305b797ecd9145563af94159b16f4fc1aced490413eb358a8ba566ce35a7ceed",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "pack": {
+            "raw": "250 g",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "250 g",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-LOT_REQUIRED",
+                "sha256": "305b797ecd9145563af94159b16f4fc1aced490413eb358a8ba566ce35a7ceed",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "identifiers": [],
+          "resolved_name": null,
+          "resolution_review_hash": null
+        },
+        "fields": [
+          {
+            "field": "LOT",
+            "observation": {
+              "raw": "unreadable",
+              "state": "UNKNOWN",
+              "value_type": "TEXT",
+              "value": null,
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-LOT_REQUIRED",
+                  "sha256": "305b797ecd9145563af94159b16f4fc1aced490413eb358a8ba566ce35a7ceed",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          },
+          {
+            "field": "BEST_BEFORE",
+            "observation": {
+              "raw": "unreadable",
+              "state": "UNKNOWN",
+              "value_type": "DATE",
+              "value": null,
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-LOT_REQUIRED",
+                  "sha256": "305b797ecd9145563af94159b16f4fc1aced490413eb358a8ba566ce35a7ceed",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          }
+        ],
+        "corrections": [],
+        "model_id": "synthetic-typed-fixture-no-model",
+        "prompt_version": "no-prompt"
+      },
+      "context": {
+        "jurisdiction": "SYNTHETIC",
+        "mode": "HISTORICAL_DEMO",
+        "historical_selected_at": "2026-10-18T00:00:00Z",
+        "live_status": "NEVER_REQUESTED",
+        "live_validated_at": null,
+        "current_sources": [
+          {
+            "family": "synthetic-learning-family",
+            "version": "learning-LOT_REQUIRED",
+            "content_hash": "42379ee1156bc2c0f7674d3d1c70d8f38469ad37ef265e492420f8f5c1b9cc9e",
+            "epoch": 1,
+            "review_revision": 1
+          }
+        ],
+        "result_revision": 1,
+        "computed_at": "2026-10-18T00:00:00Z"
+      },
+      "changed_notice": null,
+      "changed_observation": null
+    },
+    {
+      "case": "L02",
+      "variant": "DATE_AMBIGUOUS",
+      "notice": {
+        "dependency": {
+          "family": "synthetic-learning-family",
+          "version": "learning-DATE_AMBIGUOUS",
+          "content_hash": "9fbbb65c6359aa80deda2d4515bec46010293ab2a110892500929f5ca09bb453",
+          "epoch": 1,
+          "review_revision": 1
+        },
+        "authority": "Synthetic fixture authority — not a regulator",
+        "original_url": "https://example.invalid/learning",
+        "final_url": "https://example.invalid/learning",
+        "published_at": "2026-10-17",
+        "retrieved_at": "2026-10-18T00:00:00Z",
+        "jurisdictions": [
+          "SYNTHETIC"
+        ],
+        "review": {
+          "revision": 1,
+          "reviewer": "Synthetic technical oracle; no human approval claimed",
+          "reviewed_at": "2026-10-18T00:00:00Z",
+          "record_hash": "dcb22465012fcade5b2bf37f7f8d5e4935cfdd13fe5d44eba7e9604f5b3f7857",
+          "rights_basis": "Entirely invented technical fixture; not an approved real source"
+        },
+        "interpretation_complete": true,
+        "source_available": true,
+        "source_proposal_agrees": true,
+        "products": [
+          {
+            "id": "fictional-product",
+            "identity": {
+              "canonical_name": "Learning Fixture Cheese",
+              "reviewed_aliases": [],
+              "pack": "250 g",
+              "pack_material": true,
+              "identifiers": [],
+              "evidence": [
+                {
+                  "kind": "SOURCE",
+                  "artifact_id": "learning-DATE_AMBIGUOUS",
+                  "sha256": "9fbbb65c6359aa80deda2d4515bec46010293ab2a110892500929f5ca09bb453",
+                  "locator": "Synthetic technical fixture; no real notice"
+                }
+              ],
+              "normalization": "name-casefold-whitespace-v1"
+            },
+            "predicates": [
+              {
+                "field": "LOT",
+                "operator": "EXACT",
+                "value_type": "TEXT",
+                "values": [
+                  "000Ab"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-DATE_AMBIGUOUS",
+                    "sha256": "9fbbb65c6359aa80deda2d4515bec46010293ab2a110892500929f5ca09bb453",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              },
+              {
+                "field": "BEST_BEFORE",
+                "operator": "EXACT",
+                "value_type": "DATE",
+                "values": [
+                  "2026-10-17"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-DATE_AMBIGUOUS",
+                    "sha256": "9fbbb65c6359aa80deda2d4515bec46010293ab2a110892500929f5ca09bb453",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "observation": {
+        "session_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "incident_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "revision": 1,
+        "captures": [
+          {
+            "kind": "CAPTURE",
+            "artifact_id": "label-DATE_AMBIGUOUS",
+            "sha256": "cee15ae761ff253c37cdc43756e56413e30371c07bbd80f346e340d63eee723e",
+            "locator": "Synthetic typed label; no uploaded image"
+          }
+        ],
+        "identity": {
+          "name": {
+            "raw": "Learning Fixture Cheese",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "Learning Fixture Cheese",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-DATE_AMBIGUOUS",
+                "sha256": "cee15ae761ff253c37cdc43756e56413e30371c07bbd80f346e340d63eee723e",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "pack": {
+            "raw": "250 g",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "250 g",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-DATE_AMBIGUOUS",
+                "sha256": "cee15ae761ff253c37cdc43756e56413e30371c07bbd80f346e340d63eee723e",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "identifiers": [],
+          "resolved_name": null,
+          "resolution_review_hash": null
+        },
+        "fields": [
+          {
+            "field": "LOT",
+            "observation": {
+              "raw": "000Ab",
+              "state": "KNOWN",
+              "value_type": "TEXT",
+              "value": "000Ab",
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-DATE_AMBIGUOUS",
+                  "sha256": "cee15ae761ff253c37cdc43756e56413e30371c07bbd80f346e340d63eee723e",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          },
+          {
+            "field": "BEST_BEFORE",
+            "observation": {
+              "raw": "01/02/2026",
+              "state": "AMBIGUOUS",
+              "value_type": "DATE",
+              "value": null,
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-DATE_AMBIGUOUS",
+                  "sha256": "cee15ae761ff253c37cdc43756e56413e30371c07bbd80f346e340d63eee723e",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          }
+        ],
+        "corrections": [],
+        "model_id": "synthetic-typed-fixture-no-model",
+        "prompt_version": "no-prompt"
+      },
+      "context": {
+        "jurisdiction": "SYNTHETIC",
+        "mode": "HISTORICAL_DEMO",
+        "historical_selected_at": "2026-10-18T00:00:00Z",
+        "live_status": "NEVER_REQUESTED",
+        "live_validated_at": null,
+        "current_sources": [
+          {
+            "family": "synthetic-learning-family",
+            "version": "learning-DATE_AMBIGUOUS",
+            "content_hash": "9fbbb65c6359aa80deda2d4515bec46010293ab2a110892500929f5ca09bb453",
+            "epoch": 1,
+            "review_revision": 1
+          }
+        ],
+        "result_revision": 1,
+        "computed_at": "2026-10-18T00:00:00Z"
+      },
+      "changed_notice": null,
+      "changed_observation": null
+    },
+    {
+      "case": "L03",
+      "variant": "DATE_ALL",
+      "notice": {
+        "dependency": {
+          "family": "synthetic-learning-family",
+          "version": "learning-DATE_ALL",
+          "content_hash": "b01d3b587fe0e321f0d5b1324992cac5a728cf247ea6c65ebb1a3fc90882c326",
+          "epoch": 1,
+          "review_revision": 1
+        },
+        "authority": "Synthetic fixture authority — not a regulator",
+        "original_url": "https://example.invalid/learning",
+        "final_url": "https://example.invalid/learning",
+        "published_at": "2026-10-17",
+        "retrieved_at": "2026-10-18T00:00:00Z",
+        "jurisdictions": [
+          "SYNTHETIC"
+        ],
+        "review": {
+          "revision": 1,
+          "reviewer": "Synthetic technical oracle; no human approval claimed",
+          "reviewed_at": "2026-10-18T00:00:00Z",
+          "record_hash": "dcb22465012fcade5b2bf37f7f8d5e4935cfdd13fe5d44eba7e9604f5b3f7857",
+          "rights_basis": "Entirely invented technical fixture; not an approved real source"
+        },
+        "interpretation_complete": true,
+        "source_available": true,
+        "source_proposal_agrees": true,
+        "products": [
+          {
+            "id": "fictional-product",
+            "identity": {
+              "canonical_name": "Learning Fixture Cheese",
+              "reviewed_aliases": [],
+              "pack": "250 g",
+              "pack_material": true,
+              "identifiers": [],
+              "evidence": [
+                {
+                  "kind": "SOURCE",
+                  "artifact_id": "learning-DATE_ALL",
+                  "sha256": "b01d3b587fe0e321f0d5b1324992cac5a728cf247ea6c65ebb1a3fc90882c326",
+                  "locator": "Synthetic technical fixture; no real notice"
+                }
+              ],
+              "normalization": "name-casefold-whitespace-v1"
+            },
+            "predicates": [
+              {
+                "field": "LOT",
+                "operator": "EXACT",
+                "value_type": "TEXT",
+                "values": [
+                  "000Ab"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-DATE_ALL",
+                    "sha256": "b01d3b587fe0e321f0d5b1324992cac5a728cf247ea6c65ebb1a3fc90882c326",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              },
+              {
+                "field": "BEST_BEFORE",
+                "operator": "ALL",
+                "value_type": "DATE",
+                "values": [],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-DATE_ALL",
+                    "sha256": "b01d3b587fe0e321f0d5b1324992cac5a728cf247ea6c65ebb1a3fc90882c326",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "observation": {
+        "session_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "incident_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "revision": 1,
+        "captures": [
+          {
+            "kind": "CAPTURE",
+            "artifact_id": "label-DATE_ALL",
+            "sha256": "5162e7687f4e00553801012decbf8b47420a5b9828c55e3b328d395310f1340e",
+            "locator": "Synthetic typed label; no uploaded image"
+          }
+        ],
+        "identity": {
+          "name": {
+            "raw": "Learning Fixture Cheese",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "Learning Fixture Cheese",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-DATE_ALL",
+                "sha256": "5162e7687f4e00553801012decbf8b47420a5b9828c55e3b328d395310f1340e",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "pack": {
+            "raw": "250 g",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "250 g",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-DATE_ALL",
+                "sha256": "5162e7687f4e00553801012decbf8b47420a5b9828c55e3b328d395310f1340e",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "identifiers": [],
+          "resolved_name": null,
+          "resolution_review_hash": null
+        },
+        "fields": [
+          {
+            "field": "LOT",
+            "observation": {
+              "raw": "000Ab",
+              "state": "KNOWN",
+              "value_type": "TEXT",
+              "value": "000Ab",
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-DATE_ALL",
+                  "sha256": "5162e7687f4e00553801012decbf8b47420a5b9828c55e3b328d395310f1340e",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          },
+          {
+            "field": "BEST_BEFORE",
+            "observation": {
+              "raw": "unreadable",
+              "state": "UNKNOWN",
+              "value_type": "DATE",
+              "value": null,
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-DATE_ALL",
+                  "sha256": "5162e7687f4e00553801012decbf8b47420a5b9828c55e3b328d395310f1340e",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          }
+        ],
+        "corrections": [],
+        "model_id": "synthetic-typed-fixture-no-model",
+        "prompt_version": "no-prompt"
+      },
+      "context": {
+        "jurisdiction": "SYNTHETIC",
+        "mode": "HISTORICAL_DEMO",
+        "historical_selected_at": "2026-10-18T00:00:00Z",
+        "live_status": "NEVER_REQUESTED",
+        "live_validated_at": null,
+        "current_sources": [
+          {
+            "family": "synthetic-learning-family",
+            "version": "learning-DATE_ALL",
+            "content_hash": "b01d3b587fe0e321f0d5b1324992cac5a728cf247ea6c65ebb1a3fc90882c326",
+            "epoch": 1,
+            "review_revision": 1
+          }
+        ],
+        "result_revision": 1,
+        "computed_at": "2026-10-18T00:00:00Z"
+      },
+      "changed_notice": null,
+      "changed_observation": null
+    },
+    {
+      "case": "L03",
+      "variant": "DATE_NOT_SPECIFIED",
+      "notice": {
+        "dependency": {
+          "family": "synthetic-learning-family",
+          "version": "learning-DATE_NOT_SPECIFIED",
+          "content_hash": "9cdfc44d49ef4bcee5fcdc4893afca69f21674fe44a374fb70eff79cf8ff53a0",
+          "epoch": 1,
+          "review_revision": 1
+        },
+        "authority": "Synthetic fixture authority — not a regulator",
+        "original_url": "https://example.invalid/learning",
+        "final_url": "https://example.invalid/learning",
+        "published_at": "2026-10-17",
+        "retrieved_at": "2026-10-18T00:00:00Z",
+        "jurisdictions": [
+          "SYNTHETIC"
+        ],
+        "review": {
+          "revision": 1,
+          "reviewer": "Synthetic technical oracle; no human approval claimed",
+          "reviewed_at": "2026-10-18T00:00:00Z",
+          "record_hash": "dcb22465012fcade5b2bf37f7f8d5e4935cfdd13fe5d44eba7e9604f5b3f7857",
+          "rights_basis": "Entirely invented technical fixture; not an approved real source"
+        },
+        "interpretation_complete": true,
+        "source_available": true,
+        "source_proposal_agrees": true,
+        "products": [
+          {
+            "id": "fictional-product",
+            "identity": {
+              "canonical_name": "Learning Fixture Cheese",
+              "reviewed_aliases": [],
+              "pack": "250 g",
+              "pack_material": true,
+              "identifiers": [],
+              "evidence": [
+                {
+                  "kind": "SOURCE",
+                  "artifact_id": "learning-DATE_NOT_SPECIFIED",
+                  "sha256": "9cdfc44d49ef4bcee5fcdc4893afca69f21674fe44a374fb70eff79cf8ff53a0",
+                  "locator": "Synthetic technical fixture; no real notice"
+                }
+              ],
+              "normalization": "name-casefold-whitespace-v1"
+            },
+            "predicates": [
+              {
+                "field": "LOT",
+                "operator": "EXACT",
+                "value_type": "TEXT",
+                "values": [
+                  "000Ab"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-DATE_NOT_SPECIFIED",
+                    "sha256": "9cdfc44d49ef4bcee5fcdc4893afca69f21674fe44a374fb70eff79cf8ff53a0",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              },
+              {
+                "field": "BEST_BEFORE",
+                "operator": "NOT_SPECIFIED",
+                "value_type": "DATE",
+                "values": [],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-DATE_NOT_SPECIFIED",
+                    "sha256": "9cdfc44d49ef4bcee5fcdc4893afca69f21674fe44a374fb70eff79cf8ff53a0",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "observation": {
+        "session_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "incident_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "revision": 1,
+        "captures": [
+          {
+            "kind": "CAPTURE",
+            "artifact_id": "label-DATE_NOT_SPECIFIED",
+            "sha256": "9b61cf0fc40184b006c701f852aab195544484926fb36b6ec2a16066b3ae4f68",
+            "locator": "Synthetic typed label; no uploaded image"
+          }
+        ],
+        "identity": {
+          "name": {
+            "raw": "Learning Fixture Cheese",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "Learning Fixture Cheese",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-DATE_NOT_SPECIFIED",
+                "sha256": "9b61cf0fc40184b006c701f852aab195544484926fb36b6ec2a16066b3ae4f68",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "pack": {
+            "raw": "250 g",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "250 g",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-DATE_NOT_SPECIFIED",
+                "sha256": "9b61cf0fc40184b006c701f852aab195544484926fb36b6ec2a16066b3ae4f68",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "identifiers": [],
+          "resolved_name": null,
+          "resolution_review_hash": null
+        },
+        "fields": [
+          {
+            "field": "LOT",
+            "observation": {
+              "raw": "000Ab",
+              "state": "KNOWN",
+              "value_type": "TEXT",
+              "value": "000Ab",
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-DATE_NOT_SPECIFIED",
+                  "sha256": "9b61cf0fc40184b006c701f852aab195544484926fb36b6ec2a16066b3ae4f68",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          },
+          {
+            "field": "BEST_BEFORE",
+            "observation": {
+              "raw": "unreadable",
+              "state": "UNKNOWN",
+              "value_type": "DATE",
+              "value": null,
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-DATE_NOT_SPECIFIED",
+                  "sha256": "9b61cf0fc40184b006c701f852aab195544484926fb36b6ec2a16066b3ae4f68",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          }
+        ],
+        "corrections": [],
+        "model_id": "synthetic-typed-fixture-no-model",
+        "prompt_version": "no-prompt"
+      },
+      "context": {
+        "jurisdiction": "SYNTHETIC",
+        "mode": "HISTORICAL_DEMO",
+        "historical_selected_at": "2026-10-18T00:00:00Z",
+        "live_status": "NEVER_REQUESTED",
+        "live_validated_at": null,
+        "current_sources": [
+          {
+            "family": "synthetic-learning-family",
+            "version": "learning-DATE_NOT_SPECIFIED",
+            "content_hash": "9cdfc44d49ef4bcee5fcdc4893afca69f21674fe44a374fb70eff79cf8ff53a0",
+            "epoch": 1,
+            "review_revision": 1
+          }
+        ],
+        "result_revision": 1,
+        "computed_at": "2026-10-18T00:00:00Z"
+      },
+      "changed_notice": null,
+      "changed_observation": null
+    },
+    {
+      "case": "L04",
+      "variant": "IDENTITY_UNKNOWN",
+      "notice": {
+        "dependency": {
+          "family": "synthetic-learning-family",
+          "version": "learning-IDENTITY_UNKNOWN",
+          "content_hash": "f2a3c621ac1aee8433b7e0bcc8eb00efbe75dffb43609daf0992999a8739ca21",
+          "epoch": 1,
+          "review_revision": 1
+        },
+        "authority": "Synthetic fixture authority — not a regulator",
+        "original_url": "https://example.invalid/learning",
+        "final_url": "https://example.invalid/learning",
+        "published_at": "2026-10-17",
+        "retrieved_at": "2026-10-18T00:00:00Z",
+        "jurisdictions": [
+          "SYNTHETIC"
+        ],
+        "review": {
+          "revision": 1,
+          "reviewer": "Synthetic technical oracle; no human approval claimed",
+          "reviewed_at": "2026-10-18T00:00:00Z",
+          "record_hash": "dcb22465012fcade5b2bf37f7f8d5e4935cfdd13fe5d44eba7e9604f5b3f7857",
+          "rights_basis": "Entirely invented technical fixture; not an approved real source"
+        },
+        "interpretation_complete": true,
+        "source_available": true,
+        "source_proposal_agrees": true,
+        "products": [
+          {
+            "id": "fictional-product",
+            "identity": {
+              "canonical_name": "Learning Fixture Cheese",
+              "reviewed_aliases": [],
+              "pack": "250 g",
+              "pack_material": true,
+              "identifiers": [],
+              "evidence": [
+                {
+                  "kind": "SOURCE",
+                  "artifact_id": "learning-IDENTITY_UNKNOWN",
+                  "sha256": "f2a3c621ac1aee8433b7e0bcc8eb00efbe75dffb43609daf0992999a8739ca21",
+                  "locator": "Synthetic technical fixture; no real notice"
+                }
+              ],
+              "normalization": "name-casefold-whitespace-v1"
+            },
+            "predicates": [
+              {
+                "field": "LOT",
+                "operator": "EXACT",
+                "value_type": "TEXT",
+                "values": [
+                  "000Ab"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-IDENTITY_UNKNOWN",
+                    "sha256": "f2a3c621ac1aee8433b7e0bcc8eb00efbe75dffb43609daf0992999a8739ca21",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              },
+              {
+                "field": "BEST_BEFORE",
+                "operator": "EXACT",
+                "value_type": "DATE",
+                "values": [
+                  "2026-10-17"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-IDENTITY_UNKNOWN",
+                    "sha256": "f2a3c621ac1aee8433b7e0bcc8eb00efbe75dffb43609daf0992999a8739ca21",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "observation": {
+        "session_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "incident_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "revision": 1,
+        "captures": [
+          {
+            "kind": "CAPTURE",
+            "artifact_id": "label-IDENTITY_UNKNOWN",
+            "sha256": "296ff734df646b4ba3db371717720ac609d36ea82790a54f77ae1bc631bda4d5",
+            "locator": "Synthetic typed label; no uploaded image"
+          }
+        ],
+        "identity": {
+          "name": {
+            "raw": "unreadable",
+            "state": "UNKNOWN",
+            "value_type": "TEXT",
+            "value": null,
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-IDENTITY_UNKNOWN",
+                "sha256": "296ff734df646b4ba3db371717720ac609d36ea82790a54f77ae1bc631bda4d5",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "pack": {
+            "raw": "250 g",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "250 g",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-IDENTITY_UNKNOWN",
+                "sha256": "296ff734df646b4ba3db371717720ac609d36ea82790a54f77ae1bc631bda4d5",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "identifiers": [],
+          "resolved_name": null,
+          "resolution_review_hash": null
+        },
+        "fields": [
+          {
+            "field": "LOT",
+            "observation": {
+              "raw": "000Ab",
+              "state": "KNOWN",
+              "value_type": "TEXT",
+              "value": "000Ab",
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-IDENTITY_UNKNOWN",
+                  "sha256": "296ff734df646b4ba3db371717720ac609d36ea82790a54f77ae1bc631bda4d5",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          },
+          {
+            "field": "BEST_BEFORE",
+            "observation": {
+              "raw": "2026-10-17",
+              "state": "KNOWN",
+              "value_type": "DATE",
+              "value": "2026-10-17",
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-IDENTITY_UNKNOWN",
+                  "sha256": "296ff734df646b4ba3db371717720ac609d36ea82790a54f77ae1bc631bda4d5",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          }
+        ],
+        "corrections": [],
+        "model_id": "synthetic-typed-fixture-no-model",
+        "prompt_version": "no-prompt"
+      },
+      "context": {
+        "jurisdiction": "SYNTHETIC",
+        "mode": "HISTORICAL_DEMO",
+        "historical_selected_at": "2026-10-18T00:00:00Z",
+        "live_status": "NEVER_REQUESTED",
+        "live_validated_at": null,
+        "current_sources": [
+          {
+            "family": "synthetic-learning-family",
+            "version": "learning-IDENTITY_UNKNOWN",
+            "content_hash": "f2a3c621ac1aee8433b7e0bcc8eb00efbe75dffb43609daf0992999a8739ca21",
+            "epoch": 1,
+            "review_revision": 1
+          }
+        ],
+        "result_revision": 1,
+        "computed_at": "2026-10-18T00:00:00Z"
+      },
+      "changed_notice": null,
+      "changed_observation": null
+    },
+    {
+      "case": "L05",
+      "variant": "OWN_EXHAUSTED",
+      "notice": {
+        "dependency": {
+          "family": "synthetic-learning-family",
+          "version": "learning-OWN_EXHAUSTED",
+          "content_hash": "049da3552ab3f638fccd9185d1b90b2a91c38c334bd5d227195222213d2bde38",
+          "epoch": 1,
+          "review_revision": 1
+        },
+        "authority": "Synthetic fixture authority — not a regulator",
+        "original_url": "https://example.invalid/learning",
+        "final_url": "https://example.invalid/learning",
+        "published_at": "2026-10-17",
+        "retrieved_at": "2026-10-18T00:00:00Z",
+        "jurisdictions": [
+          "SYNTHETIC"
+        ],
+        "review": {
+          "revision": 1,
+          "reviewer": "Synthetic technical oracle; no human approval claimed",
+          "reviewed_at": "2026-10-18T00:00:00Z",
+          "record_hash": "dcb22465012fcade5b2bf37f7f8d5e4935cfdd13fe5d44eba7e9604f5b3f7857",
+          "rights_basis": "Entirely invented technical fixture; not an approved real source"
+        },
+        "interpretation_complete": true,
+        "source_available": true,
+        "source_proposal_agrees": true,
+        "products": [
+          {
+            "id": "fictional-product",
+            "identity": {
+              "canonical_name": "Learning Fixture Cheese",
+              "reviewed_aliases": [],
+              "pack": "250 g",
+              "pack_material": true,
+              "identifiers": [],
+              "evidence": [
+                {
+                  "kind": "SOURCE",
+                  "artifact_id": "learning-OWN_EXHAUSTED",
+                  "sha256": "049da3552ab3f638fccd9185d1b90b2a91c38c334bd5d227195222213d2bde38",
+                  "locator": "Synthetic technical fixture; no real notice"
+                }
+              ],
+              "normalization": "name-casefold-whitespace-v1"
+            },
+            "predicates": [
+              {
+                "field": "LOT",
+                "operator": "EXACT",
+                "value_type": "TEXT",
+                "values": [
+                  "000Ab"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-OWN_EXHAUSTED",
+                    "sha256": "049da3552ab3f638fccd9185d1b90b2a91c38c334bd5d227195222213d2bde38",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              },
+              {
+                "field": "BEST_BEFORE",
+                "operator": "NOT_SPECIFIED",
+                "value_type": "DATE",
+                "values": [],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-OWN_EXHAUSTED",
+                    "sha256": "049da3552ab3f638fccd9185d1b90b2a91c38c334bd5d227195222213d2bde38",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "observation": {
+        "session_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "incident_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "revision": 1,
+        "captures": [
+          {
+            "kind": "CAPTURE",
+            "artifact_id": "label-OWN_EXHAUSTED",
+            "sha256": "36db5d4a170756441a38c7657c8ceb2942bf3db3eccb01cd6777719d022fe2e0",
+            "locator": "Synthetic typed label; no uploaded image"
+          }
+        ],
+        "identity": {
+          "name": {
+            "raw": "Learning Fixture Cheese",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "Learning Fixture Cheese",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-OWN_EXHAUSTED",
+                "sha256": "36db5d4a170756441a38c7657c8ceb2942bf3db3eccb01cd6777719d022fe2e0",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "pack": {
+            "raw": "250 g",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "250 g",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-OWN_EXHAUSTED",
+                "sha256": "36db5d4a170756441a38c7657c8ceb2942bf3db3eccb01cd6777719d022fe2e0",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "identifiers": [],
+          "resolved_name": null,
+          "resolution_review_hash": null
+        },
+        "fields": [
+          {
+            "field": "LOT",
+            "observation": {
+              "raw": "unreadable",
+              "state": "UNKNOWN",
+              "value_type": "TEXT",
+              "value": null,
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-OWN_EXHAUSTED",
+                  "sha256": "36db5d4a170756441a38c7657c8ceb2942bf3db3eccb01cd6777719d022fe2e0",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          },
+          {
+            "field": "BEST_BEFORE",
+            "observation": {
+              "raw": "unreadable",
+              "state": "UNKNOWN",
+              "value_type": "DATE",
+              "value": null,
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-OWN_EXHAUSTED",
+                  "sha256": "36db5d4a170756441a38c7657c8ceb2942bf3db3eccb01cd6777719d022fe2e0",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          }
+        ],
+        "corrections": [],
+        "model_id": "synthetic-typed-fixture-no-model",
+        "prompt_version": "no-prompt"
+      },
+      "context": {
+        "jurisdiction": "SYNTHETIC",
+        "mode": "HISTORICAL_DEMO",
+        "historical_selected_at": "2026-10-18T00:00:00Z",
+        "live_status": "NEVER_REQUESTED",
+        "live_validated_at": null,
+        "current_sources": [
+          {
+            "family": "synthetic-learning-family",
+            "version": "learning-OWN_EXHAUSTED",
+            "content_hash": "049da3552ab3f638fccd9185d1b90b2a91c38c334bd5d227195222213d2bde38",
+            "epoch": 1,
+            "review_revision": 1
+          }
+        ],
+        "result_revision": 1,
+        "computed_at": "2026-10-18T00:00:00Z"
+      },
+      "changed_notice": null,
+      "changed_observation": null
+    },
+    {
+      "case": "L05",
+      "variant": "RESOURCE_UNAVAILABLE",
+      "notice": {
+        "dependency": {
+          "family": "synthetic-learning-family",
+          "version": "learning-RESOURCE_UNAVAILABLE",
+          "content_hash": "f49219dd3c30632c444e5b6cccd56c25df0ab4db24001539270fe7d868a2c9ad",
+          "epoch": 1,
+          "review_revision": 1
+        },
+        "authority": "Synthetic fixture authority — not a regulator",
+        "original_url": "https://example.invalid/learning",
+        "final_url": "https://example.invalid/learning",
+        "published_at": "2026-10-17",
+        "retrieved_at": "2026-10-18T00:00:00Z",
+        "jurisdictions": [
+          "SYNTHETIC"
+        ],
+        "review": {
+          "revision": 1,
+          "reviewer": "Synthetic technical oracle; no human approval claimed",
+          "reviewed_at": "2026-10-18T00:00:00Z",
+          "record_hash": "dcb22465012fcade5b2bf37f7f8d5e4935cfdd13fe5d44eba7e9604f5b3f7857",
+          "rights_basis": "Entirely invented technical fixture; not an approved real source"
+        },
+        "interpretation_complete": true,
+        "source_available": true,
+        "source_proposal_agrees": true,
+        "products": [
+          {
+            "id": "fictional-product",
+            "identity": {
+              "canonical_name": "Learning Fixture Cheese",
+              "reviewed_aliases": [],
+              "pack": "250 g",
+              "pack_material": true,
+              "identifiers": [],
+              "evidence": [
+                {
+                  "kind": "SOURCE",
+                  "artifact_id": "learning-RESOURCE_UNAVAILABLE",
+                  "sha256": "f49219dd3c30632c444e5b6cccd56c25df0ab4db24001539270fe7d868a2c9ad",
+                  "locator": "Synthetic technical fixture; no real notice"
+                }
+              ],
+              "normalization": "name-casefold-whitespace-v1"
+            },
+            "predicates": [
+              {
+                "field": "LOT",
+                "operator": "EXACT",
+                "value_type": "TEXT",
+                "values": [
+                  "000Ab"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-RESOURCE_UNAVAILABLE",
+                    "sha256": "f49219dd3c30632c444e5b6cccd56c25df0ab4db24001539270fe7d868a2c9ad",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              },
+              {
+                "field": "BEST_BEFORE",
+                "operator": "NOT_SPECIFIED",
+                "value_type": "DATE",
+                "values": [],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-RESOURCE_UNAVAILABLE",
+                    "sha256": "f49219dd3c30632c444e5b6cccd56c25df0ab4db24001539270fe7d868a2c9ad",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "observation": {
+        "session_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "incident_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "revision": 1,
+        "captures": [
+          {
+            "kind": "CAPTURE",
+            "artifact_id": "label-RESOURCE_UNAVAILABLE",
+            "sha256": "0060aa69781e0db8342802f2c294c81acd93e6c47090911e8f5aa8c29410d7ae",
+            "locator": "Synthetic typed label; no uploaded image"
+          }
+        ],
+        "identity": {
+          "name": {
+            "raw": "Learning Fixture Cheese",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "Learning Fixture Cheese",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-RESOURCE_UNAVAILABLE",
+                "sha256": "0060aa69781e0db8342802f2c294c81acd93e6c47090911e8f5aa8c29410d7ae",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "pack": {
+            "raw": "250 g",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "250 g",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-RESOURCE_UNAVAILABLE",
+                "sha256": "0060aa69781e0db8342802f2c294c81acd93e6c47090911e8f5aa8c29410d7ae",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "identifiers": [],
+          "resolved_name": null,
+          "resolution_review_hash": null
+        },
+        "fields": [
+          {
+            "field": "LOT",
+            "observation": {
+              "raw": "unreadable",
+              "state": "UNKNOWN",
+              "value_type": "TEXT",
+              "value": null,
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-RESOURCE_UNAVAILABLE",
+                  "sha256": "0060aa69781e0db8342802f2c294c81acd93e6c47090911e8f5aa8c29410d7ae",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          },
+          {
+            "field": "BEST_BEFORE",
+            "observation": {
+              "raw": "unreadable",
+              "state": "UNKNOWN",
+              "value_type": "DATE",
+              "value": null,
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-RESOURCE_UNAVAILABLE",
+                  "sha256": "0060aa69781e0db8342802f2c294c81acd93e6c47090911e8f5aa8c29410d7ae",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          }
+        ],
+        "corrections": [],
+        "model_id": "synthetic-typed-fixture-no-model",
+        "prompt_version": "no-prompt"
+      },
+      "context": {
+        "jurisdiction": "SYNTHETIC",
+        "mode": "HISTORICAL_DEMO",
+        "historical_selected_at": "2026-10-18T00:00:00Z",
+        "live_status": "NEVER_REQUESTED",
+        "live_validated_at": null,
+        "current_sources": [
+          {
+            "family": "synthetic-learning-family",
+            "version": "learning-RESOURCE_UNAVAILABLE",
+            "content_hash": "f49219dd3c30632c444e5b6cccd56c25df0ab4db24001539270fe7d868a2c9ad",
+            "epoch": 1,
+            "review_revision": 1
+          }
+        ],
+        "result_revision": 1,
+        "computed_at": "2026-10-18T00:00:00Z"
+      },
+      "changed_notice": null,
+      "changed_observation": null
+    },
+    {
+      "case": "L06",
+      "variant": "SOURCE_CHANGED",
+      "notice": {
+        "dependency": {
+          "family": "synthetic-learning-family",
+          "version": "learning-SOURCE_CHANGED",
+          "content_hash": "802ffda4c9ec6de1ee2fb07ef3fb235f03901757025a45d9c1407f64f4f51d03",
+          "epoch": 1,
+          "review_revision": 1
+        },
+        "authority": "Synthetic fixture authority — not a regulator",
+        "original_url": "https://example.invalid/learning",
+        "final_url": "https://example.invalid/learning",
+        "published_at": "2026-10-17",
+        "retrieved_at": "2026-10-18T00:00:00Z",
+        "jurisdictions": [
+          "SYNTHETIC"
+        ],
+        "review": {
+          "revision": 1,
+          "reviewer": "Synthetic technical oracle; no human approval claimed",
+          "reviewed_at": "2026-10-18T00:00:00Z",
+          "record_hash": "dcb22465012fcade5b2bf37f7f8d5e4935cfdd13fe5d44eba7e9604f5b3f7857",
+          "rights_basis": "Entirely invented technical fixture; not an approved real source"
+        },
+        "interpretation_complete": true,
+        "source_available": true,
+        "source_proposal_agrees": true,
+        "products": [
+          {
+            "id": "fictional-product",
+            "identity": {
+              "canonical_name": "Learning Fixture Cheese",
+              "reviewed_aliases": [],
+              "pack": "250 g",
+              "pack_material": true,
+              "identifiers": [],
+              "evidence": [
+                {
+                  "kind": "SOURCE",
+                  "artifact_id": "learning-SOURCE_CHANGED",
+                  "sha256": "802ffda4c9ec6de1ee2fb07ef3fb235f03901757025a45d9c1407f64f4f51d03",
+                  "locator": "Synthetic technical fixture; no real notice"
+                }
+              ],
+              "normalization": "name-casefold-whitespace-v1"
+            },
+            "predicates": [
+              {
+                "field": "LOT",
+                "operator": "EXACT",
+                "value_type": "TEXT",
+                "values": [
+                  "000Ab"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-SOURCE_CHANGED",
+                    "sha256": "802ffda4c9ec6de1ee2fb07ef3fb235f03901757025a45d9c1407f64f4f51d03",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              },
+              {
+                "field": "BEST_BEFORE",
+                "operator": "EXACT",
+                "value_type": "DATE",
+                "values": [
+                  "2026-10-17"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-SOURCE_CHANGED",
+                    "sha256": "802ffda4c9ec6de1ee2fb07ef3fb235f03901757025a45d9c1407f64f4f51d03",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "observation": {
+        "session_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "incident_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "revision": 1,
+        "captures": [
+          {
+            "kind": "CAPTURE",
+            "artifact_id": "label-SOURCE_CHANGED",
+            "sha256": "d2d81e554a549abce6891d497f1ed73790e63400e8ad895f4e719bfa0f64c9bc",
+            "locator": "Synthetic typed label; no uploaded image"
+          }
+        ],
+        "identity": {
+          "name": {
+            "raw": "Learning Fixture Cheese",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "Learning Fixture Cheese",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-SOURCE_CHANGED",
+                "sha256": "d2d81e554a549abce6891d497f1ed73790e63400e8ad895f4e719bfa0f64c9bc",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "pack": {
+            "raw": "250 g",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "250 g",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-SOURCE_CHANGED",
+                "sha256": "d2d81e554a549abce6891d497f1ed73790e63400e8ad895f4e719bfa0f64c9bc",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "identifiers": [],
+          "resolved_name": null,
+          "resolution_review_hash": null
+        },
+        "fields": [
+          {
+            "field": "LOT",
+            "observation": {
+              "raw": "000Ab",
+              "state": "KNOWN",
+              "value_type": "TEXT",
+              "value": "000Ab",
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-SOURCE_CHANGED",
+                  "sha256": "d2d81e554a549abce6891d497f1ed73790e63400e8ad895f4e719bfa0f64c9bc",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          },
+          {
+            "field": "BEST_BEFORE",
+            "observation": {
+              "raw": "2026-10-17",
+              "state": "KNOWN",
+              "value_type": "DATE",
+              "value": "2026-10-17",
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-SOURCE_CHANGED",
+                  "sha256": "d2d81e554a549abce6891d497f1ed73790e63400e8ad895f4e719bfa0f64c9bc",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          }
+        ],
+        "corrections": [],
+        "model_id": "synthetic-typed-fixture-no-model",
+        "prompt_version": "no-prompt"
+      },
+      "context": {
+        "jurisdiction": "SYNTHETIC",
+        "mode": "HISTORICAL_DEMO",
+        "historical_selected_at": "2026-10-18T00:00:00Z",
+        "live_status": "NEVER_REQUESTED",
+        "live_validated_at": null,
+        "current_sources": [
+          {
+            "family": "synthetic-learning-family",
+            "version": "learning-SOURCE_CHANGED",
+            "content_hash": "802ffda4c9ec6de1ee2fb07ef3fb235f03901757025a45d9c1407f64f4f51d03",
+            "epoch": 1,
+            "review_revision": 1
+          }
+        ],
+        "result_revision": 1,
+        "computed_at": "2026-10-18T00:00:00Z"
+      },
+      "changed_notice": {
+        "dependency": {
+          "family": "synthetic-learning-family",
+          "version": "learning-SOURCE_CHANGED",
+          "content_hash": "802ffda4c9ec6de1ee2fb07ef3fb235f03901757025a45d9c1407f64f4f51d03",
+          "epoch": 1,
+          "review_revision": 1
+        },
+        "authority": "Synthetic fixture authority — not a regulator",
+        "original_url": "https://example.invalid/learning",
+        "final_url": "https://example.invalid/learning",
+        "published_at": "2026-10-17",
+        "retrieved_at": "2026-10-18T00:00:00Z",
+        "jurisdictions": [
+          "SYNTHETIC"
+        ],
+        "review": null,
+        "interpretation_complete": true,
+        "source_available": true,
+        "source_proposal_agrees": true,
+        "products": [
+          {
+            "id": "fictional-product",
+            "identity": {
+              "canonical_name": "Learning Fixture Cheese",
+              "reviewed_aliases": [],
+              "pack": "250 g",
+              "pack_material": true,
+              "identifiers": [],
+              "evidence": [
+                {
+                  "kind": "SOURCE",
+                  "artifact_id": "learning-SOURCE_CHANGED",
+                  "sha256": "802ffda4c9ec6de1ee2fb07ef3fb235f03901757025a45d9c1407f64f4f51d03",
+                  "locator": "Synthetic technical fixture; no real notice"
+                }
+              ],
+              "normalization": "name-casefold-whitespace-v1"
+            },
+            "predicates": [
+              {
+                "field": "LOT",
+                "operator": "EXACT",
+                "value_type": "TEXT",
+                "values": [
+                  "000Ab"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-SOURCE_CHANGED",
+                    "sha256": "802ffda4c9ec6de1ee2fb07ef3fb235f03901757025a45d9c1407f64f4f51d03",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              },
+              {
+                "field": "BEST_BEFORE",
+                "operator": "EXACT",
+                "value_type": "DATE",
+                "values": [
+                  "2026-10-17"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-SOURCE_CHANGED",
+                    "sha256": "802ffda4c9ec6de1ee2fb07ef3fb235f03901757025a45d9c1407f64f4f51d03",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "changed_observation": null
+    },
+    {
+      "case": "L06",
+      "variant": "OBSERVATION_CHANGED",
+      "notice": {
+        "dependency": {
+          "family": "synthetic-learning-family",
+          "version": "learning-OBSERVATION_CHANGED",
+          "content_hash": "a4eb8fa4ebef03784305acdb61ebd551685f5a23fe550bf3048713a857807a8d",
+          "epoch": 1,
+          "review_revision": 1
+        },
+        "authority": "Synthetic fixture authority — not a regulator",
+        "original_url": "https://example.invalid/learning",
+        "final_url": "https://example.invalid/learning",
+        "published_at": "2026-10-17",
+        "retrieved_at": "2026-10-18T00:00:00Z",
+        "jurisdictions": [
+          "SYNTHETIC"
+        ],
+        "review": {
+          "revision": 1,
+          "reviewer": "Synthetic technical oracle; no human approval claimed",
+          "reviewed_at": "2026-10-18T00:00:00Z",
+          "record_hash": "dcb22465012fcade5b2bf37f7f8d5e4935cfdd13fe5d44eba7e9604f5b3f7857",
+          "rights_basis": "Entirely invented technical fixture; not an approved real source"
+        },
+        "interpretation_complete": true,
+        "source_available": true,
+        "source_proposal_agrees": true,
+        "products": [
+          {
+            "id": "fictional-product",
+            "identity": {
+              "canonical_name": "Learning Fixture Cheese",
+              "reviewed_aliases": [],
+              "pack": "250 g",
+              "pack_material": true,
+              "identifiers": [],
+              "evidence": [
+                {
+                  "kind": "SOURCE",
+                  "artifact_id": "learning-OBSERVATION_CHANGED",
+                  "sha256": "a4eb8fa4ebef03784305acdb61ebd551685f5a23fe550bf3048713a857807a8d",
+                  "locator": "Synthetic technical fixture; no real notice"
+                }
+              ],
+              "normalization": "name-casefold-whitespace-v1"
+            },
+            "predicates": [
+              {
+                "field": "LOT",
+                "operator": "EXACT",
+                "value_type": "TEXT",
+                "values": [
+                  "000Ab"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-OBSERVATION_CHANGED",
+                    "sha256": "a4eb8fa4ebef03784305acdb61ebd551685f5a23fe550bf3048713a857807a8d",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              },
+              {
+                "field": "BEST_BEFORE",
+                "operator": "EXACT",
+                "value_type": "DATE",
+                "values": [
+                  "2026-10-17"
+                ],
+                "date_range": null,
+                "applies": true,
+                "applicability_reason": null,
+                "evidence": [
+                  {
+                    "kind": "SOURCE",
+                    "artifact_id": "learning-OBSERVATION_CHANGED",
+                    "sha256": "a4eb8fa4ebef03784305acdb61ebd551685f5a23fe550bf3048713a857807a8d",
+                    "locator": "Synthetic technical fixture; no real notice"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "observation": {
+        "session_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "incident_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "revision": 1,
+        "captures": [
+          {
+            "kind": "CAPTURE",
+            "artifact_id": "label-OBSERVATION_CHANGED",
+            "sha256": "dbaa5a09233899beb532c06a270f3ae1f3305a8c344b3fd65637bcc384cbcc99",
+            "locator": "Synthetic typed label; no uploaded image"
+          }
+        ],
+        "identity": {
+          "name": {
+            "raw": "Learning Fixture Cheese",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "Learning Fixture Cheese",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-OBSERVATION_CHANGED",
+                "sha256": "dbaa5a09233899beb532c06a270f3ae1f3305a8c344b3fd65637bcc384cbcc99",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "pack": {
+            "raw": "250 g",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "250 g",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-OBSERVATION_CHANGED",
+                "sha256": "dbaa5a09233899beb532c06a270f3ae1f3305a8c344b3fd65637bcc384cbcc99",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "identifiers": [],
+          "resolved_name": null,
+          "resolution_review_hash": null
+        },
+        "fields": [
+          {
+            "field": "LOT",
+            "observation": {
+              "raw": "000Ab",
+              "state": "KNOWN",
+              "value_type": "TEXT",
+              "value": "000Ab",
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-OBSERVATION_CHANGED",
+                  "sha256": "dbaa5a09233899beb532c06a270f3ae1f3305a8c344b3fd65637bcc384cbcc99",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          },
+          {
+            "field": "BEST_BEFORE",
+            "observation": {
+              "raw": "2026-10-17",
+              "state": "KNOWN",
+              "value_type": "DATE",
+              "value": "2026-10-17",
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-OBSERVATION_CHANGED",
+                  "sha256": "dbaa5a09233899beb532c06a270f3ae1f3305a8c344b3fd65637bcc384cbcc99",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          }
+        ],
+        "corrections": [],
+        "model_id": "synthetic-typed-fixture-no-model",
+        "prompt_version": "no-prompt"
+      },
+      "context": {
+        "jurisdiction": "SYNTHETIC",
+        "mode": "HISTORICAL_DEMO",
+        "historical_selected_at": "2026-10-18T00:00:00Z",
+        "live_status": "NEVER_REQUESTED",
+        "live_validated_at": null,
+        "current_sources": [
+          {
+            "family": "synthetic-learning-family",
+            "version": "learning-OBSERVATION_CHANGED",
+            "content_hash": "a4eb8fa4ebef03784305acdb61ebd551685f5a23fe550bf3048713a857807a8d",
+            "epoch": 1,
+            "review_revision": 1
+          }
+        ],
+        "result_revision": 1,
+        "computed_at": "2026-10-18T00:00:00Z"
+      },
+      "changed_notice": null,
+      "changed_observation": {
+        "session_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "incident_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "revision": 2,
+        "captures": [
+          {
+            "kind": "CAPTURE",
+            "artifact_id": "label-OBSERVATION_CHANGED",
+            "sha256": "dbaa5a09233899beb532c06a270f3ae1f3305a8c344b3fd65637bcc384cbcc99",
+            "locator": "Synthetic typed label; no uploaded image"
+          }
+        ],
+        "identity": {
+          "name": {
+            "raw": "Learning Fixture Cheese",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "Learning Fixture Cheese",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-OBSERVATION_CHANGED",
+                "sha256": "dbaa5a09233899beb532c06a270f3ae1f3305a8c344b3fd65637bcc384cbcc99",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "pack": {
+            "raw": "250 g",
+            "state": "KNOWN",
+            "value_type": "TEXT",
+            "value": "250 g",
+            "evidence": [
+              {
+                "kind": "CAPTURE",
+                "artifact_id": "label-OBSERVATION_CHANGED",
+                "sha256": "dbaa5a09233899beb532c06a270f3ae1f3305a8c344b3fd65637bcc384cbcc99",
+                "locator": "Synthetic typed label; no uploaded image"
+              }
+            ]
+          },
+          "identifiers": [],
+          "resolved_name": null,
+          "resolution_review_hash": null
+        },
+        "fields": [
+          {
+            "field": "LOT",
+            "observation": {
+              "raw": "000Ab",
+              "state": "KNOWN",
+              "value_type": "TEXT",
+              "value": "000Ab",
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-OBSERVATION_CHANGED",
+                  "sha256": "dbaa5a09233899beb532c06a270f3ae1f3305a8c344b3fd65637bcc384cbcc99",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          },
+          {
+            "field": "BEST_BEFORE",
+            "observation": {
+              "raw": "2026-10-17",
+              "state": "KNOWN",
+              "value_type": "DATE",
+              "value": "2026-10-17",
+              "evidence": [
+                {
+                  "kind": "CAPTURE",
+                  "artifact_id": "label-OBSERVATION_CHANGED",
+                  "sha256": "dbaa5a09233899beb532c06a270f3ae1f3305a8c344b3fd65637bcc384cbcc99",
+                  "locator": "Synthetic typed label; no uploaded image"
+                }
+              ]
+            }
+          }
+        ],
+        "corrections": [],
+        "model_id": "synthetic-typed-fixture-no-model",
+        "prompt_version": "no-prompt"
+      }
+    }
+  ]
+}
