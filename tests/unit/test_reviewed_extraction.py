@@ -29,7 +29,7 @@ from tests.unit.test_extraction_proposal import known, rig, unknown
 from tests.unit.test_firestore_store import no_network_or_credentials as no_network_or_credentials  # noqa
 from tests.unit.test_firestore_store import owned, saved
 from tests.unit.test_firestore_store import setup as setup  # noqa
-from tests.unit.test_identity_resolution import CATALOG
+from tests.unit.test_identity_resolution import CATALOG, original_images
 from tests.unit.test_probe_runner import credentials
 from tests.unit.test_shared_admission import env as env  # noqa
 
@@ -43,8 +43,10 @@ def reviewed(setup, env, request):
     projection = json.loads(CATALOG.read_bytes())
     projection['source_scope']['capture_sha256'] = notice.dependency.content_hash
     raw_catalog = json.dumps(projection).encode()
-    admission = IdentityAdmission(catalog_sha256=sha256(raw_catalog).hexdigest())
-    identities = AdmittedIdentities.load(raw_catalog, admission)
+    admission = IdentityAdmission(catalog_sha256=sha256(raw_catalog).hexdigest(),
+        sanitization_policy_hash=guest.policy.uploads.digest())
+    identities = AdmittedIdentities.load(raw_catalog, admission,
+        reviewed_images=original_images(), upload_policy=guest.policy.uploads)
     ep = replace(old_evidence.policy, identity_admission=admission)
     stores.evidence_policy = ep
     evidence = EvidenceService(guest, stores.evidence, ep, identities=identities)
@@ -52,7 +54,8 @@ def reviewed(setup, env, request):
     config = ExtractionConfig(mode='offline_test', project_id='synthetic-project',
         model_id='gemini-3.8-flash', model_location='global', api_version='v1beta1',
         adk_version=version('google-adk'), genai_version=version('google-genai'),
-        identity_resolution_policy_hash=admission.digest())
+        identity_resolution_policy_hash=admission.digest(),
+        identity_normalization_hash=identities.derivation_hash)
     p = replace(env[0].policy, model_configuration_hash=config.digest(),
                 run_seconds=config.run_seconds)
     grant = replace(env[0].grant, policy_hash=p.digest())
@@ -330,3 +333,71 @@ def test_reviewed_negative_action_denial_and_currentness_after_allowance_consume
                                                    live_status=LiveStatus.FAILED))
     server.seed(stores._encode(stores.name('environment'), 'environment', changed))
     assert not view(c).current and not view(c).hold_eligible
+
+
+@pytest.mark.parametrize('level', [0, 1, 6, 9])
+@pytest.mark.parametrize('conflict', [False, True])
+def test_encoder_variation_preserves_reviewed_identity_boundary(
+    request, monkeypatch, level, conflict
+):
+    from PIL import Image
+    original_save = Image.Image.save
+    def changed_encoder(self, fp, format=None, **params):
+        if format == 'PNG':
+            params['compress_level'] = level
+        return original_save(self, fp, format=format, **params)
+    monkeypatch.setattr(Image.Image, 'save', changed_encoder)
+    c = request.getfixturevalue('reviewed')
+    if conflict:
+        c[5][0]['label']['name'] = known(c[5][0]['source']['products'][0]['name'])
+    status = acquire(c)
+    if conflict:
+        assert status.state == 'REVIEW_REQUIRED' and not status.current
+        assert not view(c).state.observations
+        assert status.diagnostics == ('IDENTITY_EVIDENCE_DISAGREEMENT',)
+    else:
+        result = view(c)
+        assert status.state == 'COMPLETE' and status.current
+        assert result.result.verdict == 'NOT_LISTED_IN_CHECKED_NOTICES'
+        receipt = result.state.extractions[0].identity_receipt
+        assert receipt.normalization_hash == c[7].identities.derivation_hash
+        entry = c[7].identities.catalog.identities[2]
+        assert receipt.approved_image_hash == entry.approved_image_sha256
+        assert receipt.captures[0].sha256 == c[7].identities.normalized_hashes[2]
+
+
+def test_other_encoder_retained_capture_cannot_fall_through_to_positive(request, monkeypatch):
+    from PIL import Image
+    original_save, calls = Image.Image.save, []
+    def different_instances(self, fp, format=None, **params):
+        if format == 'PNG':
+            calls.append(1)
+            # Three approved originals admitted on one encoder; upload on another.
+            params['compress_level'] = 1 if len(calls) <= 3 else 9
+        return original_save(self, fp, format=format, **params)
+    monkeypatch.setattr(Image.Image, 'save', different_instances)
+    c = request.getfixturevalue('reviewed')
+    c[5][0]['label']['name'] = known(c[5][0]['source']['products'][0]['name'])
+    status = acquire(c)
+    assert status.state == 'REVIEW_REQUIRED' and not status.current
+    assert status.diagnostics == ('IDENTITY_INPUT_UNAVAILABLE',)
+    result = view(c)
+    assert result.state.extractions[-1].envelope.validation == 'INVALID'
+    assert not result.state.observations and not result.state.results
+
+
+def test_normalization_config_and_actual_guest_upload_policy_are_bound(reviewed):
+    c = reviewed
+    config = replace(c[0].config, identity_normalization_hash='f' * 64)
+    policy = replace(c[0].shared.policy, model_configuration_hash=config.digest())
+    shared = SharedAdmission(policy, replace(c[0].shared.grant, policy_hash=policy.digest()),
+                             c[0].shared.store, clock=c[0].shared.clock)
+    with pytest.raises(ValueError, match='identity_normalization_configuration_mismatch'):
+        ExtractionService(c[7], shared, config, dict(c[0].sources),
+            transport_factory=c[0].transport_factory, credentials_factory=credentials)
+    from tests.unit.test_identity_resolution import admitted
+    different = admitted(replace(c[7].guest.policy.uploads, png_compress_level=9))
+    # Use its policy to reach the separate actual-upload mismatch guard.
+    with pytest.raises(ValueError, match='identity_normalization_policy_mismatch'):
+        EvidenceService(c[7].guest, c[7].store,
+            replace(c[7].policy, identity_admission=different.admission), identities=different)

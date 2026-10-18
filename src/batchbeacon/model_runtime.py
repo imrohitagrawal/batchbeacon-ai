@@ -120,6 +120,7 @@ class ExtractionConfig(Record):
     max_count_response_bytes: Positive = 65536
     redaction_version: Literal['summary-only-1'] = 'summary-only-1'
     identity_resolution_policy_hash: Digest | None = None
+    identity_normalization_hash: Digest | None = None
 
     @model_validator(mode='after')
     def coherent(self) -> Self:

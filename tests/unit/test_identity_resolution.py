@@ -29,14 +29,23 @@ CATALOG = Path('fixtures/synthetic/identity-catalog.json')
 PIN = '379e96b96b2f10bc1ac9beecc72d6950d6727c3532aed024e070710db0543164'
 
 
-def admitted():
-    return AdmittedIdentities.load(CATALOG.read_bytes(), IdentityAdmission(catalog_sha256=PIN))
+def original_images():
+    catalog = json.loads(CATALOG.read_bytes())
+    return tuple(Path('fixtures/synthetic/' + entry['fixture_id'] + '.png').read_bytes()
+                 for entry in catalog['identities'])
+
+
+def admitted(upload_policy=None):
+    upload_policy = upload_policy or UploadPolicy()
+    return AdmittedIdentities.load(CATALOG.read_bytes(), IdentityAdmission(catalog_sha256=PIN,
+        sanitization_policy_hash=upload_policy.digest()), reviewed_images=original_images(),
+        upload_policy=upload_policy)
 
 
 def refs(*indices):
-    catalog = admitted().catalog
+    admission = admitted()
     return tuple(EvidenceRef(kind=EvidenceKind.CAPTURE, artifact_id=str(i + 1) * 32,
-        sha256=catalog.identities[index].approved_image_sha256, locator='original entire image')
+        sha256=admission.normalized_hashes[index], locator='entire normalized reviewed image')
         for i, index in enumerate(indices))
 
 
@@ -73,7 +82,8 @@ def test_catalog_is_exact_identity_only_derivation_of_existing_approval():
         assert sha256(raw).hexdigest() == fixture['sha256'] == entry.approved_image_sha256
         assert (entry.name, entry.pack_text) == (fixture['identity'], f"{fixture['pack_g']} g")
         sanitized, = sanitize_images((raw,), UploadPolicy())
-        assert sanitized.data == raw
+        assert sha256(sanitized.data).hexdigest() == admitted().normalized_hashes[
+            catalog.identities.index(entry)]
         assert (sanitized.width, sanitized.height) == (entry.width, entry.height)
     forbidden = {'lot', 'best_before', 'expected_case', 'proposed_result', 'verdict'}
     assert not forbidden & set(IdentityCatalog.model_fields)
@@ -83,7 +93,7 @@ def test_catalog_is_exact_identity_only_derivation_of_existing_approval():
 @pytest.mark.parametrize('change', ['pin', 'bytes', 'size', 'entries'])
 def test_catalog_admission_fails_closed(change):
     raw = CATALOG.read_bytes()
-    policy = IdentityAdmission(catalog_sha256=PIN)
+    policy = IdentityAdmission(catalog_sha256=PIN, sanitization_policy_hash=UploadPolicy().digest())
     if change == 'pin':
         policy = replace(policy, catalog_sha256='a' * 64)
     elif change == 'bytes':
@@ -93,14 +103,16 @@ def test_catalog_admission_fails_closed(change):
     else:
         policy = replace(policy, max_identities=2)
     with pytest.raises(ValueError):
-        AdmittedIdentities.load(raw, policy)
+        AdmittedIdentities.load(raw, policy, reviewed_images=original_images(),
+                                upload_policy=UploadPolicy())
 
 
 @pytest.mark.parametrize('field,value', [('max_catalog_bytes', 0), ('max_identities', -1),
     ('max_identities', True), ('max_identities', '3')])
 def test_invalid_admission_configuration(field, value):
     with pytest.raises(ValidationError):
-        IdentityAdmission(catalog_sha256=PIN, **{field: value})
+        IdentityAdmission(catalog_sha256=PIN, sanitization_policy_hash=UploadPolicy().digest(),
+                          **{field: value})
 
 
 @pytest.mark.parametrize('mutation', ['duplicate_hash', 'duplicate_id', 'missing_review', 'gold'])
@@ -117,7 +129,9 @@ def test_malformed_catalog_cannot_be_admitted_even_with_its_own_hash(mutation):
         data['identities'][2]['proposed_result'] = 'NOT_LISTED_IN_CHECKED_NOTICES'
     raw = json.dumps(data).encode()
     with pytest.raises(ValidationError):
-        AdmittedIdentities.load(raw, IdentityAdmission(catalog_sha256=sha256(raw).hexdigest()))
+        AdmittedIdentities.load(raw, IdentityAdmission(catalog_sha256=sha256(raw).hexdigest(),
+            sanitization_policy_hash=UploadPolicy().digest()), reviewed_images=original_images(),
+            upload_policy=UploadPolicy())
 
 
 @pytest.mark.parametrize('index', [0, 1, 2])
@@ -182,12 +196,12 @@ def test_unlisted_extra_prevents_proof_but_does_not_hide_known_conflict(conflict
     if conflict:
         value = replace(value, identity=replace(value.identity, name=known('Wrong name',
                                                                             evidence=captures[0])))
-    assert decision(value, captures).state == ('DISAGREES' if conflict else 'UNRESOLVED')
+    assert decision(value, captures).state == ('DISAGREES' if conflict else 'UNAVAILABLE')
 
 
 def test_unlisted_changed_image_and_unconfigured_resolver_never_grant_exclusion():
     captures = (replace(refs(2)[0], sha256='f' * 64),)
-    assert decision(values(captures=captures), captures).state == 'UNRESOLVED'
+    assert decision(values(captures=captures), captures).state == 'UNAVAILABLE'
     assert decide_identity(None, values(), refs(2), (notice().dependency,)).state == 'UNRESOLVED'
 
 
@@ -202,7 +216,7 @@ def test_identity_support_cannot_point_to_unselected_capture(field):
 
 def test_source_scope_and_model_resolution_authority_stay_separate():
     dependency = replace(notice().dependency, content_hash='f' * 64)
-    assert decide_identity(admitted(), values(), refs(2), (dependency,)).state == 'UNRESOLVED'
+    assert decide_identity(admitted(), values(), refs(2), (dependency,)).state == 'UNAVAILABLE'
     with pytest.raises(ValidationError):
         ExtractedIdentity.model_validate(values().identity.model_dump() |
                                           {'resolved_name': 'trusted'})
@@ -227,3 +241,45 @@ def test_constructed_catalog_cannot_keep_admission_for_different_identity_bytes(
         *original.catalog.identities[1:]))
     with pytest.raises(ValueError, match='identity_catalog_admission_failed'):
         dataclass_replace(original, catalog=changed)
+
+
+@pytest.mark.parametrize('level', [0, 1, 6, 9])
+def test_exact_normalization_under_effective_compression_policy(level):
+    policy = replace(UploadPolicy(), png_compress_level=level)
+    a = admitted(policy)
+    for index, raw in enumerate(original_images()):
+        normalized, = sanitize_images((raw,), policy)
+        capture = replace(refs(index)[0], sha256=sha256(normalized.data).hexdigest())
+        result = decide_identity(a, values(index, (capture,)), (capture,), (notice().dependency,))
+        assert result.state == 'RESOLVED'
+        assert result.entry.approved_image_sha256 == sha256(raw).hexdigest()
+    other = admitted(replace(policy, png_compress_level=(level + 1) % 10))
+    assert a.derivation_hash != other.derivation_hash
+
+
+@pytest.mark.parametrize('damage', ['missing', 'extra', 'swapped', 'changed', 'policy'])
+def test_normalization_requires_complete_exact_originals_and_policy(damage):
+    from dataclasses import replace as dataclass_replace
+    a = admitted()
+    images, policy = a.reviewed_images, a.upload_policy
+    if damage == 'missing':
+        images = images[:-1]
+    elif damage == 'extra':
+        images = (*images, images[0])
+    elif damage == 'swapped':
+        images = (images[1], images[0], images[2])
+    elif damage == 'changed':
+        images = (images[0] + b'extra', *images[1:])
+    else:
+        policy = replace(policy, png_compress_level=9)
+    with pytest.raises(ValueError):
+        dataclass_replace(a, reviewed_images=images, upload_policy=policy)
+
+
+def test_previous_encoder_capture_is_unavailable_under_current_fixture_admission():
+    old = admitted(replace(UploadPolicy(), png_compress_level=9))
+    current = admitted(replace(UploadPolicy(), png_compress_level=1))
+    capture = replace(refs(2)[0], sha256=old.normalized_hashes[2])
+    # Even a source-positive model name cannot fall through to ordinary matching.
+    assert decide_identity(current, values(0, (capture,)), (capture,),
+                           (notice().dependency,)).state == 'UNAVAILABLE'

@@ -6,12 +6,17 @@ recorded approval, not new human review, broader gold approval or real inference
 
 The runtime receives an explicitly admitted identity-only catalog. It contains
 names, pack text, exact original image hashes and existing review references;
-it contains no expected case, verdict, lot or date answers. Original approved PNG
-bytes survive the current sanitizer unchanged. Cropped, recompressed or unlisted
-images do not inherit identity-exclusion authority. The current manifest hash and
+it contains no expected case, verdict, lot or date answers. The first local run happened to retain identical PNG bytes; hosted Linux disproved
+that portability assumption. Admission now verifies all original approved bytes,
+derives exact normalized-input hashes through the effective upload policy, and
+checks unchanged RGB pixels/dimensions. Original approval hashes and retained
+input hashes remain separate. This is exact output matching, not perceptual matching.
+A lossless re-encoding that normalizes to identical bytes has identical evidence;
+unlisted normalized output cannot inherit reviewed identity authority. The current manifest hash and
 the historical reviewed-manifest reference retain their distinct lineage roles.
 
-All selected image hashes must identify the same reviewed label, and the model's
+All selected retained-image hashes must identify the same admitted normalized label,
+and the model's
 KNOWN name and pack must agree with their supporting capture references. Mixed
 known identities, contradictory known fields and unsupported known/ambiguous
 product identifiers enter the invalid/review path. UNKNOWN/AMBIGUOUS required
@@ -29,7 +34,12 @@ Neither corrections nor retries rewrite the original proof or manufacture review
 The verifier is unchanged: both affected cheeses remain positive; complete reviewed
 third-identity evidence permits a negative only within the checked notice scope.
 An explicitly unconfigured resolver retains the previous conservative review-required
-behavior. A configured but missing or mismatched catalog fails construction.
+behavior. A configured but missing or mismatched catalog fails construction. The configured
+resolver explicitly accepts only admitted synthetic images. Unsupported normalized
+inputs (including captures from a different encoder) or a foreign source scope
+produce a fixed review-required acquisition, with no observation or result
+publication. Recognized UNKNOWN/AMBIGUOUS fields retain typed review behavior.
+This first slice does not implement generic unregistered-image positives.
 No product safety, clearance, sale-release or contamination claim is introduced.
 
 ## Verification and limits
@@ -60,7 +70,24 @@ a second review ran 313 affected tracked cases plus four private probes and
 separately verified constructor and correction-boundary negative controls.
 The old fixtures now assert rejection; valid scoped-negative/action/currentness
 coverage uses actual admitted label evidence. Final local locked bootstrap/Ruff, 1084 unit and 50 Chrome checks PASS.
-Exact-head hosted checkpoint checks remain pending.
+Hosted 388dca9 / run 39106915386 FAILED: 25 failures, 1059 passes, before browser
+execution. Both Linux and an independent local encoder-variation reproduction
+showed that a known third image could evade the original-byte lookup and fall
+through to a positive model-name match. This is one CRITICAL_BLOCKER root cause;
+no actual deployment/provider exploit is claimed. Failed logs are retained.
+
+The correction derives aliases internally from exact approved original assets,
+requires complete unique originals and exact pixel preservation, binds the upload
+policy and normalized mapping into configuration/identity receipts, and rejects
+unknown encodings before deterministic publication. No caller supplies aliases.
+Tests vary actual encoder output across compression levels 0/1/6/9 under the same
+policy, and simulate admission and retained capture from different encoders.
+Corrected local locked bootstrap/Ruff, 1104 unit and 50 Chrome checks PASS.
+Two independent reviews passed: 104 tracked identity cases plus 20 private probes,
+and 104 tracked plus 25 private checks respectively. Negative controls reproduce
+the false hold when the unavailable-input guard is removed; original asset,
+policy, pixel, alias uniqueness, configuration and publication guards were verified.
+Corrected native Linux exact-head checks remain pending.
 
 These checks do not measure actual Gemini accuracy or prove real-service timing,
 deployed isolation or hosted functional journeys. The default app remains

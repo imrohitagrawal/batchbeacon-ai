@@ -69,7 +69,8 @@ class AcquisitionStatus(Record):
     observation_revision: int | None = None
     result_revision: int | None = None
     diagnostics: tuple[Literal['SOURCE_DISAGREEMENT', 'SOURCE_REVIEW_REQUIRED',
-        'IDENTITY_EVIDENCE_DISAGREEMENT', 'PROPOSAL_INVALID', 'CHECK_FAILED'], ...] = ()
+        'IDENTITY_EVIDENCE_DISAGREEMENT', 'IDENTITY_INPUT_UNAVAILABLE',
+        'PROPOSAL_INVALID', 'CHECK_FAILED'], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -102,6 +103,9 @@ class ExtractionService:
         if config.identity_resolution_policy_hash != (identity_policy.digest()
                                                        if identity_policy else None):
             raise ValueError('identity_configuration_mismatch')
+        if config.identity_normalization_hash != (evidence.identities.derivation_hash
+                                                  if evidence.identities else None):
+            raise ValueError('identity_normalization_configuration_mismatch')
         self.evidence, self.shared, self.config = evidence, shared, config
         self.sources = MappingProxyType(dict(sources))
         self.transport_factory, self.credentials_factory = transport_factory, credentials_factory
@@ -127,11 +131,13 @@ class ExtractionService:
             state = 'FAILED'
             codes = saved.envelope.validation_codes if saved else ()
             diagnostics = (('SOURCE_REVIEW_REQUIRED',) if 'SOURCE_REVIEW_REQUIRED' in codes else
+                ('IDENTITY_INPUT_UNAVAILABLE',) if 'IDENTITY_INPUT_UNAVAILABLE' in codes else
                 ('IDENTITY_EVIDENCE_DISAGREEMENT',)
                 if 'IDENTITY_EVIDENCE_DISAGREEMENT' in codes else
                 ('SOURCE_DISAGREEMENT',) if any(c.startswith('SOURCE_') for c in codes) else
                 ('PROPOSAL_INVALID',) if saved else ('CHECK_FAILED',))
-            if diagnostics == ('IDENTITY_EVIDENCE_DISAGREEMENT',):
+            if diagnostics in {('IDENTITY_EVIDENCE_DISAGREEMENT',),
+                               ('IDENTITY_INPUT_UNAVAILABLE',)}:
                 state = 'REVIEW_REQUIRED'
         else:
             state = 'INCOMPLETE'  # Status never asserts that an executor is still running.
@@ -211,8 +217,10 @@ class ExtractionService:
                     decision = self.evidence.identity_decision(values,
                         tuple(c.evidence() for c in prepared.manifest.captures),
                         (prepared.manifest.source,))
-                    if decision.state == 'DISAGREES':
-                        values, codes = None, ('IDENTITY_EVIDENCE_DISAGREEMENT',)
+                    if decision.state in {'DISAGREES', 'UNAVAILABLE'}:
+                        values, codes = None, (('IDENTITY_INPUT_UNAVAILABLE',)
+                            if decision.state == 'UNAVAILABLE'
+                            else ('IDENTITY_EVIDENCE_DISAGREEMENT',))
             except ProposalInvalid:
                 codes = ('PROPOSAL_INVALID',)
             summary = json.dumps({'redaction': self.config.redaction_version,

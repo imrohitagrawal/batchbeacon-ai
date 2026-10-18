@@ -1,9 +1,12 @@
 """Exact reviewed synthetic identity evidence, never a model verdict or ownership grant."""
 
+import json
 from dataclasses import dataclass, field
 from hashlib import sha256
+from io import BytesIO
 from typing import Annotated, Literal, Self
 
+from PIL import Image
 from pydantic import Field, model_validator
 
 from batchbeacon.contracts import (
@@ -14,12 +17,15 @@ from batchbeacon.contracts import (
     SourceDependency,
     ValueState,
 )
+from batchbeacon.uploads import UploadPolicy, sanitize_images
 
 Positive = Annotated[int, Field(gt=0)]
 
 
 class IdentityAdmission(Record):
     catalog_sha256: Digest
+    sanitization_policy_hash: Digest
+    scope: Literal['ADMITTED_SYNTHETIC_IMAGES_ONLY'] = 'ADMITTED_SYNTHETIC_IMAGES_ONLY'
     max_catalog_bytes: Positive = 32768
     max_identities: Positive = 20
 
@@ -69,6 +75,17 @@ class AdmittedIdentities:
     catalog: IdentityCatalog
     admission: IdentityAdmission
     original: bytes = field(repr=False)
+    reviewed_images: tuple[bytes, ...] = field(repr=False)
+    upload_policy: UploadPolicy
+    normalized_hashes: tuple[str, ...] = field(init=False)
+
+    @property
+    def derivation_hash(self):
+        value = {'version': 'reviewed-original-normalization-1',
+                 'admission': self.admission.digest(),
+                 'aliases': list(zip((e.approved_image_sha256 for e in self.catalog.identities),
+                                     self.normalized_hashes, strict=True))}
+        return sha256(json.dumps(value,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 
     def __post_init__(self):
         if type(self.original) is not bytes \
@@ -78,20 +95,43 @@ class AdmittedIdentities:
             raise ValueError('identity_catalog_admission_failed')
         if len(self.catalog.identities) > self.admission.max_identities:
             raise ValueError('identity_catalog_entry_limit')
+        if not isinstance(self.upload_policy, UploadPolicy) or self.upload_policy.digest() != \
+                self.admission.sanitization_policy_hash or type(self.reviewed_images) is not tuple \
+                or len(self.reviewed_images) != len(self.catalog.identities):
+            raise ValueError('identity_normalization_admission_failed')
+        aliases = []
+        for entry, raw in zip(self.catalog.identities, self.reviewed_images, strict=True):
+            if type(raw) is not bytes or sha256(raw).hexdigest() != entry.approved_image_sha256:
+                raise ValueError('identity_original_asset_mismatch')
+            normalized, = sanitize_images((raw,), self.upload_policy)
+            if (normalized.width, normalized.height, normalized.mime_type) != (
+                    entry.width, entry.height, entry.mime_type):
+                raise ValueError('identity_original_asset_mismatch')
+            with Image.open(BytesIO(raw), formats=('PNG',)) as original_image:
+                with Image.open(BytesIO(normalized.data), formats=('PNG',)) as retained_image:
+                    if original_image.mode != 'RGB' or retained_image.mode != 'RGB' or \
+                            original_image.size != retained_image.size or \
+                            original_image.tobytes() != retained_image.tobytes():
+                        raise ValueError('identity_normalization_changed_pixels')
+            aliases.append(sha256(normalized.data).hexdigest())
+        if len(set(aliases)) != len(aliases):
+            raise ValueError('identity_normalization_collision')
+        object.__setattr__(self, 'normalized_hashes', tuple(aliases))
 
     @classmethod
-    def load(cls, original: bytes, admission: IdentityAdmission):
+    def load(cls, original: bytes, admission: IdentityAdmission, *,
+             reviewed_images: tuple[bytes, ...], upload_policy: UploadPolicy):
         if type(original) is not bytes or len(original) > admission.max_catalog_bytes \
                 or sha256(original).hexdigest() != admission.catalog_sha256:
             raise ValueError('identity_catalog_admission_failed')
         catalog = IdentityCatalog.model_validate_json(original)
         if len(catalog.identities) > admission.max_identities:
             raise ValueError('identity_catalog_entry_limit')
-        return cls(catalog, admission, original)
+        return cls(catalog, admission, original, reviewed_images, upload_policy)
 
 
 class IdentityDecision(Record):
-    state: Literal['RESOLVED', 'UNRESOLVED', 'DISAGREES']
+    state: Literal['RESOLVED', 'UNRESOLVED', 'DISAGREES', 'UNAVAILABLE']
     entry: ReviewedIdentity | None = None
 
     @model_validator(mode='after')
@@ -104,6 +144,7 @@ class IdentityDecision(Record):
 class IdentityReceipt(Record):
     policy_hash: Digest
     catalog_hash: Digest
+    normalization_hash: Digest
     admitted_manifest_hash: Digest
     identity_record_hash: Digest
     existing_review_record_hash: Digest
@@ -126,18 +167,19 @@ def decide_identity(admitted, values, captures, sources) -> IdentityDecision:
     """Pure decision over validated original model values and owned input references."""
     unresolved = IdentityDecision(state='UNRESOLVED')
     disagrees = IdentityDecision(state='DISAGREES')
+    unavailable = IdentityDecision(state='UNAVAILABLE')
     if admitted is None:
         return unresolved
     catalog = admitted.catalog
     scope = catalog.source_scope
     if len(sources) != 1 or (sources[0].family, sources[0].version, sources[0].content_hash) != (
             scope.family, scope.id, scope.capture_sha256):
-        return unresolved
-    by_hash = {entry.approved_image_sha256: entry for entry in catalog.identities}
+        return unavailable
+    by_hash = dict(zip(admitted.normalized_hashes, catalog.identities, strict=True))
     selected = [by_hash.get(ref.sha256) for ref in captures]
     recognized = {entry.fixture_id: entry for entry in selected if entry is not None}
     if not recognized:
-        return unresolved
+        return unavailable
     if len(recognized) != 1:
         return disagrees
     entry = next(iter(recognized.values()))
@@ -150,8 +192,9 @@ def decide_identity(admitted, values, captures, sources) -> IdentityDecision:
         return disagrees
     if identity.pack.state == ValueState.KNOWN and identity.pack.value != entry.pack_text:
         return disagrees
-    if any(item is None for item in selected) \
-            or identity.name.state != ValueState.KNOWN or identity.pack.state != ValueState.KNOWN:
+    if any(item is None for item in selected):
+        return unavailable
+    if identity.name.state != ValueState.KNOWN or identity.pack.state != ValueState.KNOWN:
         return unresolved
     selected_refs = {(ref.artifact_id, ref.sha256) for ref in captures if ref.kind == 'CAPTURE'}
     if len(selected_refs) != len(captures):
@@ -168,7 +211,7 @@ def identity_receipt(admitted, decision, values, captures, sources, run) -> Iden
         raise ValueError('identity_resolution_run_required')
     catalog, entry = admitted.catalog, decision.entry
     return IdentityReceipt(policy_hash=admitted.admission.digest(),
-        catalog_hash=admitted.admission.catalog_sha256,
+        catalog_hash=admitted.admission.catalog_sha256, normalization_hash=admitted.derivation_hash,
         admitted_manifest_hash=catalog.admitted_manifest_sha256,
         identity_record_hash=entry.digest(),
         existing_review_record_hash=catalog.existing_review_record_sha256,

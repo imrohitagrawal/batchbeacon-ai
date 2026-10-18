@@ -99,7 +99,10 @@ run 39105457566 PASS with 936 unit / 50 Chromium. See M2-extraction-coordinator.
 Injected extraction HTTP: 65 focused + 15 independent probes PASS; full local
 1001 unit / 50 Chrome PASS; hosted 0ba9a5a / run 39106007139 PASS (1001/50).
 M2-extraction-http.md records scope. Reviewed synthetic identity integration has
-84 scoped PASS; identity lineage corrections independently verified; local1084/50 PASS. See M2-reviewed-identity.md.
+local1084/50 PASS, but hosted388dca9 failed on PNG encoding portability.
+Correction derives exact normalized aliases from approved originals and sends
+unsupported encodings to review; independent checks and local1104/50 PASS.
+Corrected exact-head hosted checks pending. See M2-reviewed-identity.md.
 Shared reservations and unresolved T08 gates precede real-runtime acceptance.
 Continue bounded T08 discovery and T04b review alongside independent local work.
 Complete billing bounds/prior liabilities remain unsubstantiated; paid admission closed.

@@ -289,6 +289,8 @@ class EvidenceService:
         self.guest, self.store, self.policy = guest, store, policy
         if (identities.admission if identities else None) != policy.identity_admission:
             raise ValueError("identity_catalog_policy_mismatch")
+        if identities is not None and identities.upload_policy != guest.policy.uploads:
+            raise ValueError("identity_normalization_policy_mismatch")
         self.identities = identities
 
     def _check(self, snapshot, key, incident_id):
@@ -314,7 +316,7 @@ class EvidenceService:
                 continue
             decision = self.identity_decision(envelope.values, envelope.captures, envelope.sources)
             expected = None
-            if decision.state == "DISAGREES":
+            if decision.state in {"DISAGREES", "UNAVAILABLE"}:
                 raise GuestDenied(503, "identity_history_unavailable")
             if decision.state == "RESOLVED":
                 run = next((r for r in snapshot.usage.runs if r.id == saved.run_id), None) \
@@ -536,7 +538,7 @@ class EvidenceService:
             if envelope.values is not None:
                 decision = self.identity_decision(envelope.values, envelope.captures,
                                                   envelope.sources)
-                if decision.state == "DISAGREES":
+                if decision.state in {"DISAGREES", "UNAVAILABLE"}:
                     raise GuestDenied(422, "identity_evidence_disagreement")
                 if decision.state == "RESOLVED":
                     if run is None:
