@@ -96,7 +96,10 @@ one generation request. Constructed clients close on the exercised success and
 provider-failure paths; constructor-failure cleanup is not demonstrated. Truncated
 responses check continuation behavior; this harness does not publish or accept
 them as a runtime result. Full local lock/Ruff, **669 unit and 48 Chrome browser
-tests** passed. Hosted verification of this follow-up is pending.
+tests** passed. [Hosted run 39089108195](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39089108195)
+passed at `da0d3418a0d1c445eca508b9f8141221b16d1cd2`: locked bootstrap,
+browser installation, lock/Ruff, 669 unit and 48 Chromium checks. Complete log
+and exact checkout were inspected. This is the same bounded mock-transport scope.
 
 Independent review reproduced **AW-R01 / REQUIRED_CONTRACT** in the initial test:
 MAX_TOKENS alone did not exercise continuation, so enabling continuation still
@@ -109,6 +112,42 @@ These are SDK compatibility tests, not real inference, provider-side schema
 acceptance, shared admission, durable output or owned evidence publication. A pure
 application request builder and its prepared-input digest remain deferred; such a
 digest must not be confused with the future final-wire dispatch binding.
+
+## Original-source input preparation
+
+Read-only discovery verified the approved SFA raw HTML capture against its
+manifest hash. Its 109,097 UTF-8 bytes exceed the translator's local default
+100,000-byte source ceiling. This is a fail-closed configuration mismatch for
+that future input, not permission to truncate or rewrite the reviewed source.
+All three approved synthetic label asset hashes match and fit the existing image
+byte ceiling; at most two selected panels remain permitted per acquisition.
+
+Independent acceptance review recommends a pure original-input preflight next,
+before adding a callable application runner. Preparation must:
+
+- Verify the exact original source bytes/hash and preserve the review revision.
+  Select and bind one finite effective source limit consistently across input
+  preparation, translation and its eventual consumer; test the exact limit and
+  one byte over it. Never truncate to meet a byte or token limit.
+- Keep source quote offsets relative to the exact decoded original, with repeated
+  quotes and multibyte characters covered. Character and byte offsets differ.
+- Supply source material independently of the reviewed product rules/expected
+  verdicts; those remain the server's comparison authority after generation.
+- Bind the ordered permitted capture IDs, actual retained bytes/hashes, media
+  types and sizes. Sanitized bytes may differ from the approved asset; an asset
+  hash cannot be reused for changed bytes. Reject duplicate/mismatched inputs.
+- Bind source dependency, prompt/schema versions and effective non-secret policy
+  in a prepared-input digest distinct from the eventual final-wire digest.
+  Preparation alone establishes no dispatch, ownership or live provenance.
+- Account for the complete eventual request, including instructions, schema,
+  source, images and any history/tools. A byte ceiling is not a token or cost
+  ceiling; counted and generated semantic content must agree.
+
+Derived-text extraction is deferred unless necessary. It would require its own
+original/derived hashes, derivation version/configuration, completeness evidence
+and locator mapping. The present translator accepts original-source locations;
+derived text cannot replace the original hash or impersonate its offsets.
+No input-preflight implementation or real-model request is claimed by this plan.
 
 ## Remaining integration gates
 
