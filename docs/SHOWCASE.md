@@ -8,6 +8,8 @@
 
 ## What BatchBeacon does
 
+**A deployed application, not a simulated implementation:** the Cloud Run/FastAPI user experience, Google ADK/Gemini inference, deterministic checks and Firestore-backed queue are real. Synthetic sample-label data and human-confirmed demo holds prevent real inventory side effects. The official source notice is genuine and historical, and continuously refreshed source coverage is not claimed.
+
 An individual retail worker faces a practical gap: a notice describes affected products and lots, while the person holding a package must check the actual identity, batch, dates and country conditions before acting. BatchBeacon AI joins those two kinds of evidence in a reviewable workflow. The working demonstration uses a **synthetic label** and **one reviewed historical Singapore Food Agency (SFA) recall notice**. A bounded **Google ADK + Gemini** extraction proposes typed label fields. **Server-side rules**, not the model, check identity before lot/date and jurisdiction. A human explicitly confirms a **simulated hold**; **Firestore** retains the decision for the same expiring guest shop after refresh.
 
 ### Media provenance — read before reusing images
