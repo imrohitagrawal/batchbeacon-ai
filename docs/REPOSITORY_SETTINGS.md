@@ -1,8 +1,8 @@
 # GitHub repository settings — owner action and verification
 
-**Repository:** [imrohitagrawal/batchbeacon-ai](https://github.com/imrohitagrawal/batchbeacon-ai) · **Owner:** `@imrohitagrawal` · **Public prototype:** [batchbeacon.stackclimb.com](https://batchbeacon.stackclimb.com).
+**Repository:** [imrohitagrawal/batchbeacon-ai](https://github.com/imrohitagrawal/batchbeacon-ai) · **Owner:** `@imrohitagrawal` · **Live application:** [batchbeacon.stackclimb.com](https://batchbeacon.stackclimb.com).
 
-This is a **configuration checklist, not an assertion that changes are already applied**. As observed at review time, GitHub's REST repository readback reports the stale description, blank homepage, no topics, unprotected `main` and no rulesets. The linked ChatGPT GitHub app can read repository settings and change source files/PRs but **does not expose administration write actions** to modify About, homepage, topics, social preview or branch rulesets. Commiting this document cannot change those GitHub settings. Verify after applying using the public repository sidebar and GitHub Settings.
+This is a **configuration checklist, not an assertion that changes are already applied**. The product is a real deployed cloud application; the selected product labels and inventory actions are synthetic/simulated demonstration inputs and outcomes, not a mock backend. As observed at review time, GitHub's REST repository readback reports the stale description, blank homepage, no topics, unprotected `main` and no rulesets. The linked ChatGPT GitHub app can read repository settings and change source files/PRs but **does not expose administration write actions** to modify About, homepage, topics, social preview or branch rulesets. Committing this document cannot change those GitHub settings. Verify after applying using the public repository sidebar and GitHub Settings.
 
 ## 1. The right-side About panel
 
@@ -10,7 +10,7 @@ From [the repository home](https://github.com/imrohitagrawal/batchbeacon-ai), se
 
 **Description (copy exactly):**
 
-> AI-powered retail recall investigation: Gemini + Google ADK extract label fields; deterministic verification, human-confirmed simulated holds and Firestore-backed evidence. Built on Cloud Run for Singapore AI Builder Cup 2026.
+> Live AI retail recall investigation on Google Cloud Run: Gemini + Google ADK extraction, deterministic evidence checks, human-confirmed simulated holds and Firestore-backed cases. Singapore AI Builder Cup 2026.
 
 **Website:**
 
