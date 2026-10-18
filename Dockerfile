@@ -4,7 +4,7 @@ COPY --from=uv /uv /uvx /bin/
 WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 UV_LINK_MODE=copy UV_PYTHON_DOWNLOADS=never DISABLE_GCS_PYTHON_CLIENT_OTEL_BUCKET_METADATA=true
 COPY pyproject.toml uv.lock ./
-RUN python -c "import sys; assert sys.version_info[:3] == (3, 12, 13)" && test "$(uv --version)" = "uv 0.11.18" && uv sync --frozen --no-dev --no-build --no-install-project --python /usr/local/bin/python
+RUN python -c "import subprocess, sys; assert sys.version_info[:3] == (3, 12, 13); assert subprocess.check_output(['uv', '--version'], text=True).split()[:2] == ['uv', '0.11.18']" && uv sync --frozen --no-dev --no-build --no-install-project --python /usr/local/bin/python
 COPY src ./src
 COPY prototypes/refined/style.css prototypes/refined/mark.svg ./prototypes/refined/
 COPY fixtures/synthetic ./fixtures/synthetic

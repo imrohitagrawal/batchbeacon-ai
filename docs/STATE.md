@@ -151,7 +151,7 @@ schema correction passed one actual Gemini/ADK→verification→persisted simula
 hold→owned queue journey; retained real-data desktop/phone UI also passed.
 M2-real-coordinator.md separates harness confirmation from missing fresh-browser/
 deployed acceptance. Six model attempts reconciled; last paid phase closed.
-Hosted03686e9/run39119665003 PASS. Later full local1310 unit/65 Chrome PASS;
+Hosted59abfcc/run39122579787 PASS:1315 unit/66 Chromium. Earlier full local1310 unit/65 Chrome PASS;
 production factory adds five focused checks, independently verified. A later
 stale-guidance UI correction passes eight focused browser checks.
 Owner-requested PDF/product-image extraction is deferred as ATT-01 in ROADMAP.
@@ -162,6 +162,11 @@ service caps report CONFIGURED. M2-production-composition.md records the reviewe
 factory/build-context candidate. Dedicated identities, private image repository
 and private build-source bucket now exist; twenty scoped mutations were read back.
 Actual image/attached-runtime/deployment acceptance is open.
+First build failed a version-output assertion; pinned Linux output reproduced it
+and an independently verified token-based correction preserves exact versions.
+A bounded replacement build is in progress. One private Operations dashboard and
+two alert policies exist; controlled signal delivery is separate from unverified
+incident firing/closure and unconnected native application telemetry.
 Remaining human gates:
 UK scope interpretation/new context, remaining gold/H custody and final concrete submission.
 Next prompt: Read prompts/resume.md, reconcile actual state and the private finite

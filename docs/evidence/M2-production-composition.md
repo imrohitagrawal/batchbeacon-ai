@@ -19,8 +19,12 @@ The reviewed container candidate pins Python 3.12.13, uv 0.11.18 and the Docker
 builder by verified Linux/amd64 manifest digests. Build context is an explicit
 59-file allowlist with locked dependencies, application assets, synthetic labels,
 fixed learning inputs and individually admitted original SFA source assets. No
-private directory, credential, guest capability, raw attempt or H case enters
-the context. Runtime is non-root; no image build/deployment is claimed here.
+ private directory, credential, guest capability, raw attempt or H case enters
+the context. Runtime is non-root. The first actual build failed at an overly strict
+uv version assertion: the pinned binary includes platform metadata. The correction
+checks the exact version token and exit status while retaining both digest pins;
+actual Linux output and independent positive/negative controls passed. Its bounded
+replacement build is in progress; no deployment success is claimed here.
 
 The provider budget API is enabled. Actual project-scoped inventory was empty;
 three budgets now exist and were read back: INR4,800 funded-period operating
@@ -39,6 +43,13 @@ The bucket has uniform access, public-access prevention and a one-day live-objec
 deletion rule with seven-day soft retention. Earlier immediate service-account
 read lag was reconciled before further creation; no duplicate was created.
 No runtime billing, deployment or IAM administration privilege was granted.
+Independent verification confirmed all five resources and fifteen exact IAM
+additions, preserved prior bindings and absence of public principals.
+
+One private Operations dashboard and two alert policies now exist and were read
+back. Two historical receipt imports and one explicitly simulated alert canary were
+written without external notification channels. Native application telemetry,
+observed incident firing/closure and actual authenticated uptime remain pending.
 
 Actual private build, attached runtime identity, controlled ledger carry-forward,
 source/environment bootstrap, deployed browser/isolation and Operations acceptance
