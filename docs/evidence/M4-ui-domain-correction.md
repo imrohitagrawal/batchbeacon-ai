@@ -31,3 +31,15 @@ The initial edge cache configuration failed with502; removing conflicting cache
 TTL overrides restored HTTP200 while preserving no-store. Failure evidence remains
 private. DNS/TLS, fresh visitor usability and actual model journey acceptance are
 tracked independently; a homepage200 alone is insufficient.
+
+## Compact first-use tutorial
+
+The owner requested a newcomer tutorial within the original one-hour maximum.
+A native, expandable one-minute tour covers example selection, extraction versus
+verification, uncertainty, correction/re-verification, explicit simulation,
+queue/session boundaries and evaluated guidance changes. Opening the tour makes
+no requests and consumes no model allowance. Keyboard activation and default/
+doubled-text reflow at1440/390/320 passed independent local checks. The initial
+loading copy is neutral until the configured extraction mode is known; it no
+longer briefly labels the deployed application as local simulated extraction.
+This is a help-only correction; runtime, verifier and allowances remain unchanged.

@@ -39,3 +39,9 @@ button:disabled { cursor: not-allowed; }
 
 .journey-start { display: none; }
 @media (max-width: 760px) { .journey-start { display: inline-flex; margin: 0 0 16px; } }
+
+.quick-tour { margin-top: 16px; font-size: .875rem; }
+.quick-tour summary { color: var(--brand-navy); font-weight: 600; min-height: 44px; padding: 12px 0; cursor: pointer; }
+.quick-tour ol { padding-left: 24px; }
+.quick-tour li { margin: 12px 0; line-height: 1.6; }
+.quick-tour > p { margin: 14px 0; color: var(--muted); }
