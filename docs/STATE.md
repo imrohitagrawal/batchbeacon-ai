@@ -114,9 +114,14 @@ the 60 existing guest cases PASS. Two reproduced response defects corrected and
 independently verified. Full local lock/Ruff, 477 unit and 48 Chrome PASS; hosted
 314ef06 / run 39084510141 passed locked bootstrap/Ruff and the same unit/Chromium
 counts. See M2-local-journey.md. Default app/prototype unchanged.
-Actual store/provider/rate-limit integration remains. Next: unified atomic
-provisioning and persistence adapter preparation; no missing state may be silently
-initialized. Real-service sign-off still waits for T08.
+Unified Firestore SDK adapter now atomically provisions guest/usage and incident/
+usage/evidence/actions; missing state is never silently initialized. Independent
+42 offline SDK tests and four local emulator tests PASS; full local lock/Ruff,
+519 unit and 48 Chrome PASS. The owned loopback emulator was stopped. See
+M2-firestore-adapter.md for exact scope and concurrency/restart limitations.
+Hosted verification of this adapter checkpoint is pending. Actual Storage,
+provider/rate-limit integration and connected UI remain; real-service sign-off
+still waits for T08. Next: bounded private-image Storage adapter preparation.
 UK v3/new source-context human review is pending.
 Actual service sign-off still waits for T08. Continue bounded T08 capacity/service
 discovery and T04b source review preparation alongside independent local work. Complete billing bounds remain unsubstantiated;
