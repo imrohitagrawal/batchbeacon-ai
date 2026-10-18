@@ -1,5 +1,7 @@
 # Submission fields: closure draft
 
+> **Historical preparation snapshot.** The final owner-authorized submission is now confirmed as **Submitted** in [STATE](../STATE.md#final-submission) with the [public 220-second video](https://youtu.be/IpY2_GeR4Ic). The values and pending actions below document the pre-submission draft and should not be mistaken for current status.
+
 Team: **Bugging Debuggers**. Captain: **Rohit Agrawal**. Members: **Niharika Aggarwal, Aayushi Priya, Priyanka Shelke**. Registered spelling was confirmed in the official dashboard. Do not alter the roster.
 
 | Field | Value |
