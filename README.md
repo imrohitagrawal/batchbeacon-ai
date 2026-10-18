@@ -4,11 +4,12 @@
 
 [![Checks](https://github.com/imrohitagrawal/batchbeacon-ai/actions/workflows/checks.yml/badge.svg?branch=main)](https://github.com/imrohitagrawal/batchbeacon-ai/actions/workflows/checks.yml)
 [![Live demo](https://img.shields.io/badge/Live%20demo-BatchBeacon%20AI-173B75)](https://batchbeacon.stackclimb.com)
-![Scope](https://img.shields.io/badge/Scope-synthetic%20hackathon%20prototype-F05A36)
 
 **[Launch live demo](https://batchbeacon.stackclimb.com) · [Watch submitted 3:40 demo](https://youtu.be/IpY2_GeR4Ic) · [Product gallery](docs/SHOWCASE.md) · [5-step judge walkthrough](docs/submission/judge-guide.md) · [Architecture](docs/submission/architecture.md) · [Evidence and limitations](docs/submission/evidence-index.md)**
 
-BatchBeacon AI is a working, bounded **retail recall investigation prototype** built for **Singapore AI Builder Cup 2026 (Retail & Commerce)** by **Bugging Debuggers**. A retail worker can inspect a *synthetic* product label against a *selected, reviewed historical* Singapore Food Agency (SFA) recall notice. Google Gemini, called through one bounded Google Agent Development Kit (ADK) extraction workflow, proposes label fields. **Deterministic server rules check product identity before lot, dates and jurisdiction.** A person reviews the evidence and explicitly records a **simulated hold**; Firestore preserves the investigation in that guest shop's queue.
+BatchBeacon AI is a **live, cloud-deployed AI retail recall investigation application** built for **Singapore AI Builder Cup 2026 (Retail & Commerce)** by **Bugging Debuggers**. A retail worker can inspect a *synthetic* product label against a *selected, reviewed historical* Singapore Food Agency (SFA) recall notice. Google Gemini, called through one bounded Google Agent Development Kit (ADK) extraction workflow, proposes label fields. **Deterministic server rules check product identity before lot, dates and jurisdiction.** A person reviews the evidence and explicitly records a **simulated hold**; Firestore preserves the investigation in that guest shop's queue.
+
+**Live software, controlled demonstration:** Gemini/ADK extraction, server verification, Cloud Run hosting and Firestore persistence are real deployed functions. **Synthetic** describes the sample label images and guest-shop data; **simulated** describes the inventory actions. The selected official SFA recall notice is genuine but historical. This application is not a continuously updated national recall service or a certified food-safety decision system.
 
 The distinctive proposition is an **inspectable package → evidence → verification → decision → handover** workflow. This is a demonstrated integration and design approach, **not a claim of market exclusivity, model superiority or food-safety certification**.
 
@@ -135,4 +136,8 @@ The future **Consumer Recall Explorer** would enable country/date/product/batch/
 
 **Submission state:** The organizer dashboard confirmed **Prototype Submission — Submitted** before the deadline with the approved 15-page PDF, the [220-second public demo video](https://youtu.be/IpY2_GeR4Ic), the live URL and this repository. The final receipt is retained privately; [STATE](docs/STATE.md#final-submission) is the authoritative redacted record. Submission acceptance or competition selection is **not** claimed.
 
-**Repository review:** [Enterprise repository audit and prioritized improvements](docs/REPOSITORY_AUDIT.md).\n\n**Repository settings:** The GitHub sidebar's About text, website, topics and branch protections are controlled in GitHub Settings, not by this README. The [owner-specific configuration checklist](docs/REPOSITORY_SETTINGS.md) provides exact values and verification steps.\n\n**Reuse:** Original repository source has no declared root-level project license at this review; public visibility alone does not grant reuse permission. Third-party components retain their respective licenses. Report suspected security issues privately to the repository owner rather than publishing credentials or exploit details in a public issue; see [security guidance](SECURITY.md).
+**Repository review:** [Enterprise repository audit and prioritized improvements](docs/REPOSITORY_AUDIT.md).
+
+**Repository settings:** The GitHub sidebar's About text, website, topics and branch protections are controlled in GitHub Settings, not by this README. The [owner-specific configuration checklist](docs/REPOSITORY_SETTINGS.md) provides exact values and verification steps.
+
+**Reuse:** Original repository source has no declared root-level project license at this review; public visibility alone does not grant reuse permission. Third-party components retain their respective licenses. Report suspected security issues privately to the repository owner rather than publishing credentials or exploit details in a public issue; see [security guidance](SECURITY.md).

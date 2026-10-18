@@ -2,7 +2,7 @@
 
 **Audit basis:** public GitHub `main` at `65dfe1f` (19 October 2026 context); reference portfolio repository `imrohitagrawal/quorum-ai`; official BatchBeacon release/acceptance records in [STATE](STATE.md), [release scope](submission/release-scope.md) and [evidence index](submission/evidence-index.md). This is a **repository structure/claim review**, **not** a new external security penetration test or quality certification.
 
-**Objective:** a judge or recruiter should find the purpose, *current* working proof, technology architecture, limitations and contribution expectations quickly, without interpreting proposals as deployed features.
+**Objective:** a judge or recruiter should find the purpose, *current* working proof, technology architecture, limitations and contribution expectations quickly, without interpreting proposals as deployed features. The software is live on Cloud Run; only demonstration samples and stock actions are synthetic/simulated.
 
 ## Priority and assessment
 
