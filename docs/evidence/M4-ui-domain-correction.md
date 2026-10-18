@@ -139,3 +139,44 @@ The focused reference check used [W3C modal-dialog guidance](https://www.w3.org/
 The adopted approach offers optional, task-relevant help without delaying the first
 action. Local independent checks pass; this candidate still requires its own exact
 hosted/image/deployed proof before replacing the verified release.
+
+
+### Final overlay deployment — accepted infrastructure and hosted verification
+
+The earlier held-candidate statements above are historical. Application
+`53891c6d0a7d392c9ce0991dbb23a502f4247afe` is deployed at image
+`sha256:5b7134d8a3620e12a11b9ea27ec25db9012ea3ebd6609dee8039b8afa1d77243`. Exact hosted run39142583242 passed
+1,335 unit,77 browser,29 edge checks and Ruff. Independent build, registry and
+network-disabled image normalization passed; the runtime configuration is unchanged.
+The first readback observed asynchronous provisioning and correctly failed readiness.
+A separately bounded second readback confirmed ready revision,100% traffic and all30
+checks across both hostnames. Original failure evidence remains private and preserved.
+No new guest, model call, namespace reset or security-policy change was made for
+this deployment. Cloudflare Worker/DNS stayed unchanged. Final browser/packaging
+observations follow separately.
+
+The owner identified text-only example cards labelled Synthetic image, unexplained
+French product names, one-source dropdown ambiguity and requested a top tutorial
+entry. Three cards are observed, not four. Actual sample images exist and load after
+Use this label; the defect is discoverability and copy. Proposed correction uses
+allowlisted thumbnails, visible instructions and accessible About this example
+help, preserving exact product identity. This follow-up is not implemented or
+claimed complete by the final overlay release. No broader source review is implied.
+
+
+### Final overlay browser observation and next bounded clarity candidate
+
+On exact53891c6, an existing-guest check made12HTTP requests, resumed that guest
+once and made no model/feature write. Desktop and390px phone show the new banner,
+all five overlay steps, Back, Skip, Escape and reopening at step1. The phone tour
+entry was at y693 within844px viewport; this is discoverable but not top placement.
+The native overlay fits. Native dialog screenshots are separately privacy-reviewed.
+Focused local tests cover focus trapping/return; these were not independently
+instrumented in this live attempt. Full local suite also passed1,335unit/77browser.
+
+The owner then authorized a further bounded critical clarification: preview images
+inside the three example choices, English product-name explanations using native
+keyboard/touch disclosures outside the radio labels, the existing tour moved to
+the start of the introduction, and a labelled single historical source panel.
+Product names, image bytes, matching inputs and backend rules remain unchanged.
+This next candidate is local until its own exact hosted/build/deployment acceptance.

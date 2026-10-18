@@ -46,7 +46,16 @@ button:disabled { cursor: not-allowed; }
 .quick-tour li { margin: 12px 0; line-height: 1.6; }
 .quick-tour > p { margin: 14px 0; color: var(--muted); }
 
-#tour-open { margin-top: 16px; }
+#tour-open { display: inline-flex; margin: 0 12px 16px 0; }
 #tour-dialog { max-height: 85dvh; overflow: auto; overflow-wrap: anywhere; }
 #tour-dialog p { margin: 16px 0; line-height: 1.6; }
 #tour-dialog .dialog-actions { flex-wrap: wrap; }
+
+.example-card { min-width: 0; }
+.example-card label { align-items: flex-start; height: auto; }
+.example-card label > span { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.example-card img { display: block; width: 100%; height: auto; margin: 12px 0; border: 1px solid var(--line); }
+.examples .example-help summary { padding: 12px; min-height: 44px; font-size: .875rem; color: var(--brand-navy); cursor: pointer; }
+.example-help p { padding: 0 12px; margin: 0 0 12px; font-size: .875rem; line-height: 1.6; overflow-wrap: anywhere; }
+
+.single-source { flex: 1 1 240px; margin: 0; padding: 12px; background: var(--evidence-surface); border-radius: 8px; font-size: .875rem; line-height: 1.5; overflow-wrap: anywhere; }

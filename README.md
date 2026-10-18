@@ -55,6 +55,6 @@ Verified fallback: https://batchbeacon-ai-xotgrrfbcq-el.a.run.app . Sessions are
 separate between hostnames. This demo uses private, expiring guest shops, without
 account login/logout or cross-device recovery. Anonymous users can consume the
 finite public allowance; exhausted capacity is not automatically replenished.
-The deployed source is [093f6ba7](https://github.com/imrohitagrawal/batchbeacon-ai/tree/093f6ba7ac595f2f7dfef6929153cc3df6e6dfd7).
-The later tutorial candidate in main is held after a hosted narrow-screen failure
-and is not part of the live release. See [correction evidence](docs/evidence/M4-ui-domain-correction.md).
+The deployed source is [53891c6d](https://github.com/imrohitagrawal/batchbeacon-ai/tree/53891c6d0a7d392c9ce0991dbb23a502f4247afe).
+The hosted narrow-screen failure was corrected and independently verified. The live
+release includes an optional five-step guided overlay and the written walkthrough. See [correction evidence](docs/evidence/M4-ui-domain-correction.md).

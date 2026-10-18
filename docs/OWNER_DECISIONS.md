@@ -112,3 +112,15 @@ The owner requested pausing updated video creation pending review and improvemen
 feedback on the existing cuts. Preserve both230-second and160-second artifacts;
 no new video revision/upload proceeds until further instruction. Other authorized
 release correction and presentation/roadmap work can continue.
+
+
+### U19 final example-clarity correction
+
+The owner explicitly requested previews within selectable examples, accessible
+About this example explanations, English explanations of original French product
+names, a prominent tutorial and clearer single-source presentation. The owner
+allowed30 additional minutes for these confusing usability issues. Exact admission
+remains private; original freeze, protected reserve, overall recovery expiry,
+INR6,000 lifetime ceiling, source restrictions and OWNER-SUBMIT remain unchanged.
+One bounded build is reserved as critical repair from the existing operational
+contingency; this is not a budget increase or permission for broader development.

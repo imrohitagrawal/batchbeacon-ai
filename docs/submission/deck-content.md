@@ -67,7 +67,7 @@ Actual public screenshots show the label and source comparison, explicit confirm
 
 One historical SFA journey: actual Gemini/ADK, explicit hold and persisted queue after refresh.
 
-1,335 unit checks, 73 hosted browser checks and 29 edge checks: engineering coverage across deterministic and browser boundaries.
+1,335 unit checks, 77 hosted browser checks and 29 edge checks: engineering coverage across deterministic and browser boundaries.
 
 Six fixed guidance cases/nine variants: verified deployed evaluation, activation and rollback. These are not model-accuracy percentages; protected evaluation and a competitive baseline remain incomplete.
 
@@ -127,7 +127,7 @@ All 16 template slots are accounted for. Existing assets, masters, layout and sh
 
 Template slide 7 is a two-workspace comparison with a large right-side screenshot area. Template slide 11 reserves the main canvas for actual journey captures, with three short proof-point captions.
 
-Template slide 12 uses three native evidence cards: one illustrated actual SFA journey, 1,335 unit plus 70 hosted browser checks, and six fixed guidance cases/nine variants. These are engineering evidence, not an accuracy denominator. Counts bind exact application head `48c15250` and hosted run `39130978886`.
+Template slide 12 uses three native evidence cards: one illustrated actual SFA journey, 1,335 unit plus 77 hosted browser checks, and six fixed guidance cases/nine variants. These are engineering evidence, not an accuracy denominator. Counts bind exact application head `53891c6d` and hosted run `39142583242`.
 
 Template slide 15 compares product/producer, retailer/company, individual user, citizens, society, accountability and nation/authority value. Current dashboard users are retail staff/demo managers and the operator. Consumer/authority views are future permissioned work. Potential societal benefit and pilot metrics are explicitly unmeasured.
 

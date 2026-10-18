@@ -22,14 +22,13 @@ into a pass. Consumer discovery/image extraction are future scope, not new featu
 [Live prototype](https://batchbeacon.stackclimb.com) ·
 [Cloud Run fallback](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app) ·
 [public source](https://github.com/imrohitagrawal/batchbeacon-ai).
-Deployed application commit `093f6ba7ac595f2f7dfef6929153cc3df6e6dfd7` passed
-[hosted checks39138408053](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39138408053):
-1,335 unit,73 browser and29 edge checks. Image:
-`sha256:2b781cad71e8973bd6b7c0ed1756354239f9e356497d5b5ae4c6b18e3584ddae`.
-Later tutorial candidate `1f1c6d4` failed hosted narrow-screen accessibility and
-was not deployed. Main includes that held candidate; use the explicit deployed
-commit to reproduce the accepted application. No new release claim follows from
-later documentation or candidate commits.
+Deployed application commit `53891c6d0a7d392c9ce0991dbb23a502f4247afe` passed
+[hosted checks39142583242](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39142583242):
+1,335 unit,77 browser and29 edge checks. Image:
+`sha256:5b7134d8a3620e12a11b9ea27ec25db9012ea3ebd6609dee8039b8afa1d77243`.
+The earlier narrow-screen failure was corrected by allowing the source link to
+wrap; exact hosted verification passed. The live release now includes the optional
+five-step overlay and neutral loading copy. Earlier failed evidence is preserved.
 
 Independent readback confirms exact image/assets,100% traffic, unchanged IAM,
 namespace and limits: min0/max2, concurrency1, CPU1/1GiB, timeout60s, no CPU boost.
@@ -65,15 +64,20 @@ Exact charges/configuration and private IDs remain in ignored evidence.
 
 ## Correction verification
 
-U19's UI/domain correction retains the verified deployed version. The owner
-allowed30 additional minutes for a bounded tutorial successor; exact hosted and
-deployed verification remain required. Purpose, audience, example cards, four-step journey, evidence
-hierarchy and guidance stages were restored against the approved design.
-The additional tutorial, neutral-loading and phone-count refinements remain
-unshipped after hosted overflow failure. Complete-label guidance availability
-needs clearer explanation. No full first-time all-features pass is claimed.
-[Correction evidence](evidence/M4-ui-domain-correction.md) separates actual deployed,
-local, hosted and held-candidate evidence. No backend verifier or budget reset.
+U19's UI/domain correction is deployed and both hostnames have exact asset,
+image, runtime and access readback. Purpose, audience, example cards, four-step
+journey, evidence hierarchy and guidance stages follow the approved design.
+The source-link reflow defect is fixed. The overlay supports Back, Next/Done,
+Skip, Escape and focus restoration without model/API actions. Final deployed
+same-guest desktop/phone checks observed all five overlay steps, Back, reopening,
+Escape and Skip with zero model/feature writes; no all-features pass is claimed.
+
+Owner review identified remaining clarity issues: text-only example cards say
+Synthetic image before the image is loaded, French product names lack English
+explanations, and the single reviewed source appears in a dropdown. The tour is visible in the first phone viewport but sits low in the introduction. These are not silently
+marked fixed by the overlay release. No additional source or matching scope was
+admitted. [Correction evidence](evidence/M4-ui-domain-correction.md) separates
+local, hosted, deployed and remaining observations. No backend or budget reset.
 Anonymous guest sessions have no account login/logout; residual public allowance
 exhaustion and non-model traffic cost are explicitly disclosed there.
 
@@ -88,7 +92,7 @@ The submission cut passed decoded-frame lineage/privacy checks; public hosting,
 playback, final PDF/link binding and final submission remain. Final exported duration/size and links must be checked before OWNER-SUBMIT.
 
 Video revisions/uploads are paused at the owner’s request pending review of the
-existing cuts. Next: finish bounded tutorial verification and PDF/roadmap updates,
+existing cuts. Next: finish final overlay browser evidence and PDF/diagram updates,
 refresh accepted-release guide/source artifacts,
 complete the authenticated form, request OWNER-SUBMIT on the concrete package and
 current terms, then retain an actual receipt. No form submission has occurred.

@@ -34,9 +34,26 @@ function controls() {
 }
 async function task(operation) { if(state.busy)return; state.busy=true; controls(); message(''); try {await operation();}catch(e){message(safeError(e));}finally{state.busy=false;controls();} }
 function show(view) { for(const el of document.querySelectorAll('.view'))el.hidden=el.id!==view; for(const a of document.querySelectorAll('[data-view]')){if(a.dataset.view===view)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');}text('page-name',view==='retail'?'Retail queue':view==='guidance'?'Capture guidance':'Check a product'); }
-function exampleCards() { const box=$('example-cards');box.replaceChildren();for(const sample of state.config.samples){const label=node('label');const radio=node('input');radio.type='radio';radio.name='example';radio.value=sample.id;radio.checked=sample.id===$('sample-choice').value;radio.addEventListener('change',()=>{$('sample-choice').value=sample.id;});const copy=node('span');copy.append(node('strong',sample.name),node('small','Synthetic image · extract to see the actual result'));label.append(radio,copy);box.append(label);} }
+const exampleExplanations = {
+  'sfa-a': 'French product name: Camembert cheese made with raw milk. “Superieur” is part of the recorded name, not a quality assessment by BatchBeacon.',
+  'sfa-b': 'Bertrand Pere & Fils is the producer name. “Camembert au lait cru” means Camembert cheese made with raw milk.',
+  'sfa-third': 'An invented Brie product for checking product identity separately from a shared batch number.'
+};
+function exampleCards() {
+  const box=$('example-cards');box.replaceChildren();
+  for(const sample of state.config.samples){
+    const card=node('div',undefined,'example-card');const label=node('label');
+    const radio=node('input');radio.type='radio';radio.name='example';radio.value=sample.id;radio.checked=sample.id===$('sample-choice').value;
+    radio.addEventListener('change',()=>{$('sample-choice').value=sample.id;});
+    const copy=node('span');const preview=node('img');preview.src=`/samples/${encodeURIComponent(sample.id)}.png`;preview.alt=`Sample label preview: ${sample.name}`;preview.width=1000;preview.height=700;
+    copy.append(node('strong',sample.name),preview,node('small','Select Use this label to load this image for analysis.'));label.append(radio,copy);
+    const help=node('details',undefined,'example-help');const summary=node('summary','ⓘ About this example');
+    help.append(summary,node('p',exampleExplanations[sample.id] || 'The original product name is retained for exact identity matching.'),node('p','This label image was created for testing. Gemini reads the actual image; the linked official recall notice is real and historical. Original product names are preserved for matching.'));
+    card.append(label,help);box.append(card);
+  }
+}
 $('sample-choice').addEventListener('change',()=>{for(const radio of document.querySelectorAll('#example-cards input'))radio.checked=radio.value===$('sample-choice').value;});
-function sourceView() { const selected=state.config.sources.find(s=>s.selection===$('source-choice').value); const container=$('source-summary');container.replaceChildren(); if(!selected)return; const n=selected.notice; container.append(node('strong',`${n.authority} · ${n.jurisdictions.join(', ')}`),node('p',`Published ${n.published_at} · historical version ${n.dependency.version}`)); const a=node('a','Open exact source notice'); a.href=n.final_url;a.target='_blank';a.rel='noreferrer';container.append(a,node('p','The selected notice describes a recall, not a contamination test of this item. Additional recall context remains under human review.','context-line')); }
+function sourceView() { const selected=state.config.sources.find(s=>s.selection===$('source-choice').value); const container=$('source-summary');container.replaceChildren(); if(!selected)return; const n=selected.notice; const single=state.config.sources.length===1; $('source-choice').hidden=single; $('source-choice-label').hidden=single; $('single-source').hidden=!single; text('single-source',`Reviewed source: ${n.authority} · ${n.jurisdictions.join(', ')} · ${n.published_at}. One historical notice is available for this check.`); container.append(node('strong',`${n.authority} · ${n.jurisdictions.join(', ')}`),node('p',`Published ${n.published_at} · historical version ${n.dependency.version}`)); const a=node('a','Open exact source notice'); a.href=n.final_url;a.target='_blank';a.rel='noreferrer';container.append(a,node('p','The selected notice describes a recall, not a contamination test of this item. Additional recall context remains under human review.','context-line')); }
 function drawCaptures() { const box=$('capture-images');box.replaceChildren();if(!state.captures.length)box.append(node('p','No ready label images.'));state.captures.forEach((c,i)=>{const image=node('img');image.src=`/api/incidents/${state.incident}/captures/${c.id}`;image.alt=`Retained synthetic label, panel ${i+1}`;box.append(image);}); }
 function compare() { const box=$('comparisons');box.replaceChildren();const result=state.evidence?.result;
   if(!result){box.append(node('p','No deterministic result yet.'));return;}

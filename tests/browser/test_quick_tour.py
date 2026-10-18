@@ -126,3 +126,39 @@ def test_overlay_tour_keyboard_steps_reflow_and_no_requests(connected_browser):
         expect(dialog).not_to_be_visible()
     assert requests == []
     assert not errors
+
+
+def test_example_previews_explanations_and_top_tour(connected_browser):
+    page, _, _, errors = connected_browser
+    cards = page.locator('.example-card')
+    assert cards.count() == 3
+    expect(page.locator('#source-choice')).not_to_be_visible()
+    expect(page.locator('#single-source')).to_contain_text('One historical notice')
+    images = cards.locator('img')
+    for image in images.all():
+        expect(image).to_be_visible()
+        assert image.evaluate('i => i.complete && i.naturalWidth === 1000')
+    requests = []
+    page.on('request', lambda request: requests.append(request.url))
+    for width, size in [(1440, '100%'), (390, '100%'), (320, '200%')]:
+        page.set_viewport_size({'width': width, 'height': 844})
+        page.evaluate('size => {document.documentElement.style.fontSize=size; scrollTo(0,0)}', size)
+        if size == '100%':
+            tour = page.locator('#tour-open').bounding_box()
+            assert tour['y'] + tour['height'] < 844
+        first = cards.first.locator('summary')
+        first.focus()
+        first.press('Enter')
+        expect(cards.first.locator('details')).to_have_attribute('open', '')
+        expect(cards.first).to_contain_text('made with raw milk')
+        expect(cards.first).to_contain_text('real and historical')
+        assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
+        first.press('Space')
+        assert cards.first.locator('details').get_attribute('open') is None
+        cards.nth(1).locator('summary').click()
+        expect(cards.nth(1)).to_contain_text('producer name')
+        cards.nth(1).locator('summary').click()
+    assert requests == []
+    cards.nth(1).locator('input').check()
+    expect(page.locator('#sample-choice')).to_have_value('sfa-b')
+    assert not errors
