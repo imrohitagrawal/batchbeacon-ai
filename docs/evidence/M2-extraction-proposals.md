@@ -67,15 +67,54 @@ verified that correction and its negative control. Counts overlap. No remaining
 reproduced blocker was found in this bounded preparation.
 
 Final corrected local checks passed: lock/Ruff, **659 unit and 48 Chrome browser
-tests**. Exact-head hosted verification is pending.
+tests**. [Hosted run 39088574766](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39088574766)
+passed at `b011615474ba0207163a93ebb1bf54605fa5f288`: locked bootstrap, browser
+installation, lock/Ruff, 659 unit and 48 Chromium checks. Complete logs and exact
+checkout were inspected, and remote main was verified.
 Acceptance, source hashes, original failures, negative controls and complete logs
 remain in ignored local evidence. Counts overlap; focused cases are not additive
 to the complete suite.
 
+## Installed ADK compatibility follow-up
+
+A separate test-local harness exercises the installed `LlmAgent → Gemini → Runner`
+with mandatory mock HTTP transport and synthetic credentials. Socket connections
+and credential discovery are forbidden. No production runner, agent/client factory,
+request builder, endpoint or runtime prompt was added; the instruction is test-only.
+
+Ten focused cases and Ruff passed independently. The actual HTTP request preserves
+the exact UTF-8 source and both ordered PNG byte sequences/hashes. Effective endpoint/model,
+timeout, output/thinking configuration and the closed proposal schema are checked
+at that boundary. Logical and wire-schema hashes are equal for this installed SDK.
+Instruction-like source stays in user data, with the system instruction, schema
+and absent tools/cache unchanged. A mock cannot prove prompt-injection resistance.
+
+Actual ADK events feed the synthetic proposal into the pure translator: complete
+agreement, source disagreement and invalid output keep their respective outcomes.
+Mock 429/503, MAX_TOKENS and token-bearing CONTINUATION responses cause at most
+one generation request. Constructed clients close on the exercised success and
+provider-failure paths; constructor-failure cleanup is not demonstrated. Truncated
+responses check continuation behavior; this harness does not publish or accept
+them as a runtime result. Full local lock/Ruff, **669 unit and 48 Chrome browser
+tests** passed. Hosted verification of this follow-up is pending.
+
+Independent review reproduced **AW-R01 / REQUIRED_CONTRACT** in the initial test:
+MAX_TOKENS alone did not exercise continuation, so enabling continuation still
+passed that case. The corrected first response carries a continuation token and
+then stops. Its independent negative control sends two requests and fails with
+continuation enabled; current configuration sends one. This corrects test evidence;
+no production defect was observed. Earlier outputs and the control log are retained.
+
+These are SDK compatibility tests, not real inference, provider-side schema
+acceptance, shared admission, durable output or owned evidence publication. A pure
+application request builder and its prepared-input digest remain deferred; such a
+digest must not be confused with the future final-wire dispatch binding.
+
 ## Remaining integration gates
 
-T10 still requires the actual installed ADK workflow with this schema and effective
-configuration, then separately authorized real-provider evidence. Its consumer must
+T10 still requires the application-integrated ADK workflow with this schema and
+effective configuration, then separately authorized real-provider evidence. Its
+consumer must
 bind the final wire source/image/configuration, shared reservation and single-use
 dispatch claim; retain bounded original/redacted output and failed diagnostics;
 enforce deadlines and usage reconciliation; check owned retained inputs and current

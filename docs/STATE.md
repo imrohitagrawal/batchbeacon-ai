@@ -113,7 +113,11 @@ T10 pure proposal translation prepared: strict untrusted schema, complete source
 comparison, bound locations and immutable report preserve disagreements. Known
 raw/value and exception-sanitization contract corrections independently verified.
 80 focused tests PASS; full local lock/Ruff, 659 unit and 48 Chrome PASS.
-See M2-extraction-proposals.md; no ADK execution/publication claim. Hosted pending.
+Hosted b011615 / run 39088574766 PASS with the same unit/Chromium counts.
+Ten test-local installed-ADK/mock-HTTP compatibility cases independently pass;
+continuation-test correction verified. No product factory or provider/publication
+claim. Full local lock/Ruff, 669 unit and 48 Chrome PASS; hosted follow-up pending.
+See M2-extraction-proposals.md.
 Next: bounded ADK-to-evidence integration against the reviewed proposal contract.
 UK v3/new source-context human review is pending.
 Actual service sign-off still waits for T08. Continue bounded T08 capacity/service
