@@ -179,8 +179,10 @@ def create_guest_test_app(service: GuestService) -> FastAPI:
         return {"incident_id": incident.id}
 
     @app.get("/api/incidents")
-    def list_incidents(request: Request):
-        session = service.resolve(capability(request))
+    async def list_incidents(request: Request):
+        token = await run_in_threadpool(capability, request)
+        await no_body(request)
+        session = await run_in_threadpool(service.resolve, token)
         return {"incident_ids": [i.id for i in session.incidents]}
 
     @app.post("/api/incidents/{incident_id}/captures")
@@ -194,8 +196,11 @@ def create_guest_test_app(service: GuestService) -> FastAPI:
         return {"captures": [c.model_dump() for c in result.captures], "ready": result.ready}
 
     @app.get("/api/incidents/{incident_id}/captures/{capture_id}")
-    def image(incident_id: str, capture_id: str, request: Request):
-        data = service.image(capability(request), incident_id, capture_id)
+    async def image(incident_id: str, capture_id: str, request: Request):
+        token = await run_in_threadpool(capability, request)
+        await run_in_threadpool(service.incident, token, incident_id)
+        await no_body(request)
+        data = await run_in_threadpool(service.image, token, incident_id, capture_id)
         return Response(data, media_type="image/png")
 
     return app

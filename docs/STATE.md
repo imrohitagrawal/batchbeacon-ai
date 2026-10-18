@@ -109,8 +109,13 @@ T11 isolated action protocol independently reviewed: 40 focused cases, two
 reproduced contract corrections verified; 415 full unit / 48 Chrome PASS.
 Hosted 241f94c / run 39083525128 PASS with locked bootstrap/Ruff and the same
 unit/Chromium counts; see M2-simulated-actions.md. No real actions/database.
-Actual store/provider/rate-limit integration remains. Next: T12 owned API boundary;
-HTTP01–14 acceptance prepared before code; default prototype still visibly illustrative.
+T12 LOCAL/PARTIAL owned HTTP boundary independently reviewed: 62 API cases and
+the 60 existing guest cases PASS. Two reproduced response defects corrected and
+independently verified. Full local lock/Ruff, 477 unit and 48 Chrome PASS; hosted
+candidate pending. See M2-local-journey.md. Default app/prototype unchanged.
+Actual store/provider/rate-limit integration remains. Next: unified atomic
+provisioning and persistence adapter preparation; no missing state may be silently
+initialized. Real-service sign-off still waits for T08.
 UK v3/new source-context human review is pending.
 Actual service sign-off still waits for T08. Continue bounded T08 capacity/service
 discovery and T04b source review preparation alongside independent local work. Complete billing bounds remain unsubstantiated;
