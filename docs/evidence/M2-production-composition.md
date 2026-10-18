@@ -19,12 +19,16 @@ The reviewed container candidate pins Python 3.12.13, uv 0.11.18 and the Docker
 builder by verified Linux/amd64 manifest digests. Build context is an explicit
 59-file allowlist with locked dependencies, application assets, synthetic labels,
 fixed learning inputs and individually admitted original SFA source assets. No
- private directory, credential, guest capability, raw attempt or H case enters
+private directory, credential, guest capability, raw attempt or H case enters
 the context. Runtime is non-root. The first actual build failed at an overly strict
 uv version assertion: the pinned binary includes platform metadata. The correction
 checks the exact version token and exit status while retaining both digest pins;
 actual Linux output and independent positive/negative controls passed. Its bounded
-replacement build is in progress; no deployment success is claimed here.
+replacement build succeeded. A later image adds `/health` after actual `/healthz`
+requests returned a Google-front-end404 while ordinary routes reached the private
+container. Seven independent alias probes and five runtime checks passed; actual
+authenticated `/health` now returns200 while anonymous/invalid-token requests deny.
+Closed root/guest/extraction routes remain404. Both successful digests are retained.
 
 The provider budget API is enabled. Actual project-scoped inventory was empty;
 three budgets now exist and were read back: INR4,800 funded-period operating
@@ -50,9 +54,27 @@ One private Operations dashboard and two alert policies now exist and were read
 back. Two historical receipt imports and one explicitly simulated alert canary were
 written without external notification channels. Native application telemetry,
 observed incident firing/closure and actual authenticated uptime remain pending.
+The authenticated owner opened the actual dashboard; anonymous dashboard API
+access returned401. Its description explicitly identifies unconnected application
+telemetry and historical receipt imports.
 
-Actual private build, attached runtime identity, controlled ledger carry-forward,
-source/environment bootstrap, deployed browser/isolation and Operations acceptance
-remain separate gates. Current production configuration does not prove these.
+Actual Run readbacks verify the digest, attached runtime identity, private IAM,
+service/revision min0/max2, concurrency4, one CPU/1GiB, sixty-second timeout and
+disabled startup CPU boost. A new owned environment/budget was created atomically,
+carrying all prior model costs and attempts. The first connected revision failed
+before credential discovery because reviewed normalized-image lineage differed
+on Linux. An exact-image, network-disabled probe confirmed the normalization
+hash difference while identity admission and notice hashes agreed. A bounded
+transaction changed only the four related configuration hashes and two existing
+budget hashes; independent readback preserved all balances, six prior attempts,
+source state, limits, namespace and expiry. No allowance was reset. The corrected
+connected revision is ready with the same image and private IAM. Authenticated
+health returns200 in explicit real-provider mode; anonymous/invalid-token requests
+are denied. The original failure remains retained.
+
+Actual private build, runtime identity, controlled ledger carry-forward and
+source/environment bootstrap are now verified. One actual private HTTPS journey
+passed; see [deployed journey evidence](M2-private-cloud-journey.md). Full deployed
+isolation/currentness, Operations and public-release acceptance remain open.
 Detailed manifests, failed evidence and resource identities remain under ignored
 `.local/builds/` and `.local/run-records/new-primary/`.
