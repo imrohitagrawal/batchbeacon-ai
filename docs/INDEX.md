@@ -25,6 +25,13 @@ One canonical definition per responsibility keeps the project portable. Generic 
 
 Future scope: [B0–B3 roadmap and ATT-01 PDF/image evidence](ROADMAP.md). Planned items are not delivered capabilities.
 
+## Judge-facing public entry points
+
+- [Product gallery and live-demo provenance](SHOWCASE.md): explicit distinction between reviewed visual-candidate screenshots, final release video and actual deployment evidence.
+- [Repository metadata and owner-only merge configuration](REPOSITORY_SETTINGS.md): About, homepage, technology topics, social preview, CODEOWNERS and server-side branch rules.
+- [Judge guide](submission/judge-guide.md), [C4-style architecture and trust boundaries](submission/architecture.md), [technical evidence index](submission/evidence-index.md), [Google technology evidence](submission/google-technology-evidence.md).
+- [Latest release and submitted package](STATE.md#final-submission): current redacted record supersedes pre-submission status wording elsewhere in the archive.
+
 ## Read order and ownership
 
 First session: follow the kickoff, read both originals completely, then the execution/specification package. Subsequent sessions: applicable instructions → bounded STATE → current decisions/authority → active task/specification sections → relevant evidence/code. Read additional material when the task needs it. Do not load the whole archive on every turn.
