@@ -182,8 +182,12 @@ agreement disabled. This is input compatibility, not real extraction or a new
 review. The override was used only for this offline check; no runtime setting was
 activated and no content was sent to a provider.
 
-Complete local lock/Ruff, **701 unit and 48 Chrome browser tests** passed. Hosted
-verification is pending. The first local browser invocation omitted the
+Complete local lock/Ruff, **701 unit and 48 Chrome browser tests** passed.
+[Hosted run 39089850101](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39089850101)
+passed at `4a7872e5940be063bcc0bf028d539127a5067ee4`: locked bootstrap,
+browser installation, lock/Ruff, 701 unit and 48 Chromium checks. The complete
+log and exact checkout were inspected and remote main verified.
+The first local browser invocation omitted the
 machine's Chrome channel and could not launch an absent bundled Chromium binary;
 no browser assertion ran. Its failed setup log is retained separately from the
 corrected Chrome-channel run. This is an invocation failure, not a product failure.

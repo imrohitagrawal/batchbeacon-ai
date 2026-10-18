@@ -123,7 +123,8 @@ Original-input preflight implemented: exact source/retained-image lineage, share
 effective proposal limits and changed-binding denial; independent 31 pure + 11
 ADK/mock cases PASS. Actual source/three separate label preparations passed offline
 with explicit source-limit override; no runtime activation. Full local lock/Ruff,
-701 unit and 48 Chrome PASS; hosted verification pending. See same evidence.
+701 unit and 48 Chrome PASS; hosted 4a7872e / run 39089850101 passed bootstrap,
+Ruff and the same unit/Chromium counts. See same evidence for runtime limitations.
 Next: application ADK orchestration with shared admission and durable output,
 preserving prepared-input versus final-wire identity and unresolved T08 gates.
 UK v3/new source-context human review is pending.
