@@ -94,8 +94,11 @@ Owned ADK factory and final HTTP boundary pass independent local wire/redaction
 reviews. Hosted 4866608 / run 39104488791 PASS: 884 unit / 50 Chromium.
 Owned coordinator/status now connects the offline extraction→verification→action
 journey, with shared source-semantic currentness and request-key recovery. Local
-936 unit / 50 Chrome PASS; independent verification passed; hosted pending. See
-M2-extraction-coordinator.md. HTTP and reviewed identity resolution remain next.
+936 unit / 50 Chrome PASS and independent verification passed; hosted 6cdb8e6 /
+run 39105457566 PASS with 936 unit / 50 Chromium. See M2-extraction-coordinator.md.
+Injected extraction HTTP: 65 focused + 15 independent probes PASS; full local
+1001 unit / 50 Chrome PASS; hosted pending.
+M2-extraction-http.md records scope. Reviewed identity resolution remains next.
 Shared reservations and unresolved T08 gates precede real-runtime acceptance.
 Continue bounded T08 discovery and T04b review alongside independent local work.
 Complete billing bounds/prior liabilities remain unsubstantiated; paid admission closed.

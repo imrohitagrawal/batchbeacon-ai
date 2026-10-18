@@ -44,8 +44,8 @@ expired ownership, bounded lifetime acquisitions, output redaction and delayed
 blocking phases. Independent final verification passed 396 overlapping scoped tests, Ruff and nine
 additional end-to-end/support probes. Negative controls restored five currentness
 failures and two deadline failures. Full local locked/Ruff checks passed 936 unit
-and 50 Chrome tests. Exact-head
-hosted validation remains pending at this checkpoint.
+and 50 Chrome tests. Hosted checkpoint `6cdb8e6` / run `39105457566` passed
+locked bootstrap, Ruff, 936 unit and 50 Chromium tests.
 
 ## Remaining integration
 
