@@ -1,0 +1,19 @@
+flowchart LR
+    subgraph guest[Guest boundary]
+        U[Retail console\nSynthetic shop]
+    end
+    subgraph app[One Cloud Run application]
+        W[Retail UI, queue and owned sessions]
+        A[Bounded ADK extraction workflow]
+        V[Deterministic verifier\nCurrentness and action controls]
+        W --> A
+        A -->|Untrusted field proposals| V
+    end
+    U -->|Label evidence and explicit confirmation| W
+    A <-->|Managed inference| G[Vertex AI\nGemini 3.8 Flash]
+    S[Reviewed historical notice versions\nSource review boundary] --> V
+    V -->|Owned records and transactions| F[Firestore]
+    W -->|Validated image uploads| C[Private Cloud Storage]
+    C -->|Normalized image bytes| A
+    app -.->|Technical evidence| O[Private Operations\nOutside guest boundary]
+    V -->|Simulated action and owned queue| W

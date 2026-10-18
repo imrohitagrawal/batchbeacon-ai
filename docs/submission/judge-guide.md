@@ -1,81 +1,43 @@
-# BatchBeacon AI — draft judge guide
+# BatchBeacon AI: judge guide
 
-Preparation only. There is no verified hosted judge application yet. This guide
-describes the planned evaluation route; it is not a report that the routes work.
-Final URLs, timings and screenshots must bind to T26 before this becomes the
-candidate's guide. See [current implementation status](../STATE.md).
+BatchBeacon connects the package in hand to the conditions in selected official recall evidence. The demonstration uses synthetic labels, historical sources and simulated actions.
 
-## Purpose and scope
+## Try the retailer journey
 
-BatchBeacon helps retail staff compare a product label against selected official
-recall evidence and prepare a reviewable simulated action. The demonstration uses
-fresh synthetic labels in an isolated guest shop. Its source corpus is finite,
-with selected SFA Singapore and UK FSA notices. Historical examples retain their
-exact dates, versions and jurisdiction. This is not worldwide recall coverage.
+1. Open the [live prototype](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app). A bounded synthetic guest shop opens automatically.
+2. Choose **Camembert Superieur Au Lait Cru** and the historical SFA cheese notice, then **Use this label**. Wait for the label image and choose **Extract and check**. Gemini proposes fields through one bounded ADK workflow.
+3. Inspect the label beside the source conditions. The server compares product identity before lot, date and jurisdiction.
+4. Review the result and explicitly confirm a simulated hold.
+5. Refresh, open the retail queue and resume the same saved investigation. Counts and statuses belong to this guest shop.
 
-An inconclusive or out-of-scope result stays in review. A scoped no-match does not
-establish safety or permission to sell. No real inventory changes occur.
+This path passed in a fresh unauthenticated public browser on Cloud Run with actual Gemini/ADK and Firestore persistence. The same action survived reload and reopening from the queue; the phone layout had no horizontal overflow. Independent accounting and private-boundary checks passed.
 
-## Planned walkthrough
+## Two workspaces
 
-| Journey | What the judge should verify | Current delivery status |
-| --- | --- | --- |
-| F1: supported product | Actual model extraction, readable paired evidence, explicit confirmation and the same saved action after refresh | Local injected behavior and visual prototype checked; deployed journey pending |
-| F2: same lot, different identity | The third synthetic identity cannot become a match from lot agreement alone | Deterministic local checks; deployed journey pending |
-| F3: incomplete evidence | The app asks for a specific missing panel, retains revisions and stops recapture at its limit | Partial local rules and prototype; connected journey pending |
-| F4: genuine source update | The actual UK update changes scope and makes the old result/confirmation historical | Source captured; human interpretation and connected journey pending |
-| F5: retail queue | Counts, filters and reopened incident agree within the owned shop; refresh does not create a new check | Pure projection and prototype checked; persistent queue pending |
-| F6: guidance learning | Actual fixed evaluation precedes explicit activation; later capture guidance changes; rollback restores content at a newer revision | Pure evaluator and prototype checked; owned lifecycle pending |
+The **retail console** serves staff and demo managers: owned queue counts/status, missing evidence, resumability, simulated actions and capture guidance.
 
-Both reviewed SFA cheese identities are positive source examples. The different
-product counterexample uses a third invented identity. Do not relabel the second
-SFA cheese as a negative example. The UK parent/attachment lot and date difference
-is explicitly pending source review and must be resolved before final F4 guidance.
+**Private BatchBeacon Operations** serves the operator: verified deployment resources, monitoring dashboard, alert-policy setup and cost oversight. Its technical privileges remain outside guest access. Full application telemetry and observed alert firing/closure are not claimed. Operators provide an indirect reliability benefit to other stakeholders; consumers and authorities are not current dashboard users.
 
-## Reading the evidence
+Guidance adaptation is bounded to allowlisted wording. Fixed evaluation precedes explicit activation, and rollback revisions increase. Six cases and nine variants support fixed evaluation. Actual deployed activation and rollback, persistence and foreign-shop isolation are verified in the [release evidence](../evidence/M3-submission-recovery.md).
 
-The final app should expose the selected authority/version, applicable product
-conditions and reason for recall alongside the label comparison. Additional
-context must distinguish stated facts, missing information and unreviewed content.
-Company notices retain their issuer and exact link. A health-risk statement is
-not a report of illness in a checked item or a count of affected people.
+## Read the scope
 
-Retail queue counts are incidents in the current synthetic shop. Future recall
-analytics would need separate event/product/version definitions and a declared
-corpus and period. It is not available as a delivered feature in this draft.
+A lot number alone cannot establish identity. Both reviewed SFA cheese identities are positive source examples. A same-lot wrong-product counterexample uses a third synthetic identity.
 
-## Accessibility and recovery
+Missing, stale or unsupported evidence stays in review. UK FSA parent and company attachment conditions remain separate, and UK matching stays review-only. A scoped no-match is not food-safety clearance or permission to consume or sell.
 
-The approved design supports visible focus, keyboard controls, labelled actions,
-readable selection states, responsive layouts and explicit confirmation dialogs.
-Prototype browser checks do not establish complete accessibility conformance.
-Native zoom, screen reader, physical-device and connected-runtime checks remain
-part of final validation.
+The fixed guidance suite and engineering checks are not protected model-quality accuracy results. Comprehensive protected evaluation and a competitive baseline are not claimed. No real stock mutation occurs.
 
-Before release, record the actual behavior for expired sessions, unavailable
-sources, exhausted allowances, delayed requests and saved historical evidence.
-The judge guide must describe observed recovery paths, not invent a retry that
-silently starts another billable attempt or a fresh lifetime allowance.
+## Vision and practical impact
 
-## Evidence and access to fill at release
+The immediate value is a clearer retail investigation and handover. A proposed retailer pilot would compare assisted and manual review using the same reviewed cases, measuring time, completion, unsupported actions, evidence quality and cost.
 
-Public repository: https://github.com/imrohitagrawal/batchbeacon-ai
+The future **Consumer Recall Explorer** would offer accessible mobile cards and product/brand/country/date/hazard filters, affected lots and plain-language official actions with source/date. Planned ATT-01 notice/PDF imagery would support proposed CON-01 visual candidate search; exact identity and lot confirmation would still follow. Neither attachment image extraction nor catalogue visual retrieval is implemented.
 
-Hosted application, approved video and deck: pending verified candidate artifacts.
+Future permissioned retailer/authority insights require defined source coverage, time windows and deduplicated event/version/incident counts. Keep reported hazards, allergens and pathogens separate from officially confirmed illness reports. Counts establish neither disease causation nor brand safety. No current adoption, population analytics or measured harm reduction is claimed. See the [future proposal](consumer-recall-explorer-roadmap.md).
 
-The final guide must identify the exact release revision, supported browsers,
-source versions, actual success/failure counts and measured runtime limitations.
-Local tests, SDK mocks, emulator checks, model evaluation and deployed journeys
-must remain separately labelled. No final-case answers belong in this guide.
+Public source: https://github.com/imrohitagrawal/batchbeacon-ai
 
-Current references: [source scope](../evidence/M1-source-review.md),
-[UI approval](../evidence/M1-visual-approval.md),
-[queue computation](../evidence/M2-retail-projection.md),
-[fixed evaluation](../evidence/M2-learning-evaluator.md),
-[attachment review](../evidence/M1-attachment-inspection.md).
+Live prototype: https://batchbeacon-ai-xotgrrfbcq-el.a.run.app
 
-## Future scope
-
-[The B0–B3 roadmap](../ROADMAP.md) records ATT-01: linked customer PDFs,
-page-cited text/table extraction and reviewed product-image evidence. These are
-planned capabilities; existing private attachment inspection is not an app feature.
+Final video and PDF links remain pending. The [owner-approved scope](release-scope.md) lists incomplete internal acceptance. This is a bounded synthetic demonstration: if an allowance or provider capacity is unavailable, retain/reconcile the existing case rather than repeat extraction. Private Operations links and guest identifiers are excluded.

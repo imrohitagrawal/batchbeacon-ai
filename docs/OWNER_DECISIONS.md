@@ -44,3 +44,33 @@ The official terms now corroborate the 3–4-minute video requirement and contai
 Read-only GitHub inspection returned **404 / not visible through the connected access** for `imrohitagrawal/batchbeacon-ai`. That does not prove the repository is globally absent. The authorized local executor must inspect, reuse or create the intended repository; no repository was created here.
 
 The three real specialist reviewers are recorded in the review files. Their document/source reviews do not prove local installations, application behavior, cloud access, native goal liveness or completed human source review. Later records supersede earlier pending proposals without rewriting the two original documents.
+
+## Recovery and presentation clarifications
+
+The owner explicitly renewed a bounded recovery window for critical verification,
+required corrections, gated public access and packaging. Exact admission remains
+private; no native Goal, freeze extension or spending increase was inferred.
+
+The authenticated organizer dashboard records **Bugging Debuggers** with Rohit
+Agrawal, Niharika Aggarwal, Aayushi Priya and **Priyanka Shelke**. The earlier U14
+spelling is preserved as the original attestation; packaging uses the registered
+spelling. No roster change was made.
+
+The owner requested an explicit future consumer dashboard, official product
+imagery/visual discovery, recall reasons/frequency and stakeholder benefits in
+the PPT and backlog. [CON-01](submission/consumer-recall-explorer-roadmap.md) extends
+planned ATT-01. This is roadmap/packaging scope, not authority to implement new
+features during the freeze. Public consumer evidence and permissioned business
+aggregates remain separate from the current retail and private Operations views.
+
+## U18 — explicit narrower demonstration approval
+
+The owner approved the concrete scope question with “Approve this disclosed
+demonstration scope.” [Release scope](submission/release-scope.md) lists the
+unfinished live-source/update, full deployed scenarios, full development/protected
+evaluation/custody and complete Operations/physical-cleanup acceptance. These
+remain incomplete, not PASS. The approved demonstration includes historical SFA
+real Gemini/ADK, deterministic checks, human-confirmed simulated holds, persistent
+queue and tested guidance evaluation/activation/rollback. Security, finite budgets,
+fresh public-browser acceptance, official artifacts and final OWNER-SUBMIT/material
+terms retain their gates. UK is review-only; ATT-01/CON-01 remain future scope.

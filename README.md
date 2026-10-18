@@ -1,18 +1,34 @@
 # BatchBeacon AI
 
-Source-scoped recall evidence for a synthetic retailer workflow. **Preparation in
-progress — not a deployed product or a food-safety decision service.**
+BatchBeacon connects official recall evidence with the product in hand. It helps retail staff inspect a synthetic label, understand the selected notice conditions and deliberately record a simulated hold.
 
-The approved product combines SFA Singapore and UK FSA notices, actual bounded
-Gemini/ADK extraction, deterministic comparison, human-confirmed simulated actions,
-an isolated shop queue and evaluated capture-guidance changes. Pure verification
-and retailer/guidance contracts have local test coverage; the runtime integrations
-are not yet implemented. See [current state](docs/STATE.md).
+The real historical-SFA journey has run on Google Cloud Run with Gemini through a bounded Google ADK workflow, deterministic verification, explicit checkbox confirmation and Firestore persistence. The owned queue and action survive refresh, including the inspected phone journey. A fresh unauthenticated public browser completed the same real-AI journey; independent accounting and private-boundary checks passed.
 
-## Local preparation
+**[Try the live prototype](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app)** · [Judge guide](docs/submission/judge-guide.md)
 
-Requires Python 3.12.13 and uv 0.11.18. No cloud credential is needed for the
-current visual prototype. The scripts install only locked wheels in `.venv`.
+See the [architecture and trust boundaries](docs/submission/architecture.md).
+
+## How it works
+
+Gemini proposes label fields. Server rules check identity before lot, date and jurisdiction, preserve uncertainty, enforce session ownership and authorize simulated actions. Firestore retains evidence and actions; private Cloud Storage holds sanitized inputs.
+
+The **retail console** serves staff and demo managers with owned counts/status, missing evidence, resumable cases, actions and capture guidance. **Private BatchBeacon Operations** serves the operator with verified deployment resources, monitoring/dashboard configuration, alert-policy setup and bounded cost oversight. Technical privileges and guest records remain private. Complete application telemetry and observed alert firing/closure are not claimed.
+
+Guidance adaptation changes only allowlisted wording after fixed evaluation and explicit activation. Six cases/nine variants support fixed evaluation; actual deployed activation and rollback at increasing revisions are now verified. Final artifacts must bind the accepted release evidence.
+
+## Scope
+
+The current demonstration uses synthetic labels and selected historical SFA evidence. UK FSA matching remains review-only. No result establishes food safety or permission to consume or sell. No real inventory changes occur. Protected quality evaluation, measured competitor superiority and production economics are not claimed.
+
+The proposed Consumer Recall Explorer adds accessible mobile search by product, brand, country, date and reported hazard, with official actions and affected lots. Planned ATT-01 supplies reviewed notice/PDF imagery; proposed CON-01 uses it for candidate discovery before exact identity/lot confirmation. Neither image extraction nor catalogue visual retrieval is implemented. Frequency needs a time window, declared source coverage and deduplicated events. Reported hazards/allergens/pathogens remain separate from officially confirmed illness reports; counts imply neither disease causation nor brand safety. Consumer discovery and permissioned aggregate insights are future capabilities. See the [roadmap proposal](docs/submission/consumer-recall-explorer-roadmap.md).
+
+## Pilot proposal
+
+Compare assisted review with manual lookup on the same reviewed cases. Target metrics are median review time, completion, unsupported actions, evidence completeness and cost per completed investigation. No customer adoption, time savings or harm reduction has been measured.
+
+## Local development
+
+Requires Python 3.12.13 and uv 0.11.18:
 
 ```sh
 ./scripts/bootstrap.sh
@@ -20,34 +36,14 @@ current visual prototype. The scripts install only locked wheels in `.venv`.
 ./scripts/start.sh
 ```
 
-Open `http://127.0.0.1:8765/prototype/refined/` for the current visual candidate.
-The [desktop/phone review set](docs/evidence/M1-final-visual-review.md) records its
-checks and limitations. The earlier `/prototype/` treatment remains archived.
-This local prototype makes no model call,
-uploads nothing and saves no action. Health reports product `not_ready`.
-Use `BATCHBEACON_LOCAL_PORT` to change its loopback port.
+The local visual route is `http://127.0.0.1:8765/prototype/refined/`. It illustrates the approved design and is separate from actual model execution. `BATCHBEACON_LOCAL_PORT` changes its loopback port. Cloud execution needs admitted private configuration and credentials; never commit these.
 
-For the explicit prototype browser regressions:
+Explicit browser checks using installed Chrome:
 
 ```sh
-uv run --frozen --no-build playwright install chromium
-BATCHBEACON_BROWSER_CHECKS=1 ./scripts/check.sh
+BATCHBEACON_BROWSER_CHECKS=1 BATCHBEACON_TEST_BROWSER_CHANNEL=chrome ./scripts/check.sh
 ```
 
-An installed Chrome can be selected with `BATCHBEACON_TEST_BROWSER_CHANNEL=chrome`.
-These tests do not prove hosted product journeys, Firestore, model behavior or
-release safety. Private settings and run records remain ignored and untracked.
+See [judge guide](docs/submission/judge-guide.md), [actual state](docs/STATE.md), [private cloud evidence](docs/evidence/M2-private-cloud-journey.md), [owner decisions](docs/OWNER_DECISIONS.md) and [execution policy](docs/EXECUTION_POLICY.md). Original documents and archived UI directions remain preserved. Current visual approval is distinct from runtime acceptance.
 
-## Evidence and decisions
-
-- [Original brief](HACKATHON_BRIEF.md) and [master prompt](HACKATHON_CODEX_MASTER_PROMPT.md)
-- [Owner decisions](docs/OWNER_DECISIONS.md) and [execution policy](docs/EXECUTION_POLICY.md)
-- [Acceptance design](docs/evidence/M1-acceptance-design.md)
-- [Human source-review packet](docs/evidence/M1-source-review.md)
-- [Skill provenance and permitted mode](docs/SKILLS.md)
-
-Fresh synthetic labels are explicitly marked. Only minimal factual notice fields
-and source links are published; no authority logos, original pages or manufacturer
-photos are bundled. Third-party skill licenses and attribution are retained in
-their individual directories. All three earlier UI directions remain historical
-selection evidence; final replacement design approval is still required.
+Registered team: **Bugging Debuggers**. The public app is verified; final video/PDF links remain pending. Source/history review found no reproduced disclosure blocker at the application head; final packaging assets are audited separately. The [owner-approved scope](docs/submission/release-scope.md) preserves all remaining limitations.

@@ -1,0 +1,7 @@
+flowchart LR
+    A[1. Capture synthetic label] --> B[2. Gemini proposes fields\nOne bounded ADK workflow]
+    B --> C[3. Server verifies\nIdentity before lot, date and scope]
+    C -->|Supported match| D[4. Person reviews and confirms\nExplicit simulated hold]
+    C -->|Missing, stale or unsupported| R[Review required]
+    D --> E[5. Firestore saves\nEvidence and action]
+    E --> F[6. Owned queue resumes\nSame investigation after refresh]

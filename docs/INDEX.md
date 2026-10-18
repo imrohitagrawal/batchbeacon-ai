@@ -2,17 +2,17 @@
 
 One canonical definition per responsibility keeps the project portable. Generic filenames are not automatically loaded by every coding client. Actual `AGENTS.md` must point to this map and the active state after workspace inspection.
 
-| Need / familiar filename | Canonical BatchBeacon location | Status in this planning package |
+| Need / familiar filename | Canonical BatchBeacon location | Responsibility and current evidence |
 | --- | --- | --- |
 | Approved product / original PRD | [HACKATHON_BRIEF.md](../HACKATHON_BRIEF.md) | Original, unchanged |
 | Engineering operating contract | [HACKATHON_CODEX_MASTER_PROMPT.md](../HACKATHON_CODEX_MASTER_PROMPT.md) | Original, unchanged; current owner exceptions in SOURCES |
 | Implementation PRD / requirements | [specs/mvp.md](../specs/mvp.md), bounded [retail extension](../specs/retail-operations.md) | P0-01–13, rules, six journeys, AC-01–43 and exclusions; extension details have one canonical owner |
 | Architecture.md | [EXECUTION §3](EXECUTION.md#3-architecture-recommendation) and [MVP contracts](../specs/mvp.md#5-domain-contracts-and-consistency) | Recommended architecture; actual deviations must be recorded |
 | phases.md | [EXECUTION](EXECUTION.md), [execution policy](EXECUTION_POLICY.md) | Milestones, fixed reserve, setup/finite-goal/resume boundaries; actual private run timing is excluded |
-| tasks.md | [specs/tasks.md](../specs/tasks.md) | Stable tasks/dependencies and evidence links; app work not started here |
+| tasks.md | [specs/tasks.md](../specs/tasks.md) | Stable tasks/dependencies; actual completion and open gates in STATE |
 | design.md | [DESIGN.md](../DESIGN.md); [UI_DIRECTIONS](UI_DIRECTIONS.md) | Current Evidence in focus treatment approved under [U02](evidence/M1-visual-approval.md); original concepts/rejected treatments remain archived. Final runtime integration remains a separate task |
-| test_plan.md | [MVP test/evaluation registry](../specs/mvp.md#8-tests-evaluations-and-evidence-registry), task evidence columns, EXECUTION gates | Strategy/obligations exist; executable tests and actual reports are future task outputs |
-| security.md | MVP P0-07/08 and NF-01/02/04/07, EXECUTION architecture/authority gates, [OPERATIONS](OPERATIONS.md) | Planned trust, privacy, access, spending and release controls; no runtime pass implied |
+| test_plan.md | [MVP test/evaluation registry](../specs/mvp.md#8-tests-evaluations-and-evidence-registry), task evidence columns, EXECUTION gates | Acceptance obligations; executable checks and actual outcomes are linked from STATE/evidence |
+| security.md | MVP P0-07/08 and NF-01/02/04/07, EXECUTION architecture/authority gates, [OPERATIONS](OPERATIONS.md) | Required controls; current verified subsets and remaining release gates are in STATE |
 | decisions.md | [SOURCES](SOURCES.md), [OWNER_DECISIONS](OWNER_DECISIONS.md), later `docs/DECISIONS.md` | Source conflicts and current owner update are portable; local decision log created conservatively |
 | memory.md | `docs/STATE.md` plus dated evidence/decisions | STATE created from actual observations at kickoff; no fabricated machine memory |
 | rules.md | Concise root `AGENTS.md`, linking the originals and this map | Created/conservatively updated only after real instruction/workspace inspection |

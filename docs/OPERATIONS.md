@@ -1,8 +1,19 @@
 # BatchBeacon cloud setup, budget and operations
 
-**PLANNING ONLY; configuration requires local verification.** The owner reports an existing Google Cloud project with display name `batchbeacon-ai`. Its project ID, billing, IAM, resources, region, model quota and authentication have not been inspected. Use that existing dedicated project after verification; do not create another one by assumption. Google distinguishes a display name from a project ID: [project identifiers](https://docs.cloud.google.com/resource-manager/docs/creating-managing-projects).
+**Verified execution update, 18 October 2026.** The existing dedicated project,
+Cloud Run, Firestore, private Storage, Artifact Registry, Gemini/ADK and provider
+budget controls have been inspected and exercised. Current deployment and
+acceptance status are in [STATE](STATE.md) and [recovery evidence](evidence/M3-submission-recovery.md).
+Detailed account/resource receipts remain private. No replacement project was created.
 
-**Owner authority U07/U09–U12 is recorded:** configure the bounded existing project, spend within the ₹6,000 envelope below, publish the synthetic judge application after its gates, and create/push/publish `imrohitagrawal/batchbeacon-ai`. There are two separate surfaces: private **BatchBeacon Operations** for technical operations, and the session-owned **retail operations console** in [P0-12/13](../specs/retail-operations.md). Configuration and runtime verification are still NOT RUN; external notification delivery requires an actual chosen, authorized channel.
+U07/U09–U12 authorize the bounded existing project, INR6,000 lifetime envelope,
+gated public synthetic application and public repository. The retail console is
+session-owned; **BatchBeacon Operations** remains private. One existing dashboard
+and two alert policies were inspected. Full application telemetry, uptime/alert
+firing and closure, physical cleanup and external notification delivery are not
+completed acceptance claims. No notification channel is configured by inference.
+The tables below retain the configuration policy; proposals are not evidence of
+an implemented resource. Use actual receipts for effective settings.
 
 ## 1. Configure in dependency order
 
@@ -19,7 +30,7 @@
 | 9 | Public synthetic judge path, only when specifically authorized and verified | AUTH-PUBLIC plus security/budget checks; a private smoke does not prove anonymous judge access. |
 | 10 | Private dashboard, cheap uptime/alert policies, operator runbook; optional explicitly authorized notification test | Approved OPS scope below. Record actual URLs/configuration and observed alert evidence after creation; do not claim notification delivery without it. |
 
-Proposed initial Cloud Run settings are min instances 0, service max 2, concurrency 4, 1 vCPU, 1 GiB and request timeout 60 seconds; the application evidence-run deadline remains 30 seconds. These are engineering starting values, not measured safe capacity. Verify decoded-image memory and concurrent-request behavior. Never raise limits unattended to hide failures. Max instances are not a total cost cap: [Cloud Run maximums](https://docs.cloud.google.com/run/docs/configuring/max-instances).
+Current verified Cloud Run settings are min instances 0, service/revision max 2, concurrency 1, 1 vCPU, 1 GiB and request timeout 60 seconds; the application evidence-run deadline remains 30 seconds. The earlier concurrency-4 maximum-upload exercise failed. At concurrency 1, three maximum-input requests succeeded and one platform-capacity rejection recovered with its original key. This is bounded backpressure evidence, not a throughput guarantee. Never raise limits unattended to hide failures. Max instances are not a total cost cap: [Cloud Run maximums](https://docs.cloud.google.com/run/docs/configuring/max-instances).
 
 **Selected placement:** Mumbai `asia-south1` for Cloud Run, Firestore, Standard Storage and Artifact Registry if the actual existing project supports it. Preserve an existing compatible immutable Firestore location; choose a supported co-location fallback and record the reason if needed. Source country and participant residency do not impose a hosting region. The inspected official terms contain no explicit hosting-region or guest-retention duration requirement (SOURCES X05). **Gemini 3.8 Flash uses the documented `global` endpoint**; current model documentation lists `global`, `us` and `eu`, not Mumbai/Singapore regional inference. Disclose that Mumbai app/data placement does not guarantee India-only model processing. Sources: [Firestore locations](https://docs.cloud.google.com/firestore/native/docs/locations), [model locations](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-8-flash).
 

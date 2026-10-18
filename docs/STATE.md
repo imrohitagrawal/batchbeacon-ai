@@ -1,86 +1,79 @@
 # BatchBeacon AI — current execution state
 
-18 October 2026. Public GitHub exists. The Cloud Run application remains private.
-No release candidate, public judge acceptance or submission is claimed.
+18 October 2026. The synthetic Google Cloud prototype is public and its fresh
+unauthenticated real-AI journey passed. Final media/PDF and submission remain open.
 
-## Authority and deadline
+## Authority and scope
 
-Official cutoff: 18 October 2026, 23:59 IST. The original feature freeze is active;
-its protected submission reserve remains unchanged. The owner explicitly renewed
-bounded recovery for verification, required critical corrections and packaging.
-Exact admission/expiry/configuration are private in `.local/run-policy.json`.
-No native Goal exists. The previous executor's completion was verified.
-One integrator writes product/contracts/deployment; independent reviewers are
-read-only. One admitted isolated artifact writer handles packaging.
-U09–U12 retain the INR6,000 lifetime envelope and existing cloud/public GitHub
-scope. Public synthetic access requires security/cost gates. U16 OWNER-SUBMIT and
-material terms remain separate. U17 keeps UK matching review-only. U13 willingness
-does not complete remaining human gold review or protected-case custody.
+Official cutoff: 18 October 2026, 23:59 IST. The original feature freeze and
+protected submission reserve remain fixed. The owner renewed bounded recovery
+for critical corrections, verification, gated public access and packaging.
+Exact admission is private in `.local/run-policy.json`; no native Goal exists.
+One integrator owns main/contracts/deployment; independent reviewers and one
+isolated artifact writer are admitted. Previous executor completion was verified.
+U09–U12 preserve the INR6,000 lifetime envelope and existing project/public GitHub.
+U18 explicitly approves the [disclosed narrower demonstration](submission/release-scope.md).
+Security, official artifacts and U16 OWNER-SUBMIT/material terms remain mandatory.
+U17 keeps UK review-only; uncompleted protected evaluation/custody is not waived
+into a pass. Consumer discovery/image extraction are future scope, not new features.
 
-## Verified application and cloud
+## Accepted public application
 
-Application head `301773e9564241fa8bb51ec8868b803b7b1b29fe` passed hosted
-[checks 39127173363](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39127173363):
-1,332 unit and 66 browser checks. Actual Git is authoritative for later candidates.
-Earlier push/PR-merge/merged-main topology evidence remains in M1-hosted-ci.md.
-No local-only release freeze is claimed.
+[Live prototype](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app) ·
+[public source](https://github.com/imrohitagrawal/batchbeacon-ai).
+Application head `48c15250c76f7b5adf3cea673384d3be0007661e` passed exact-head
+[hosted checks 39130978886](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39130978886):
+Ruff, 1,335 unit and 70 browser checks. Earlier push/PR-merge/merged-main topology
+proof remains in M1-hosted-ci.md. Later packaging commits do not imply image rebuilds.
+Deployed image:
+`sha256:5ea2e107e727d48111a1260430145f632d24cff08d74f8dc4a15f0090e91a8e3`.
 
-Private deployed image:
-`sha256:0ac0949f539ef2f768b12275f9ba0dd989218f14492824e650edfdd597e1c235`.
-One Cloud Run app, private Firestore/Storage, dedicated runtime/build/deploy
-identities, and provider budget controls remain in the existing project.
-Run limits now min 0/max 2, concurrency 1, CPU 1/1 GiB, timeout 60s, no startup CPU boost.
-Independent readback verified image/runtime/IAM and 100% traffic to the ready
-revision. Anonymous root 403; no public bucket, privileged route or Operations
-exposure. Provider reporting delay remains distinct from app reservation limits.
+Independent readback confirms exact ready image/runtime/traffic, unchanged
+namespace and limits: min0/max2, concurrency1, CPU1/1GiB, timeout60s, no CPU boost.
+Only service-level public invocation was added. Both buckets retain enforced
+public-access prevention/uniform access and unchanged private IAM. Anonymous
+technical routes are absent, guestless records denied, private Operations denied.
 
-Eight actual model attempts are reconciled with zero outstanding reservation.
-The new namespace carries prior balances and consumed guest capacity; no reset.
-The finite PUBLIC model phase is activated while IAM remains private. This is
-cost admission preparation, not public exposure or completed release acceptance.
-Exact charges, accounts, configuration and IDs stay in ignored private evidence.
+A fresh empty-cookie browser, without authentication headers, completed actual
+Gemini/ADK label extraction, deterministic historical-SFA comparison, explicit
+checkbox-confirmed simulated hold, reload, owned queue and phone-layout checks.
+Independent ledger readback confirms one new attempt/action and unchanged limits.
+Nine lifetime model attempts and six guests are charged; zero model reservations
+remain. The finite PUBLIC phase preserves prior balances; no reset occurred.
+Exact accounts, charges/configuration and private IDs remain in ignored evidence.
 
-## Evidence and limitations
+## Supporting evidence and disclosed limits
 
-- Actual Gemini/ADK extraction, identity-first historical SFA comparison, explicit
-  simulated hold and persistent queue passed a fresh private browser journey.
-  The helper later failed during foreign-guest setup; its successful paid path
-  was independently reconciled. Raw private media requires publication review.
-- Global guest lifetime/rate admission has independent local/hosted and actual
-  Firestore evidence. Missing, corrupt or expired state closes admission.
-- Maximum uploads at concurrency 4 reproduced four 503s and instance termination.
-  Concurrency 1 produced three successes across two instances and one platform 429.
-  Original-key serial recovery and retained pixel/hash verification passed.
-  This is bounded overload recovery, not a four-success throughput benchmark.
-- Deployed ownership, CSRF, privileged-route denial, observation invalidation,
-  historical action deduplication and deterministic review passed. Actual fixed
-  guidance evaluation (six cases/nine variants), activation and rollback persisted.
-  Independent ten-document readback confirmed accounting and foreign-shop isolation.
-- AC-26 upload recovery had a reproduced UI gap. A narrow correction retains
-  original keys/file hashes, provides owned reconciliation, and permits explicit
-  same-file retry. Independent committed-response-loss regressions pass; complete
-  candidate/hosted/deployed acceptance must still precede public admission.
-- UK interpretation remains review-only. Live-source update, all six deployed
-  journeys, full 24-development/8-protected evaluation/custody, and complete Ops
-  telemetry/uptime/alert/physical-cleanup acceptance remain unfinished. Attachment
-  extraction is future ATT-01. Any narrower release needs explicit owner approval.
+- Deployed missing/foreign ownership, CSRF/origin and privileged-route checks passed.
+  Observation edits invalidate approval; historical actions remain deduplicated.
+- Maximum inputs at concurrency4 failed. At concurrency1, three requests succeeded
+  and one platform429 recovered with its original key. This proves bounded
+  backpressure recovery, not four-success throughput or conclusive OOM diagnosis.
+- Corrected upload recovery passed actual deployed acknowledgement-loss injection,
+  same-cookie reload and original-key GET reconciliation without another upload.
+  Independent reads confirmed ready ownership, guestless401/foreign404 and exact
+  retained image pixels. The failed test-transport attempt remains preserved.
+- Actual fixed guidance evaluation covered six cases/nine variants, then explicit
+  activation and rollback at increasing revisions. Independent persistence and
+  foreign-shop readback passed. Actual scoped media was captured for review.
+- Live-source refresh/update, the full six deployed journeys, full24-development/
+  eight-protected quality evaluation/custody, complete Ops telemetry/uptime/alert
+  firing/closure and observed physical cleanup remain incomplete under U18.
+  No food-safety, real-inventory, worldwide-coverage or model-accuracy claim follows.
 
 ## Submission packaging and next action
 
-Registered team: Bugging Debuggers. Official dashboard spelling: Priyanka Shelke.
-The organizer-template audience deck covers the problem, differentiation, both
-workspaces, stakeholder benefits and future adoption. A 15-page companion PDF
-using original artwork and editable-deck geometry renders locally below 5 MB;
-this is not an Office export. Narration tracks measure 230/160 seconds. Final
-screenshots, accepted public/video links, complete video exports and audits remain.
-Final public URL must work in a fresh unauthenticated browser. Then complete
-artifacts/form fields, request OWNER-SUBMIT on the concrete candidate and terms,
-and retain the actual submission receipt. No form submission has occurred.
+Registered team: Bugging Debuggers; official member spelling is Priyanka Shelke.
+The prescribed-template audience deck includes differentiation, both existing
+workspaces, stakeholder benefits and planned Consumer Recall Explorer/notice imagery.
+The 15-page native-authored companion PDF is below5MB; editable PPTX is retained.
+Measured narration is230/160seconds. Approved actual public screenshots are ready;
+final video assembly/public playback, complete PDF/link binding and final audits
+remain. Final exported duration/size and links must be checked before OWNER-SUBMIT.
 
-Next: finish AC-26 correction verification, exact-head hosted build/deploy and
-actual recovery checks; reconcile public-admission scope before exposure. Keep
-private buckets, Operations, protected cases and credentials inaccessible.
-
-Evidence: [submission recovery](evidence/M3-submission-recovery.md).
-Historical handoff: [private cloud checkpoint](evidence/HANDOFF-2026-10-18-private-cloud.md).
-Resume: [instructions](../prompts/resume.md). Private paths remain ignored/untracked.
+Next: finish audited video/PDF, refresh accepted-release guide/source artifacts,
+complete the authenticated form, request OWNER-SUBMIT on the concrete package and
+current terms, then retain an actual receipt. No form submission has occurred.
+Evidence: [recovery](evidence/M3-submission-recovery.md), [scope](submission/release-scope.md),
+[consumer roadmap](submission/consumer-recall-explorer-roadmap.md), [resume](../prompts/resume.md).
+Private paths remain ignored and untracked.

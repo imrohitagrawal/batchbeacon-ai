@@ -1,6 +1,12 @@
 # BatchBeacon execution modes and bounded autonomy
 
-**Planning revision, 17 October 2026. No native goal has been started or verified here.** The owner has authorized one-machine execution and the scoped cloud, budget and repository operations in [OWNER_DECISIONS](OWNER_DECISIONS.md). Actual client permissions, account access and process liveness require local verification. Personal availability and actual local run times are private; public documents contain only a pointer and sanitized status.
+**Execution update, 18 October 2026.** The scoped cloud/repository grants are active
+within the owner's renewed private bounded recovery admission. The original
+feature freeze and protected reserve remain fixed. No native Goal exists for this
+recovery. Verified execution and remaining gates are in [STATE](STATE.md); exact
+private admission is in `.local/run-policy.json`. Historical setup-mode guidance
+below does not override the current authorized critical-correction/verification/
+packaging scope or remaining human gates.
 
 ## 1. Separate task mode, continuation and permissions
 

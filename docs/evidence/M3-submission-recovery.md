@@ -1,5 +1,7 @@
 # Submission recovery and public admission
 
+This is a chronological evidence log. Earlier pending gates describe their then-current state; the owner-approved public demonstration section records the later accepted release. See [STATE](../STATE.md) for current status.
+
 Recovery starts from `6129d97dfdbc5f2fb7b1ec001afbda6fc39482fc`.
 The public repository and remote main match that checkpoint. Its hosted run
 [39125165143](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39125165143)
@@ -117,3 +119,56 @@ separate and follows complete, tested artifacts.
 
 Private admission, detailed receipts and process/configuration data remain under
 `.local/run-policy.json` and `.local/run-records/submission-recovery/`.
+
+## Corrected deployment and independent recovery acceptance
+
+Application head `48c15250c76f7b5adf3cea673384d3be0007661e` passed exact-head
+[hosted checks 39130978886](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39130978886):
+Ruff, 1,335 unit and 70 browser checks. The reviewed build's image-bound and closed
+smoke steps passed. Its exact image preserves the runtime and source-normalization
+hashes. Independent private deployment readback confirmed unchanged namespace,
+IAM, runtime identity, limits and 100% traffic to the ready revision.
+
+Image: `sha256:5ea2e107e727d48111a1260430145f632d24cff08d74f8dc4a15f0090e91a8e3`.
+The deployed browser acknowledgement-loss check passed with one actual upload,
+same-cookie reload, original-key GET recovery and no repeated upload. Four
+independent HTTPS reads confirmed owned ready evidence, guestless401, foreign404
+and exact retained image hash/pixels. No model call or new guest was used.
+
+The first media-test transport omitted disk-file bytes and received422; its failed
+receipt is retained. A strictly fixture-bound transport correction passed three
+local regressions including real Chromium-to-HTTP byte delivery before retry.
+The successful test deliberately injects acknowledgement loss; it is not evidence
+of a spontaneous network failure. Earlier premature progress labels in the failed
+helper receipt are superseded by its overall failure and the independent correction
+record; no failed attempt is counted as a pass.
+
+Public admission remains separate and requires the proposed narrower demonstration
+scope decision. [Release scope](../submission/release-scope.md) lists uncompleted
+acceptance items; security, official artifacts and final submission gates remain.
+
+## Owner-approved public demonstration
+
+The owner explicitly approved the disclosed narrower scope as U18. The existing
+service received only the public-invoker binding. Independent verification made
+18 bounded read-only requests: exact deployment/traffic, anonymous app200, private
+bucket IAM/PAP/uniform settings, denied guestless records and denied technical
+Operations all passed. No project, bucket or dashboard access was widened.
+
+A fresh unauthenticated native browser at
+[the public Cloud Run URL](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app) completed
+one actual Gemini/ADK acquisition, deterministic historical-SFA match, explicit
+checkbox confirmation, saved simulated hold, reload, owned queue and phone layout.
+Independent eight-document readback verified one new completed call/action, exact
+lineage, nine lifetime attempts/six charged guests, unchanged PUBLIC500 phase and
+zero outstanding reservations. This call used35,743 tokens and charged INR6.90457;
+it is one observation, not a production cost benchmark.
+
+Three scoped public screenshots passed independent visual/privacy/provenance
+review. Raw full-frame video and queue captures remain private until their
+publication treatment is checked. A separate existing-owner native capture
+recorded actual guidance6/9 and activation/rollback without another model call;
+its single learning GET performs disclosed refresh bookkeeping.
+
+Final media links, complete PDF and OWNER-SUBMIT remain open. U18 does not relabel
+any omitted internal acceptance as passed or accept material competition terms.

@@ -109,3 +109,9 @@ Use `BLOCKED` only for an unmet dependency/authority; use `FAIL` for an executed
 ## Owner-authorized extension and remaining gates
 
 U07 promotes P0-12/13 and OPS-01–07 to required scope, with T33–T36 inserted at their dependency positions. U09–U12 grant bounded spend/cloud/public/GitHub execution; do not ask those questions again. Actual local/service/security evidence is still required. OPS-03b external notification delivery is optional until a channel/test is authorized; no delivered-alert claim without evidence. T02’s private finite run policy and useful canary remain separate native-goal admission obligations. T06 needs prior selected-skill readiness or a recorded native fallback, followed by actual high-fidelity owner approval.
+
+## Owner-requested future backlog
+
+| Task | Status and dependency | Intended outcome and admission |
+| --- | --- | --- |
+| **CON-01 Consumer Recall Explorer** | Planned; follows applicable B0 gates and reviewed ATT-01 source-image evidence. | Accessible consumer search, reference imagery, image-assisted candidates, affected lots and official actions; qualified recall trends. See the [consumer roadmap](../docs/submission/consumer-recall-explorer-roadmap.md). Requires a separate bounded future increment; no implementation during the submission freeze. |

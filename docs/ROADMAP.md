@@ -47,3 +47,17 @@ preview/rehosting of third-party product artwork requires its applicable reuse
 basis. Until then provide the official links and fresh synthetic demo labels.
 This item does not defer any existing mandatory source-review obligation or
 silently expand the approved P0 requirements.
+
+## CON-01 — Consumer Recall Explorer
+
+Owner-requested future task; **PLANNED, not implemented**. Extend ATT-01 with an
+accessible public consumer dashboard: search by product, brand, country, date and
+reported hazard; inspect permitted product images, affected lots and official
+actions. Image-assisted discovery produces candidates for exact identity/lot
+confirmation. Frequency views require declared coverage, time windows and
+deduplicated events; reported hazards stay distinct from confirmed illness reports.
+
+The [consumer roadmap](submission/consumer-recall-explorer-roadmap.md) defines the
+experience, source-image dependency, stakeholder boundaries and proposed pilot
+measurements. It is explicitly included in the presentation's future-development
+section. It adds no implementation work to the frozen submission critical path.

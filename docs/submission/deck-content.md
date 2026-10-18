@@ -1,248 +1,133 @@
-# BatchBeacon AI — prescribed deck copy plan
+# BatchBeacon AI: working prescribed-template copy
 
-Preparation only. This is editable copy mapped to the organizer's original
-16-slide template, not a completed presentation, final performance report or
-submission. Evidence basis: the T35 pure-evaluator checkpoint and the linked
-scope records below. Refresh actual capability claims before final authoring.
+Prescribed-template copy for the accepted public demonstration; final video linkage remains pending. Registered team Bugging Debuggers; leader Rohit Agrawal; members Niharika Aggarwal, Aayushi Priya, Priyanka Shelke. Application evidence binds deployed source head `48c15250`; later packaging revisions do not imply an application rebuild.
 
-The authorized working template retains the 10 × 5.625 inch canvas, original
-masters, black organizer header, logos and typography. Downloaded originals and
-the unedited working copy remain private. All 16 original pages were inspected.
-No shared organizer document was modified.
+## 3. Does this exact package match the notice?
 
-## 1. Team Details
+Official recall notices describe products, batches, dates and markets. Retail workers must connect those conditions to the physical package in hand.
 
-Product: BatchBeacon AI
+BatchBeacon turns a label photo into an inspectable comparison and an explicit simulated action that the next person can resume.
 
-Team name: use the exact registered team name after checking the authenticated
-entry. The product name does not establish the registered team name.
+Retail workflow first. A future Consumer Recall Explorer and permissioned retailer and country-authority insights extend the vision.
 
-Team leader: Rohit Agrawal
+Clearer information connects producers, sellers, authorities and citizens without inventing certainty.
 
-Members: Aayushi Priya, Niharika Aggarwal, Priyanca Shelke
+## 4. Our USP is the inspectable path to action
 
-Problem statement: Retail & Commerce: Intelligent Customer and Business Experiences
+AI extraction you can inspect. The proposed fields stay beside the label and source conditions.
 
-Source: [owner-attested roster](../OWNER_DECISIONS.md),
-[approved brief](../../HACKATHON_BRIEF.md). Preserve the organizer's heading and
-artwork. Final roster parity remains a platform check.
+Identity-first rules you can test. A changed source requires renewed review before another action.
 
-## 2. Download instructions
+An action a human must confirm. Guidance you can evaluate, activate deliberately and revert.
 
-Organizer instruction page. Retain unchanged in the working copy. Exclude from
-the final audience export after confirming that content slots remain complete.
-It instructs participants to download and edit locally, not request shared edits.
+Existing scanning, alerts, audit tools and analytics set the baseline. BatchBeacon connects these decision boundaries in one workflow.
 
-## 3. Brief about the idea
+## 5. From label evidence to a saved human decision
 
-BatchBeacon AI helps retail staff compare a product label with official recall
-evidence and prepare an action for a manager to review.
+Gemini proposes label fields through one bounded Google ADK workflow.
 
-A lot number alone is insufficient. The product identity, pack, applicable date
-and jurisdiction must agree with the notice. Missing or changed evidence keeps
-the result in review.
+Server rules compare identity, lot, date and jurisdiction against the selected source conditions.
 
-Initial scope: selected Singapore SFA and UK FSA notices, with synthetic labels
-and simulated stock actions. The app is under implementation.
+The retail console retains owned counts, statuses, actions and resumable evidence in Firestore. A person explicitly confirms each simulated hold.
 
-Source: [product scope](../../specs/mvp.md),
-[current status](../STATE.md). This states intended product behavior and bounded
-coverage. It does not claim worldwide monitoring or deployed completeness.
+Guidance changes only allowlisted wording after a fixed evaluation and explicit activation.
 
-## 4. Opportunities
+## 7. Two workspaces, two responsibilities
 
-Retail staff need a clear connection between the package in front of them and
-the exact conditions in an official notice.
+Retail console: owned queue counts and status, missing evidence, resumable cases, simulated actions and capture guidance.
 
-BatchBeacon's proposed distinction is the combined workflow: identity before
-lot comparison, targeted evidence recovery, source-version checks and explicit
-manager confirmation. Existing products already offer scanning, alerts and
-recall matching. The individual features are not claimed as inventions.
+Private Operations: verified deployment resources, monitoring dashboard, alert-policy setup and bounded cost oversight.
 
-Hypothesis: this workflow can make a recall investigation easier to inspect and
-resume. User benefit and performance against a competent one-shot model baseline
-remain unmeasured.
+## 9. Google AI performs a bounded, meaningful task
 
-Source: [brief innovation thesis and comparators](../../HACKATHON_BRIEF.md).
-Do not imply a fresh competitive benchmark or superiority over named products.
+Gemini reads the label. ADK coordinates the extraction workflow and returns structured proposals.
 
-## 5. Features offered
+Cloud Run hosts one application. Deterministic server code owns comparison, ownership, currentness and action creation.
 
-| Feature | Demonstrated status |
-| --- | --- |
-| Identity and field comparison with explicit uncertainty | Local deterministic implementation and tests |
-| Owned evidence history and simulated approval rules | Local adapters, injected HTTP and tests |
-| Product workbench, retail queue and capture guidance | Owner-approved visual prototype |
-| Currentness-first queue rows and counts | Pure supplied-snapshot computation |
-| Allowlisted guidance evaluation | Six actual fixed cases under both policies |
-| Connected model, saved queue and guidance activation | Runtime integration incomplete |
+Firestore persists evidence and actions. Private Cloud Storage retains sanitized image inputs.
 
-Source: [state](../STATE.md), [queue](../evidence/M2-retail-projection.md),
-[evaluation](../evidence/M2-learning-evaluator.md). At final authoring, replace
-this implementation-state table with the actual delivered feature set and its
-remaining limits. Do not promote a prototype control to a working backend.
+Native HTML/CSS keeps the retail interface responsive. No automatic real-stock action follows model output.
 
-## 6. Process flow diagram or Use-case diagram
+## 10. A bounded route to a retailer pilot
 
-Editable diagram content, to be authored in the existing slide:
+Prototype cloud ceiling: INR 6,000 for the funded judging period. This is a ceiling, not measured total spend.
 
-1. Staff opens an isolated synthetic shop and selects a product example.
-2. Staff captures label evidence for the selected jurisdiction and notice.
-3. The bounded model workflow proposes extracted fields.
-4. Server code checks identity, source support, conditions and currentness.
-5. Missing evidence requests a specific follow-up within remaining allowances.
-6. Supported evidence allows the manager to review a simulated action.
-7. Changed source or observation requires renewed review before another action.
+One observed public acceptance call: INR 6.90 model charge. This excludes infrastructure and failed attempts and is not a production cost benchmark.
 
-Label the diagram “Intended connected workflow”. The local injected journey and
-visual prototype exercise portions of it. Actual deployed model execution is
-still pending. Never draw an automatic path from model output to stock mutation.
+Shared reservation accounting and guest allowances bound model admission. Pilot with synthetic labels and one reviewed source scope before expanding.
 
-Source: [MVP journeys](../../specs/mvp.md),
-[coordinator scope](../evidence/M2-extraction-coordinator.md).
+Measure completion time, review burden and cost per completed investigation in a retailer pilot.
 
-## 7. Wireframes/Mock diagrams
+## 11. One investigation, retained after refresh
 
-Use the owner-approved Evidence in focus workbench and phone evidence view from
-the usability capture manifest. Preserve all visible simulation labels.
+Actual public screenshots show the label and source comparison, explicit confirmation dialog, and saved simulated hold reopened from the owned queue on a phone viewport. These are captures from the verified Gemini/ADK journey, not illustrative interface mockups.
 
-Caption: “Approved visual prototype. Runtime integration is in progress.”
 
-Source: [visual approval](../evidence/M1-visual-approval.md),
-[capture manifest](../ui/usability/manifest.json). Do not use an earlier rejected
-palette or direction. Do not imply that screenshots demonstrate deployed flow.
+## 12. Evidence behind the demonstrated journey
 
-## 8. Architecture diagram
+One historical SFA journey: actual Gemini/ADK, explicit hold and persisted queue after refresh.
 
-One application service contains the web interface, bounded ADK workflow,
-deterministic verifier, session ownership and simulated-action controls.
+1,335 unit checks and 70 hosted browser checks: engineering coverage across deterministic and browser boundaries.
 
-The intended deployment uses Cloud Run. Gemini proposes extraction. Firestore
-stores owned records and policy state. Private Cloud Storage retains sanitized
-label images for the bounded retention period. Authority notices enter through
-an allowlisted, versioned evidence boundary and human source review.
+Six fixed guidance cases/nine variants: verified deployed evaluation, activation and rollback. These are not model-accuracy percentages; protected evaluation and a competitive baseline remain incomplete.
 
-Trust distinction: server rules own comparison, currentness, limits and action
-creation. Model output and user input remain untrusted proposals.
 
-Diagram labels must distinguish locally implemented adapters from services that
-have not been provisioned or exercised under the deployed identity.
+## 13. Consumer Recall Explorer
 
-Source: [architecture](../EXECUTION.md), [external status](../STATE.md).
+Discover: search product, brand, country, date or hazard. Product pictures and image-assisted candidates help narrow the search.
 
-## 9. Technologies
+Understand: see the official reason, affected lots, source and date. Frequency shows its time window, source coverage and deduplicated events. Reported hazards stay separate from officially confirmed illness reports.
 
-| Technology | Responsibility and observed scope |
-| --- | --- |
-| Python, FastAPI and native web templates | Local application and interface |
-| Google ADK and Gemini | Bounded extraction workflow, installed SDK and mock transport checked; actual model call pending |
-| Firebase / Cloud Firestore | Owned persistent records; SDK and local emulator checks, actual service sign-off pending |
-| Cloud Run | Intended application hosting; deployment pending |
-| Private Cloud Storage | Sanitized image retention; local adapter checks, deployed identity checks pending |
-| pytest and Playwright | Automated domain, boundary and prototype-browser checks |
+Act: follow plain-language official instructions through accessible mobile cards.
 
-Do not claim Firebase Authentication, Firebase Hosting, a second runtime or
-services that are not part of this implementation.
+Reviewed images from official notices and PDFs support discovery; exact identity and lot confirmation still follow.
 
-Source: [state](../STATE.md), [runtime scope](../evidence/M2-model-runtime.md).
+Scope footnote: Planned, not implemented. Counts imply neither disease causation nor brand safety. UK remains review-only.
 
-## 10. Estimated implementation cost
+## 14. Explore BatchBeacon AI
 
-Optional template slot. The owner approved a finite ₹6,000 incremental cloud
-envelope through the funded period. This is a spending ceiling, not a measured
-cost per check or a forecast of production economics.
+Public source: https://github.com/imrohitagrawal/batchbeacon-ai
 
-Actual model cost, warm/cold latency and complete service overhead remain
-unmeasured. Paid admission is closed while required billing bounds and prior
-liabilities remain unsubstantiated.
+Live prototype: https://batchbeacon-ai-xotgrrfbcq-el.a.run.app
 
-Source: [approved budget and pools](../OPERATIONS.md), [status](../STATE.md).
-Final slide should use actual bounded measurements if available, or state that
-cost evaluation remains pending. Do not manufacture a low per-check estimate.
+Demonstration: [bind publicly playable 3:50 video]
 
-## 11. Snapshots of the prototype
+Bugging Debuggers. Synthetic retail demonstration with human-confirmed simulated actions.
 
-Use the approved workbench, recapture and confirmation captures. Label them
-“Visual prototype”. Keep captions about the visible task:
+## 15. Who benefits, and how value will be tested
 
-- Compare the label with source evidence.
-- Request the missing panel.
-- Review a simulated action before confirming it.
+- Product/producer: exact identity and batch conditions distinguish affected products.
+- Retailer/company: consistent investigations and traceable manager decisions.
+- Individual user: a future Explorer would show clear recall conditions, official actions and unknowns.
+- Citizens: accessible mobile cards and language expansion could widen recall access.
+- Society: potential coordinated response; pilot measurement must precede harm-reduction claims.
+- Accountability: evidence versions and an explicit human decision owner.
+- Nation/authorities: future permissioned aggregate trends and response progress with source-coverage context.
 
-Capture a fresh genuine source-update state only when the connected flow works.
-Do not pass a staged prototype or synthetic backend fixture off as a real model
-result. Re-capture source-context additions if they form part of the final demo.
+Proposed paired-pilot scorecard: time, completion, unsupported actions, evidence quality and cost. Current users are retail staff/managers and private operators; consumer/authority views are future work.
 
-Source: [approved captures](../ui/usability/manifest.json),
-[source-context scope](../evidence/M1-recall-context-verification.md).
 
-## 12. Prototype Performance report/Benchmarking
+## Remaining original slots
 
-| Evidence | Result and denominator |
-| --- | --- |
-| Local automated suite at the evaluator checkpoint | 1,233 unit cases and 50 prototype-browser cases passed |
-| Fixed guidance evaluation | Six grouped cases, nine variants, 18 branch executions; baseline and candidate both passed |
-| Guidance output size | One actual run produced 14,814 response bytes within the 16,384-byte bound |
-| Real Gemini extraction quality and baseline comparison | Not run |
-| Deployed six-journey, latency and cost measurements | Not run |
-| Human final-case evaluation | Pending protected custody and execution |
+1. Team Details: Bugging Debuggers, BatchBeacon AI, Rohit Agrawal, Niharika Aggarwal, Aayushi Priya, Priyanka Shelke. Retail & Commerce: Intelligent Customer and Business Experiences.
+2. Original download instructions remain unchanged in the original/16-slot working file and are excluded from the 15-page audience variant as authorized.
+6. Editable six-step workflow: synthetic shop, label capture, Gemini/ADK, server verification, explicit confirmation, saved action and queue. Missing, stale or unsupported evidence stays in review.
+8. Editable architecture: label/reviewed sources enter one Cloud Run application containing ADK/Gemini, deterministic verification and session/allowance controls. Firestore and private image storage support persisted evidence. Explicit action and private Operations remain separate responsibilities.
+15. Formerly blank branded slide now contains the proposed pilot scorecard and adoption path. Metrics are explicit targets, not achieved results.
+16. Original organizer closing artwork remains unchanged.
 
-Automated test counts are not product accuracy percentages. The six guidance
-cases are separate from the development and final-case datasets. No uplift,
-enterprise reliability or safety certification follows from these checks.
+All 16 template slots are accounted for. Existing assets, masters, layout and shape geometry remain preserved. Sources are in speaker notes. The public application and source links are bound. Final media linkage, export size, image fit and clickable links are checked on the final PDF before submission. Original organizer assets are retained; screenshot provenance and privacy reviews stay in the ignored artifact evidence store.
 
-Source: [evaluator evidence](../evidence/M2-learning-evaluator.md),
-[evaluation registry](../../specs/mvp.md). Add the exact tested release revision
-and hosted result at final assembly. Preserve failures and limitations.
+## Native visual content and audience export
 
-## 13. Additional Details/Future Development
+Template slide 7 is a two-workspace comparison with a large right-side screenshot area. Template slide 11 reserves the main canvas for actual journey captures, with three short proof-point captions.
 
-Future evidence exploration could filter a reviewed corpus by recall reason,
-hazard and symptoms explicitly mentioned by an authority. Distinct recall
-events, notice updates and affected products would remain separate counts.
+Template slide 12 uses three native evidence cards: one illustrated actual SFA journey, 1,335 unit plus 70 hosted browser checks, and six fixed guidance cases/nine variants. These are engineering evidence, not an accuracy denominator. Counts bind exact application head `48c15250` and hosted run `39130978886`.
 
-Broader historical coverage requires reviewed identity linkage and a defined
-coverage period. Continuous ingestion, ERP integration and production stock
-actions are outside the current demo.
+Template slide 15 compares product/producer, retailer/company, individual user, citizens, society, accountability and nation/authority value. Current dashboard users are retail staff/demo managers and the operator. Consumer/authority views are future permissioned work. Potential societal benefit and pilot metrics are explicitly unmeasured.
 
-Source-linked company notices directly support the existing evidence workflow.
-Their exact version and unreviewed attachment status must remain visible.
+The audience PPTX contains 15 pages. Organizer download-instruction slot 2 was inspected and excluded from audience order. All 16 slots remain accounted for in the original and working v3 lineage. No content requirement was omitted.
 
-Source: [recall analytics proposal](../RECALL_ANALYTICS.md). This is a future
-proposal, not implemented filtering or a claim about observed illness cases.
+## Consumer roadmap revision v5
 
-## 14. Links
-
-Public repository: https://github.com/imrohitagrawal/batchbeacon-ai
-
-Demo video: pending actual exported and reviewed recording.
-
-Final product: pending actual deployed and verified URL.
-
-The template says “3 Minutes”. Owner U01 authorizes a 160-second core and a
-230-second submission cut under the documented source conflict. Recheck the
-current form and measure the actual export. Do not submit placeholders or
-localhost addresses.
-
-Source: [decisions](../SOURCES.md), [U01/U16](../OWNER_DECISIONS.md).
-
-## 15. Blank content page
-
-The downloaded page has the standard header and an empty white body. No hidden
-text requirement was found in the PPTX text structure or visual render. Preserve
-it in the working source and omit from final audience export if unused.
-
-## 16. Closing page
-
-Keep the original organizer “Thank you” artwork and proportions. It contains no
-additional BatchBeacon field to fill. Do not replace organizer branding with a
-new product illustration.
-
-## Final assembly checks
-
-The presentation still needs an admitted authoring runtime, complete copy fitting
-and editable diagrams, fresh candidate screenshots, actual product/video links,
-final evidence and human submission review. Validate every filled slide against
-the original, clickable links, accessible legibility and English copy. Export a
-PDF below 4,900,000 bytes and inspect every page before it can become a submission
-artifact. This copy plan does not satisfy T27 final sign-off.
+Consumer Recall Explorer is a future public dashboard (CON-01) extending planned attachment/image evidence (ATT-01). Current photographed-label extraction does not implement catalogue visual retrieval or notice/PDF product-image extraction. The 15-page audience variant retains all original assets and native shape geometry. Slot 15 retains the stakeholder matrix and paired-pilot measurement proposal. See [roadmap proposal](consumer-recall-explorer-roadmap.md).

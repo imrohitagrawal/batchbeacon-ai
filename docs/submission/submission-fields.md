@@ -1,29 +1,19 @@
-# Submission fields — preparation draft
+# Submission fields: closure draft
 
-No form field was changed or submitted. Final values require the exact tested
-candidate, artifact/access checks, current form/terms and U16 owner approval.
+Team: **Bugging Debuggers**. Captain: **Rohit Agrawal**. Members: **Niharika Aggarwal, Aayushi Priya, Priyanka Shelke**. Registered spelling was confirmed in the official dashboard. Do not alter the roster.
 
-| Field | Draft or current status |
+| Field | Value |
 | --- | --- |
 | Product | BatchBeacon AI |
 | Theme | Retail & Commerce: Intelligent Customer and Business Experiences |
 | Repository | https://github.com/imrohitagrawal/batchbeacon-ai |
-| Deployment URL | Pending actual deployed and verified candidate |
-| PDF deck | Pending authored/exported prescribed template, below 4,900,000 bytes |
-| Video URL | Pending actual recording, measured 230-second submission cut and public playback |
-| Registered team and roster | Compare exact registered values with owner-attested roster; do not infer team name from product name |
-| Final terms/submission | Not accepted or submitted by this draft |
+| Live prototype | https://batchbeacon-ai-xotgrrfbcq-el.a.run.app |
+| PDF | Bind final organizer-template export under authenticated form limit |
+| Video | Bind tested public 230-second cut; retain 160-second alternative |
+| Submission | Final OWNER-SUBMIT approval and actual receipt required |
 
-## Description draft
+## Description
 
-The paragraph below is under the observed 1,024-character limit. It deliberately
-describes the current implementation state and must be reconciled with the actual
-candidate before submission.
+BatchBeacon AI closes the gap between an official recall notice and the product in hand. Retail staff photograph a label; Gemini through Google ADK proposes structured fields. Deterministic rules verify identity, lot, date and jurisdiction before a person confirms a simulated hold. Cloud Run and Firebase/Cloud Firestore retain evidence and the owned retail queue for clear handover. Tested guidance evaluation, activation and rollback govern capture wording without changing decision rules. The demo uses synthetic labels and historical SFA evidence; UK matching stays review-only. Future Consumer Recall Explorer adds accessible search, reviewed official product images, affected lots and recommended actions. Source-qualified recall trends could help citizens, sellers, producers and authorities understand reported issues; counts do not rank brand safety. A proposed retailer pilot measures review time, evidence completeness and unsupported actions. No result grants food-safety clearance.
 
-<!-- description:start -->
-BatchBeacon AI helps retail teams compare synthetic product labels with selected official recall evidence and prepare a simulated action for human review. It checks product identity before lot, date and jurisdiction, keeps uncertainty visible and requires renewed review when source evidence changes. The approved interface brings the label, cited recall context and next step together. Local implementation includes deterministic checks, owned-record adapters, queue computation and a fixed guidance-wording evaluator. Actual Gemini execution, deployed journeys and the persistent learning lifecycle remain incomplete. This development preview covers a finite historical corpus, not worldwide monitoring, medical advice or real stock control.
-<!-- description:end -->
-
-Source limits and conflict treatment: [SOURCES](../SOURCES.md),
-[OWNER_DECISIONS](../OWNER_DECISIONS.md), [STATE](../STATE.md).
-Do not submit this development-state draft as a completed application.
+Character count: 995. Bind final accepted release links and verify the authenticated form counter.

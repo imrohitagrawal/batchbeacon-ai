@@ -1,6 +1,6 @@
 # BatchBeacon source and decision register
 
-Prepared 17 October 2026. This file distinguishes supplied research, fresh read-only observations, proposed implementation decisions and unresolved authority. No application/model/cloud validation is implied.
+Updated 18 October 2026. Historical source observations and decisions below are preserved. Actual application/model/cloud evidence is recorded in [STATE](STATE.md) and [submission recovery](evidence/M3-submission-recovery.md); source-document inspection alone does not prove implementation. The authenticated organizer template/form and registered roster were rechecked during recovery. Official 3–4-minute video and PDF-under-5-MB requirements remain the submission contract.
 
 ## 1. Preserved inputs
 
