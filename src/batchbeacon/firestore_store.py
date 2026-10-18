@@ -36,6 +36,7 @@ from batchbeacon.evidence_service import (
     EvidenceState,
     replace,
 )
+from batchbeacon.guest_admission import GuestAdmissionState, reserve_guest
 from batchbeacon.guest_service import GuestPolicy, GuestSession, OpaqueId
 from batchbeacon.shared_admission import Attempt, Budget, IncidentUsage, SessionUsage, Snapshot
 
@@ -156,20 +157,22 @@ class _Transaction:
 
 _MODELS = {"guest": GuestSession, "usage": SessionUsage, "evidence": EvidenceState,
            "actions": ActionState, "environment": EvidenceEnvironment,
-           "budget": Budget, "attempt": Attempt, "completion": AcquisitionCompletion}
+           "budget": Budget, "attempt": Attempt, "completion": AcquisitionCompletion,
+           "guest_admission": GuestAdmissionState}
 
 
 class FirestoreStores:
     def __init__(self, client: FirestoreClient, policy: FirestorePolicy,
                  guest_policy: GuestPolicy, evidence_policy: EvidencePolicy,
                  action_policy: ActionPolicy, *, clock=lambda: datetime.now(UTC),
-                 monotonic=time.monotonic):
+                 monotonic=time.monotonic, guest_admission=None):
         if not isinstance(client, FirestoreClient) or client.api_endpoint != policy.api_endpoint:
             raise ValueError("explicit generated client and matching endpoint required")
         self.client, self.policy = client, policy
         self.guest_policy, self.evidence_policy, self.action_policy = (
             guest_policy, evidence_policy, action_policy)
         self.clock, self.monotonic = clock, monotonic
+        self.guest_admission = guest_admission
         self.guests, self.shared = _Guests(self), _Shared(self)
         self.evidence, self.actions = _Evidence(self), _Actions(self)
         self.retail = None
@@ -405,13 +408,23 @@ class _Guests:
                 learning_name = s.name("learning", session.capability_hash)
                 if tx.read({learning_name: "learning"})[learning_name] is not None:
                     raise _unavailable()
+            admission_name, admitted = None, None
+            if s.guest_admission is not None:
+                admission_name = s.name("guest_admission")
+                stored = tx.read({admission_name: "guest_admission"})[admission_name]
+                admitted = reserve_guest(s.guest_admission, stored, s.clock())
+                tx.limit_to(s.guest_admission.expires_at)
+            elif s.policy.mode == "production":
+                raise _unavailable()
             tx.limit_to(session.scope.expires_at)
+            if admission_name is not None:
+                tx.write(admission_name, "guest_admission", admitted)
             tx.write(s.name("guest", session.capability_hash), "guest", session, create=True)
             tx.write(s.name("usage", session.capability_hash), "usage",
                      SessionUsage(session_id=session.scope.session_id), create=True)
             if learning_name is not None:
                 tx.write(learning_name, "learning", s.learning.baseline(session), create=True)
-        s.run(create)
+        s.run(create, not_after=s.guest_admission.expires_at if s.guest_admission else None)
 
     def get(self, key):
         return self.store.run(lambda tx: self.store._guest(tx, key)[0])

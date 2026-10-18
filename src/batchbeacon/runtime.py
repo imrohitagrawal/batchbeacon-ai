@@ -14,6 +14,7 @@ from batchbeacon.evidence_service import EvidencePolicy, EvidenceService
 from batchbeacon.extraction_api import ExtractionHTTPPolicy
 from batchbeacon.extraction_service import ExtractionService
 from batchbeacon.firestore_store import FirestorePolicy, FirestoreStores
+from batchbeacon.guest_admission import GuestAdmissionPolicy
 from batchbeacon.guest_service import GuestPolicy, GuestService
 from batchbeacon.learning_decisions import GuidanceLimits
 from batchbeacon.learning_evaluator import EvaluationPolicy, LearningEvaluator, PreparedSuite
@@ -65,6 +66,7 @@ class RuntimeAssets(Record):
 class RuntimeConfig(Record):
     version: Literal["production-runtime-1"] = "production-runtime-1"
     guest: GuestPolicy
+    guest_admission: GuestAdmissionPolicy
     evidence: EvidencePolicy
     action: ActionPolicy
     firestore: FirestorePolicy
@@ -247,7 +249,8 @@ def build_app(config: RuntimeConfig, asset_root: Path):
             client_options=ClientOptions(api_endpoint=config.storage.api_endpoint),
         )
         stores = FirestoreStores(
-            firestore, config.firestore, config.guest, config.evidence, config.action
+            firestore, config.firestore, config.guest, config.evidence, config.action,
+            guest_admission=config.guest_admission,
         )
         objects = StorageObjects(objects_client, config.storage)
         guest = GuestService(config.guest, stores.guests, objects)

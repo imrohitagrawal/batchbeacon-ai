@@ -12,9 +12,10 @@ Exact run admission, expiry, freeze and allowed queue are private in
 `.local/run-policy.json`; never infer a renewal from this document.
 The controlled handoff verified the previous executor stopped. One primary writer
 and read-only independent reviewers were used; no custom supervisor.
-The native Goal was verified ACTIVE during the admitted window. Execution is now
-in final checkpointing; reconcile actual stopped/expiry status from the private
-policy and native Goal before further work. No renewal is implied.
+The previous executor completed its final turn. A new finite recovery window was
+explicitly approved and recorded privately; this thread has no native Goal.
+Scope is verification, mandatory critical corrections and submission packaging.
+No feature-freeze, reserve or budget extension is implied.
 U09–U12 retain the existing INR6,000 lifetime envelope, scoped cloud configuration
 and ordinary publication to `imrohitagrawal/batchbeacon-ai`. Public exposure still
 requires security/cost/release gates. Final submission remains separately gated.
@@ -90,6 +91,16 @@ Owner retains resources/evidence for the funded judging period through7 November
 rollback has been fabricated. Preserve both successful images and failed evidence.
 
 ## Remaining critical path and exact next task
+Recovery from `6129d97` verified public GitHub/main and its successful hosted run.
+Public app access remains closed. A reproduced anonymous guest-provisioning gap
+has a bounded atomic correction, independent local verification and five actual
+Firestore checks; candidate deployment/hosted verification remains pending.
+The authenticated form still requires the prescribed PDF (5 MB), 3–4 minute video
+and 1,024-character description. Registered team is Bugging Debuggers; dashboard
+spelling is Priyanka Shelke. Editable template deck and refreshed copy are drafts;
+PDF export and measured videos remain unfinished. See
+[recovery evidence](evidence/M3-submission-recovery.md).
+
 After reconciling the finite stop boundary, the next authorized bounded task is
 remaining T17 deployed acceptance: live-source timing/currentness, cross-instance
 ownership and allowance/concurrency checks, then deployed T35 guidance and OPS.

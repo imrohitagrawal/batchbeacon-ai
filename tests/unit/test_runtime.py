@@ -1,5 +1,6 @@
 """Production composition validation without provider or data-service requests."""
 
+from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -11,6 +12,7 @@ from pydantic import ValidationError
 from batchbeacon.evidence_service import replace
 from batchbeacon.extraction_api import ExtractionHTTPPolicy
 from batchbeacon.firestore_store import FirestorePolicy
+from batchbeacon.guest_admission import GuestAdmissionPolicy
 from batchbeacon.learning_decisions import GuidanceLimits
 from batchbeacon.learning_evaluator import EvaluationPolicy, PreparedSuite
 from batchbeacon.learning_service import LearningPolicy
@@ -25,6 +27,7 @@ from batchbeacon.runtime import (
     create_app,
 )
 from batchbeacon.storage_objects import StoragePolicy
+from tests.unit.domain_fixtures import NOW
 from tests.unit.test_firestore_store import no_network_or_credentials as no_network_or_credentials  # noqa
 from tests.unit.test_firestore_store import setup as setup  # noqa
 from tests.unit.test_reviewed_extraction import build_reviewed
@@ -44,6 +47,9 @@ def runtime(setup, env):
     ep = EvaluationPolicy(retail=gp.retail, limits=GuidanceLimits.from_shared(sp))
     config = RuntimeConfig(
         guest=gp,
+        guest_admission=GuestAdmissionPolicy(max_issued_sessions=20,
+            max_sessions_per_window=5, window_seconds=60,
+            not_before=NOW, expires_at=NOW + timedelta(days=1)),
         evidence=ex.evidence.policy,
         action=stores.action_policy,
         firestore=FirestorePolicy(
@@ -122,6 +128,12 @@ def test_production_factory_constructs_owned_graph_without_rpc_or_budget_initial
     monkeypatch.setattr(SharedAdmission, "initialize", forbidden)
     monkeypatch.setattr(SharedAdmission, "activate_phase", forbidden)
     monkeypatch.setattr(module.FirestoreStores, "run", forbidden)
+    original_stores = module.FirestoreStores.__init__
+    received_admission = []
+    def construct_stores(self, *args, **kwargs):
+        received_admission.append(kwargs.get("guest_admission"))
+        return original_stores(self, *args, **kwargs)
+    monkeypatch.setattr(module.FirestoreStores, "__init__", construct_stores)
     with TestClient(build_app(config, Path("."))) as client:
         response = client.get("/health")
         assert response.status_code == 200 and response.json()["product"] == "not_ready"
@@ -129,6 +141,18 @@ def test_production_factory_constructs_owned_graph_without_rpc_or_budget_initial
         assert public["guidance"] == "OWNED_LIFECYCLE_CONNECTED"
         assert public["mode"] == "REAL_VERTEX_EXTRACTION"
         assert client.app.state.runtime_configuration_hash == config.digest()
+        assert received_admission == [config.guest_admission]
+
+
+def test_production_guest_admission_is_explicit_and_changes_runtime_hash(runtime):
+    config, _, _ = runtime
+    raw = config.model_dump(mode="json")
+    del raw["guest_admission"]
+    with pytest.raises(ValidationError):
+        RuntimeConfig.model_validate_json(__import__("json").dumps(raw))
+    changed = replace(config, guest_admission=replace(config.guest_admission,
+        max_issued_sessions=config.guest_admission.max_issued_sessions + 1))
+    assert changed.digest() != config.digest()
 
 
 def test_missing_environment_assets_and_policy_mismatch_fail_before_credentials(
