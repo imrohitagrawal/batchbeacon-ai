@@ -41,7 +41,7 @@ T34 pure queue projection/classification independently reviewed; local and hoste
 1176 unit / 50 browser PASS at b0608b9 / run 39108734769. M2-retail-projection.md.
 T35 pure evaluator executes six cases/nine variants under both wording policies;
 57 focused cases, both independent correction reviews and full local1233/50 PASS.
-Hosted checkpoint evidence pending; see M2-learning-evaluator.md. T34 persistence/
+Hosted f93762b / run 39110509339 PASS (1233/50); M2-learning-evaluator.md. T34 persistence/
 HTTP and T35 owned attempts/activation/runtime remain open.
 T06 / U02 approved: Evidence in focus desktop/phone workbench, queue and guidance.
 DESIGN preserves blue/coral/gold, peach selection, pale-blue controls, lavender
@@ -117,6 +117,14 @@ no analytics implementation or complete-history claim. Missing version-specific
 UK company-notice links corrected in draft context/prototype; independently reviewed.
 Local 790 unit / 50 Chrome and hosted 0702e3d / run 39103064027 PASS.
 Source/human review stays separate, including the new link-only addendum.
+Private inspection of both linked company PDFs found a lot/date scope difference
+from the FSA parent; the review packet now includes it. M1-attachment-inspection.md.
+No UK predicate promotion or extra recall event is inferred. Human review stays open.
+T27 official template downloaded and all16 pages inspected; copy plan prepared.
+M4-template-preparation.md records the unavailable authoring runtime; no final deck.
+T28/T29 early storyboard, judge guide and form copy are drafts, not delivery proof.
+T34 durable-projection acceptance is prepared privately. Atomic producer coverage,
+actual completion metadata and coherent cold-client reads precede queue integration.
 Implement approved visuals when T17 is dependency-ready. Remaining human gates:
 UK/new context, remaining gold/H custody and final concrete submission.
 Next prompt: Continue prompts/01-codex-kickoff.md from STATE and private run policy;

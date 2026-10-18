@@ -84,7 +84,9 @@ before the final failure-boundary correction, then 83 targeted checks on the
 corrected source. A separate clock/size/purity review passed all 57 primary cases
 and 37 private probes on that same source. Both independently verified the two
 corrections with controls that restore the failures. Full local locked bootstrap,
-Ruff, 1233 unit and 50 Chrome checks PASS. Exact-head hosted checks are pending.
+Ruff, 1233 unit and 50 Chrome checks PASS. Hosted checkpoint `f93762b`,
+[run 39110509339](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39110509339),
+passed locked bootstrap/Ruff, 1233 unit and 50 Chromium checks. Remote head verified.
 
 No persisted feedback/candidate, reserved evaluation attempt, lease transaction,
 activation/rollback write, changed future recapture, HTTP route or UI integration

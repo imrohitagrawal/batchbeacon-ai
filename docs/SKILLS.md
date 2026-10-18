@@ -113,3 +113,16 @@ repeat interview or new palette was introduced. PRODUCT.md now reflects the
 approved current treatment; prior design history remains in the evidence archive.
 The sidecar includes nine scoped component examples; synthetic tonal ramps are
 documentation previews only. No new engine/network/hook invocation occurred.
+
+## Prescribed presentation preparation
+
+The installed first-party Presentations skill 26.1011.11113 was discovered and
+loaded for T27, including template-following and local implementation guidance.
+Its writing, evidence and template-preservation guidance was applied to source
+inspection and the slide copy plan. No installation, authoring helper or finalizer
+ran. The required bundled runtime loader is unavailable, no connected document
+session was found, and the artifact library is not locally resolvable. Original
+template renders used native PDFKit for read-only inspection. Exact loaded hashes,
+capability limits and next authoring prerequisites are in
+[M4-template-preparation.md](evidence/M4-template-preparation.md). This is separate
+from the unchanged approved Impeccable/Emil UI treatment.

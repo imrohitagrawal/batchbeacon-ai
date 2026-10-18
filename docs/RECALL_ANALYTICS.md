@@ -40,3 +40,13 @@ Source-linked company/customer notices directly support the existing evidence
 workflow and are being corrected separately. They retain their exact parent
 version, accessible external-PDF label and observed-link provenance. Link presence
 does not imply review of attachment contents or permission to reproduce them.
+
+Later technical [attachment inspection](evidence/M1-attachment-inspection.md)
+found company wording that differs from the parent authority page, including a
+lot reference and a different date type. Preserve issuer, document role, exact
+version and human-review status on every proposed filter value. Authority-only
+symptom filters cannot silently acquire extra company-described symptoms. A
+broader source filter would need to label the issuer explicitly. Conflicting
+scope remains review-only, and neither another attachment nor another notice
+version creates another recall event. These are acceptance refinements, not an
+implemented analytics feature or a resolved UK source interpretation.
