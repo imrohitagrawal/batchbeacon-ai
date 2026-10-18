@@ -61,3 +61,7 @@ button:disabled { cursor: not-allowed; }
 .single-source { flex: 1 1 240px; margin: 0; padding: 12px; background: var(--evidence-surface); border-radius: 8px; font-size: .875rem; line-height: 1.5; overflow-wrap: anywhere; }
 
 .source-explainer { flex: 1 1 240px; min-width: 0; }
+
+.product-vision { margin-top: 16px; font-size: .875rem; }
+.product-vision summary { padding: 12px 0; min-height: 44px; color: var(--brand-navy); font-weight: 600; cursor: pointer; }
+.product-vision p { margin: 12px 0; line-height: 1.6; }
