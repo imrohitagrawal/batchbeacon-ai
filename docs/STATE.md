@@ -37,7 +37,7 @@ T04a PASS: owner confirmed SFA A/B positives, third-identity D07 negative,
 three actual hashed synthetic labels and limited factual reuse. See sfa-reviewed.json.
 T04b PARTIAL: actual UK original/update browser captures; human/rights review pending.
 T05a/b PASS for reviewed SFA slice: immutable contracts, pure verifier and independent
-correction verification. See M1-domain.md. No persistent action/retail backend yet.
+correction verification. See M1-domain.md. Real-service action/retail sign-off pending.
 T33 PASS local contracts: immutable records, allowlisted wording, policy admission
 and 54 focused tests. Four reproduced gaps corrected and independently verified.
 See M1-retail-learning-contracts.md; T34/T35 runtime/evaluator still outstanding.
@@ -50,32 +50,18 @@ alignment, enlarged-text/focus and captures independently verified. Earlier
 directions remain history. Native zoom/screen reader/real-device checks and T17
 running-UI integration remain separate; no runtime acceptance follows from U02.
 T07 hosted push/branch/PR-merge/merged-main checks PASS; see M1-hosted-ci.md.
-Earlier 7bf9518 hosted lock/Ruff +164 unit/+36 browser PASS.
-No enforced required-check rule or release freeze.
-UI audit b145ac6 hosted lock/Ruff +164 unit/+41 browser PASS; reviewed visuals
-are now owner-approved under U02, with no release freeze or runtime acceptance.
-No real model, persistence, action, isolation, paid-ledger or hosted product journey claim.
-T08 local preparation: strict probe policy and operator-only durable reservation
-boundary; lock/Ruff +164 unit PASS, including four installed-ADK/mock-HTTP cases.
-Installed-ADK continuation correction is covered by hosted 7bf9518.
-Bounded runner preparation has 104 focused checks including receipt/output/dispatch
-intent and byte-limit regressions, independently verified. Initial local lock/Ruff, 222 unit and 41 Chrome browser checks PASS. Hosted
-a319365 caught a timing-dependent test assumption; safe early expiry reproduced,
-three shared-deadline cases passed; hosted d5a043c exposed the same assumption
-in the separate phase test. Entire timeout family independently verified under
-slow setup. Normal skip test now awaits completed navigation; rapid-path test stays.
-Final combined local lock/Ruff, 224 unit and 41 Chrome PASS. Independent timing
-and normal/rapid keyboard corrections PASS. Hosted eee8e26 / run 39079297482
-passed locked bootstrap, lock/Ruff, 224 unit and 41 Chromium browser checks.
-See M1-model-probe-runner.md. No paid/runtime claim follows.
-T09 LOCAL/PARTIAL: server guest/upload adapters and isolated HTTP test factory;
-default app unchanged. 60 focused tests; three reproduced defects corrected and
-independently verified. Full local lock/Ruff, 284 unit and 41 Chrome tests PASS.
-See M2-session-upload.md. Shared paid admission, observation/correction persistence,
-actual Firestore/Storage and deployed isolation still pending. Hosted aeffa42 /
-run 39080094592 PASS: locked bootstrap, lock/Ruff, 284 unit and 41 Chromium tests.
-No actual paid allocation initialized; complete runtime admission remains closed.
-See G0X-cloud-preflight.md for scoped independent review and remaining cases.
+No enforced required-check rule or release freeze. UI audit hosted b145ac6 PASS;
+its owner approval does not establish runtime behavior.
+T08 LOCAL/PREPARATION: strict operator-only probe/reservation boundary and actual
+installed-ADK/mock-HTTP tests; independent receipt/output/deadline corrections PASS.
+Hosted eee8e26 / run 39079297482 passed locked bootstrap/Ruff, 224 unit and 41
+Chromium checks. Earlier timing failures and corrections remain documented in
+M1-model-probe-runner.md. No paid model or real-runtime claim follows.
+T09 LOCAL/PARTIAL: guest/upload and injected HTTP boundary; 60 focused cases and
+three independently verified corrections. Hosted aeffa42 / run 39080094592 PASS:
+284 unit / 41 Chromium. See M2-session-upload.md and later adapter evidence below.
+Default app unchanged; no actual paid allocation. G0X-cloud-preflight.md records
+remaining real-service, identity, cost and public-admission gates.
 
 Recall-context correction: cited reasons and detailed notice context now appear in
 the refined workbench/queue. Prior raw sources retained these facts; earlier reports
@@ -98,22 +84,16 @@ No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested
 
 ## Next ready queue
 T06 approved/documented; T09 guest/upload and recall-context checkpoints hosted PASS.
-Shared admission protocol independently reviewed (36 focused cases), full local
-325 unit / 48 browser PASS; see M2-shared-admission.md. Hosted 529f911 / run
-39082084124 PASS with the same unit/browser counts and locked bootstrap/Ruff.
-Owned observation/extraction/correction history independently reviewed: two
-reproduced defects corrected and independently verified, 50 focused tests PASS.
-Full local 375 unit / 48 Chrome PASS; hosted 7ba96be / run 39082896892 PASS
-with locked bootstrap/Ruff and the same unit/Chromium counts. See M2-observation-history.md.
-T11 isolated action protocol independently reviewed: 40 focused cases, two
-reproduced contract corrections verified; 415 full unit / 48 Chrome PASS.
-Hosted 241f94c / run 39083525128 PASS with locked bootstrap/Ruff and the same
-unit/Chromium counts; see M2-simulated-actions.md. No real actions/database.
-T12 LOCAL/PARTIAL owned HTTP boundary independently reviewed: 62 API cases and
-the 60 existing guest cases PASS. Two reproduced response defects corrected and
-independently verified. Full local lock/Ruff, 477 unit and 48 Chrome PASS; hosted
-314ef06 / run 39084510141 passed locked bootstrap/Ruff and the same unit/Chromium
-counts. See M2-local-journey.md. Default app/prototype unchanged.
+Shared admission independently reviewed: 36 focused; hosted 529f911 / run
+39082084124 PASS, 325 unit / 48 Chromium. See M2-shared-admission.md.
+Owned observation/correction history: 50 focused and two independently verified
+corrections; hosted 7ba96be / run 39082896892 PASS, 375 unit / 48 Chromium.
+See M2-observation-history.md. T11 isolated action protocol: 40 focused and two
+verified corrections; hosted 241f94c / run 39083525128 PASS, 415 unit / 48 Chromium.
+See M2-simulated-actions.md; no real actions/database.
+T12 LOCAL/PARTIAL owned HTTP boundary: 62 API + 60 guest cases, two independently
+verified response corrections. Hosted 314ef06 / run 39084510141 PASS, 477 unit /
+48 Chromium with bootstrap/Ruff. See M2-local-journey.md; default app unchanged.
 Unified Firestore SDK adapter now atomically provisions guest/usage and incident/
 usage/evidence/actions; missing state is never silently initialized. Independent
 42 offline SDK tests and four local emulator tests PASS; full local lock/Ruff,
@@ -125,10 +105,16 @@ provider/rate-limit integration and connected UI remain; real-service sign-off
 still waits for T08. Private Storage SDK adapter now preserves exact sanitized
 bytes and immutable retention receipts with bounded create-only reconciliation.
 60 focused tests PASS; two reproduced contract corrections independently verified.
-Full local lock/Ruff, 579 unit and 48 Chrome PASS; hosted checkpoint pending.
+Full local lock/Ruff, 579 unit and 48 Chrome PASS; hosted 0a05b26 / run
+39087658395 passed locked bootstrap/Ruff and the same unit/Chromium counts.
 See M2-private-storage.md for dedicated-client configuration, pinned SDK coupling
 and HTTP cancellation limits. No actual bucket/lifecycle/runtime claim.
-Next: bounded ADK-to-evidence integration preparation under T10.
+T10 pure proposal translation prepared: strict untrusted schema, complete source
+comparison, bound locations and immutable report preserve disagreements. Known
+raw/value and exception-sanitization contract corrections independently verified.
+80 focused tests PASS; full local lock/Ruff, 659 unit and 48 Chrome PASS.
+See M2-extraction-proposals.md; no ADK execution/publication claim. Hosted pending.
+Next: bounded ADK-to-evidence integration against the reviewed proposal contract.
 UK v3/new source-context human review is pending.
 Actual service sign-off still waits for T08. Continue bounded T08 capacity/service
 discovery and T04b source review preparation alongside independent local work. Complete billing bounds remain unsubstantiated;

@@ -48,7 +48,10 @@ object/metadata revisions, ownership, expiry and stricter retention configuratio
 No remaining reproduced blocker was found in this bounded local slice.
 
 Full locked local checks passed: **579 unit and 48 Chrome browser tests**, plus
-lock validation and Ruff. Hosted verification of this checkpoint is pending.
+lock validation and Ruff. [Hosted run 39087658395](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39087658395)
+passed at `0a05b264c69785cc59e2454d6230c14f517cca8a`: locked wheel bootstrap,
+browser installation, lock/Ruff, **579 unit and 48 Chromium browser tests**.
+The exact checkout and complete logs were inspected; remote main was verified.
 Acceptance, failed and passing outputs, hashes and review receipts remain in
 ignored local evidence. No actual Storage server was used in these checks.
 
