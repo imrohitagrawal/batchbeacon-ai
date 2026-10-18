@@ -46,6 +46,9 @@ def learning(setup, env):
                 valid_until=now + timedelta(seconds=p.read.capability_validity_seconds),
             )
 
+        from batchbeacon.retail_projection import RetailProjector, RetailReadPolicy
+
+        stores.enable_retail(RetailProjector(actions, shared.policy, RetailReadPolicy()))
         stores.enable_learning(actions.evidence, shared.policy, evaluator, capability=capacity)
 
     c = build_reviewed(setup, env, (0,), configure=configure)
@@ -148,6 +151,7 @@ def test_actual_failed_evaluation_preserved_and_changed_base_denies_activation(
     failed = s.evaluate(token, "interrupted", proposal.id)
     assert failed.status == EvaluationStatus.FAILED and failed.failure == "WORKER_INTERRUPTED"
     monkeypatch.setattr(s.evaluator, "run", original)
+    c[3][5][0] += timedelta(seconds=s.policy.evaluation_interval_seconds)
     passed = s.evaluate(token, "explicit-new-attempt", proposal.id)
     confirm = ActivationConfirmation(
         basis=s.prepare_activation(token, passed.id), explicit_confirmation=True
@@ -199,8 +203,68 @@ def test_receipts_reserve_rollback_and_attempt_numbers_never_reset(learning, mon
 
     monkeypatch.setattr(s.evaluator, "run", interrupted)
     for number in range(1, 5):
+        c[3][5][0] += timedelta(seconds=s.policy.evaluation_interval_seconds)
         result = s.evaluate(c[2], f"attempt-{number}", proposal.id)
         assert result.attempt_number == number and result.status == EvaluationStatus.FAILED
     with pytest.raises(GuestDenied):
         s.evaluate(c[2], "attempt-5", proposal.id)
     assert [e.attempt_number for e in s.read(c[2]).evaluations] == [1, 2, 3, 4]
+
+
+def test_durable_refresh_and_mutation_throttles_preserve_same_key_recovery(learning):
+    from batchbeacon.learning_service import LearningService
+
+    c, s = learning
+    token = c[2]
+    state = s.refresh(token, "refresh-1")
+    cold = LearningService(
+        s.store, s.evidence, s.shared_policy, s.evaluator, s.policy, capability=s.capability
+    )
+    assert cold.read(token) == state
+    for key, code in [("refresh-1", "already_admitted"), ("refresh-2", "rate_limited")]:
+        with pytest.raises(GuestDenied, match=code):
+            cold.refresh(token, key)
+    request, feedback, proposal = candidate(learning)
+    assert (
+        cold.feedback(token, c[1].incident_id, "feedback", feedback.detail, request.id) == feedback
+    )
+    with pytest.raises(GuestDenied, match="mutation_rate_limited"):
+        cold.feedback(token, c[1].incident_id, "too-fast", feedback.detail, request.id)
+    attempt = s.evaluate(token, "evaluate", proposal.id)
+    assert cold.evaluate(token, "evaluate", proposal.id) == attempt
+    with pytest.raises(GuestDenied, match="mutation_rate_limited"):
+        cold.evaluate(token, "new-too-fast", proposal.id)
+    c[3][5][0] += timedelta(
+        seconds=max(
+            s.policy.refresh_interval_seconds,
+            s.policy.evaluation_interval_seconds,
+            s.policy.feedback_interval_seconds,
+        )
+    )
+    assert len(cold.refresh(token, "refresh-2").refresh_keys) == 2
+    assert cold.evaluate(token, "new-after-interval", proposal.id).attempt_number == 2
+    assert (
+        cold.feedback(
+            token, c[1].incident_id, "feedback-after-interval", feedback.detail, request.id
+        ).id
+        != feedback.id
+    )
+    assert len(c[4]) == 2
+
+
+def test_learning_rate_configuration_requires_finite_positive_values_and_capacity():
+    from pydantic import ValidationError
+
+    from batchbeacon.learning_service import LearningPolicy
+    from batchbeacon.retail_contracts import RetailPolicy
+
+    for field in (
+        "refresh_interval_seconds",
+        "feedback_interval_seconds",
+        "evaluation_interval_seconds",
+    ):
+        for value in (0.0, -1.0, float("inf"), float("nan"), "2"):
+            with pytest.raises(ValidationError):
+                LearningPolicy(**{field: value})
+    with pytest.raises(ValueError, match="base capacity"):
+        LearningPolicy(max_refreshes=1000).validate_capacity(RetailPolicy())

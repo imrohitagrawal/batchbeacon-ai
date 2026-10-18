@@ -39,7 +39,8 @@ T01 / G0-L PASS. T02 finite continuation and read-only recovery previously passe
 T03a and T05a/b reviewed SFA contracts/verifier PASS; T03b denominator proposed,
 full human gold audit and H custody PENDING. See M1-domain.md and source evidence.
 T04a owner-confirmed SFA A/B positives and synthetic D07 negative PASS.
-T04b UK original/update captured; UK/new recall-context human review pending.
+T04b UK original/update captured; U17 approves separate-source disclosure and
+review-only matching. UK interpretation and remaining new context review stay open.
 T33 local retail/learning contracts PASS: 54 focused cases, four verified fixes;
 T34 pure queue projection/classification independently reviewed; local and hosted
 1176 unit / 50 browser PASS at b0608b9 / run 39108734769. M2-retail-projection.md.
@@ -52,8 +53,8 @@ T35 pure evaluator executes six cases/nine variants under both wording policies;
 57 focused cases, both independent correction reviews and full local1233/50 PASS.
 Hosted f93762b / run 39110509339 PASS (1233/50); M2-learning-evaluator.md.
 T35 owned aggregate/numbered attempts/activation/rollback and HTTP loop pass local
-independent integration. M2-owned-guidance-core.md. Durable throttling, full browser
-F6 and deployed acceptance remain open.
+independent integration. Durable throttling, local browser F6 and lost-response
+recovery now pass; M2-owned-guidance-core.md. Deployed acceptance remains open.
 T06 / U02 approved: Evidence in focus desktop/phone workbench, queue and guidance.
 DESIGN preserves blue/coral/gold, peach selection, pale-blue controls, lavender
 proposals and mint completed states. M1-usability-audit.md records 41 browser cases
@@ -66,7 +67,7 @@ receipt/output/deadline corrections. M1-model-probe-runner.md retains failures.
 First real ADK/Gemini development extraction returned HTTP200/STOP. A provider
 metadata compatibility correction passed independent replay; the same attempt
 reconciled at conservative tax-inclusive INR5.256708708. M2-real-adk-smoke.md.
-No full real-model product journey, deployment or public admission is claimed.
+One actual SFA coordinator journey now passes; deployment/public admission remain open.
 T09 guest/upload, shared admission, owned evidence, Firestore SDK and private
 Storage adapters locally reviewed. Their successive exact-head hosted checks PASS.
 See M2-session-upload.md, M2-shared-admission.md, M2-observation-history.md,
@@ -103,7 +104,7 @@ protection, bucket uniform access/PAP, one-day live deletion target and seven-da
 soft retention. No public IAM member. Bounded real-data SDK acceptance passed eight scenarios; see M2-real-data-services.md;
 no automatic Firestore TTL/physical-deletion claim. No Run deployment exists.
 Existing API/configuration evidence and earlier empty inventories remain historical.
-Five real model attempts reconciled; owner-attested zero prior history admitted the
+Six real model attempts reconciled; owner-attested zero prior history admitted the
 opening allocation. Current liabilities and receipts remain private. No free-tier
 or promotional-credit assumption, budget increase or public paid endpoint.
 Public GitHub repository created and pushed; README PR #1 merged after hosted PASS.
@@ -137,22 +138,32 @@ Local 790 unit / 50 Chrome and hosted 0702e3d / run 39103064027 PASS.
 Source/human review stays separate, including the new link-only addendum.
 Private inspection of both linked company PDFs found a lot/date scope difference
 from the FSA parent; the review packet now includes it. M1-attachment-inspection.md.
-No UK predicate promotion or extra recall event is inferred. Human review stays open.
+No UK predicate promotion or extra recall event is inferred. Owner U17 approved that conservative disposition; interpretation stays open.
 T27 official template downloaded and all16 pages inspected; copy plan prepared.
 M4-template-preparation.md records the unavailable authoring runtime; no final deck.
 T28/T29 early storyboard, judge guide and form copy are drafts, not delivery proof.
 T34 durable projection/HTTP hosted checkpoint passed. T17 local connected workbench
 and provider compatibility corrections pass local1292 unit/63 Chrome; independent
 review passed. Hosted54773ff/run39116051219 PASS:1292 unit/63 Chromium.
-Source-agreement correction/actual-source loader independently reviewed. First
-real coordinator calls safely rejected source formatting, HTML quote and provider
-schema nonconformance. The bounded retry series stopped; no full journey PASS.
-Current integrated local1307 unit/63 Chrome PASS; hosted latest changes pending. See M2-real-coordinator.md; no full journey PASS.
+Source-agreement correction/actual-source loader independently reviewed. Failed
+source/schema experiments remain preserved. The separately admitted structural
+schema correction passed one actual Gemini/ADK→verification→persisted simulated
+hold→owned queue journey; retained real-data desktop/phone UI also passed.
+M2-real-coordinator.md separates harness confirmation from missing fresh-browser/
+deployed acceptance. Six model attempts reconciled; last paid phase closed.
+Hosted03686e9/run39119665003 PASS. Later full local1310 unit/65 Chrome PASS;
+production factory adds five focused checks, independently verified. A later
+stale-guidance UI correction passes eight focused browser checks.
 Owner-requested PDF/product-image extraction is deferred as ATT-01 in ROADMAP.
-Next: structural extraction-schema correction, T35 throttling/browser acceptance,
-and remaining context/allowance UI, private runtime/operations and packaging.
+Next: private image build/deployment and connected runtime acceptance, remaining
+context/allowance UI, live-source timing verification and Operations.
+No Cloud Run service exists. Three provider budgets are created/read back; both
+service caps report CONFIGURED. M2-production-composition.md records the reviewed
+factory/build-context candidate. Dedicated identities, private image repository
+and private build-source bucket now exist; twenty scoped mutations were read back.
+Actual image/attached-runtime/deployment acceptance is open.
 Remaining human gates:
-UK/new context, remaining gold/H custody and final concrete submission.
+UK scope interpretation/new context, remaining gold/H custody and final concrete submission.
 Next prompt: Read prompts/resume.md, reconcile actual state and the private finite
 policy, then continue real service/coordinator integration and T35 guidance within authority.
 Do not restart kickoff, extend freeze/reserve, or create a concurrent executor.

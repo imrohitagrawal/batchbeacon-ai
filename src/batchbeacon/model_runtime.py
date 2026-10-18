@@ -55,6 +55,9 @@ PROMPT = (
     'Do not substitute rendered HTML text for the original source quote. '
     'Source product name and pack values are semantic text with HTML entities decoded; '
     'only their supporting quote locations preserve literal HTML escapes. '
+    'Label values contain raw, state, value and locations only; do not add value_type. '
+    'Label types are fixed by the server: name, pack, identifiers and lot are text, '
+    'and best_before and use_by are dates even when unknown. '
     'For each source predicate distinguish an explicit ALL restriction, NOT_SPECIFIED, '
     'and UNKNOWN; '
     'never infer unrestricted scope from an unreadable or ambiguous statement. '
@@ -117,7 +120,7 @@ class ExtractionConfig(Record):
     genai_version: Nonempty
     agent_name: Annotated[str, Field(pattern=r'^[A-Za-z_][A-Za-z_0-9]*$')] = 'batchbeacon_extract'
     instruction: Nonempty = PROMPT
-    prompt_version: Nonempty = 'source-label-proposal-4'
+    prompt_version: Nonempty = 'source-label-proposal-5'
     schema_hash: Digest = Field(default_factory=lambda: digest(
         ExtractionProposal.model_json_schema()))
     preparation: PreparationPolicy = PreparationPolicy()

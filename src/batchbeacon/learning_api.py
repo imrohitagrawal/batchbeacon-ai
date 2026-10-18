@@ -96,13 +96,7 @@ def mount_learning_api(app, service, policy):
         guest._live(session, guest._key(token))
         return public_record(record)
 
-    @app.get("/api/learning")
-    async def read(request: Request):
-        _queries(request, set())
-        await _no_body(request, policy)
-        token, session, _ = await run_in_threadpool(owned, request)
-        state = await run_in_threadpool(service.read, token)
-        guest._live(session, guest._key(token))
+    def snapshot(state):
         return {
             "active": state.active.model_dump(mode="json"),
             "observed_at": guest._now().isoformat(),
@@ -119,6 +113,27 @@ def mount_learning_api(app, service, policy):
             },
         }
 
+    def mutation_response(record, token, session):
+        result = response(record, token, session)
+        result["learning_state"] = snapshot(service.read(token))
+        guest._live(session, guest._key(token))
+        return result
+
+    @app.get("/api/learning")
+    async def read(request: Request):
+        _queries(request, set())
+        await _no_body(request, policy)
+        token, session, _ = await run_in_threadpool(owned, request)
+        try:
+            if len(request.headers.getlist("idempotency-key")) != 1:
+                raise ValueError("one refresh key required")
+            key = TypeAdapter(RequestKey).validate_python(request.headers["idempotency-key"])
+        except (ValueError, ValidationError):
+            raise GuestDenied(422, "request_key_required") from None
+        state = await run_in_threadpool(service.refresh, token, key)
+        guest._live(session, guest._key(token))
+        return snapshot(state)
+
     @app.post("/api/incidents/{incident_id}/guidance")
     async def guidance(incident_id: str, request: Request):
         identifier(incident_id)
@@ -126,7 +141,7 @@ def mount_learning_api(app, service, policy):
         await _no_body(request, policy)
         token, session, key = await run_in_threadpool(owned, request, True)
         result = await run_in_threadpool(service.guidance, token, incident_id, key)
-        return response(result, token, session)
+        return await run_in_threadpool(mutation_response, result, token, session)
 
     @app.post("/api/incidents/{incident_id}/feedback")
     async def feedback(incident_id: str, request: Request):
@@ -137,7 +152,7 @@ def mount_learning_api(app, service, policy):
         result = await run_in_threadpool(
             service.feedback, token, incident_id, key, command.detail, command.request_id
         )
-        return response(result, token, session)
+        return await run_in_threadpool(mutation_response, result, token, session)
 
     @app.post("/api/learning/candidates")
     async def candidate(request: Request):
@@ -145,7 +160,7 @@ def mount_learning_api(app, service, policy):
         token, session, key = await run_in_threadpool(owned, request, True)
         command = await _command(request, CandidateCommand, policy)
         result = await run_in_threadpool(service.candidate, token, key, command.feedback_ids)
-        return response(result, token, session)
+        return await run_in_threadpool(mutation_response, result, token, session)
 
     @app.post("/api/learning/candidates/{candidate_id}/evaluations")
     async def evaluate(candidate_id: str, request: Request):
@@ -154,7 +169,7 @@ def mount_learning_api(app, service, policy):
         await _no_body(request, policy)
         token, session, key = await run_in_threadpool(owned, request, True)
         result = await run_in_threadpool(service.evaluate, token, key, candidate_id)
-        return response(result, token, session)
+        return await run_in_threadpool(mutation_response, result, token, session)
 
     @app.get("/api/learning/activation/prepare")
     async def prepare_activation(request: Request):
@@ -171,7 +186,7 @@ def mount_learning_api(app, service, policy):
         token, session, key = await run_in_threadpool(owned, request, True)
         command = await _command(request, ActivationConfirmation, policy)
         result = await run_in_threadpool(service.activate, token, key, command)
-        return response(result, token, session)
+        return await run_in_threadpool(mutation_response, result, token, session)
 
     @app.get("/api/learning/rollback/prepare")
     async def prepare_rollback(request: Request):
@@ -187,4 +202,4 @@ def mount_learning_api(app, service, policy):
         token, session, key = await run_in_threadpool(owned, request, True)
         command = await _command(request, RollbackConfirmation, policy)
         result = await run_in_threadpool(service.rollback, token, key, command)
-        return response(result, token, session)
+        return await run_in_threadpool(mutation_response, result, token, session)

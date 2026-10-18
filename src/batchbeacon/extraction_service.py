@@ -125,7 +125,7 @@ class ExtractionService:
                      else 'COMPLETE')
         elif run.completion_hash:
             state = 'STALE'
-        elif run.terminal == 'timed_out' or self.shared._now() >= run.deadline:
+        elif run.terminal == 'timed_out':
             state = 'TIMED_OUT'
         elif run.terminal == 'failed' or (saved and saved.envelope.validation == 'INVALID'):
             state = 'FAILED'
@@ -139,6 +139,8 @@ class ExtractionService:
             if diagnostics in {('IDENTITY_EVIDENCE_DISAGREEMENT',),
                                ('IDENTITY_INPUT_UNAVAILABLE',)}:
                 state = 'REVIEW_REQUIRED'
+        elif self.shared._now() >= run.deadline:
+            state = 'TIMED_OUT'
         else:
             state = 'INCOMPLETE'  # Status never asserts that an executor is still running.
         return AcquisitionStatus(run_id=run.id, incident_id=run.incident_id, state=state,

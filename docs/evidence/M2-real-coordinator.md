@@ -61,3 +61,43 @@ Five total paid model attempts reconcile to conservative INR33.133745167 with no
 unknown reservation. The prompt/schema retry series stopped and the latest paid
 phase was closed to its incurred liability. A structural proposal-schema correction
 is under offline investigation; no additional call or successful journey is implied.
+
+
+The separately admitted structural experiment passed. Proposal translation v2
+makes fixed label-field types server-owned, eliminating redundant model-selected
+type metadata. Prompt 5 uses this schema. Source predicate types, exact raw-value
+checks, date ambiguity, evidence locations and reviewed-source comparison remain
+strict. Original failed responses remain invalid and unchanged. Independent
+review passed 34 schema/replay assertions and five owned integration probes.
+
+The sixth actual model attempt produced a complete current historical-SFA result,
+MATCHED_HOLD_FOR_REVIEW, with one persisted simulated hold, one current owned
+retail row and same-key recovery without another dispatch. The actual ADK/Vertex
+response, sanitized input image, source bytes, request hash, typed result and action
+were retained. Independent replay/accounting passed. This attempt cost a
+conservative tax-inclusive INR6.408461401; cumulative six attempts
+INR39.542206568, with no outstanding model reservation. Its paid phase is closed.
+End-to-end acquisition/status elapsed 20.90 seconds for this one sample; this
+is not a latency percentile or a model-quality evaluation denominator.
+
+The actual retained Firestore/Storage journey also passed local Chrome desktop
+and phone inspection: image bytes rendered, comparisons and existing action
+survived reload, the current queue reopened the incident, and a request without
+the owning cookie received 401. Complete model ledger equality before/after
+inspection establishes no additional model call. The original session capability
+was restored privately. The simulated action was confirmed by the controlled
+primary harness, not a human browser gesture. No fresh-browser inference,
+Cloud Run deployment, public judge access or release acceptance is implied.
+A browser-harness CSP string-evaluation failure was retained and corrected by
+using a function predicate; application CSP was not weakened.
+
+Real inspection also reproduced a status defect: a completed failed acquisition
+was shown as timed out once its original deadline elapsed. Recorded terminal
+failure now takes precedence over elapsed time. Independent six-case status
+checks and a Chrome reload verified preserved failure reasons, genuine timeouts,
+failed extraction history, disabled confirmation and no fabricated result/action.
+
+Private evidence: `.local/run-records/new-primary/coordinator-prompt5/`,
+`retained-structural-ui/`, `retained-structural-ui-browser-2/`, and independent
+`new-primary-recovery-review/prompt5-reconciliation-review.json` and
+`new-source-agreement-review/failure-status-result.md`.

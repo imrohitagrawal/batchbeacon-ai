@@ -24,13 +24,21 @@ New-key aliases retain their content binding, consume a bounded alias allowance,
 and cannot consume the reserved distinct-operation/rollback receipt slots.
 Eleven independent integrated probes passed; the complete HTTP loop also passed.
 
-Current full local checkpoint: 1,307 unit checks and 63 Chrome checks passed.
-Those existing browser checks do not establish the newly connected guidance
-controls' complete F6 journey. The six learning cases are not added to the core
-model-quality denominator. Local fixtures and injected capability observations
-are explicitly test evidence, not actual cloud availability or model success.
+Durable refresh admission now requires a fresh request key, enforces a minimum
+interval and retains a lifetime count. Feedback and evaluation throttling preserve
+same-key recovery. Four independently authored persistence/throttle probes passed.
+Mutation responses return the current owned snapshot without consuming manual
+refresh allowance. Private admission counters are absent from the public response.
 
-Remaining T35 gates: durable HTTP refresh/mutation throttling, running guidance
-browser flow and recovery, actual deployed Firestore races, capacity observation
-integration and public/security acceptance. These gates are open; P0-13 and T17
-are not complete. The production preparation entry point still stays closed.
+The running local browser completes feedback, fixed evaluation, confirmed V2
+activation, changed capture wording, confirmed rollback and reload. Lost-response
+recovery reuses the original request key. A reproduced stale-guidance display
+defect now marks old advice historical and restores current capture instructions;
+eight focused browser checks passed, including its independent regression.
+The preceding full local suite passed 1,310 unit and 65 Chrome checks.
+
+The six learning cases are not added to the core model-quality denominator.
+Local fixtures and injected capability observations are test evidence, not actual
+cloud availability or model success. Actual deployed Firestore races, live-source
+transaction timing, capacity observation integration and public/security acceptance
+remain separate gates; P0-13 and T17 are not complete.

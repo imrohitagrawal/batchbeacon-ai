@@ -477,3 +477,16 @@ def test_source_support_change_invalidates_status_and_action_without_epoch_chang
     with pytest.raises(GuestDenied, match='current_result_required'):
         c[3][4].prepare(c[2], c[1].incident_id, ActionType.SIMULATED_HOLD)
     assert len(c[4]) == 2
+
+
+def test_terminal_failure_keeps_reason_after_original_run_deadline(coordinator):
+    from datetime import timedelta
+
+    c = coordinator
+    c[5][0]["source"]["products"].pop()
+    before = acquire(c)
+    assert before.state == "FAILED" and before.diagnostics == ("SOURCE_DISAGREEMENT",)
+    run = c[0].shared.inspect_run(c[6].capability_hash, before.run_id)
+    c[3][5][0] = run.deadline + timedelta(seconds=1)
+    assert c[0].status(c[2], before.run_id) == before
+    assert len(c[4]) == 2

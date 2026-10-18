@@ -37,7 +37,7 @@ from batchbeacon.evidence_service import ExtractedIdentity, ExtractedValues
 Positive = Annotated[int, Field(gt=0)]
 Index = Annotated[int, Field(ge=0)]
 Coordinate = Annotated[float, Field(ge=0, le=1, allow_inf_nan=False)]
-TRANSLATOR_VERSION = "proposal-translation-1"
+TRANSLATOR_VERSION = "proposal-translation-2"
 
 
 class ProposalPolicy(Record):
@@ -82,31 +82,22 @@ class CaptureLocation(Record):
 class ProposedValue(Record):
     raw: str
     state: ValueState
-    value_type: ValueType
     value: str | None
     locations: tuple[CaptureLocation, ...]
 
 
-class ProposedTextValue(ProposedValue):
-    value_type: Literal[ValueType.TEXT]
-
-
-class ProposedDateValue(ProposedValue):
-    value_type: Literal[ValueType.DATE]
-
-
 class ProposedCode(Record):
     kind: Literal[IdentifierKind.PRODUCT_CODE, IdentifierKind.GTIN]
-    observation: ProposedTextValue
+    observation: ProposedValue
 
 
 class LabelProposal(Record):
-    name: ProposedTextValue
-    pack: ProposedTextValue
+    name: ProposedValue
+    pack: ProposedValue
     identifiers: tuple[ProposedCode, ...]
-    lot: ProposedTextValue
-    best_before: ProposedDateValue
-    use_by: ProposedDateValue
+    lot: ProposedValue
+    best_before: ProposedValue
+    use_by: ProposedValue
 
 
 class SourceCode(Record):
@@ -148,7 +139,7 @@ class ExtractionProposal(Record):
 
 class TranslationReport(Record):
     """Not a publish command. Consumers must retain and enforce the disposition."""
-    translator_version: Literal["proposal-translation-1"] = TRANSLATOR_VERSION
+    translator_version: Literal["proposal-translation-2"] = TRANSLATOR_VERSION
     source_status: Literal["AGREES_WITH_REVIEW", "DISAGREES", "REVIEW_MISSING"]
     diagnostics: tuple[Nonempty, ...]
     proposal: ExtractionProposal
@@ -228,8 +219,7 @@ def _date_value(raw):
 
 
 def _label_value(value, expected, captures):
-    if value.value_type != expected:
-        raise ProposalInvalid("label_value_type_mismatch")
+    # Label field types are fixed protocol semantics, never an AI-selected value.
     refs = []
     for location in value.locations:
         if location.panel >= len(captures):
@@ -238,7 +228,7 @@ def _label_value(value, expected, captures):
         box = ",".join(format(x, ".17g") for x in location.box)
         refs.append(EvidenceRef(kind=EvidenceKind.CAPTURE, artifact_id=ref.artifact_id,
                                sha256=ref.sha256, locator=f"normalized_box:{box}"))
-    translated = ObservedValue(raw=value.raw, state=value.state, value_type=value.value_type,
+    translated = ObservedValue(raw=value.raw, state=value.state, value_type=expected,
                               value=value.value, evidence=tuple(refs))
     if value.state == ValueState.KNOWN:
         expected_value = _date_value(value.raw) if expected == ValueType.DATE else value.raw

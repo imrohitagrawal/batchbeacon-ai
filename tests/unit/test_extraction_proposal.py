@@ -25,13 +25,13 @@ from tests.unit.domain_fixtures import notice, revise
 
 
 def known(value, *, kind="TEXT", panel=0):
-    return {"raw": value, "state": "KNOWN", "value_type": kind, "value": value,
+    return {"raw": value, "state": "KNOWN", "value": value,
             "locations": [{"panel": panel, "box": [0.1, 0.2, 0.8, 0.4]}]}
 
 
 def unknown(*, kind="DATE", ambiguous=False):
     return {"raw": "01/02/2026" if ambiguous else "", "state": "AMBIGUOUS" if ambiguous
-            else "UNKNOWN", "value_type": kind, "value": None, "locations": []}
+            else "UNKNOWN", "value": None, "locations": []}
 
 
 def location(value):
@@ -376,18 +376,17 @@ def test_closed_schema_and_product_order_independent_comparison():
                if d.get("type") == "object")
 
 
-def test_fixed_label_types_are_declared_in_model_schema_even_for_unknown_dates():
-    """The provider schema must describe the same fixed types the translator enforces."""
-    from pydantic import ValidationError
-
-    from batchbeacon.extraction_proposal import ExtractionProposal
+def test_label_type_is_server_owned_and_model_type_metadata_is_forbidden():
     schema = ExtractionProposal.model_json_schema()
-    fields = schema['$defs']['LabelProposal']['properties']
-    for field in ('name', 'pack', 'lot', 'best_before', 'use_by'):
-        definition = schema['$defs'][fields[field]['$ref'].split('/')[-1]]
-        expected = 'DATE' if field in ('best_before', 'use_by') else 'TEXT'
-        assert definition['properties']['value_type']['const'] == expected
-    proposal, *_ = rig()
-    proposal['label']['use_by'] = unknown(kind='TEXT')
+    assert 'value_type' not in schema['$defs']['ProposedValue']['properties']
+    assert schema['$defs']['ProposedValue']['additionalProperties'] is False
+    proposal, source, notice, captures = rig()
+    report = translate_proposal(json.dumps(proposal).encode(), source_bytes=source,
+        notice=notice, captures=captures, policy=ProposalPolicy())
+    assert report.translator_version == 'proposal-translation-2'
+    assert [(field.field.value, field.observation.value_type.value)
+        for field in report.label_values.fields] == [
+        ('LOT', 'TEXT'), ('BEST_BEFORE', 'DATE'), ('USE_BY', 'DATE')]
+    proposal['label']['use_by']['value_type'] = 'TEXT'
     with pytest.raises(ValidationError):
         ExtractionProposal.model_validate_json(json.dumps(proposal))

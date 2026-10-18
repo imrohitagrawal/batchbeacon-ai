@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from typing import Annotated, Literal
 from uuid import uuid4
 
-from pydantic import Field, TypeAdapter, model_validator
+from pydantic import AwareDatetime, Field, TypeAdapter, model_validator
 
 from batchbeacon.contracts import Digest, Record
 from batchbeacon.evidence_service import canonical
@@ -49,6 +49,7 @@ from batchbeacon.retail_contracts import (
 from batchbeacon.retail_projection import CapabilityObservation
 
 Positive = Annotated[int, Field(gt=0)]
+Seconds = Annotated[float, Field(gt=0, allow_inf_nan=False)]
 
 
 def changed(record, **updates):
@@ -71,8 +72,14 @@ class LearningPolicy(Record):
     receipt_bytes: Positive = 512
     base_bytes: Positive = 8192
     max_state_bytes: Positive = 720896
+    refresh_interval_seconds: Seconds = 2.0
+    max_refreshes: Positive = 40
+    feedback_interval_seconds: Seconds = 2.0
+    evaluation_interval_seconds: Seconds = 2.0
 
     def validate_capacity(self, retail):
+        if self.base_bytes < 4096 + self.max_refreshes * 68:
+            raise ValueError("base capacity must reserve refresh admission metadata")
         if self.max_receipts < (
             self.max_requests
             + retail.max_feedback
@@ -174,6 +181,8 @@ class LearningState(Record):
     evaluations: tuple[OwnedEvaluation, ...] = ()
     transitions: tuple[GuidanceTransition, ...] = ()
     receipts: tuple[Receipt, ...] = ()
+    refresh_keys: tuple[Digest, ...] = ()
+    next_refresh_at: AwareDatetime | None = None
 
 
 class ActivationConfirmation(Record):
@@ -242,6 +251,12 @@ class LearningService:
         ):
             raise denied("learning_state_unavailable", 503)
         p, r = self.policy, self.guest.policy.retail
+        if (
+            len(state.refresh_keys) > p.max_refreshes
+            or len(set(state.refresh_keys)) != len(state.refresh_keys)
+            or bool(state.refresh_keys) != (state.next_refresh_at is not None)
+        ):
+            raise denied("learning_state_unavailable", 503)
         groups = (
             (state.requests, p.max_requests, p.request_bytes),
             (state.feedback, r.max_feedback, r.record_bytes),
@@ -328,6 +343,32 @@ class LearningService:
 
     def read(self, capability):
         return self._operate(capability, lambda tx, k, g, u, s, n: (s, s))
+
+    def refresh(self, capability, request_key):
+        """One atomic, durable bounded snapshot; duplicate reads cannot overlap."""
+        TypeAdapter(RequestKey).validate_python(request_key)
+        digest = canonical(request_key)
+
+        def operation(tx, k, g, u, state, now):
+            if digest in state.refresh_keys:
+                raise denied("learning_refresh_already_admitted", 409)
+            if state.next_refresh_at and now < state.next_refresh_at:
+                raise denied("learning_refresh_rate_limited", 429)
+            if len(state.refresh_keys) >= self.policy.max_refreshes:
+                raise denied("learning_refresh_allowance_exhausted", 429)
+            updated = changed(
+                state,
+                refresh_keys=(*state.refresh_keys, digest),
+                next_refresh_at=now + timedelta(seconds=self.policy.refresh_interval_seconds),
+            )
+            return updated, updated
+
+        return self._operate(capability, operation)
+
+    @staticmethod
+    def _throttle(records, now, seconds):
+        if records and now < records[-1].created_at + timedelta(seconds=seconds):
+            raise denied("learning_mutation_rate_limited", 429)
 
     @staticmethod
     def _find(records, identifier):
@@ -455,6 +496,7 @@ class LearningService:
             prior = self._retry(state, key, "feedback", payload, state.feedback)
             if prior:
                 return state, prior
+            self._throttle(state.feedback, now, self.policy.feedback_interval_seconds)
             basis, evidence, _ = self._basis(tx, k, incident)
             category = {
                 FeedbackDetail.EXTRACTED_VALUE_DISPUTED: FeedbackCategory.EXTRACTION_DISPUTED,
@@ -574,6 +616,7 @@ class LearningService:
             prior = self._retry(state, key, "evaluation", payload, state.evaluations)
             if prior:
                 return state, prior
+            self._throttle(state.evaluations, now, self.policy.evaluation_interval_seconds)
             candidate = self._find(state.candidates, candidate_id)
             evidence = self._supports(tx, k, state, candidate)
             deadline = min(
