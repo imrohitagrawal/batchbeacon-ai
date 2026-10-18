@@ -132,13 +132,13 @@ class Balance(Record):
 
 
 class Phase(Record):
-    """Operator-selected PUBLIC/PROTECTED phase; ceiling is absolute, not a top-up.
+    """Operator-selected development/public/protected phase; absolute ceiling.
 
     A repeated activation cannot replenish the pool. A bounded protected phase
     must be explicitly supplied by the operator, with its review evidence.
     """
 
-    pool: Literal[Pool.PUBLIC, Pool.PROTECTED]
+    pool: Literal[Pool.DEVELOPMENT, Pool.PUBLIC, Pool.PROTECTED]
     max_pool_liability_nanos: PositiveMoney
     not_before: AwareDatetime
     expires_at: AwareDatetime

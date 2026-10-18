@@ -62,3 +62,11 @@ identifier type, lot and date type, geographic/version scope, risk certainty and
 conditional customer steps. Record differences with exact page locators. Preserve
 unknowns and per-document absence claims. Existing source-approval tests remain
 applicable; a technical attachment inspection cannot set reviewed source metadata.
+
+## Product-image scope
+
+The original PDF page 1 visibly includes two product-pack pictures. Retained page
+renders preserve these for technical review. No application workflow currently
+extracts the embedded pictures or uses them for identity matching. The owner
+requested explicit future-scope visibility; [ATT-01](../ROADMAP.md#att-01--customer-notice-pdfs-and-product-image-evidence)
+records the bounded future increment. Current public reuse remains link-only.

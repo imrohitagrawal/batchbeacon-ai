@@ -17,7 +17,9 @@ U09–U12 apply: bounded existing cloud project, INR 6,000 lifetime pools and ap
 GitHub publication. No extra purchase, privilege expansion or public paid endpoint.
 Owner approved dedicated repository initialization and the concrete SFA first slice.
 U02 / UI-SELECTED approved by owner; see M1-visual-approval.md and root DESIGN.
-Remaining human gates: UK/new recall context, remaining gold/H custody and final submission.
+U17 owner reviewed UK packet/PDF addendum and approved separate-source disclosure
+and review-only UK matching. UK match interpretation, remaining gold/H custody and
+final submission remain open.
 
 ## Workspace and capability
 Dedicated Git root, main branch; T33 contracts and current visual candidate independently reviewed.
@@ -49,7 +51,9 @@ M2-connected-workbench.md. Real persistence/full T17 remain pending.
 T35 pure evaluator executes six cases/nine variants under both wording policies;
 57 focused cases, both independent correction reviews and full local1233/50 PASS.
 Hosted f93762b / run 39110509339 PASS (1233/50); M2-learning-evaluator.md.
-T35 owned attempts/activation/runtime remain open.
+T35 owned aggregate/numbered attempts/activation/rollback and HTTP loop pass local
+independent integration. M2-owned-guidance-core.md. Durable throttling, full browser
+F6 and deployed acceptance remain open.
 T06 / U02 approved: Evidence in focus desktop/phone workbench, queue and guidance.
 DESIGN preserves blue/coral/gold, peach selection, pale-blue controls, lavender
 proposals and mint completed states. M1-usability-audit.md records 41 browser cases
@@ -59,7 +63,7 @@ T07 hosted push/branch/PR-merge/merged-main boundaries PASS; M1-hosted-ci.md.
 No enforced required-check rule or release freeze.
 T08 local operator probe and installed-ADK/mock-HTTP checks PASS with independent
 receipt/output/deadline corrections. M1-model-probe-runner.md retains failures.
-One real ADK/Gemini development extraction returned HTTP200/STOP. A provider
+First real ADK/Gemini development extraction returned HTTP200/STOP. A provider
 metadata compatibility correction passed independent replay; the same attempt
 reconciled at conservative tax-inclusive INR5.256708708. M2-real-adk-smoke.md.
 No full real-model product journey, deployment or public admission is claimed.
@@ -67,7 +71,7 @@ T09 guest/upload, shared admission, owned evidence, Firestore SDK and private
 Storage adapters locally reviewed. Their successive exact-head hosted checks PASS.
 See M2-session-upload.md, M2-shared-admission.md, M2-observation-history.md,
 M2-firestore-adapter.md and M2-private-storage.md. Four local emulator cases passed;
-the owned emulator stopped. Actual service and cross-instance sign-off remain.
+the owned emulator stopped. Actual data SDK acceptance now passed; deployed cross-instance sign-off remains.
 T11 local simulated-action protocol and T12 injected HTTP boundary independently
 reviewed and hosted PASS; M2-simulated-actions.md and M2-local-journey.md.
 Default preparation app remains separate. Injected local browser journey now
@@ -96,10 +100,10 @@ Project ID `batchbeacon-ai` ACTIVE, billing enabled; selected account matches ow
 One Native Standard Firestore database and one private Standard image bucket now
 exist in Mumbai. Actual settings: pessimistic transactions, database deletion
 protection, bucket uniform access/PAP, one-day live deletion target and seven-day
-soft retention. No public IAM member. Bounded real-data SDK acceptance is pending;
+soft retention. No public IAM member. Bounded real-data SDK acceptance passed eight scenarios; see M2-real-data-services.md;
 no automatic Firestore TTL/physical-deletion claim. No Run deployment exists.
 Existing API/configuration evidence and earlier empty inventories remain historical.
-One real model attempt reconciled; owner-attested zero prior history admitted the
+Five real model attempts reconciled; owner-attested zero prior history admitted the
 opening allocation. Current liabilities and receipts remain private. No free-tier
 or promotional-credit assumption, budget increase or public paid endpoint.
 Public GitHub repository created and pushed; README PR #1 merged after hosted PASS.
@@ -139,9 +143,14 @@ M4-template-preparation.md records the unavailable authoring runtime; no final d
 T28/T29 early storyboard, judge guide and form copy are drafts, not delivery proof.
 T34 durable projection/HTTP hosted checkpoint passed. T17 local connected workbench
 and provider compatibility corrections pass local1292 unit/63 Chrome; independent
-review passed. Exact-head hosted verification remains pending.
-Next: bounded actual data/service integration, real coordinator journey and T35
-owned guidance lifecycle. Complete remaining context/allowance UI and operations.
+review passed. Hosted54773ff/run39116051219 PASS:1292 unit/63 Chromium.
+Source-agreement correction/actual-source loader independently reviewed. First
+real coordinator calls safely rejected source formatting, HTML quote and provider
+schema nonconformance. The bounded retry series stopped; no full journey PASS.
+Current integrated local1307 unit/63 Chrome PASS; hosted latest changes pending. See M2-real-coordinator.md; no full journey PASS.
+Owner-requested PDF/product-image extraction is deferred as ATT-01 in ROADMAP.
+Next: structural extraction-schema correction, T35 throttling/browser acceptance,
+and remaining context/allowance UI, private runtime/operations and packaging.
 Remaining human gates:
 UK/new context, remaining gold/H custody and final concrete submission.
 Next prompt: Read prompts/resume.md, reconcile actual state and the private finite

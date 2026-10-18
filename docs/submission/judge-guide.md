@@ -73,3 +73,9 @@ Current references: [source scope](../evidence/M1-source-review.md),
 [queue computation](../evidence/M2-retail-projection.md),
 [fixed evaluation](../evidence/M2-learning-evaluator.md),
 [attachment review](../evidence/M1-attachment-inspection.md).
+
+## Future scope
+
+[The B0–B3 roadmap](../ROADMAP.md) records ATT-01: linked customer PDFs,
+page-cited text/table extraction and reviewed product-image evidence. These are
+planned capabilities; existing private attachment inspection is not an app feature.

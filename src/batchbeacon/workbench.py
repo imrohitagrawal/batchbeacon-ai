@@ -7,7 +7,11 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.concurrency import run_in_threadpool
 
-from batchbeacon.extraction_api import ExtractionHTTPPolicy, create_extraction_test_app
+from batchbeacon.extraction_api import (
+    ExtractionHTTPPolicy,
+    create_extraction_app,
+    create_extraction_test_app,
+)
 from batchbeacon.extraction_service import owned_boundary
 from batchbeacon.guest_service import GuestDenied
 from batchbeacon.incident_api import _no_body
@@ -16,14 +20,31 @@ from batchbeacon.retail_api import mount_retail_api
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def create_workbench_test_app(extraction, actions, refresh, policy: ExtractionHTTPPolicy):
+def create_workbench_test_app(extraction, actions, refresh, policy: ExtractionHTTPPolicy,
+                              *, learning=None):
     """Compose existing owned adapters. This factory cannot activate a paid provider."""
+    return _create_workbench(extraction, actions, refresh, policy, real=False, learning=learning)
+
+
+def create_workbench_app(extraction, actions, refresh, policy: ExtractionHTTPPolicy,
+                         *, learning=None):
+    """Compose an explicitly admitted graph; never initialize or replenish its budget."""
+    return _create_workbench(extraction, actions, refresh, policy, real=True, learning=learning)
+
+
+def _create_workbench(extraction, actions, refresh, policy, *, real, learning):
     guest, evidence = extraction.evidence.guest, extraction.evidence
     if refresh.guest is not guest or refresh.retail.projector.actions is not actions:
         raise ValueError('one consistent workbench graph required')
-    app = create_extraction_test_app(extraction, actions, policy)
+    factory = create_extraction_app if real else create_extraction_test_app
+    app = factory(extraction, actions, policy)
     mount_retail_api(app, refresh, policy)
-    app.title = 'BatchBeacon AI — connected local integration'
+    if learning is not None:
+        from batchbeacon.learning_api import mount_learning_api
+        if learning.guest is not guest or learning.evidence is not evidence:
+            raise ValueError('learning requires the same owned workbench graph')
+        mount_learning_api(app, learning, policy)
+    app.title = 'BatchBeacon AI' if real else 'BatchBeacon AI — connected local integration'
     prior_denied = app.exception_handlers[GuestDenied]
 
     @app.exception_handler(GuestDenied)
@@ -63,11 +84,13 @@ def create_workbench_test_app(extraction, actions, refresh, policy: ExtractionHT
 
     @app.get('/api/workbench/config')
     def configuration():
+        from batchbeacon.guidance_policies import POLICIES
         identities = evidence.identities.catalog.identities if evidence.identities else ()
         return {
-            'mode': 'LOCAL_INTEGRATION_SIMULATED_EXTRACTION',
+            'mode': 'REAL_VERTEX_EXTRACTION' if real else 'LOCAL_INTEGRATION_SIMULATED_EXTRACTION',
             'server_time': guest._now().isoformat(),
-            'storage': 'Explicitly injected test adapters; not cloud persistence',
+            'storage': 'Explicitly configured application stores' if real else
+                'Explicitly injected test adapters; not cloud persistence',
             'sources': [{'selection': key, 'notice': bundle.notice.model_dump(mode='json',
                 exclude={'review'})} for key, bundle in extraction.sources.items()],
             'samples': [{'id': row.fixture_id, 'name': row.name, 'synthetic': True}
@@ -75,7 +98,10 @@ def create_workbench_test_app(extraction, actions, refresh, policy: ExtractionHT
             'max_images': guest.policy.uploads.max_images,
             'max_image_bytes': guest.policy.uploads.max_image_bytes,
             'refresh_interval_seconds': refresh.policy.minimum_interval_seconds,
-            'guidance': 'OWNED_LIFECYCLE_NOT_CONNECTED',
+            'guidance': 'OWNED_LIFECYCLE_CONNECTED' if learning else
+                'OWNED_LIFECYCLE_NOT_CONNECTED',
+            'guidance_policies': {key: value.model_dump(mode='json')
+                                  for key, value in POLICIES.items()} if learning else {},
         }
 
     @app.get('/samples/{sample_id}.png', include_in_schema=False)

@@ -23,6 +23,8 @@ Updated 18 October 2026. Current U02 approval is recorded below; the original pl
 | U15 | Confirms “ML Codewell” meant **Emil Kowalski**. | Name clarification closed. Admit selected Impeccable/Emil content before use under TOOLING; none was installed or applied in this planning session. |
 | U16 | Final approval will be given later. | Prepare the concrete candidate, links, video/PDF, evidence and current terms; request `OWNER-SUBMIT` only then. Do not submit or accept new material terms from a generic autonomy instruction. |
 
+| U17 | Reviewed the UK source packet and company-PDF addendum and agreed with the conservative recommendation. | Preserve the FSA parent and company PDF as separate evidence; disclose lot/production-date versus best-before differences. UK matching remains review-only until interpretation is resolved. This is completed review of that disposition, not approval of unqualified UK match predicates, protected gold or submission. |
+
 ## What still needs the owner, and when
 
 There is **no further broad planning decision blocking kickoff**. Q01–Q07 from the earlier revision are resolved by U07–U14, except an optional notification destination. Discover machine/account facts instead of asking the owner to supply what the executor can inspect.

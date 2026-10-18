@@ -206,7 +206,10 @@ def verify(
             blockers.append("SOURCE_INCOMPLETE")
         if not source.source_available:
             blockers.append("SOURCE_UNAVAILABLE")
-        if not source.source_proposal_agrees:
+        agreement = observation.source_agreement
+        agrees = bool(agreement and agreement.source == source.dependency
+                      and agreement.notice_digest == source.digest())
+        if not source.source_proposal_agrees and not agrees:
             blockers.append("SOURCE_EXTRACTION_DISAGREEMENT")
     blockers.extend(_context_blockers(context, policy))
 

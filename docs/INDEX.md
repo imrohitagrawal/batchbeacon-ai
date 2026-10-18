@@ -23,6 +23,8 @@ One canonical definition per responsibility keeps the project portable. Generic 
 | Reviews | [Current authorization review](reviews/AUTHORIZATION_REVIEW.md), [historical plan review](reviews/PLAN_REVIEW.md), [earlier owner-update review](reviews/OWNER_UPDATE_REVIEW.md) | Actual document reviews, with scope and revision limits; later application reviews need actual code/evidence |
 | Resume / handoff | [resume](../prompts/resume.md), [handoff](../prompts/handoff.md) | Agent-neutral recovery instructions; no process resurrection claim |
 
+Future scope: [B0–B3 roadmap and ATT-01 PDF/image evidence](ROADMAP.md). Planned items are not delivered capabilities.
+
 ## Read order and ownership
 
 First session: follow the kickoff, read both originals completely, then the execution/specification package. Subsequent sessions: applicable instructions → bounded STATE → current decisions/authority → active task/specification sections → relevant evidence/code. Read additional material when the task needs it. Do not load the whole archive on every turn.

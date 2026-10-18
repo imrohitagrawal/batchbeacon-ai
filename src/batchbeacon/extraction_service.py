@@ -12,7 +12,7 @@ from typing import Annotated, Literal
 
 from pydantic import Field
 
-from batchbeacon.contracts import AuthorityNotice, Record, Verdict
+from batchbeacon.contracts import AuthorityNotice, Record, SourceAgreement, Verdict
 from batchbeacon.evidence_service import EvidenceService, ExtractionEnvelope
 from batchbeacon.extraction_input import prepare_input
 from batchbeacon.extraction_proposal import ProposalInvalid
@@ -208,7 +208,7 @@ class ExtractionService:
             output = await execute_model(self.config, self.shared, key, run, prepared,
                 transport=transport, credentials=credentials, monotonic_deadline=loop_deadline)
             fresh()
-            values, codes, source_status = None, (), None
+            values, codes, source_status, agreement = None, (), None, None
             try:
                 report = prepared.translate(output.candidate, bundle.notice)
                 source_status, codes = report.source_status, report.diagnostics
@@ -221,6 +221,12 @@ class ExtractionService:
                         values, codes = None, (('IDENTITY_INPUT_UNAVAILABLE',)
                             if decision.state == 'UNAVAILABLE'
                             else ('IDENTITY_EVIDENCE_DISAGREEMENT',))
+                    else:
+                        agreement = SourceAgreement(source=report.source_dependency,
+                            notice_digest=report.notice_digest, proposal_hash=report.proposal_hash,
+                            schema_hash=report.schema_hash,
+                            translation_policy_hash=report.policy_hash,
+                            run_id=run.id, binding_hash=run.binding.digest())
             except ProposalInvalid:
                 codes = ('PROPOSAL_INVALID',)
             summary = json.dumps({'redaction': self.config.redaction_version,
@@ -233,7 +239,8 @@ class ExtractionService:
                 prompt_version=self.config.prompt_version, configuration_hash=self.config.digest(),
                 sources=(prepared.manifest.source,),
                 captures=tuple(c.evidence() for c in prepared.manifest.captures),
-                started_at=run.started_at, completed_at=self.shared._now())
+                started_at=run.started_at, completed_at=self.shared._now(),
+                source_agreement=agreement)
             extraction_key, verification_key = 'extract_' + run.id, 'verify_' + run.id
             self.evidence.record_extraction(capability, command.incident_id, extraction_key,
                 command.expected_observation_revision, envelope, run_id=run.id)

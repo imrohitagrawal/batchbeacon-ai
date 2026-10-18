@@ -262,6 +262,17 @@ class Correction(Record):
     recorded_at: datetime
 
 
+class SourceAgreement(Record):
+    """Server translation receipt, scoped to one immutable acquisition input."""
+    source: SourceDependency
+    notice_digest: Digest
+    proposal_hash: Digest
+    schema_hash: Digest
+    translation_policy_hash: Digest
+    run_id: Annotated[str, Field(pattern=r"^[a-f0-9]{32}$")]
+    binding_hash: Digest
+
+
 class ProductObservation(Record):
     session_id: Nonempty
     incident_id: Nonempty
@@ -272,6 +283,7 @@ class ProductObservation(Record):
     corrections: tuple[Correction, ...] = ()
     model_id: Nonempty
     prompt_version: Nonempty
+    source_agreement: SourceAgreement | None = None
 
     @model_validator(mode="after")
     def bound_capture_support(self) -> Self:

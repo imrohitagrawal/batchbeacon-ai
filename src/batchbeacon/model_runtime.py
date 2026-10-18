@@ -44,6 +44,17 @@ PROMPT = (
     'Include every affected source product and all stated jurisdictions. Preserve '
     'product identity, '
     'pack size, identifier type, lot case and leading zeros. A product code is not a lot or GTIN. '
+    'Represent source jurisdictions with ISO country/subdivision codes: Singapore is SG; '
+    'England is GB-ENG, Northern Ireland GB-NIR, Wales GB-WLS, and Scotland GB-SCT. '
+    'Include only stated jurisdictions and preserve each UK subnational scope separately. '
+    'For source pack strings put one space between quantity and unit, for example 100 g. '
+    'Preserve quantities, units, multipack structure and other text; do not convert units. '
+    'Keep source quotes verbatim and raw label transcriptions unchanged. '
+    'Each source quote must be an exact substring of the original input bytes decoded as text, '
+    'including literal HTML entity escapes such as &amp; and any intervening markup. '
+    'Do not substitute rendered HTML text for the original source quote. '
+    'Source product name and pack values are semantic text with HTML entities decoded; '
+    'only their supporting quote locations preserve literal HTML escapes. '
     'For each source predicate distinguish an explicit ALL restriction, NOT_SPECIFIED, '
     'and UNKNOWN; '
     'never infer unrestricted scope from an unreadable or ambiguous statement. '
@@ -106,7 +117,7 @@ class ExtractionConfig(Record):
     genai_version: Nonempty
     agent_name: Annotated[str, Field(pattern=r'^[A-Za-z_][A-Za-z_0-9]*$')] = 'batchbeacon_extract'
     instruction: Nonempty = PROMPT
-    prompt_version: Nonempty = 'source-label-proposal-1'
+    prompt_version: Nonempty = 'source-label-proposal-4'
     schema_hash: Digest = Field(default_factory=lambda: digest(
         ExtractionProposal.model_json_schema()))
     preparation: PreparationPolicy = PreparationPolicy()

@@ -140,7 +140,8 @@ def create_guest_test_app(service: GuestService) -> FastAPI:
 
     @app.get("/healthz")
     def health():
-        return {"mode": "adapter_test", "product": "not_ready", "paid_admission": "closed"}
+        return getattr(app.state, "health_view",
+            {"mode": "adapter_test", "product": "not_ready", "paid_admission": "closed"})
 
     @app.post("/api/guest")
     async def guest(request: Request):

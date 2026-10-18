@@ -101,3 +101,23 @@ server state; confirmation targets must match the values actually displayed.
 Pending operations retain their original key until reconciliation or confirmed
 session expiry. Full T17/context/allowance/guidance and real-runtime gates remain.
 See M2-connected-workbench.md for reproduced defects and independent verification.
+
+## LOCAL16 — source agreement and retained real-service failures
+
+The first model run may consume a reviewed source before model agreement exists.
+Only deterministic proposal validation can create an acquisition-bound agreement
+receipt; the shared source registry is never promoted by the model. Actual
+Firestore/private Storage acceptance passed. Real coordinator failures remain
+failed evidence, with exact costs and phase closure carried forward privately.
+The schema now pins label field types to the same invariants as the translator.
+Provider nonconformance remains a rejection, not successful extraction. See
+M2-real-coordinator.md; no full real-model journey or public release is claimed.
+
+## LOCAL17 — owned learning aggregate and U17 source disposition
+
+Use one bounded, atomically enrolled shop learning aggregate. Reserve complete
+terminal report and rollback capacity; keep evaluation outside retryable writes.
+Explicit version-bound activation and higher-revision rollback change only fixed
+wording. Local integration evidence is distinct from deployed F6 acceptance.
+U17 records the owner's completed UK packet/addendum review and conservative
+separate-source, review-only disposition; it does not admit unqualified UK matches.

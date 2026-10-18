@@ -1,0 +1,190 @@
+"""Owned guidance HTTP surface; clients cannot submit evaluation results or policies."""
+
+from fastapi import Request
+from fastapi.responses import JSONResponse
+from pydantic import Field, TypeAdapter, ValidationError
+from starlette.concurrency import run_in_threadpool
+
+from batchbeacon.contracts import Record
+from batchbeacon.guest_service import GuestDenied, OpaqueId, RequestKey
+from batchbeacon.incident_api import _command, _no_body, _queries
+from batchbeacon.learning_service import ActivationConfirmation, RollbackConfirmation
+from batchbeacon.retail_contracts import FeedbackDetail
+
+
+class FeedbackCommand(Record):
+    detail: FeedbackDetail
+    request_id: OpaqueId | None = None
+
+
+class CandidateCommand(Record):
+    feedback_ids: tuple[OpaqueId, ...] = Field(min_length=1, max_length=5)
+
+
+def public_record(record):
+    return record.model_dump(
+        mode="json",
+        exclude={
+            "scope",
+            "effective_policy_hash",
+            "actor_session",
+            "lease",
+            "initiating_key",
+            "request_key",
+            "payload_hash",
+            "configuration_hash",
+            "evaluator_hash",
+            "capacity",
+            "usage_hash",
+            "evidence_hash",
+        },
+    )
+
+
+def mount_learning_api(app, service, policy):
+    guest = service.guest
+    prior = app.exception_handlers[GuestDenied]
+
+    @app.exception_handler(GuestDenied)
+    async def denied(request, error):
+        if (
+            request.method == "POST"
+            and (
+                "/learning/" in request.url.path
+                or request.url.path.endswith(("/guidance", "/feedback"))
+            )
+            and error.status >= 500
+        ):
+            return JSONResponse(
+                {"error": error.code, "outcome": "unknown", "recovery": "original_request_key"},
+                status_code=error.status,
+            )
+        return await prior(request, error)
+
+    def identifier(value):
+        try:
+            return TypeAdapter(OpaqueId).validate_python(value)
+        except ValidationError:
+            raise GuestDenied(422, "invalid_learning_id") from None
+
+    def owned(request, mutation=False):
+        cookies = request.headers.getlist("cookie")
+        occurrences = sum(
+            part.partition("=")[0].strip() == guest.policy.cookie_name
+            for header in cookies
+            for part in header.split(";")
+        )
+        if len(cookies) != 1 or occurrences != 1:
+            raise GuestDenied(401, "guest_expired_or_invalid")
+        token = request.cookies.get(guest.policy.cookie_name)
+        session = guest.resolve(token)
+        key = None
+        if mutation:
+            if any(
+                len(request.headers.getlist(name)) != 1
+                for name in ("origin", "x-csrf-token", "idempotency-key")
+            ):
+                raise GuestDenied(403, "mutation_guard_required")
+            guest.guard(request.headers.get("origin"), token, request.headers.get("x-csrf-token"))
+            try:
+                key = TypeAdapter(RequestKey).validate_python(request.headers["idempotency-key"])
+            except ValidationError:
+                raise GuestDenied(422, "request_key_required") from None
+        return token, session, key
+
+    def response(record, token, session):
+        guest._live(session, guest._key(token))
+        return public_record(record)
+
+    @app.get("/api/learning")
+    async def read(request: Request):
+        _queries(request, set())
+        await _no_body(request, policy)
+        token, session, _ = await run_in_threadpool(owned, request)
+        state = await run_in_threadpool(service.read, token)
+        guest._live(session, guest._key(token))
+        return {
+            "active": state.active.model_dump(mode="json"),
+            "observed_at": guest._now().isoformat(),
+            "requests": [public_record(x) for x in state.requests],
+            "feedback": [public_record(x) for x in state.feedback],
+            "candidates": [public_record(x) for x in state.candidates],
+            "evaluations": [public_record(x) for x in state.evaluations],
+            "transitions": [public_record(x) for x in state.transitions],
+            "limits": {
+                "feedback": guest.policy.retail.max_feedback,
+                "candidates": guest.policy.retail.max_candidates,
+                "evaluations": guest.policy.retail.max_evaluations,
+                "forward_activations": guest.policy.retail.max_forward_activations,
+            },
+        }
+
+    @app.post("/api/incidents/{incident_id}/guidance")
+    async def guidance(incident_id: str, request: Request):
+        identifier(incident_id)
+        _queries(request, set())
+        await _no_body(request, policy)
+        token, session, key = await run_in_threadpool(owned, request, True)
+        result = await run_in_threadpool(service.guidance, token, incident_id, key)
+        return response(result, token, session)
+
+    @app.post("/api/incidents/{incident_id}/feedback")
+    async def feedback(incident_id: str, request: Request):
+        identifier(incident_id)
+        _queries(request, set())
+        token, session, key = await run_in_threadpool(owned, request, True)
+        command = await _command(request, FeedbackCommand, policy)
+        result = await run_in_threadpool(
+            service.feedback, token, incident_id, key, command.detail, command.request_id
+        )
+        return response(result, token, session)
+
+    @app.post("/api/learning/candidates")
+    async def candidate(request: Request):
+        _queries(request, set())
+        token, session, key = await run_in_threadpool(owned, request, True)
+        command = await _command(request, CandidateCommand, policy)
+        result = await run_in_threadpool(service.candidate, token, key, command.feedback_ids)
+        return response(result, token, session)
+
+    @app.post("/api/learning/candidates/{candidate_id}/evaluations")
+    async def evaluate(candidate_id: str, request: Request):
+        identifier(candidate_id)
+        _queries(request, set())
+        await _no_body(request, policy)
+        token, session, key = await run_in_threadpool(owned, request, True)
+        result = await run_in_threadpool(service.evaluate, token, key, candidate_id)
+        return response(result, token, session)
+
+    @app.get("/api/learning/activation/prepare")
+    async def prepare_activation(request: Request):
+        query = _queries(request, {"evaluation"})
+        evaluation = identifier(query.get("evaluation"))
+        await _no_body(request, policy)
+        token, session, _ = await run_in_threadpool(owned, request)
+        result = await run_in_threadpool(service.prepare_activation, token, evaluation)
+        return response(result, token, session)
+
+    @app.post("/api/learning/activation")
+    async def activate(request: Request):
+        _queries(request, set())
+        token, session, key = await run_in_threadpool(owned, request, True)
+        command = await _command(request, ActivationConfirmation, policy)
+        result = await run_in_threadpool(service.activate, token, key, command)
+        return response(result, token, session)
+
+    @app.get("/api/learning/rollback/prepare")
+    async def prepare_rollback(request: Request):
+        _queries(request, set())
+        await _no_body(request, policy)
+        token, session, _ = await run_in_threadpool(owned, request)
+        result = await run_in_threadpool(service.prepare_rollback, token)
+        return response(result, token, session)
+
+    @app.post("/api/learning/rollback")
+    async def rollback(request: Request):
+        _queries(request, set())
+        token, session, key = await run_in_threadpool(owned, request, True)
+        command = await _command(request, RollbackConfirmation, policy)
+        result = await run_in_threadpool(service.rollback, token, key, command)
+        return response(result, token, session)

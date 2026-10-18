@@ -173,6 +173,15 @@ class FirestoreStores:
         self.guests, self.shared = _Guests(self), _Shared(self)
         self.evidence, self.actions = _Evidence(self), _Actions(self)
         self.retail = None
+        self.learning = None
+
+    def enable_learning(self, evidence, shared_policy, evaluator, policy=None, *, capability=None):
+        from batchbeacon.learning_service import LearningPolicy, LearningService
+        if self.learning is not None:
+            raise ValueError("learning persistence is already configured")
+        self.learning = LearningService(self, evidence, shared_policy, evaluator,
+            policy or LearningPolicy(), capability=capability)
+        return self.learning
 
     def enable_retail(self, projector):
         from batchbeacon.retail_store import RetailPersistence
@@ -182,9 +191,9 @@ class FirestoreStores:
         return self.retail
 
     def name(self, kind, key=None, incident=None):
-        if kind not in _MODELS and kind not in {"retail", "refresh"}:
+        if kind not in _MODELS and kind not in {"retail", "refresh", "learning"}:
             raise ValueError("unknown persistence kind")
-        if kind in {"guest", "usage", "evidence", "actions", "retail", "refresh"}:
+        if kind in {"guest", "usage", "evidence", "actions", "retail", "refresh", "learning"}:
             TypeAdapter(Digest).validate_python(key)
         elif kind in {"attempt", "completion"}:
             TypeAdapter(OpaqueId).validate_python(key)
@@ -216,7 +225,8 @@ class FirestoreStores:
     def _encode(self, name, kind, record):
         # Validate model_copy results as well as data returned by storage.
         try:
-            record = self._model(kind).model_validate_json(record.model_dump_json())
+            record = self._model(kind).model_validate_json(record.model_dump_json(
+                exclude_computed_fields=kind == "learning"))
         except ValueError:
             record = None
         if record is None:
@@ -224,10 +234,14 @@ class FirestoreStores:
         document = Document(name=name, fields={
             "schema": Value(integer_value=1), "kind": Value(string_value=kind),
             "writer_config_hash": Value(string_value=self.policy.digest()),
-            "payload": Value(string_value=record.model_dump_json())})
+            "payload": Value(string_value=record.model_dump_json(
+                exclude_computed_fields=kind == "learning"))})
         if kind == "guest" and self.retail is not None:
             document.fields["retail_policy_hash"] = Value(
                 string_value=self.retail.projector.configuration_hash)
+        if kind == "guest" and self.learning is not None:
+            document.fields["learning_policy_hash"] = Value(
+                string_value=self.learning.configuration_hash)
         self._size(document)
         return document
 
@@ -235,6 +249,11 @@ class FirestoreStores:
         self._size(document)
         fields = document.fields
         expected = {"schema", "kind", "writer_config_hash", "payload"}
+        if kind == "guest" and self.learning is not None:
+            expected.add("learning_policy_hash")
+            if fields.get("learning_policy_hash", Value()).string_value != \
+                    self.learning.configuration_hash:
+                raise _unavailable()
         if kind == "guest" and self.retail is not None:
             expected.add("retail_policy_hash")
             if fields.get("retail_policy_hash", Value()).string_value != \
@@ -254,6 +273,9 @@ class FirestoreStores:
 
     @staticmethod
     def _model(kind):
+        if kind == "learning":
+            from batchbeacon.learning_service import LearningState
+            return LearningState
         if kind == "retail":
             from batchbeacon.retail_store import StoredProjection
             return StoredProjection
@@ -378,10 +400,17 @@ class _Guests:
             guest, usage = s._guest(tx, session.capability_hash)
             if guest is not None or usage is not None:
                 raise _unavailable()
+            learning_name = None
+            if s.learning is not None:
+                learning_name = s.name("learning", session.capability_hash)
+                if tx.read({learning_name: "learning"})[learning_name] is not None:
+                    raise _unavailable()
             tx.limit_to(session.scope.expires_at)
             tx.write(s.name("guest", session.capability_hash), "guest", session, create=True)
             tx.write(s.name("usage", session.capability_hash), "usage",
                      SessionUsage(session_id=session.scope.session_id), create=True)
+            if learning_name is not None:
+                tx.write(learning_name, "learning", s.learning.baseline(session), create=True)
         s.run(create)
 
     def get(self, key):

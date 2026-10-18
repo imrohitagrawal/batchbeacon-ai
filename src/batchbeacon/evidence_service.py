@@ -28,6 +28,7 @@ from batchbeacon.contracts import (
     ProductIdentity,
     ProductObservation,
     Record,
+    SourceAgreement,
     SourceDependency,
     VerificationContext,
     VerificationResult,
@@ -139,6 +140,7 @@ class ExtractionEnvelope(Record):
     captures: tuple[EvidenceRef, ...] = Field(min_length=1)
     started_at: datetime
     completed_at: datetime
+    source_agreement: SourceAgreement | None = None
 
     @model_validator(mode="after")
     def coherent(self) -> Self:
@@ -150,6 +152,8 @@ class ExtractionEnvelope(Record):
             raise ValueError("only validated extraction has values")
         if self.validation == "INVALID" and not self.validation_codes:
             raise ValueError("invalid extraction requires diagnostic codes")
+        if self.source_agreement is not None and self.validation != "VALID":
+            raise ValueError("source agreement requires validated extraction")
         if self.validation == "VALID" and self.validation_codes:
             raise ValueError("validated extraction cannot have failure codes")
         # A failed attempt can contain malformed/empty attempted JSON. Preserve
@@ -310,6 +314,10 @@ class EvidenceService:
     def _identity_history(self, snapshot, state):
         for saved in state.extractions:
             envelope = saved.envelope
+            if envelope.source_agreement is not None:
+                run = next((r for r in snapshot.usage.runs if r.id == saved.run_id), None) \
+                    if snapshot.usage else None
+                self._check_source_agreement(envelope, run)
             if envelope.values is None:
                 if saved.identity_receipt is not None:
                     raise GuestDenied(503, "identity_history_unavailable")
@@ -338,7 +346,8 @@ class EvidenceService:
             first = ProductObservation(session_id=state.session_id, incident_id=state.incident_id,
                 revision=linked[0].revision, captures=envelope.captures, identity=identity,
                 fields=envelope.values.fields, model_id=envelope.model_id,
-                prompt_version=envelope.prompt_version)
+                prompt_version=envelope.prompt_version,
+                source_agreement=envelope.source_agreement)
             if linked[0] != first:
                 raise GuestDenied(503, "identity_history_unavailable")
             # Validate every append against its predecessor, including all captures,
@@ -483,7 +492,7 @@ class EvidenceService:
             if self._environment(snapshot).notices != (notice,):
                 raise GuestDenied(409, "selected_notice_changed")
             if notice.review is None or not notice.interpretation_complete \
-                    or not notice.source_available or not notice.source_proposal_agrees:
+                    or not notice.source_available:
                 raise GuestDenied(409, "source_review_required")
             if len(state.observations) != expected_revision:
                 raise GuestDenied(409, "observation_changed")
@@ -496,6 +505,19 @@ class EvidenceService:
             return state
         self._transaction(capability, incident_id, read)
         return captures[0]
+
+    @staticmethod
+    def _check_source_agreement(envelope, run):
+        receipt = envelope.source_agreement
+        if receipt is None:
+            return
+        if run is None or receipt.run_id != run.id \
+                or receipt.binding_hash != run.binding.digest() \
+                or receipt.source != run.binding.manifest.source \
+                or receipt.notice_digest != run.binding.manifest.notice_digest \
+                or receipt.schema_hash != run.binding.manifest.schema_hash \
+                or envelope.sources != (receipt.source,):
+            raise GuestDenied(503, "source_agreement_unavailable")
 
     def record_extraction(self, capability, incident_id, request_key, expected_revision,
                           envelope: ExtractionEnvelope, *, run_id=None) -> EvidenceReceipt:
@@ -526,6 +548,10 @@ class EvidenceService:
                     raise GuestDenied(409, "acquisition_binding_changed")
             elif latest is not None or envelope.provenance == "live":
                 raise GuestDenied(409, "acquisition_binding_required")
+            self._check_source_agreement(envelope, run)
+            if envelope.validation == "VALID" and envelope.provenance == "live" \
+                    and envelope.source_agreement is None:
+                raise GuestDenied(409, "source_agreement_required")
             if envelope.validation == "VALID":
                 # Only new publication needs this fresh binding. Identical committed
                 # retries above reconcile history; explicit failures retain their
@@ -558,6 +584,7 @@ class EvidenceService:
                     revision=len(observations) + 1, captures=envelope.captures,
                     identity=identity, fields=envelope.values.fields,
                     model_id=envelope.model_id, prompt_version=envelope.prompt_version,
+                    source_agreement=envelope.source_agreement,
                 )
                 observations = (*observations, SavedObservation(
                     extraction_revision=saved.revision, observation=obs))

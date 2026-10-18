@@ -87,18 +87,26 @@ class ProposedValue(Record):
     locations: tuple[CaptureLocation, ...]
 
 
+class ProposedTextValue(ProposedValue):
+    value_type: Literal[ValueType.TEXT]
+
+
+class ProposedDateValue(ProposedValue):
+    value_type: Literal[ValueType.DATE]
+
+
 class ProposedCode(Record):
     kind: Literal[IdentifierKind.PRODUCT_CODE, IdentifierKind.GTIN]
-    observation: ProposedValue
+    observation: ProposedTextValue
 
 
 class LabelProposal(Record):
-    name: ProposedValue
-    pack: ProposedValue
+    name: ProposedTextValue
+    pack: ProposedTextValue
     identifiers: tuple[ProposedCode, ...]
-    lot: ProposedValue
-    best_before: ProposedValue
-    use_by: ProposedValue
+    lot: ProposedTextValue
+    best_before: ProposedDateValue
+    use_by: ProposedDateValue
 
 
 class SourceCode(Record):

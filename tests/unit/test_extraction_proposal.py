@@ -374,3 +374,20 @@ def test_closed_schema_and_product_order_independent_comparison():
     assert schema["additionalProperties"] is False
     assert all(d.get("additionalProperties") is False for d in schema["$defs"].values()
                if d.get("type") == "object")
+
+
+def test_fixed_label_types_are_declared_in_model_schema_even_for_unknown_dates():
+    """The provider schema must describe the same fixed types the translator enforces."""
+    from pydantic import ValidationError
+
+    from batchbeacon.extraction_proposal import ExtractionProposal
+    schema = ExtractionProposal.model_json_schema()
+    fields = schema['$defs']['LabelProposal']['properties']
+    for field in ('name', 'pack', 'lot', 'best_before', 'use_by'):
+        definition = schema['$defs'][fields[field]['$ref'].split('/')[-1]]
+        expected = 'DATE' if field in ('best_before', 'use_by') else 'TEXT'
+        assert definition['properties']['value_type']['const'] == expected
+    proposal, *_ = rig()
+    proposal['label']['use_by'] = unknown(kind='TEXT')
+    with pytest.raises(ValidationError):
+        ExtractionProposal.model_validate_json(json.dumps(proposal))

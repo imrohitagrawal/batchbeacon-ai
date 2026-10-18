@@ -37,6 +37,23 @@ def create_extraction_test_app(
 ):
     if extraction is None or policy is None or extraction.config.mode != 'offline_test':
         raise ValueError('explicit_offline_extraction_graph_required')
+    return _create_extraction_app(extraction, actions, policy)
+
+
+def create_extraction_app(
+    extraction: ExtractionService, actions: ActionService, policy: ExtractionHTTPPolicy,
+):
+    """Explicit real-provider graph; admission and provisioning remain operator-owned."""
+    if extraction is None or policy is None or extraction.config.mode != 'vertex':
+        raise ValueError('explicit_vertex_extraction_graph_required')
+    extraction.config.validate_consumer(extraction.shared)
+    app = _create_extraction_app(extraction, actions, policy)
+    app.state.health_view = {"mode": "explicit_real_provider", "product": "not_ready",
+                             "paid_admission": "operator_bound"}
+    return app
+
+
+def _create_extraction_app(extraction, actions, policy):
     evidence = extraction.evidence
     guest = evidence.guest
     app = create_incident_test_app(guest, evidence, actions, policy)

@@ -484,3 +484,22 @@ def test_reservation_response_after_expiry_denies_without_refund(env, duplicate)
     assert store.state().balance(Pool.PUBLIC).reserved_nanos == 6 * NANO
     assert store.state().balance(Pool.PUBLIC).lifetime_attempts == 1
     assert not Attempt.model_validate_json(store.attempts[attempt_id]).dispatch_claimed
+
+
+def test_private_development_phase_charges_only_its_existing_pool(env):
+    from batchbeacon.evidence_service import replace
+    service, store = env[:2]
+    before = store.state()
+    phase = replace(before.phase, pool=Pool.DEVELOPMENT,
+                    max_pool_liability_nanos=service.policy.reserve_nanos)
+    service.activate_phase(phase)
+    run = begin(env, 'private-development')
+    reserve(env, run)
+    after = store.state()
+    assert after.balance(Pool.DEVELOPMENT).reserved_nanos == service.policy.reserve_nanos
+    assert after.balance(Pool.PUBLIC) == before.balance(Pool.PUBLIC)
+    assert after.balance(Pool.PROTECTED) == before.balance(Pool.PROTECTED)
+    service.activate_phase(phase)
+    assert store.state().balance(Pool.DEVELOPMENT) == after.balance(Pool.DEVELOPMENT)
+    with pytest.raises(SharedDenied):
+        reserve(env, run, operation_key='another-operation')
