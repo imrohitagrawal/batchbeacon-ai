@@ -1,0 +1,3 @@
+# Repository code-review ownership (does not grant merge exclusivity).
+# GitHub Rulesets must restrict who can update main; see docs/REPOSITORY_SETTINGS.md.
+* @imrohitagrawal
