@@ -101,7 +101,7 @@ To run the browser checks after installing the matching browser runtime:
 BATCHBEACON_BROWSER_CHECKS=1 BATCHBEACON_TEST_BROWSER_CHANNEL=chrome ./scripts/check.sh
 ```
 
-The local service defaults to loopback; change `BATCHBEACON_LOCAL_PORT` if necessary. `./scripts/check.sh` runs the lockfile check, Ruff and unit tests, with browser tests opt-in. Cloud-model, Firestore/emulator, hosted, security-boundary and release checks need **separate admitted setup and evidence**; they are not implied by the local script. See [Operations](docs/OPERATIONS.md), [configuration template](.env.example) and [deployment edge notes](deployment/cloudflare/README.md). Do not commit credentials, cloud policy, private IDs or live session evidence.
+The local service defaults to loopback; change `BATCHBEACON_LOCAL_PORT` if necessary. `./scripts/check.sh` runs the lockfile check, Ruff and unit tests, with browser tests opt-in. Cloud-model, Firestore/emulator, hosted, security-boundary and release checks need **separate admitted setup and evidence**; they are not implied by the local script. The production [Dockerfile](Dockerfile) also expects generated, ignored `runtime-assets/` (see [.gitignore](.gitignore)), so a public clone **cannot rebuild the exact cloud release from source alone** without the authorized private deployment inputs. See [Operations](docs/OPERATIONS.md), [configuration template](.env.example) and [deployment edge notes](deployment/cloudflare/README.md). Do not commit credentials, cloud policy, private IDs or live session evidence.
 
 ## Why it matters and where it goes next
 
