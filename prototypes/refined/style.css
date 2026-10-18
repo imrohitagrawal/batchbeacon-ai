@@ -298,3 +298,4 @@ dialog p { font-size: .875rem; margin: 12px 0; }
 .queue-sources a { display: inline-flex; align-items: center; min-height: 44px; }
 
 #recall-citation a, #recall-licence { display: inline-flex; align-items: center; min-height: 44px; }
+.customer-notice-link { display: inline-flex; align-items: center; min-height: 44px; }

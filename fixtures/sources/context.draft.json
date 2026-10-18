@@ -6,7 +6,7 @@
       "capture_sha256": "b9cdc646e2ea8a38235c6287cbfcfaee35bc4c806bcc47ba1190afb643e91d88",
       "source_id": "sfa-cheese-2026-10-09",
       "source_url": "https://www.sfa.gov.sg/news-publications/newsroom/recall-of-raw-milk-cheese-products-due-to-potential-presence-of-shiga-toxin-producing-escherichia-coli",
-      "citation_label": "SFA \u00b7 9 Oct 2026",
+      "citation_label": "SFA · 9 Oct 2026",
       "human_review": "PENDING",
       "attribution": "Source: Singapore Food Agency, 9 October 2026. Limited factual summary; historical synthetic demonstration; no SFA endorsement.",
       "reason": {
@@ -63,13 +63,18 @@
         "state": "NOT_STATED",
         "text": null,
         "locator": "Complete notice reviewed; no proceedings, fine or court finding stated"
+      },
+      "related_documents": {
+        "state": "UNKNOWN",
+        "locator": "Related-document link audit not completed for this source",
+        "documents": []
       }
     },
     {
       "capture_sha256": "eaa2d450ea8297d41f262fe87ee09f249693b986a610056ed9f6c23c314eee41",
       "source_id": "FSA-PRIN-47-2026",
       "source_url": "https://alerts.food.gov.uk/news-alerts/alert/FSA-PRIN-47-2026",
-      "citation_label": "FSA \u00b7 24 Sep 2026 \u00b7 original",
+      "citation_label": "FSA · 24 Sep 2026 · original",
       "human_review": "PENDING",
       "attribution": "Source: Food Standards Agency. Contains public sector information licensed under the Open Government Licence v3.0. Historical synthetic demonstration; no FSA endorsement.",
       "reason": {
@@ -126,13 +131,29 @@
         "state": "NOT_STATED",
         "text": null,
         "locator": "Complete notice reviewed; no proceedings, fine or court finding stated"
+      },
+      "related_documents": {
+        "state": "PRESENT",
+        "locator": "Actions taken by the company",
+        "documents": [
+          {
+            "title": "Customer notice: World of Sweets recalls Alyan Dubai Style Crunchy Knafeh",
+            "url": "https://s3-eu-west-1.amazonaws.com/fsa-alerts-files/production/FSA-PRIN-47-2026/FSA-PRIN-47-2026-World-of-Sweets.pdf",
+            "kind": "COMPANY_CUSTOMER_NOTICE",
+            "format": "PDF",
+            "locator": "Actions taken by the company",
+            "link_observed_on": "2026-10-18",
+            "link_basis": "OBSERVED_ON_PARENT_PAGE",
+            "contents_reviewed": false
+          }
+        ]
       }
     },
     {
       "capture_sha256": "30323780ab5676ad9960ec0760e8c728577e5ac08ac2e6f798579f3691324043",
       "source_id": "FSA-PRIN-47-2026-update-1",
       "source_url": "https://alerts.food.gov.uk/news-alerts/alert/FSA-PRIN-47-2026-update-1",
-      "citation_label": "FSA \u00b7 25 Sep 2026 \u00b7 update 1",
+      "citation_label": "FSA · 25 Sep 2026 · update 1",
       "human_review": "PENDING",
       "attribution": "Source: Food Standards Agency. Contains public sector information licensed under the Open Government Licence v3.0. Historical synthetic demonstration; no FSA endorsement.",
       "reason": {
@@ -189,6 +210,22 @@
         "state": "NOT_STATED",
         "text": null,
         "locator": "Complete notice reviewed; no proceedings, fine or court finding stated"
+      },
+      "related_documents": {
+        "state": "PRESENT",
+        "locator": "Actions taken by the company",
+        "documents": [
+          {
+            "title": "Customer notice: Alyan Dubai Style Crunchy Knafeh and Pistachio Milk Chocolate and Alyan Dubai Style Chocolate Truffles",
+            "url": "https://s3-eu-west-1.amazonaws.com/fsa-alerts-files/production/FSA-PRIN-47-2026-update-1/Customer-notice-World-of-Sweets-recalls-Alyan-Dubai-Style-Crunchy-Knafeh-and-Pistachio-Milk-Chocolate-because-of-possible-contamination-with-SalmonellaDocument-update.pdf",
+            "kind": "COMPANY_CUSTOMER_NOTICE",
+            "format": "PDF",
+            "locator": "Actions taken by the company",
+            "link_observed_on": "2026-10-18",
+            "link_basis": "OBSERVED_ON_PARENT_PAGE",
+            "contents_reviewed": false
+          }
+        ]
       }
     }
   ]

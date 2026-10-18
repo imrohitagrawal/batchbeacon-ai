@@ -8,7 +8,12 @@ from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
 from batchbeacon.app import app
-from batchbeacon.source_context import ContextFact, ContextManifest
+from batchbeacon.source_context import (
+    ContextFact,
+    ContextManifest,
+    RelatedDocument,
+    RelatedDocuments,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -47,3 +52,38 @@ def test_preview_serves_draft_context_without_trusted_source_status():
     assert data['status'] == 'HUMAN_REVIEW_PENDING'
     assert len(data['notices']) == 3
     assert all(n['human_review'] == 'PENDING' for n in data['notices'])
+
+
+def test_customer_documents_preserve_version_and_link_only_provenance():
+    manifest = ContextManifest.model_validate_json(
+        (ROOT / 'fixtures/sources/context.draft.json').read_text())
+    assert manifest.notices[0].related_documents.state == 'UNKNOWN'
+    original, update = manifest.notices[1:]
+    a, b = (n.related_documents.documents[0] for n in (original, update))
+    assert a.url != b.url
+    assert '/FSA-PRIN-47-2026/' in a.url
+    assert '/FSA-PRIN-47-2026-update-1/' in b.url
+    assert a.title.startswith('Customer notice: World of Sweets')
+    assert b.title.startswith('Customer notice: Alyan')
+    assert not a.contents_reviewed and not b.contents_reviewed
+    assert str(a.link_observed_on) == '2026-10-18'
+    assert original.capture_sha256 != update.capture_sha256
+
+
+@pytest.mark.parametrize('url', ['javascript:alert(1)', 'http://example.com/a.pdf',
+    'https://user:password@example.com/a.pdf', 'https://example.com/a b.pdf'])
+def test_customer_documents_reject_unsafe_links(url):
+    data = json.loads((ROOT / 'fixtures/sources/context.draft.json').read_text())
+    document = data['notices'][1]['related_documents']['documents'][0]
+    with pytest.raises(ValidationError):
+        RelatedDocument.model_validate_json(json.dumps(document | {'url': url}))
+
+
+def test_unverified_links_cannot_be_claimed_present_or_absent_with_documents():
+    with pytest.raises(ValidationError):
+        RelatedDocuments(state='PRESENT', documents=(), locator='Unknown')
+    data = ContextManifest.model_validate_json(
+        (ROOT / 'fixtures/sources/context.draft.json').read_text())
+    with pytest.raises(ValidationError):
+        RelatedDocuments(state='UNKNOWN', documents=data.notices[1].related_documents.documents,
+                         locator='Unknown')

@@ -71,7 +71,8 @@ verified. Hosted f5fcbd6 / run 39101623763 PASS: bootstrap/Ruff, 721 unit /
 Durable input-bound runs and original attempt evidence now implemented locally;
 usage is derived from committed response bytes. One reproduced circuit/storage
 ordering defect corrected and independently verified. 183 focused tests/Ruff PASS;
-full local lock/Ruff, 784 unit / 48 Chrome PASS. Exact-head hosted check pending.
+full local lock/Ruff, 784 unit / 48 Chrome PASS. Hosted 5cb498e / run
+39102688210 PASS with the same unit/Chromium counts and locked bootstrap.
 See M2-durable-attempts.md; actual transport, coordinator and runtime remain.
 
 ## External state
@@ -93,9 +94,11 @@ publication atomically; failed/unknown new acquisition must not revive prior res
 Shared reservations and unresolved T08 gates precede real-runtime acceptance.
 Continue bounded T08 discovery and T04b review alongside independent local work.
 Complete billing bounds/prior liabilities remain unsubstantiated; paid admission closed.
-Owner asked about reason/symptom filters, repeat-recall counts and linked consumer
-notices. Source/scope analysis underway; no complete-history analytics claim or
-P1 implementation inferred. Preserve reviewed source versions and update deduplication.
+Owner-requested reason/symptom/frequency analysis is in RECALL_ANALYTICS.md;
+no analytics implementation or complete-history claim. Missing version-specific
+UK company-notice links corrected in draft context/prototype; independently reviewed.
+Full local 790 unit / 50 Chrome PASS; exact-head hosted validation pending.
+Source/human review stays separate, including the new link-only addendum.
 Implement approved visuals when T17 is dependency-ready. Remaining human gates:
 UK/new context, remaining gold/H custody and final concrete submission.
 Next prompt: Continue prompts/01-codex-kickoff.md from STATE and private run policy;

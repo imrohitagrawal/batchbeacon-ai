@@ -103,3 +103,30 @@ criteria, not evidence that the full runtime or human review has passed.
 | Silent omissions | Distinct not-stated and unknown states | Avoid invented quantities, legal facts or false completeness |
 
 Validation status is recorded in M1-recall-context-verification.md after execution.
+
+## Linked customer-notice correction
+
+The owner identified a further omitted source detail: the UK notices link to
+company customer-notice PDFs. Independent inspection confirmed distinct links on
+the original and updated FSA parent pages, under “Actions taken by the company.”
+The original text captures retained the anchor wording but not the hrefs. Fresh
+browser observations establish these link targets separately; the old text hashes
+do not establish the PDF bytes or newly observed hrefs.
+
+The draft context now has explicit related-document presence/unknown states and
+version-specific link metadata. The refined details show “Company customer notice
+(external PDF) — linked by FSA,” its original anchor title, new-tab behavior and
+the unreviewed-contents limitation. SFA attachment coverage remains UNKNOWN.
+Authority citations remain separate. No PDF was downloaded, rehosted, interpreted
+or included under an assumed redistribution license. The existing SFA matching
+approval remains unchanged; the expanded context/link review is still pending.
+
+Root cause: the context checklist tested fixed text fields and parent citations,
+but not related-document destinations. The corrected review includes visible link
+purpose, exact parent version, observed href, unknown state, and desktop/phone
+keyboard and reflow checks. This is a reporting-completeness correction; it does
+not retroactively invalidate unrelated matching/protocol tests.
+
+Reason/symptom filtering and recall-frequency semantics are analyzed in
+[RECALL_ANALYTICS](../RECALL_ANALYTICS.md). They are not implemented or represented
+as existing retail incident counts.

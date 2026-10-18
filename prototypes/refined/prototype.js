@@ -34,6 +34,30 @@ function renderRecallContext() {
     if(notice[key]?.locator) { const loc = document.createElement('small'); loc.className = 'fact-locator'; loc.textContent = 'Source section: ' + notice[key].locator; dd.append(loc); }
     $('recall-facts').append(dt,dd);
   });
+  const documents = notice.related_documents;
+  const dt = document.createElement('dt'); dt.textContent = 'Linked customer notices';
+  const dd = document.createElement('dd');
+  if (documents?.state === 'PRESENT' && documents.documents?.length) {
+    documents.documents.forEach(documentLink => {
+      let url;
+      try { url = new URL(documentLink.url); } catch { return; }
+      if (url.protocol !== 'https:' || url.username || url.password) return;
+      const link = document.createElement('a'); link.href = url.href;
+      link.className = 'customer-notice-link'; link.target = '_blank'; link.rel = 'noopener noreferrer';
+      link.textContent = 'Company customer notice (external PDF) — linked by FSA';
+      dd.append(link);
+      const title = document.createElement('small'); title.className = 'fact-locator';
+      title.textContent = documentLink.title; dd.append(title);
+    });
+    if (dd.childNodes.length) {
+      const note = document.createElement('small'); note.className = 'fact-locator';
+      note.textContent = 'Opens in a new tab. Linked from this notice version; attachment contents have not been reviewed by BatchBeacon.';
+      dd.append(note);
+    } else dd.textContent = 'Linked document unavailable. Open the official notice for its customer guidance.';
+  } else dd.textContent = documents?.state === 'NONE_STATED'
+    ? 'No linked customer notice stated in this reviewed capture.'
+    : 'Customer-notice links have not been verified for this source. Open the official notice for its customer guidance.';
+  $('recall-facts').append(dt, dd);
   $('recall-citation').append(citation(notice, 'Source: '));
   $('recall-attribution').textContent = notice.attribution;
   $('recall-licence').hidden = !notice.source_id.startsWith('FSA-');

@@ -410,3 +410,30 @@ def test_expanded_recall_details_reflow_at_normal_and_doubled_text(refined, widt
     assert refined.evaluate('document.documentElement.scrollWidth <= innerWidth')
     refined.add_style_tag(content=':root { font-size: 32px !important; }')
     assert refined.evaluate('document.documentElement.scrollWidth <= innerWidth')
+
+
+@pytest.mark.parametrize('width', [390, 1440])
+def test_customer_notice_links_follow_version_with_readable_external_labels(refined, width):
+    refined.set_viewport_size({'width': width, 'height': 900})
+    for scenario, path in [('stale', '/FSA-PRIN-47-2026/'),
+                           ('failure', '/FSA-PRIN-47-2026-update-1/')]:
+        refined.get_by_role('link', name='Retail queue', exact=True).click()
+        refined.locator(f'[data-scenario={scenario}]').click()
+        refined.locator('#recall-details summary').click()
+        link = refined.get_by_role('link', name='Company customer notice (external PDF)')
+        expect(link).to_have_count(1)
+        assert path in link.get_attribute('href')
+        expect(link).to_have_attribute('target', '_blank')
+        expect(link).to_have_attribute('rel', 'noopener noreferrer')
+        expect(refined.locator('#recall-facts')).to_contain_text('Opens in a new tab')
+        link.focus()
+        expect(link).to_be_focused()
+        assert link.bounding_box()['height'] >= 44
+        assert refined.evaluate('document.documentElement.scrollWidth <= innerWidth')
+    refined.add_style_tag(content=':root { font-size: 32px !important; }')
+    assert refined.evaluate('document.documentElement.scrollWidth <= innerWidth')
+    refined.get_by_role('link', name='Retail queue', exact=True).click()
+    refined.locator('[data-scenario=negative]').click()
+    refined.locator('#recall-details summary').click()
+    expect(refined.locator('.customer-notice-link')).to_have_count(0)
+    expect(refined.locator('#recall-facts')).to_contain_text('have not been verified')

@@ -40,3 +40,20 @@ ignored `.local/run-records/` and `.local/source-review/context-captures/`.
 Native zoom, screen reader and physical-device verification remain unperformed;
 doubled text is not a substitute for those checks. Actual runtime integration
 must rerun the affected journeys and bind the accepted source-context revision.
+
+## Company customer-notice link follow-up
+
+The version-specific linked-PDF correction passed 11 context unit checks, 9
+existing context browser checks and 10 independent browser checks. Eight
+desktop/phone captures at 390/1440 widths and normal/doubled text were inspected:
+wrapping, visible keyboard focus, navigation and minimum 44px targets passed.
+An independent old-renderer negative control reproduced the missing link. Initial
+reviewer-harness focus races were retained and resolved by awaiting the existing
+route transition; production code did not need a correction for that setup issue.
+
+Complete local lock/Ruff, 790 unit and 50 Chrome browser checks passed before the
+next backend increment. Approved SFA JSON is unchanged. Exact-head hosted checks
+are pending. No PDF content, redistribution rights, runtime or human source review
+is implied. Impeccable clarify/craft-floor guidance and existing PRODUCT/DESIGN
+were applied directly after the non-executable launcher failed; no engine ran.
+Private receipts/captures are in `.local/run-records/recall-links-review/`.
