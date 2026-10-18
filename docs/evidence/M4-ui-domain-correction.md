@@ -49,3 +49,9 @@ The mobile layout's block display was corrected at the existing counts boundary;
 a regression verifies visible separation at390/320px. Independent rendered review
 passed. The intermediate tutorial build was superseded before deployment, with
 its evidence retained. This is the last UI correction in the original time box.
+
+Hosted verification caught a stale unit expectation for the removed initial
+“Simulated extraction” label. The unit contract now requires neutral loading copy;
+the browser regression separately verifies both configured modes. The failure is
+retained. This test-only successor can reuse the exact unchanged application
+manifest/image after complete hosted checks; it is not a verifier relaxation.

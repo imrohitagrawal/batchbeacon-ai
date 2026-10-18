@@ -36,7 +36,9 @@ def workbench(connected):
 def test_assets_configuration_and_capture_recovery(workbench):
     client, c, _ = workbench
     root = client.get("/")
-    assert root.status_code == 200 and "Simulated extraction" in root.text
+    assert root.status_code == 200 and "Opening BatchBeacon AI" in root.text
+    assert "Loading extraction mode" in root.text
+    assert "Server result · awaiting configuration" in root.text
     assert "frame-ancestors 'none'" in root.headers["content-security-policy"]
     config = client.get("/api/workbench/config").json()
     assert config["mode"] == "LOCAL_INTEGRATION_SIMULATED_EXTRACTION"
