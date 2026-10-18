@@ -1,5 +1,7 @@
 # Owner-approved hackathon demonstration scope
 
+> This records the **U18 pre-submission scope decision** and its unresolved technical acceptance limitations. Final package approval and authenticated submission occurred subsequently under U21/U22; see [STATE](../STATE.md#final-submission). Later submission does not retroactively complete the technical gates listed here.
+
 Explicitly approved by the owner under U18: “Approve this disclosed demonstration scope.”
 This scope approval does not approve submission or mark unfinished internal
 acceptance requirements as passed.
