@@ -135,6 +135,66 @@ flowchart LR
 
 [Editable Mermaid](journey.mmd) · [Static SVG](diagrams/journey.svg)
 
+## Bounded guidance and operations boundaries
+
+The second loop is not a second autonomous decision-making model. The shipped
+guidance lifecycle accepts bounded, allowlisted **capture wording** candidates,
+evaluates them against a **fixed six-case/nine-variant suite** and requires an
+**explicit activation** tied to current revisions. A rollback restores prior
+wording at a **newer** revision so the decision trail is not erased. This does not
+change the source truth, verifier, permitted inventory actions or an earlier
+investigation. It is [implemented in the learning service](../../src/batchbeacon/learning_service.py),
+[decision contracts](../../src/batchbeacon/learning_decisions.py) and
+[evaluator](../../src/batchbeacon/learning_evaluator.py); the deployed
+activation/rollback evidence is in [M3 recovery](../evidence/M3-submission-recovery.md).
+
+```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#EAF0F8","primaryTextColor":"#1E253B","primaryBorderColor":"#173B75","lineColor":"#535D71","fontFamily":"Arial, sans-serif"}}}%%
+flowchart LR
+    R["Retail evidence / capture feedback<br/>Owned, synthetic case"]:::person
+    P["Allowlisted wording candidate<br/>No verifier-rule mutation"]:::ai
+    E["Fixed six-case / nine-variant<br/>Guidance evaluation"]:::gate
+    H{"Explicit activation<br/>and revision check"}:::gate
+    S["Firestore-owned<br/>active guidance revision"]:::system
+    B["Rollback to earlier wording<br/>at a newer revision"]:::neutral
+    X["Reject / retain existing<br/>guidance"]:::neutral
+    Q["New capture guidance<br/>for same owned shop"]:::person
+    R -->|"Feedback / bounded proposal"| P
+    P -->|"Candidate bound to policy"| E
+    E -->|"Accepted fixed evaluation"| H
+    E -->|"Failed / stale"| X
+    H -->|"Confirmed"| S
+    H -->|"Not confirmed"| X
+    S -->|"Controls next guidance only"| Q
+    S -->|"Explicit rollback"| B
+    B -->|"Persist new revision"| S
+    classDef system fill:#173B75,color:#FFFFFF,stroke:#173B75,stroke-width:1.5px
+    classDef person fill:#FFF3ED,color:#1E253B,stroke:#173B75,stroke-width:1.5px
+    classDef neutral fill:#EAF0F8,color:#1E253B,stroke:#173B75,stroke-width:1.5px
+    classDef ai fill:#F1EDFF,color:#6243B5,stroke:#173B75,stroke-width:1.5px
+    classDef gate fill:#E6F2EB,color:#20573E,stroke:#173B75,stroke-width:1.5px
+```
+
+[Editable Mermaid source](guidance-boundary.mmd). This additional view is rendered
+by GitHub Mermaid; the four original C4-style views above continue to provide
+their own downloadable static SVG fallbacks.
+
+**Do not read the “Private Operations” box in the earlier context/container
+views as a public in-app technical dashboard.** Operations means privately
+authorized Google Cloud resource/Monitoring/Logging dashboard and policy access.
+The Cloud Run app exposes the separate guest-owned retail interface; platform
+logs/metrics support technical oversight, but complete application telemetry
+and observed uptime-alert firing/closure remain incomplete. The Cloudflare Worker
+is only an edge proxy to Cloud Run and does **not** enforce the sole backend
+security boundary because the run.app hostname remains reachable.
+
+**Trust boundaries:** untrusted label/source bytes → bounded extraction proposal
+→ deterministic policy/checks → human confirmation → durable owned records.
+Private images and Firestore are accessed by server identities and per-request
+authorization. Global cost admissions survive visitor cookie resets. There is no
+live-source crawler, regulator-facing dashboard or Firebase user-login service in
+the accepted release.
+
 ## Why these choices matter
 
 | Choice | Reason and accepted trade-off | When another approach would fit |

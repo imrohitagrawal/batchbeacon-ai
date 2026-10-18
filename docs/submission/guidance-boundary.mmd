@@ -1,0 +1,24 @@
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#EAF0F8","primaryTextColor":"#1E253B","primaryBorderColor":"#173B75","lineColor":"#535D71","fontFamily":"Arial, sans-serif"}}}%%
+flowchart LR
+    R["Retail evidence / capture feedback<br/>Owned, synthetic case"]:::person
+    P["Allowlisted wording candidate<br/>No verifier-rule mutation"]:::ai
+    E["Fixed six-case / nine-variant<br/>Guidance evaluation"]:::gate
+    H{"Explicit activation<br/>and revision check"}:::gate
+    S["Firestore-owned<br/>active guidance revision"]:::system
+    B["Rollback to earlier wording<br/>at a newer revision"]:::neutral
+    X["Reject / retain existing<br/>guidance"]:::neutral
+    Q["New capture guidance<br/>for same owned shop"]:::person
+    R -->|"Feedback / bounded proposal"| P
+    P -->|"Candidate bound to policy"| E
+    E -->|"Accepted fixed evaluation"| H
+    E -->|"Failed / stale"| X
+    H -->|"Confirmed"| S
+    H -->|"Not confirmed"| X
+    S -->|"Controls next guidance only"| Q
+    S -->|"Explicit rollback"| B
+    B -->|"Persist new revision"| S
+    classDef system fill:#173B75,color:#FFFFFF,stroke:#173B75,stroke-width:1.5px
+    classDef person fill:#FFF3ED,color:#1E253B,stroke:#173B75,stroke-width:1.5px
+    classDef neutral fill:#EAF0F8,color:#1E253B,stroke:#173B75,stroke-width:1.5px
+    classDef ai fill:#F1EDFF,color:#6243B5,stroke:#173B75,stroke-width:1.5px
+    classDef gate fill:#E6F2EB,color:#20573E,stroke:#173B75,stroke-width:1.5px
