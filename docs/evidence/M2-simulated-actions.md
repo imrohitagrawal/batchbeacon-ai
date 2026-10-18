@@ -57,7 +57,10 @@ Independent correction verification passed **113 action/evidence/domain tests**
 probes. Old-behavior controls reproduced the strict-confirmation and all three
 semantic-history failures. No remaining reproduced blocker exists in this local
 slice. Full locked local checks passed: **415 unit and 48 Chrome browser tests**.
-Counts overlap; do not add them. Hosted checkpoint verification is pending.
+Counts overlap; do not add them. [Hosted run 39083525128](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39083525128)
+passed at `241f94c88598f6c2cf38acd368cd05718a854de0`: locked bootstrap, browser
+installation, lock/Ruff, 415 unit and 48 Chromium browser tests. Full log inspected
+and remote ref verified.
 Logs and source-bound review receipts remain in ignored `.local/run-records/`.
 No release freeze follows.
 
