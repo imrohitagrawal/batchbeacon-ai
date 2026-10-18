@@ -8,7 +8,7 @@ Authenticated form cutoff: 18 October 2026 23:59 IST / 18:29 UTC, still open.
 Fixed packaging reserve protected; full P0 delivery materially at risk on one machine.
 Exact finite expiry/freeze/queue live only in `.local/run-policy.json`.
 Owner renewed bounded execution; exact timing stays in the private run policy.
-Native goal last reported BLOCKED after prior expiry; chat-authorized work resumed.
+Native goal now reads ACTIVE after owner renewal; prior expiry/block remains history.
 Earlier useful continuation canary and read-only recovery passed; no second goal.
 Existing Default / Full Access / never-approval session observed, not changed by us.
 U09–U12 apply: bounded existing cloud project, INR 6,000 lifetime pools and approved
