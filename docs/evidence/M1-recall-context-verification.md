@@ -30,7 +30,10 @@ action boundaries and native disclosure treatment.
   recheck and 7 context browser cases PASS after these refinements.
 - Human source/rights review remains pending for new context and the UK slice.
   Consumer advice is a short attributed summary linked to the complete notice.
-- Hosted checkpoint verification pending. No hosted product journey is claimed.
+- [Hosted run 39081717325](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39081717325)
+  PASS at `a524924dadc648f75a2ed43c9af4a48ee7eee0fa`: locked bootstrap, browser
+  installation, lock/Ruff, 289 unit and 48 Chromium browser tests. Full log inspected;
+  remote main verified. No hosted product journey or release freeze is claimed.
 
 Raw local outputs, source-bound review receipts and new captures remain under
 ignored `.local/run-records/` and `.local/source-review/context-captures/`.

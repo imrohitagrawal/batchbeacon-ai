@@ -81,7 +81,8 @@ Recall-context correction: cited reasons and detailed notice context now appear 
 the refined workbench/queue. Prior raw sources retained these facts; earlier reports
 omitted explicit context. New draft source review pending; SFA predicate approval
 unchanged. Local 289 checkpoint unit / 48 browser PASS, independent context PASS;
-see M1-recall-context-verification.md. Hosted checkpoint pending.
+see M1-recall-context-verification.md. Hosted a524924 / run 39081717325 PASS
+with locked bootstrap, 289 unit and 48 Chromium browser tests.
 
 ## External state
 Project ID `batchbeacon-ai` ACTIVE, billing enabled; selected account matches owner hint.
@@ -96,8 +97,11 @@ Public GitHub repository created and pushed; README PR #1 merged after hosted PA
 No release candidate/freeze. Model candidate gemini-3.8-flash not account-tested.
 
 ## Next ready queue
-T06 approved/documented; T09 local checkpoint hosted PASS. Continue shared
-admission/counter contracts and the prepared UK source/label review packet.
+T06 approved/documented; T09 guest/upload and recall-context checkpoints hosted PASS.
+Shared admission protocol independently reviewed (36 focused cases), full local
+325 unit / 48 browser PASS; see M2-shared-admission.md. Hosted checkpoint pending.
+Actual store/provider/rate-limit integration remains. Next: T09 owned observation/
+correction persistence; UK v3/new source-context human review is pending.
 Actual service sign-off still waits for T08. Continue bounded T08 capacity/service
 discovery and T04b source review preparation alongside independent local work. Complete billing bounds remain unsubstantiated;
 paid admission stays closed. Implement approved visuals when T17 is dependency-ready.
