@@ -122,7 +122,13 @@ M2-firestore-adapter.md for exact scope and concurrency/restart limitations.
 Hosted c6ac23b / run 39086202851 PASS: locked bootstrap/Ruff, 519 unit and
 48 Chromium tests. Emulator evidence remains separate. Actual Storage,
 provider/rate-limit integration and connected UI remain; real-service sign-off
-still waits for T08. Next: bounded private-image Storage adapter preparation.
+still waits for T08. Private Storage SDK adapter now preserves exact sanitized
+bytes and immutable retention receipts with bounded create-only reconciliation.
+60 focused tests PASS; two reproduced contract corrections independently verified.
+Full local lock/Ruff, 579 unit and 48 Chrome PASS; hosted checkpoint pending.
+See M2-private-storage.md for dedicated-client configuration, pinned SDK coupling
+and HTTP cancellation limits. No actual bucket/lifecycle/runtime claim.
+Next: bounded ADK-to-evidence integration preparation under T10.
 UK v3/new source-context human review is pending.
 Actual service sign-off still waits for T08. Continue bounded T08 capacity/service
 discovery and T04b source review preparation alongside independent local work. Complete billing bounds remain unsubstantiated;
