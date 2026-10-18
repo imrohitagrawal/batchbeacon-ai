@@ -68,3 +68,10 @@ The owner explicitly approved the corrected Evidence in focus UI on 18 October
 approved system. Preserve earlier decisions as history; no new palette or
 workflow choice is introduced. Runtime, remaining source/custody and submission
 gates remain separate.
+
+## LOCAL-12 — bounded owner renewal
+The owner explicitly instructed continued work for up to three more hours after
+the prior finite run expired. The new private run policy preserves the existing
+feature freeze, packaging reserve and all remaining human/runtime gates. Native
+goal status last reported BLOCKED; supported chat execution continues under this
+renewal without inventing an active-goal transition or starting a second writer.

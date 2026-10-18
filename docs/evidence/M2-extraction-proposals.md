@@ -200,22 +200,30 @@ provider-execution receipt.
 
 ## Remaining integration gates
 
-**Open OR11 / REQUIRED_CONTRACT:** a subsequent isolated fake-store reproduction
+**OR11 / REQUIRED_CONTRACT corrected locally:** the retained isolated reproduction
 advanced the current notice/context from source epoch 1 to 2 before recording an
-extraction whose envelope still named epoch 1. `record_extraction()` accepted the
-old dependency; later verification reported a current matched result with simulated
-hold eligibility. Source content was unchanged in this test, so this demonstrates
-a dependency/currentness contract gap, not a real-world incorrect product match
-or deployed exposure. The internal API currently trusts adapter provenance.
+extraction whose envelope still named epoch 1. Before correction, publication
+accepted that dependency and later verification could grant current simulated-hold
+eligibility. Source content was unchanged; this was a dependency/currentness gap,
+not a demonstrated real-world incorrect product match or deployed exposure.
 
-The next correction must check the selected source dependencies atomically at the
-responsible publication boundary, preserve historical/failed attempt evidence,
-and retain idempotent reconciliation without publishing a new stale observation.
-Reproduce source-change races and duplicate/lost-ack behavior, then independently
-verify the correction and run complete local/hosted checks. No correction is
-claimed here. The failed reproduction is retained privately; application runtime
-integration acceptance remains blocked by this finding. Earlier component passes
-remain scoped evidence, not proof of this previously untested boundary.
+New VALID extraction publication now compares the complete selected dependency
+set against the transaction's selected notices and current-source registry. It
+rejects missing, extra, duplicate or changed dependencies, including hash, version,
+epoch and review revision. Identical committed retries reconcile their original
+receipt first. Failed attempts retain attempted source/raw evidence without an
+observation; deliberate re-verification of retained label evidence remains valid.
+Unrelated registry families do not expand the selected extraction scope.
+
+Independent verification passed **20 new publication cases plus 50 existing
+owned-evidence cases**, and Ruff. Races during retained-object reads and transaction
+retry are covered. An independent negative control disabling the new check causes
+15 failures in the new suite. The original failing reproduction and an initial
+invalid duplicate-context test setup are retained separately from corrected
+results. Complete local lock/Ruff, **721 unit and 48 Chrome browser tests** passed.
+Exact-head hosted validation is pending at this checkpoint. This closes the local
+publication finding; application orchestration and real-runtime acceptance remain
+separate.
 
 T10 still requires the application-integrated ADK workflow with this schema and
 effective configuration, then separately authorized real-provider evidence. Its

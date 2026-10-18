@@ -7,7 +7,9 @@ Both originals and the original 33 packaged hashes were verified before changes.
 Authenticated form cutoff: 18 October 2026 23:59 IST / 18:29 UTC, still open.
 Fixed packaging reserve protected; full P0 delivery materially at risk on one machine.
 Exact finite expiry/freeze/queue live only in `.local/run-policy.json`.
-Native Goal ACTIVE after useful continuation canary and fresh read-only recovery PASS.
+Owner renewed bounded execution; exact timing stays in the private run policy.
+Native goal last reported BLOCKED after prior expiry; chat-authorized work resumed.
+Earlier useful continuation canary and read-only recovery passed; no second goal.
 Existing Default / Full Access / never-approval session observed, not changed by us.
 U09–U12 apply: bounded existing cloud project, INR 6,000 lifetime pools and approved
 GitHub publication. No extra purchase, privilege expansion or public paid endpoint.
@@ -125,14 +127,16 @@ ADK/mock cases PASS. Actual source/three separate label preparations passed offl
 with explicit source-limit override; no runtime activation. Full local lock/Ruff,
 701 unit and 48 Chrome PASS; hosted 4a7872e / run 39089850101 passed bootstrap,
 Ruff and the same unit/Chromium counts. See same evidence for runtime limitations.
-Next: correct reproduced OR11 before application ADK orchestration. An isolated
-old-epoch extraction was accepted after current source advancement and could gain
-current simulated-hold eligibility; no deployed exposure or changed-content match
-claim. See M2-extraction-proposals.md. Shared admission, durable attempt output,
-final-wire identity and unresolved T08 gates still precede runtime acceptance.
+OR11 source-publication dependency correction independently verified: 20 new plus
+50 existing evidence cases PASS; complete local lock/Ruff, 721 unit and 48 Chrome
+PASS. Exact-head hosted check pending. Atomic selected-source/current-registry
+comparison preserves historical retries and intentional re-verification.
+Next: input-bound shared run identity and durable attempt output, then final-wire
+ADK orchestration. Shared reservations and unresolved T08 gates still precede
+runtime acceptance. See M2-extraction-proposals.md for scope and retained failure.
 UK v3/new source-context human review is pending.
 Actual service sign-off still waits for T08. Continue bounded T08 capacity/service
 discovery and T04b source review preparation alongside independent local work. Complete billing bounds remain unsubstantiated;
 paid admission stays closed. Implement approved visuals when T17 is dependency-ready.
 Next prompt: Continue prompts/01-codex-kickoff.md from STATE and the private run policy;
-native goal is already active with canary/recovery passed; do not create another.
+respect renewed finite authority; do not create another native goal or supervisor.

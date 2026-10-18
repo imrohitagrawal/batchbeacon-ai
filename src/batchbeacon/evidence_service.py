@@ -281,6 +281,20 @@ class EvidenceService:
             if sha256(data).hexdigest() != ref.sha256:
                 raise GuestDenied(422, "capture_evidence_unavailable")
 
+    def _extraction_sources(self, snapshot, sources):
+        environment = self._environment(snapshot)
+        selected = tuple(notice.dependency for notice in environment.notices)
+        provided = {dependency.family: dependency for dependency in sources}
+        expected = {dependency.family: dependency for dependency in selected}
+        current = {dependency.family: dependency
+                   for dependency in environment.context.current_sources}
+        if not selected or len(provided) != len(sources) or len(expected) != len(selected) \
+                or len(current) != len(environment.context.current_sources) \
+                or provided != expected \
+                or any(current.get(family) != dependency
+                       for family, dependency in expected.items()):
+            raise GuestDenied(409, "extraction_sources_changed")
+
     def record_extraction(self, capability, incident_id, request_key, expected_revision,
                           envelope: ExtractionEnvelope) -> EvidenceReceipt:
         """INTERNAL trusted-adapter API; never deserialize it from a guest endpoint."""
@@ -301,6 +315,11 @@ class EvidenceService:
                 return state
             if len(state.observations) != expected_revision:
                 raise GuestDenied(409, "observation_changed")
+            if envelope.validation == "VALID":
+                # Only new publication needs this fresh binding. Identical committed
+                # retries above reconcile history; explicit failures retain their
+                # original attempted source without producing an observation.
+                self._extraction_sources(snapshot, envelope.sources)
             if envelope.started_at < snapshot.guest.scope.issued_at:
                 raise GuestDenied(422, "extraction_envelope_invalid")
             self._ready(snapshot, incident_id, envelope.captures)
