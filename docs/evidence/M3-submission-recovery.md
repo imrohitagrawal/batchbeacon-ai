@@ -57,11 +57,53 @@ not an exhaustive legal or image-content certification. The project license is a
 owner choice; no new license was invented.
 
 The editable organizer-template draft preserves all 16 slots and organizer assets.
-Native PDF export is not yet verified. Raw private screenshots containing session
+A 15-page audience PDF draft now renders through system CoreGraphics/PDFKit
+using the original template artwork and fitted editable-deck geometry. It is
+approximately 2.37 MB; this is a companion authoring route, not an Office export. Raw private screenshots containing session
 details are excluded. The local artifact runtime remains unavailable; the explicit
 recovery fallback uses template XML editing and native rendering, without claiming
-artifact-tool authoring/finalization. Exported PDF/video still require visual,
+artifact-tool authoring/finalization. Measured narration tracks are 230/160 seconds; completed videos and final PDFs
+still require visual,
 privacy, duration, size, link and unauthenticated-playback checks.
+
+## Deployed recovery and overload correction
+
+At application head `301773e9564241fa8bb51ec8868b803b7b1b29fe`, exact-head
+hosted checks passed (1,332 unit and 66 browser checks). The private image and
+runtime were independently verified, with original source, budget balances and
+attempt liabilities retained. A fresh private real Gemini/ADK journey completed
+label extraction, deterministic historical-SFA comparison, explicit browser
+confirmation and persistent queue. Its helper later failed during foreign-guest
+setup; the paid journey and seven browser checks were independently reconciled,
+not discarded or counted as a complete helper pass.
+
+Four simultaneous maximum-size uploads reproduced instance termination and four
+503 responses. OOM was not established. Lowering configured per-instance
+concurrency from four to one, preserving two instances/CPU/memory, produced three
+successful uploads across two actual instances and one platform-capacity429.
+Read-only reconciliation followed by the original-key serial recovery succeeded;
+retained maximum-size image hashes and pixels matched. This proves bounded
+backpressure/recovery, not four simultaneous successful responses or a throughput
+benchmark. Original failed receipts remain preserved.
+
+Exact deployed ownership/CSRF/privileged-route checks, observation invalidation,
+historical action deduplication, deterministic review and actual fixed guidance
+six-case/nine-variant evaluation, activation and rollback passed. Independent
+readback confirmed unchanged model accounting, zero outstanding reservation,
+owned guidance revision three and the foreign shop's untouched baseline. This
+is not a live-source update or protected model-quality evaluation.
+
+The overload exercise separately reproduced AC-26: an unknown upload response
+lost its operation key and offered no working recovery control. The smallest
+correction adds owned exact-key capture reconciliation, retains only file hashes
+and the original operation key across browser reload, and requires explicit
+same-file retry. Ready uploads reconcile without another upload. Other mutations
+remain blocked while the outcome is unknown. JSON5xx and platform non-JSON429
+preserve uncertainty and the recovery control. Independent injected committed-
+acknowledgement failures reproduced the defect and pass after correction.
+The corrected candidate passes 1,335 local unit checks, 70 installed-Chrome
+browser checks and Ruff. Exact-head hosted checks and exact-image deployment
+remain separate gates.
 
 ## Remaining release gate
 

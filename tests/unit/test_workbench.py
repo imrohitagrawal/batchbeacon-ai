@@ -166,3 +166,56 @@ def test_committed_old_key_replay_cannot_restore_stale_result(workbench):
     assert second.status_code == 200, second.text
     assert not second.json()["current"] and not second.json()["hold_eligible"]
     assert len(second.json()["result_history"]) == 2
+
+
+def test_capture_reconciliation_is_exact_owned_read_only(workbench):
+    client, c, _ = workbench
+    service = c[3][2]
+    incident = service.incident(c[2], c[1].incident_id)
+    key = incident.batches[0].request_key
+    path = f'/api/incidents/{incident.id}/capture-reconciliation'
+    before = service.resolve(c[2])
+    response = client.get(path, headers={'Idempotency-Key': key})
+    assert response.status_code == 200
+    assert response.json()['found'] and response.json()['batch']['ready']
+    assert response.json()['batch']['captures'][0]['id'] == incident.batches[0].captures[0].id
+    assert client.get(path, headers={'Idempotency-Key': 'absent'}).json() == {
+        'found': False, 'batch': None}
+    assert service.resolve(c[2]) == before and not c[4]
+    assert client.get(path).status_code == 422
+    assert client.get(path, headers={'Idempotency-Key': 'bad key'}).status_code == 422
+    assert client.get(path, headers=[('Idempotency-Key', key),
+                                     ('Idempotency-Key', key)]).status_code == 422
+    foreign, _ = service.issue()
+    client.cookies.set(service.policy.cookie_name, foreign)
+    assert client.get(path, headers={'Idempotency-Key': key}).status_code == 404
+    client.cookies.set(service.policy.cookie_name, c[2])
+    c[3][5][0] = c[6].scope.expires_at
+    assert client.get(path, headers={'Idempotency-Key': key}).status_code == 401
+
+
+@pytest.mark.parametrize('committed', [False, True])
+def test_capture_storage_failure_is_unknown_and_reconcilable(workbench, monkeypatch, committed):
+    from pathlib import Path
+
+    from batchbeacon.guest_service import GuestDenied
+
+    client, c, headers = workbench
+    service = c[3][2]
+    original = service.retain
+
+    def lost(*args, **kwargs):
+        if committed:
+            original(*args, **kwargs)
+        raise GuestDenied(503, 'evidence_temporarily_unavailable')
+
+    monkeypatch.setattr(service, 'retain', lost)
+    headers = headers | {'Idempotency-Key': 'lost-capture-ack'}
+    prefix = f'/api/incidents/{c[1].incident_id}'
+    response = client.post(prefix + '/captures', headers=headers, files=[
+        ('images', ('synthetic.png',
+                    Path('fixtures/synthetic/sfa-a.png').read_bytes(), 'image/png'))])
+    assert response.status_code == 503 and response.json()['outcome'] == 'unknown'
+    readback = client.get(prefix + '/capture-reconciliation', headers=headers).json()
+    assert readback['found'] is committed
+    assert (readback['batch']['ready'] if committed else readback['batch'] is None)

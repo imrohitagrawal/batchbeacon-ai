@@ -1,125 +1,86 @@
 # BatchBeacon AI — current execution state
 
-Capture: 18 October 2026 IST. M0 passed; M1 source/gold gates remain open.
-Core integration has substantial local, hosted and real-service evidence.
-Product NOT READY; no release candidate, public judge access or final submission.
+18 October 2026. Public GitHub exists. The Cloud Run application remains private.
+No release candidate, public judge acceptance or submission is claimed.
 
-## Authority and bounded execution
-Official submission cutoff: 18 October 2026 23:59 IST /18:29 UTC.
-The fixed feature freeze and protected packaging reserve have not moved.
-Full P0 completion and both measured video exports are materially at risk.
-Exact run admission, expiry, freeze and allowed queue are private in
-`.local/run-policy.json`; never infer a renewal from this document.
-The controlled handoff verified the previous executor stopped. One primary writer
-and read-only independent reviewers were used; no custom supervisor.
-The previous executor completed its final turn. A new finite recovery window was
-explicitly approved and recorded privately; this thread has no native Goal.
-Scope is verification, mandatory critical corrections and submission packaging.
-No feature-freeze, reserve or budget extension is implied.
-U09–U12 retain the existing INR6,000 lifetime envelope, scoped cloud configuration
-and ordinary publication to `imrohitagrawal/batchbeacon-ai`. Public exposure still
-requires security/cost/release gates. Final submission remains separately gated.
-U01 approves the160/230-second cuts; U02 approves Evidence in focus. Neither is a
-completed video export or full running-UI acceptance. U17 completes owner review
-of the UK packet/PDF conservative disposition: retain separate sources, disclose
-the scope difference and keep UK matching review-only.
+## Authority and deadline
 
-## Workspace and hosted evidence
-Main branch; application checkpoint `4a0f3a854e336b8cec970745f9f46a33b8e88cdb`.
-Hosted [run39123739062](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39123739062)
-passed at that exact head; preceding full hosted integration reports1315 unit/
-66 Chromium checks. Later documentation checkpoint is recoverable from Git.
-Earlier bootstrap/push/branch/PR-merge/merged-main boundaries passed; no enforced
-required-check rule or release freeze is claimed. See M1-hosted-ci.md.
-`.local/` and `.batchbeacon/` remain ignored/untracked; exact credentials, runtime
-configuration, sessions, costs and process inventory stay private.
-Python3.12.13/uv0.11.18 locked environment, gcloud, gh, Chrome and Docker were
-actually used or discovered. Both adapted design skills and original Impeccable
-were admitted/loaded; application/testing limits and hashes remain in SKILLS.md.
-No new skill was installed during the final cloud acceptance work.
+Official cutoff: 18 October 2026, 23:59 IST. The original feature freeze is active;
+its protected submission reserve remains unchanged. The owner explicitly renewed
+bounded recovery for verification, required critical corrections and packaging.
+Exact admission/expiry/configuration are private in `.local/run-policy.json`.
+No native Goal exists. The previous executor's completion was verified.
+One integrator writes product/contracts/deployment; independent reviewers are
+read-only. One admitted isolated artifact writer handles packaging.
+U09–U12 retain the INR6,000 lifetime envelope and existing cloud/public GitHub
+scope. Public synthetic access requires security/cost gates. U16 OWNER-SUBMIT and
+material terms remain separate. U17 keeps UK matching review-only. U13 willingness
+does not complete remaining human gold review or protected-case custody.
 
-## Completed evidence and its limits
-- Reviewed SFA A/B positives and synthetic wrong-identity negative; deterministic
-  identity-first typed lot/date comparison. UK original/update/PDF preserved with
-  unresolved interpretation. M1-domain.md and M1-attachment-inspection.md.
-- Owned guest/upload/evidence, immediate ownership/expiry checks, transactional
-  action/currentness, shared cost admission and durable attempt accounting have
-  independent local/hosted evidence. Respective M2 evidence files preserve fixes.
-- Actual Firestore/private Storage acceptance passed eight scenarios. Database is
-  Native Standard with deletion protection; buckets are private/PAP/uniform with
-  one-day live deletion target and seven-day soft retention. Physical expiry/
-  deletion and deployed cross-instance acceptance remain separate.
-- T34 persistent queue/currentness and T35 owned feedback/evaluation/confirmed
-  activation/rollback pass local integration, independent correction review and
-  hosted checks. Fixed evaluator runs six cases/nine variants under both wording
-  policies; this is not the protected model-quality denominator. Durable throttle,
-  F6 and lost-response browser corrections passed. Full deployed guidance remains.
-- Six earlier real Gemini attempts were reconciled; the sixth completed actual
-  extraction→deterministic historical-SFA match→persisted simulated action→queue.
-  Earlier failed proposals and cost receipts remain unchanged. M2-real-coordinator.md.
-- A fresh private Cloud Run Chrome journey now passes the actual UI from capture
-  through real Gemini/ADK extraction, explicit simulated confirmation, reload and
-  owned queue. Desktop/phone were inspected. Missing/foreign guests could not read
-  the exact evidence/action/image paths. M2-private-cloud-journey.md separates this
-  single historical case from live-source, cross-instance and full release gates.
-- Private Cloud Run image/runtime identity/resources/IAM and HTTP denial were
-  independently verified. Same-image Linux normalization correction changed only
-  related configuration/ledger hashes; prior balances/attempts/source state and
-  finite authority were preserved. M2-production-composition.md records the
-  startup failure, actual probe, atomic correction and independent verification.
+## Verified application and cloud
 
-## Actual cloud state and ownership
-Existing dedicated project remains active/billing enabled. One private Run service,
-Firestore database, evidence bucket, build-source bucket, image repository and
-three dedicated least-privilege identities exist. No public IAM principal or
-service-account key was created. Run limits: min0/max2 at service/revision,
-concurrency4, CPU1/1GiB, timeout60s, startup boost disabled.
-Deployed image: `sha256:2ae411c819d50634e8fbdba90804556c5cfed7086f65d55e25f0e8cdaa43d0e8`.
-Actual revision/configuration and resource inventories are in private evidence.
-Three provider budgets were created/read back; Vertex/Run caps report CONFIGURED.
-Provider reporting lag/calendar caps do not replace application lifetime pools.
-Seven real model attempts are reconciled with zero outstanding reservation;
-the paid acceptance phase is closed to further reservations.
-Accounting is derived from retained response bytes; total
-provider invoice charges, including builds/storage/Monitoring, remain uncertain.
-One private BatchBeacon Operations dashboard and two alert policies exist. Owner
-browser access and anonymous401 were verified. Historical receipt imports and a
-simulated control signal are labelled. Native app telemetry, authenticated uptime,
-observed alert firing/closure and complete OPS acceptance remain unfinished.
-Owner retains resources/evidence for the funded judging period through7 November
-2026 23:59 IST. Run expiry is not cloud deletion. No cleanup/deletion or working
-rollback has been fabricated. Preserve both successful images and failed evidence.
+Application head `301773e9564241fa8bb51ec8868b803b7b1b29fe` passed hosted
+[checks 39127173363](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39127173363):
+1,332 unit and 66 browser checks. Actual Git is authoritative for later candidates.
+Earlier push/PR-merge/merged-main topology evidence remains in M1-hosted-ci.md.
+No local-only release freeze is claimed.
 
-## Remaining critical path and exact next task
-Recovery from `6129d97` verified public GitHub/main and its successful hosted run.
-Public app access remains closed. A reproduced anonymous guest-provisioning gap
-has a bounded atomic correction, independent local verification and five actual
-Firestore checks; candidate deployment/hosted verification remains pending.
-The authenticated form still requires the prescribed PDF (5 MB), 3–4 minute video
-and 1,024-character description. Registered team is Bugging Debuggers; dashboard
-spelling is Priyanka Shelke. Editable template deck and refreshed copy are drafts;
-PDF export and measured videos remain unfinished. See
-[recovery evidence](evidence/M3-submission-recovery.md).
+Private deployed image:
+`sha256:0ac0949f539ef2f768b12275f9ba0dd989218f14492824e650edfdd597e1c235`.
+One Cloud Run app, private Firestore/Storage, dedicated runtime/build/deploy
+identities, and provider budget controls remain in the existing project.
+Run limits now min 0/max 2, concurrency 1, CPU 1/1 GiB, timeout 60s, no startup CPU boost.
+Independent readback verified image/runtime/IAM and 100% traffic to the ready
+revision. Anonymous root 403; no public bucket, privileged route or Operations
+exposure. Provider reporting delay remains distinct from app reservation limits.
 
-After reconciling the finite stop boundary, the next authorized bounded task is
-remaining T17 deployed acceptance: live-source timing/currentness, cross-instance
-ownership and allowance/concurrency checks, then deployed T35 guidance and OPS.
-Complete context/allowance UI requirements without changing the approved direction.
-No new model call is implied by a resumed read-only checkpoint.
-Human work still open: remaining development gold/source expected outcomes,
-protected H-case custody, UK interpretation if promoting matches, and final
-concrete submission approval. U17 and generic autonomy do not waive these gates.
-T27 official16-page template was inspected; final deck is unfinished. Judge guide,
-form copy and160/230-second storyboards are drafts; no measured exports exist.
-PDF/product-image extraction remains future ATT-01 in ROADMAP.md; linked source
-inspection does not mean attachment extraction is implemented.
-At fixed freeze, ordinary features stop. Only an admitted critical-correction,
-review/packaging queue may proceed; no reduced reserve, extra budget or silent
-extension. Full judge-ready completion cannot currently be claimed.
+Eight actual model attempts are reconciled with zero outstanding reservation.
+The new namespace carries prior balances and consumed guest capacity; no reset.
+The finite PUBLIC model phase is activated while IAM remains private. This is
+cost admission preparation, not public exposure or completed release acceptance.
+Exact charges, accounts, configuration and IDs stay in ignored private evidence.
 
-Next prompt: Read prompts/resume.md, reconcile docs/STATE.md with the actual
-workspace, and continue the next authorized bounded task: remaining T17 deployed
-currentness/isolation/allowance acceptance. Verify the prior writer stopped and
-private admission is valid before cloud work; preserve all recorded gates.
+## Evidence and limitations
 
-Latest sanitized handoff: [private cloud checkpoint](evidence/HANDOFF-2026-10-18-private-cloud.md).
+- Actual Gemini/ADK extraction, identity-first historical SFA comparison, explicit
+  simulated hold and persistent queue passed a fresh private browser journey.
+  The helper later failed during foreign-guest setup; its successful paid path
+  was independently reconciled. Raw private media requires publication review.
+- Global guest lifetime/rate admission has independent local/hosted and actual
+  Firestore evidence. Missing, corrupt or expired state closes admission.
+- Maximum uploads at concurrency 4 reproduced four 503s and instance termination.
+  Concurrency 1 produced three successes across two instances and one platform 429.
+  Original-key serial recovery and retained pixel/hash verification passed.
+  This is bounded overload recovery, not a four-success throughput benchmark.
+- Deployed ownership, CSRF, privileged-route denial, observation invalidation,
+  historical action deduplication and deterministic review passed. Actual fixed
+  guidance evaluation (six cases/nine variants), activation and rollback persisted.
+  Independent ten-document readback confirmed accounting and foreign-shop isolation.
+- AC-26 upload recovery had a reproduced UI gap. A narrow correction retains
+  original keys/file hashes, provides owned reconciliation, and permits explicit
+  same-file retry. Independent committed-response-loss regressions pass; complete
+  candidate/hosted/deployed acceptance must still precede public admission.
+- UK interpretation remains review-only. Live-source update, all six deployed
+  journeys, full 24-development/8-protected evaluation/custody, and complete Ops
+  telemetry/uptime/alert/physical-cleanup acceptance remain unfinished. Attachment
+  extraction is future ATT-01. Any narrower release needs explicit owner approval.
+
+## Submission packaging and next action
+
+Registered team: Bugging Debuggers. Official dashboard spelling: Priyanka Shelke.
+The organizer-template audience deck covers the problem, differentiation, both
+workspaces, stakeholder benefits and future adoption. A 15-page companion PDF
+using original artwork and editable-deck geometry renders locally below 5 MB;
+this is not an Office export. Narration tracks measure 230/160 seconds. Final
+screenshots, accepted public/video links, complete video exports and audits remain.
+Final public URL must work in a fresh unauthenticated browser. Then complete
+artifacts/form fields, request OWNER-SUBMIT on the concrete candidate and terms,
+and retain the actual submission receipt. No form submission has occurred.
+
+Next: finish AC-26 correction verification, exact-head hosted build/deploy and
+actual recovery checks; reconcile public-admission scope before exposure. Keep
+private buckets, Operations, protected cases and credentials inaccessible.
+
+Evidence: [submission recovery](evidence/M3-submission-recovery.md).
+Historical handoff: [private cloud checkpoint](evidence/HANDOFF-2026-10-18-private-cloud.md).
+Resume: [instructions](../prompts/resume.md). Private paths remain ignored/untracked.

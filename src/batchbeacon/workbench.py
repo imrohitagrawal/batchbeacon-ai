@@ -49,7 +49,7 @@ def _create_workbench(extraction, actions, refresh, policy, *, real, learning):
 
     @app.exception_handler(GuestDenied)
     async def denied(request, error):
-        if request.method == 'POST' and request.url.path.endswith('/verifications') \
+        if request.method == 'POST' and request.url.path.endswith(('/verifications', '/captures')) \
                 and error.status >= 500:
             from fastapi.responses import JSONResponse
             return JSONResponse({'error': error.code, 'outcome': 'unknown',
@@ -135,6 +135,27 @@ def _create_workbench(extraction, actions, refresh, policy, *, real, learning):
         guest._live(session, guest._key(token))
         return {'batches': [{'captures': [c.model_dump(mode='json') for c in b.captures],
                              'ready': b.ready} for b in incident.batches]}
+
+    @app.get('/api/incidents/{incident_id}/capture-reconciliation')
+    async def reconcile_capture(incident_id: str, request: Request):
+        from pydantic import TypeAdapter, ValidationError
+
+        from batchbeacon.guest_service import RequestKey
+
+        token, session, incident = await run_in_threadpool(owned, request, incident_id)
+        await _no_body(request, policy)
+        keys = request.headers.getlist('idempotency-key')
+        if request.query_params or len(keys) != 1:
+            raise GuestDenied(422, 'request_key_required')
+        try:
+            key = TypeAdapter(RequestKey).validate_python(keys[0])
+        except ValidationError as exc:
+            raise GuestDenied(422, 'request_key_required') from exc
+        guest._live(session, guest._key(token))
+        batch = next((b for b in incident.batches if b.request_key == key), None)
+        return {'found': batch is not None, 'batch': None if batch is None else {
+            'captures': [c.model_dump(mode='json') for c in batch.captures],
+            'ready': batch.ready}}
 
     @owned_boundary
     def reverify(request, incident_id):
