@@ -138,6 +138,7 @@ def create_guest_test_app(service: GuestService) -> FastAPI:
         if request.query_params:
             raise GuestDenied(422, "unexpected_input")
 
+    @app.get("/health")
     @app.get("/healthz")
     def health():
         return getattr(app.state, "health_view",

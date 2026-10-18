@@ -298,6 +298,7 @@ def create_app():
 
         app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 
+        @app.get("/health")
         @app.get("/healthz")
         def health():
             return {"process": "ok", "product": "not_ready", "mode": "closed_preparation"}

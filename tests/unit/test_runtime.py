@@ -123,7 +123,7 @@ def test_production_factory_constructs_owned_graph_without_rpc_or_budget_initial
     monkeypatch.setattr(SharedAdmission, "activate_phase", forbidden)
     monkeypatch.setattr(module.FirestoreStores, "run", forbidden)
     with TestClient(build_app(config, Path("."))) as client:
-        response = client.get("/healthz")
+        response = client.get("/health")
         assert response.status_code == 200 and response.json()["product"] == "not_ready"
         public = client.get("/api/workbench/config").json()
         assert public["guidance"] == "OWNED_LIFECYCLE_CONNECTED"
@@ -177,7 +177,8 @@ def test_capacity_observes_real_shared_admission_conditions_without_reserving(en
 def test_closed_startup_has_only_cheap_health_and_no_guest_admission(monkeypatch):
     monkeypatch.setenv("BATCHBEACON_RUNTIME_MODE", "closed")
     with TestClient(create_app()) as client:
-        assert client.get("/healthz").json()["mode"] == "closed_preparation"
+        assert client.get("/health").json()["mode"] == "closed_preparation"
+        assert client.get("/healthz").json() == client.get("/health").json()
         assert client.post("/api/guest").status_code == 404
     monkeypatch.delenv("BATCHBEACON_RUNTIME_MODE")
     with pytest.raises(ValueError, match="runtime mode"):

@@ -11,6 +11,7 @@ from batchbeacon.source_context import ContextManifest
 app = FastAPI(title="BatchBeacon AI — preparation", docs_url=None, redoc_url=None)
 
 
+@app.get("/health")
 @app.get("/healthz")
 def health() -> dict[str, str]:
     """Cheap process health. Never advertise an unverified AI journey."""
