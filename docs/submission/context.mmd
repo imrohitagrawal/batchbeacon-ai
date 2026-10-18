@@ -1,0 +1,18 @@
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#EAF0F8","primaryTextColor":"#1E253B","primaryBorderColor":"#173B75","lineColor":"#535D71","fontFamily":"Arial, sans-serif"}}}%%
+flowchart LR
+    R["Retail staff and managers<br/>Synthetic guest shops"]:::person
+    B["BatchBeacon AI<br/>Recall investigation<br/>and simulated action"]:::system
+    S["SFA official notices<br/>Reviewed historical versions"]:::neutral
+    G["Vertex AI Gemini<br/>Managed extraction"]:::ai
+    O["Technical operator<br/>Private cloud access"]:::person
+    M["Private Operations<br/>Resource and cost oversight"]:::neutral
+    R -->|"Review and confirm"| B
+    S -->|"Reviewed evidence"| B
+    B -->|"Bounded inference"| G
+    O -->|"Authorized access"| M
+    M -->|"Resource oversight"| B
+    classDef system fill:#173B75,color:#FFFFFF,stroke:#173B75,stroke-width:1.5px
+    classDef person fill:#FFF3ED,color:#1E253B,stroke:#173B75,stroke-width:1.5px
+    classDef neutral fill:#EAF0F8,color:#1E253B,stroke:#173B75,stroke-width:1.5px
+    classDef ai fill:#F1EDFF,color:#6243B5,stroke:#173B75,stroke-width:1.5px
+    classDef gate fill:#E6F2EB,color:#20573E,stroke:#173B75,stroke-width:1.5px

@@ -6,7 +6,9 @@ The real historical-SFA journey has run on Google Cloud Run with Gemini through 
 
 **[Try the live prototype](https://batchbeacon.stackclimb.com)** · [Judge guide](docs/submission/judge-guide.md)
 
-See the [architecture and trust boundaries](docs/submission/architecture.md).
+See the [architecture and trust boundaries](docs/submission/architecture.md):
+C4-style system context, deployed Cloudflare/Cloud Run components, and the
+evidence-to-action journey, with editable Mermaid sources.
 
 ## How it works
 

@@ -1,0 +1,18 @@
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#EAF0F8","primaryTextColor":"#1E253B","primaryBorderColor":"#173B75","lineColor":"#535D71","fontFamily":"Arial, sans-serif"}}}%%
+flowchart LR
+    W["Owned request boundary<br/>Origin, CSRF and expiry"]:::system
+    B["Admission controls<br/>Guest and model reservations"]:::gate
+    A["Bounded ADK workflow<br/>AI proposes label fields"]:::ai
+    V["Deterministic verifier<br/>Identity, lot, date and scope"]:::gate
+    H["Confirmation checks<br/>Explicit human decision<br/>Revisions and deduplication"]:::person
+    F["External private Firestore<br/>Evidence and simulated action"]:::neutral
+    W -->|"Authorized request"| B
+    B -->|"Reserve before call"| A
+    A -->|"Untrusted proposals"| V
+    V -->|"Eligible result"| H
+    H -->|"Confirm and save"| F
+    classDef system fill:#173B75,color:#FFFFFF,stroke:#173B75,stroke-width:1.5px
+    classDef person fill:#FFF3ED,color:#1E253B,stroke:#173B75,stroke-width:1.5px
+    classDef neutral fill:#EAF0F8,color:#1E253B,stroke:#173B75,stroke-width:1.5px
+    classDef ai fill:#F1EDFF,color:#6243B5,stroke:#173B75,stroke-width:1.5px
+    classDef gate fill:#E6F2EB,color:#20573E,stroke:#173B75,stroke-width:1.5px

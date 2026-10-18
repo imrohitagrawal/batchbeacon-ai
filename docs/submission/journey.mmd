@@ -1,7 +1,20 @@
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#EAF0F8","primaryTextColor":"#1E253B","primaryBorderColor":"#173B75","lineColor":"#535D71","fontFamily":"Arial, sans-serif"}}}%%
 flowchart LR
-    A[1. Capture synthetic label] --> B[2. Gemini proposes fields\nOne bounded ADK workflow]
-    B --> C[3. Server verifies\nIdentity before lot, date and scope]
-    C -->|Supported match| D[4. Person reviews and confirms\nExplicit simulated hold]
-    C -->|Missing, stale or unsupported| R[Review required]
-    D --> E[5. Firestore saves\nEvidence and action]
-    E --> F[6. Owned queue resumes\nSame investigation after refresh]
+    A["1. Choose synthetic label<br/>Real historical SFA notice"]:::person
+    B["2. Gemini proposes fields<br/>One bounded ADK workflow"]:::ai
+    C["3. Server compares<br/>Identity before lot and date"]:::gate
+    D["4. Review and confirm<br/>Explicit simulated hold"]:::person
+    E["5. Persist evidence<br/>Firestore-owned action"]:::neutral
+    F["6. Reopen retail queue<br/>Same saved investigation"]:::system
+    R["Review required<br/>Missing, stale or unsupported"]:::neutral
+    A -->|"Load and extract"| B
+    B -->|"Proposed fields"| C
+    C -->|"Supported match"| D
+    D -->|"Explicit confirmation"| E
+    E -->|"Reload and resume"| F
+    C -->|"No clearance"| R
+    classDef system fill:#173B75,color:#FFFFFF,stroke:#173B75,stroke-width:1.5px
+    classDef person fill:#FFF3ED,color:#1E253B,stroke:#173B75,stroke-width:1.5px
+    classDef neutral fill:#EAF0F8,color:#1E253B,stroke:#173B75,stroke-width:1.5px
+    classDef ai fill:#F1EDFF,color:#6243B5,stroke:#173B75,stroke-width:1.5px
+    classDef gate fill:#E6F2EB,color:#20573E,stroke:#173B75,stroke-width:1.5px

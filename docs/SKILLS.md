@@ -126,3 +126,21 @@ template renders used native PDFKit for read-only inspection. Exact loaded hashe
 capability limits and next authoring prerequisites are in
 [M4-template-preparation.md](evidence/M4-template-preparation.md). This is separate
 from the unchanged approved Impeccable/Emil UI treatment.
+
+
+## Bounded architecture-diagram application
+
+At the owner's explicit request, `architecture-and-decisions`1.3.0 was read at
+[project-doc-skills f000447](https://github.com/imrohitagrawal/project-doc-skills/blob/f00044727044dccfe8aa9f9d987d410341287371/skills/architecture-and-decisions/SKILL.md),
+with house style, architecture method, decision treatment and licensing references.
+Text-only guidance is applied to context/container/component/runtime separation,
+trust boundaries, small diagrams, original SVG fallbacks, readable labels and
+reason/trade-off explanations in `docs/submission/architecture.md` and the deck.
+
+This is a bounded adaptation for submission packaging, not a complete documentation
+suite execution. No package install, engine, hook, profile generator or verifier was
+run; no full-suite PASS is claimed. Existing DESIGN/decisions/contracts govern project
+facts and palette. No new project license, contact identity or legal term was inferred
+from a skill template. Canonical source license: LicenseRef-stackclimb-source-v1;
+private read-manifest retains hashes. No skill code was redistributed in the product.
+Render/content review and actual PPT/PDF verification are separate acceptance steps.
