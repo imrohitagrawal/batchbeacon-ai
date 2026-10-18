@@ -6,11 +6,29 @@
 [![Live demo](https://img.shields.io/badge/Live%20demo-BatchBeacon%20AI-173B75)](https://batchbeacon.stackclimb.com)
 ![Scope](https://img.shields.io/badge/Scope-synthetic%20hackathon%20prototype-F05A36)
 
-**[Launch live demo](https://batchbeacon.stackclimb.com) · [5-step judge walkthrough](docs/submission/judge-guide.md) · [Architecture](docs/submission/architecture.md) · [Evidence and limitations](docs/submission/evidence-index.md)**
+**[Launch live demo](https://batchbeacon.stackclimb.com) · [Watch submitted 3:40 demo](https://youtu.be/IpY2_GeR4Ic) · [Product gallery](docs/SHOWCASE.md) · [5-step judge walkthrough](docs/submission/judge-guide.md) · [Architecture](docs/submission/architecture.md) · [Evidence and limitations](docs/submission/evidence-index.md)**
 
 BatchBeacon AI is a working, bounded **retail recall investigation prototype** built for **Singapore AI Builder Cup 2026 (Retail & Commerce)** by **Bugging Debuggers**. A retail worker can inspect a *synthetic* product label against a *selected, reviewed historical* Singapore Food Agency (SFA) recall notice. Google Gemini, called through one bounded Google Agent Development Kit (ADK) extraction workflow, proposes label fields. **Deterministic server rules check product identity before lot, dates and jurisdiction.** A person reviews the evidence and explicitly records a **simulated hold**; Firestore preserves the investigation in that guest shop's queue.
 
 The distinctive proposition is an **inspectable package → evidence → verification → decision → handover** workflow. This is a demonstrated integration and design approach, **not a claim of market exclusivity, model superiority or food-safety certification**.
+
+## Product interface gallery
+
+**Live URL:** [batchbeacon.stackclimb.com](https://batchbeacon.stackclimb.com) · **Submission video:** [actual hosted AI-to-action journey, 3:40](https://youtu.be/IpY2_GeR4Ic).
+
+These repository images are **retained pre-release UI review captures**, not newly captured screenshots of the accepted Cloud Run deployment. The live release subsequently added onboarding, example previews and explanatory help. For authentic final-deployment footage, use the linked submitted video and [release evidence](docs/evidence/M4-ui-domain-correction.md); [visual-gallery notes](docs/SHOWCASE.md) distinguish each source.
+
+| Evidence workbench — desktop review capture | Retail queue — phone review capture |
+| :---: | :---: |
+| ![BatchBeacon evidence workbench at desktop size, reviewed pre-release UI capture](docs/ui/final-candidate/workbench-desktop.jpg) | ![BatchBeacon owned retail queue on a phone-sized viewport, reviewed pre-release UI capture](docs/ui/final-candidate/retail-phone.jpg) |
+| [Inspect workbench image](docs/ui/final-candidate/workbench-desktop.jpg) | [Inspect retail console image](docs/ui/final-candidate/retail-phone.jpg) |
+
+| Guided capture — desktop review capture | Evidence inspection — phone review capture |
+| :---: | :---: |
+| ![BatchBeacon capture-guidance interface at desktop size, reviewed pre-release UI capture](docs/ui/final-candidate/guidance-completed-desktop.jpg) | ![BatchBeacon evidence review at phone size, reviewed pre-release UI capture](docs/ui/final-candidate/evidence-phone.jpg) |
+| [Inspect guidance image](docs/ui/final-candidate/guidance-completed-desktop.jpg) | [Inspect evidence image](docs/ui/final-candidate/evidence-phone.jpg) |
+
+For judge-facing screenshots of **the actual accepted public release**, see the [submitted walkthrough video](https://youtu.be/IpY2_GeR4Ic); existing published UI review images are never claimed to be current screenshots of live AI responses or private records.
 
 ## See it work
 
@@ -113,8 +131,8 @@ The future **Consumer Recall Explorer** would enable country/date/product/batch/
 
 **Hackathon:** AI Builder Cup 2026 · **Track:** Retail & Commerce · **Team:** Bugging Debuggers · **Members:** Rohit Agrawal, Aayushi Priya, Niharika Aggarwal and Priyanka Shelke (registration spelling per [submission record](docs/submission/submission-fields.md)).
 
-**Start here:** [Judge guide](docs/submission/judge-guide.md) · [Architecture](docs/submission/architecture.md) · [Evidence index](docs/submission/evidence-index.md) · [Source register](docs/SOURCES.md) · [Operations](docs/OPERATIONS.md) · [Repository document map](docs/INDEX.md) · [Owner-approved release scope](docs/submission/release-scope.md).
+**Start here:** [Product gallery](docs/SHOWCASE.md) · [Judge guide](docs/submission/judge-guide.md) · [Architecture](docs/submission/architecture.md) · [Evidence index](docs/submission/evidence-index.md) · [Source register](docs/SOURCES.md) · [Operations](docs/OPERATIONS.md) · [Repository document map](docs/INDEX.md) · [Owner-approved release scope](docs/submission/release-scope.md).
 
-**Submission state:** The presentation and video cuts are prepared; public media links, final PDF binding and authenticated submission receipt remain outstanding in the [last recorded state](docs/STATE.md). Do not interpret repository publication as a submitted entry.
+**Submission state:** The organizer dashboard confirmed **Prototype Submission — Submitted** before the deadline with the approved 15-page PDF, the [220-second public demo video](https://youtu.be/IpY2_GeR4Ic), the live URL and this repository. The final receipt is retained privately; [STATE](docs/STATE.md#final-submission) is the authoritative redacted record. Submission acceptance or competition selection is **not** claimed.
 
-**Reuse:** Original repository source has no declared root-level project license at this review; public visibility alone does not grant reuse permission. Third-party components retain their respective licenses. Report suspected security issues privately to the repository owner rather than publishing credentials or exploit details in a public issue; see [security guidance](SECURITY.md).
+**Repository settings:** The GitHub sidebar's About text, website, topics and branch protections are controlled in GitHub Settings, not by this README. The [owner-specific configuration checklist](docs/REPOSITORY_SETTINGS.md) provides exact values and verification steps.\n\n**Reuse:** Original repository source has no declared root-level project license at this review; public visibility alone does not grant reuse permission. Third-party components retain their respective licenses. Report suspected security issues privately to the repository owner rather than publishing credentials or exploit details in a public issue; see [security guidance](SECURITY.md).
