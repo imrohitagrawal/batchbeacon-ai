@@ -1,5 +1,7 @@
 # Organizer-template coverage and judging evidence
 
+> **Historical preparation mapping.** The final 15-page organizer-template PDF and [220-second submitted video](https://youtu.be/IpY2_GeR4Ic) were accepted by the authenticated submission form per [STATE](../STATE.md#final-submission). Earlier packaging/to-do references below are the original review record, not an outstanding submission blocker.
+
 The retained original template has16slots and19content prompts. Its download
 instruction is excluded from the15-page audience deck; both optional content
 sections are included. This mapping concerns content coverage, not final submission.
