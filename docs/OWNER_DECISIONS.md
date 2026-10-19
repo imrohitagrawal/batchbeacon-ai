@@ -178,3 +178,14 @@ reflow checks are not a comprehensive usability audit. Record a separate focused
 entry points on desktop and mobile. The earlier visual-direction approval remains
 historical; it does not certify the current page's usability. U23/U24 are immediate
 repairs, not completion of this broader requested correction.
+
+## U26 — evaluation workspace terminology
+
+The owner approved replacing repetitive synthetic/demo/simulated interface wording
+with Evaluation workspace and Non-production data. Explain that AI analysis and
+saved workflows are functional, labels and inventory use sample data, and recorded
+actions do not update live inventory. Preserve that limitation at action confirmation
+and retain unresolved-review status. This supersedes literal UI terminology in
+earlier specifications, not their ownership, consent, provenance or no-real-commerce
+requirements. Backend action identifiers, sample artifacts, budgets and eight-hour
+guest sessions remain unchanged. Persistent accounts are still future scope.

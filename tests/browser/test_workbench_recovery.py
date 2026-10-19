@@ -53,17 +53,17 @@ def test_unknown_action_response_body_retains_action_recovery(page):
 
 def test_expiry_removes_prior_current_verdict_and_counts(page):
     result = page.evaluate("""()=>{
-      document.getElementById('verdict-title').textContent='Simulated action recorded';
+      document.getElementById('verdict-title').textContent='Workspace action recorded';
       document.getElementById('verdict-copy').textContent='A simulated hold was saved.';
       document.getElementById('queue-count').textContent='1 saved incident';
-      document.getElementById('queue-counts').textContent='Simulated action recorded: 1';
+      document.getElementById('queue-counts').textContent='Workspace action recorded: 1';
       expire();
       return {verdict:document.getElementById('verdict-title').textContent,
        count:document.getElementById('queue-count').textContent,
        counts:document.getElementById('queue-counts').textContent};
     }""")
     assert (
-        result["verdict"] != "Simulated action recorded"
+        result["verdict"] != "Workspace action recorded"
         and "1" not in result["count"]
         and "1" not in result["counts"]
     ), result

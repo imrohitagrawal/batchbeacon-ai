@@ -43,7 +43,7 @@ def test_expiry_clears_completed_verdict_presentation(connected_browser):
     page.locator("#confirm-open").click()
     page.locator("#hold-consent").check()
     page.locator("#hold-confirm").click()
-    expect(page.locator("#verdict-title")).to_have_text("Simulated action recorded")
+    expect(page.locator("#verdict-title")).to_have_text("Workspace action recorded")
     assert "completed" in page.locator(".verdict").get_attribute("class")
     page.evaluate("expire()")
     expect(page.locator("#verdict-title")).to_have_text("Guest access expired")

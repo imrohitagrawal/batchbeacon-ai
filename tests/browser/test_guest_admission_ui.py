@@ -12,7 +12,7 @@ pytestmark = pytest.mark.browser
 @pytest.mark.parametrize("width", [390, 1440])
 @pytest.mark.parametrize("error, message", [
     ("demo_guest_capacity_unavailable", "Guest access is currently unavailable"),
-    ("guest_creation_rate_limited", "Several visitors are opening guest shops"),
+    ("guest_creation_rate_limited", "Several visitors are opening workspaces"),
 ])
 def test_failed_admission_does_not_call_protected_views(connected_browser, width, error, message):
     page, _, _, errors = connected_browser
@@ -73,7 +73,7 @@ def test_guest_expiry_is_a_dated_local_time_not_a_countdown(
         page.goto(original.url)
         expect(page.locator("#start-sample")).to_be_enabled()
         label = page.locator("#session-state")
-        for value in ("Guest shop · expires", date, clock, zone):
+        for value in ("Workspace access expires", date, clock, zone):
             expect(label).to_contain_text(value)
         assert not errors
     finally:
