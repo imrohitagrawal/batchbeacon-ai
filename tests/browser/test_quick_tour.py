@@ -72,7 +72,7 @@ def test_runtime_mode_neutral_before_config_and_explicit_after(connected_browser
     page.route("**/api/workbench/config", lambda route: route.abort("blockedbyclient"))
     page.reload()
     expect(page.locator("#runtime-title")).to_have_text("Opening BatchBeacon AI")
-    expect(page.locator("#runtime-detail")).to_contain_text("Loading extraction mode")
+    expect(page.locator("#runtime-detail")).to_contain_text("Loading analysis mode")
     page.unroute("**/api/workbench/config")
     page.reload()
     expect(page.locator("#runtime-title")).to_have_text("Local integration")
@@ -82,7 +82,7 @@ def test_runtime_mode_neutral_before_config_and_explicit_after(connected_browser
     page.reload()
     expect(page.locator("#runtime-title")).to_have_text("BatchBeacon AI")
     expect(page.locator("#runtime-detail")).to_have_text(
-        "Live prototype · Real AI analysis · Demo inventory actions"
+        "Real AI analysis · Non-production data"
     )
     expect(page.locator("#result-disclosure")).to_have_text("Server result · Gemini extraction")
     assert not errors

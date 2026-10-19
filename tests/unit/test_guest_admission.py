@@ -243,3 +243,32 @@ def test_uncapped_clients_still_race_for_last_window_slot(setup):
     with ThreadPoolExecutor(max_workers=2) as pool:
         assert sum(pool.map(issue, (guest, cold))) == 1
     assert state(stores, server).issued_sessions == 24
+
+
+def test_increased_window_preserves_sessions_counts_and_exact_boundary(setup):
+    old = policy(max_issued_sessions=None, max_sessions_per_window=4)
+    stores, server, guest, _ = configure(setup, old, opening=22)
+    issued = [guest.issue() for _ in range(4)]
+    previous = state(stores, server)
+    new = policy(max_issued_sessions=None, max_sessions_per_window=30)
+    migrated = GuestAdmissionState(**(previous.model_dump() | {"policy_hash": new.digest()}))
+    assert migrated.model_dump(exclude={"policy_hash"}) == previous.model_dump(
+        exclude={"policy_hash"})
+    server.seed(stores._encode(stores.name("guest_admission"), "guest_admission", migrated))
+    fresh = FirestoreStores(client(server), stores.policy, guest.policy,
+        stores.evidence_policy, stores.action_policy, clock=guest.clock,
+        guest_admission=new)
+    cold = GuestService(guest.policy, fresh.guests, guest.objects, clock=guest.clock)
+    assert cold.resolve(issued[0][0]) == issued[0][1]
+    for _ in range(26):
+        cold.issue()
+    assert state(fresh, server).window_issued == 30
+    assert state(fresh, server).issued_sessions == 52
+    setup[5][0] = NOW + timedelta(seconds=59, microseconds=999999)
+    with pytest.raises(GuestDenied, match="guest_creation_rate_limited"):
+        cold.issue()
+    setup[5][0] = NOW + timedelta(seconds=60)
+    cold.issue()
+    assert state(fresh, server).window_issued == 1
+    assert state(fresh, server).issued_sessions == 53
+    assert cold.resolve(issued[0][0]) == issued[0][1]
