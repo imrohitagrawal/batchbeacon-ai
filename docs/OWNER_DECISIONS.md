@@ -189,3 +189,14 @@ and retain unresolved-review status. This supersedes literal UI terminology in
 earlier specifications, not their ownership, consent, provenance or no-real-commerce
 requirements. Backend action identifiers, sample artifacts, budgets and eight-hour
 guest sessions remain unchanged. Persistent accounts are still future scope.
+
+## U27 — 30 new workspaces per 60 seconds
+
+The owner requested raising the application-wide guest admission burst allowance,
+then explicitly corrected the requested value from 10 to 30 new sessions per
+60 seconds. Configure 30, superseding the previous 4-per-window deployment value.
+Keep the lifetime count ceiling removed, eight-hour access, existing sessions,
+issuance/window accounting, model budgets and all other controls unchanged. Bind
+the new policy hash with a conditional counter-preserving migration; no reset of
+existing records or allowances is authorized. This configuration change is included
+with U26 in the same bounded build and deployment.
