@@ -4,7 +4,9 @@ Status: planned, not completed. The owner reported clutter and unclear controls
 on Capture guidance after submission. Earlier functional, keyboard, reflow and
 selected visual checks do not establish a complete usability audit or a human
 first-time usability study. U23/U24 repair access and immediate clarity; they do
-not close this activity.
+not close this activity. U26 subsequently replaces repeated synthetic/demo UI
+terminology with Evaluation workspace and Non-production data, while preserving
+action-effect disclosures. It does not close the broader hierarchy/layout audit.
 
 ## Initial findings, not a completed audit
 

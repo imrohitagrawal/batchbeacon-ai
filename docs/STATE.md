@@ -1,7 +1,7 @@
 # BatchBeacon AI — current execution state
 
-19 October 2026. The synthetic Google Cloud prototype is public. U23/U24 guest
-access and clarity corrections are deployed after the submitted release. The
+19 October 2026. The working Google Cloud application uses non-production data. Guest
+access, rate and terminology corrections are deployed after the submitted release. The
 earlier fresh unauthenticated real-AI journey passed. Final v25 package submitted;
 the organizer dashboard confirms Prototype Submission — Submitted.
 
@@ -25,17 +25,20 @@ into a pass. Consumer discovery/image extraction are future scope, not new featu
 [Live prototype](https://batchbeacon.stackclimb.com) ·
 [Cloud Run fallback](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app) ·
 [public source](https://github.com/imrohitagrawal/batchbeacon-ai).
-Deployed application commit `3dbb220b5263dc69dedb838872c04e029cc25639` passed
-[hosted push checks](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39164585032)
-and [hosted PR checks](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39164589588):
-1,340 unit, 86 browser and 29 edge checks in each. Image:
-`sha256:e66037177f71400e4c976383d1020dccb84bd760c986ea81d10c8ce12a7f25cc`.
+Deployed application commit `f0d9c0f974baf5e68992d274d48c8bddcc59fba1` passed
+[hosted push checks](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39289689576)
+and [hosted PR checks](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39289698513):
+1,341 unit, 86 browser and 29 edge checks in each. Image:
+`sha256:2d37f9156cf91b5c9c3197b5cd1fc1a169912ca20d5a10933ac348be54db9c47`.
 U23 removes the exhausted 22-session lifetime ceiling, preserves accounting and
 avoids misleading expired-session errors after failed admission. U24 adds a dated
 local expiry with timezone, visible guidance-refresh completion and prerequisite
-copy. Eight-hour expiry, burst protection at 4 new sessions per 60 seconds, model budgets,
+copy. U26 uses Evaluation workspace and Non-production data, with an explicit
+no-live-inventory-effect disclosure at confirmation. U27 raises burst admission
+from 4 to 30 new sessions per 60 seconds. Eight-hour expiry, model budgets,
 ownership and the funded period remain. Earlier submitted image/source and failed
-checks are preserved in [correction evidence](evidence/M5-guest-access-repair.md).
+checks are preserved in [guest-repair evidence](evidence/M5-guest-access-repair.md)
+and [workspace/rate evidence](evidence/M6-workspace-clarity-and-rate.md).
 
 Independent readback confirms exact image/assets,100% traffic, unchanged IAM,
 namespace and limits: min0/max2, concurrency1, CPU1/1GiB, timeout60s, no CPU boost.
@@ -109,6 +112,11 @@ visible on desktop; existing mobile CSS hides it, recorded as an open UI item. N
 writes or model calls were made. Independent readback observed 25 cumulative guests,
 14 model attempts and zero reservations; runtime/IAM/resource controls were unchanged.
 
+U26/U27 live checks passed on custom-host/mobile and fallback/desktop with two
+fresh workspaces, same-cookie reload, queue/guidance access, the new wording and
+exact served assets. No model calls or feature writes were made. The policy-hash
+migration preserved cumulative/window accounting; only the new-session rate changed.
+
 The owner identified Capture guidance clutter. Earlier functional, keyboard and
 reflow checks do not establish a complete usability audit. The separate
 [focused UI audit and correction](UI_USABILITY_PLAN.md) remains open; U24 copy and
@@ -144,5 +152,5 @@ Maintain the accepted deployment and public links through evaluation within
 existing resource/budget policy. No new release, broader scope, model-accuracy
 claim or additional spending is authorized by this submission.
 
-U23/U24 are separate owner-authorized post-submission repairs; they do not amend
+U23/U24 and U26/U27 are separate owner-authorized post-submission corrections; they do not amend
 the submitted artifact or close the unrelated U18 evaluation/Operations limits.
