@@ -26,3 +26,12 @@ This change does not modify prompts, timeouts, grants, model allowance or origin
 unknown liability. It does not resolve [M7's remaining real-model acceptance
 gate](M7-judge-readiness.md). A changed lock alone does not patch the running image;
 the tested image must be rebuilt and verified before the deployed correction is claimed.
+
+
+The combined image built from source `317f562` passed both exact hosted push and
+PR-merge suites (1,416 unit, 96 browser, 29 edge checks), four offline image smokes
+and independent generation-bound source-archive verification. Its deployed old-runtime
+candidate and both public hosts passed retained-case readback with unchanged
+accounting. Image: `sha256:607acc8ea74f27ccda415e5f811647d0f36c2d390c3fde32f53997c60997d95c`.
+This establishes deployment of the patched trust bundle; later configuration and
+real-model acceptance remain separately recorded in M7/M8.

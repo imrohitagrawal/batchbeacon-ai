@@ -72,4 +72,4 @@ cloud release must retain the existing finite service and spending boundaries.
 
 ## Scoped execution update
 
-The [video-parity repair](evidence/M7-judge-readiness.md) implements contextual guidance eligibility, an empty-state route to checking a product, selected-investigation history, later-stage disclosure, queue invalidation and visible mobile expiry. Local controlled desktop/mobile checks and independent review passed. This does not close the entire lifecycle usability matrix above or constitute a human usability study. Current real-AI readiness remains blocked as documented in M7.
+The [video-parity repair](evidence/M7-judge-readiness.md) implements contextual guidance eligibility, an empty-state route to checking a product, selected-investigation history, later-stage disclosure, queue invalidation and visible mobile expiry. Local controlled desktop/mobile checks and independent review passed. This does not close the entire lifecycle usability matrix above or constitute a human usability study. Current positive real-AI journeys and failure recovery passed; the unrelated-label provider failure leaves full parity incomplete, as documented in M7.

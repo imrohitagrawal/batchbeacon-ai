@@ -1,8 +1,9 @@
 # Original reservation settlement after a configuration change
 
-Status: local preparation only. This does not change the deployed runtime, transfer
-budget, release an unknown reservation, or pass current real-model acceptance.
-[M7](M7-judge-readiness.md) remains the deployed repair evidence.
+Status: compatibility source `317f562` and its reviewed successor configuration are
+deployed. The owner-approved U31 transfer and conditional metadata migration passed
+independent review and exact postimage verification. The original unknown ₹250
+reservation remains held. [M7](M7-judge-readiness.md) owns real-model acceptance.
 
 Changing the model configuration or grant previously made an original outstanding
 attempt fail the ledger's strict grant comparison. The optional
@@ -43,14 +44,14 @@ reviewed compatible configuration and conditional metadata migration.
 - HTTP ownership/body processing precedes the acquisition timer. Synchronous
   Firestore persistence/reconciliation/finalization can outlast that timer. Ten seconds
   of nominal margin under Cloud Run's 60-second timeout is not a worst-case guarantee.
-  The proposed settings remain a bounded experiment, not an activated timeout fix.
+  The activated settings remain a bounded experiment, not a guarantee of completion.
 
 Review advisory: a preexisting generic configuration with multiple calls and an
 undrained active old run can reserve a new attempt under a successor policy. The
 actual one-call production configuration excludes that additional-call scenario;
 migration additionally fences old issuers and existing-session database writers. This preparation does not certify arbitrary active-run migrations.
 
-## Remaining activation gates
+## Activation gates and observed execution
 
 1. Apply the owner-approved [U31](../OWNER_DECISIONS.md#u31--bounded-model-pool-reallocation)
    transfer only through reviewed conditional migration; preserve the total ceiling
@@ -70,9 +71,21 @@ migration additionally fences old issuers and existing-session database writers.
    video-parity acceptance cases only if actual capacity and prior outcomes permit.
    A successful local test or healthy page does not close the real-model gate.
 
-Private reproduction, failed harness attempts and independent review receipts remain
-in the ignored evidence store. No provider call or cloud mutation was made for this
-local preparation.
+The original preparation made no provider call or cloud mutation. Subsequent
+execution passed exact hosted push/PR checks, four offline packaged-image smokes,
+independent uploaded-archive verification and old-runtime compatible deployment.
+
+The same verified image then passed zero-traffic successor-runtime checks. A
+reviewed admission fence preceded one conditional metadata transaction: all guest
+policy bindings, active baseline learning/projection bindings and the approved
+budget/grant change. All 63 changed documents matched their expected postimages.
+Charges, counters, original attempts and historical evidence were preserved.
+Admission reopened only with the permanent version-2 hash. The actual candidate A
+call passed and settled its usage before promotion; the original unknown liability
+remained unchanged. Public-host and remaining case results are recorded in M7.
+
+Private reproduction, failed harness attempts and exact independent receipts remain
+in the ignored evidence store.
 
 The combined compatibility image also includes the [TLS trust correction](M9-tls-trust.md).
 After metadata migration, rollback must retain the new admission fence and a reader
