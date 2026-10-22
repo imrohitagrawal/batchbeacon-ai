@@ -270,12 +270,92 @@ class Attempt(Record):
         return self
 
 
+LiabilityOperation = Literal["record_response", "reconcile"]
+
+
+class PredecessorLiabilities(Record):
+    """Reviewed, exact original reservations; settlement only, never paid authority.
+
+    Stored in operator runtime configuration, not a public request or the ledger.
+    A migration must preserve the outstanding balances and drain old workers.
+    Missing original provider evidence remains unknown after a migration.
+    """
+
+    project_id: ProjectId
+    database_id: Annotated[str, Field(pattern=r"^(\(default\)|[a-z][a-z0-9-]{0,62})$")]
+    namespace: Annotated[str, Field(pattern=r"^[a-z][a-z0-9_-]{0,63}$")]
+    environment_id: Annotated[str, Field(pattern=r"^[a-z][a-z0-9_-]{0,63}$")]
+    successor_grant_hash: Digest
+    successor_policy_hash: Digest
+    original_grant: SharedGrant
+    original_policy: SharedPolicy
+    reservations: tuple[Attempt, ...] = Field(min_length=1)
+    nonbillable_policy: NonbillablePolicy | None = None
+
+    @model_validator(mode="after")
+    def coherent(self) -> Self:
+        p, g = self.original_policy, self.original_grant
+        if (p.project_id != self.project_id or g.project_id != self.project_id
+                or g.policy_hash != p.digest()
+                or self.successor_grant_hash == g.digest()
+                or len({a.id for a in self.reservations}) != len(self.reservations)):
+            raise ValueError("predecessor liability lineage invalid")
+        if (self.nonbillable_policy is not None
+                and self.nonbillable_policy.model_configuration_hash != p.model_configuration_hash):
+            raise ValueError("predecessor nonbillable binding invalid")
+        for a in self.reservations:
+            if (not a.dispatch_claimed or a.response is not None or a.actual_nanos is not None
+                    or a.grant_hash != g.digest() or a.policy_hash != p.digest()
+                    or a.model_configuration_hash != p.model_configuration_hash
+                    or a.price != p.price or a.reserved_nanos != p.reserve_nanos
+                    or a.billable_input_bound != p.billable_input_bound
+                    or a.billable_output_and_thought_bound != p.billable_output_and_thought_bound
+                    or a.evidence_limits != p.evidence_limits
+                    or not g.not_before <= a.reserved_at < g.expires_at
+                    or not p.price.observed_at <= a.reserved_at < p.price.valid_until):
+                raise ValueError("predecessor reservation binding invalid")
+        return self
+
+    def validate_successor(self, policy: SharedPolicy, grant: SharedGrant):
+        if (policy.project_id != self.project_id or grant.project_id != self.project_id
+                or grant.policy_hash != policy.digest()
+                or policy.digest() != self.successor_policy_hash
+                or grant.digest() != self.successor_grant_hash):
+            raise ValueError("predecessor successor binding invalid")
+
+    def validate_storage(self, policy):
+        if any(getattr(self, key) != getattr(policy, key) for key in (
+                "project_id", "database_id", "namespace", "environment_id")):
+            raise ValueError("predecessor storage scope invalid")
+
+    def permits(self, budget: Budget, attempt: Attempt, operation: LiabilityOperation | None):
+        if (operation not in {"record_response", "reconcile"}
+                or budget.grant_hash != self.successor_grant_hash
+                or budget.policy_hash != self.successor_policy_hash):
+            return False
+        # Only these fields can change as original evidence is retained/settled.
+        mutable = {"response", "complete_usage", "usage_hash", "actual_nanos",
+                   "nonbillable_receipt"}
+        return any(a.id == attempt.id and a.model_dump(exclude=mutable)
+                   == attempt.model_dump(exclude=mutable) for a in self.reservations)
+
+
+def settlement_lineage_matches(budget, attempt, operation, predecessor=None):
+    if budget is None or attempt is None:
+        return False
+    if (attempt.grant_hash == budget.grant_hash
+            and attempt.policy_hash == budget.policy_hash):
+        return True
+    return predecessor is not None and predecessor.permits(budget, attempt, operation)
+
+
 @dataclass(frozen=True)
 class Address:
     # All IDs are runtime/server-owned, never a client-supplied authority claim.
     guest_key: str | None = None
     attempt_id: str | None = None
     inspect_session_attempts: bool = False
+    liability_operation: LiabilityOperation | None = None
 
 
 @dataclass(frozen=True)
@@ -335,6 +415,7 @@ class SharedAdmission:
         *,
         clock: Callable[[], datetime] = lambda: datetime.now(UTC),
         nonbillable_policy: NonbillablePolicy | None = None,
+        predecessor_liabilities: PredecessorLiabilities | None = None,
     ):
         if store is None:
             raise ValueError("an explicit shared transaction store is required")
@@ -343,6 +424,9 @@ class SharedAdmission:
                 nonbillable_policy.model_configuration_hash != policy.model_configuration_hash:
             raise ValueError("nonbillable model binding invalid")
         self.nonbillable_policy = nonbillable_policy
+        if predecessor_liabilities is not None:
+            predecessor_liabilities.validate_successor(policy, grant)
+        self.predecessor_liabilities = predecessor_liabilities
 
     def _now(self):
         now = self.clock()
@@ -896,7 +980,8 @@ class SharedAdmission:
         """
         def change(snapshot):
             budget, attempt = snapshot.budget, snapshot.attempt
-            if budget is None or attempt is None or attempt.grant_hash != budget.grant_hash \
+            if not settlement_lineage_matches(budget, attempt, "record_response",
+                    self.predecessor_liabilities) or attempt.id != attempt_id \
                     or not attempt.dispatch_claimed or attempt.request_hash != request_hash:
                 raise SharedDenied("response attempt unavailable")
             response = response_evidence(raw, status_code=status_code, complete=complete,
@@ -907,7 +992,8 @@ class SharedAdmission:
                 return Change(budget, attempt=attempt)
             attempt = self._attempt_record(attempt.model_copy(update={"response": response}))
             return Change(budget, attempt=attempt)
-        return self.store.transact(Address(attempt_id=attempt_id), change).attempt
+        return self.store.transact(Address(attempt_id=attempt_id,
+            liability_operation="record_response"), change).attempt
 
     def reconcile(self, attempt_id: str):
         """Derive complete usage from committed original bytes; never caller totals.
@@ -917,7 +1003,8 @@ class SharedAdmission:
         """
         def change(snapshot):
             budget, attempt = snapshot.budget, snapshot.attempt
-            if budget is None or attempt is None or attempt.grant_hash != budget.grant_hash:
+            if not settlement_lineage_matches(budget, attempt, "reconcile",
+                    self.predecessor_liabilities) or attempt.id != attempt_id:
                 raise SharedDenied("reservation unavailable for reconciliation")
             if not attempt.dispatch_claimed:
                 raise SharedDenied("no dispatch intent exists for a usage receipt")
@@ -926,7 +1013,10 @@ class SharedAdmission:
             if attempt.nonbillable_receipt is not None:
                 return Change(budget, attempt=attempt)
             if not 200 <= attempt.response.status_code < 300:
-                return self._reconcile_nonbillable(budget, attempt)
+                rule = self.nonbillable_policy
+                if attempt.grant_hash != budget.grant_hash:
+                    rule = self.predecessor_liabilities.nonbillable_policy
+                return self._reconcile_nonbillable(budget, attempt, rule)
             usage = derive_usage(attempt.response, attempt.request_hash, attempt.evidence_limits)
             input_tokens, output_and_thought_tokens = (usage.input_tokens,
                                                        usage.output_and_thought_tokens)
@@ -989,7 +1079,7 @@ class SharedAdmission:
                 denial="billed usage exceeded its bound" if violation else None,
             )
 
-        address = Address(attempt_id=attempt_id)
+        address = Address(attempt_id=attempt_id, liability_operation="reconcile")
         result = self.store.transact(address, change)
         if result.denial == "usage_circuit_committed":
             result = self.store.transact(address, change)
@@ -997,12 +1087,12 @@ class SharedAdmission:
             raise SharedDenied(result.denial)
 
 
-    def _reconcile_nonbillable(self, budget, attempt):
-        if self.nonbillable_policy is None or attempt.actual_nanos is not None \
+    def _reconcile_nonbillable(self, budget, attempt, policy):
+        if policy is None or attempt.actual_nanos is not None \
                 or attempt.usage_hash is not None or attempt.complete_usage is not None:
             raise SharedDenied("reviewed nonbillable settlement unavailable")
         receipt = NonbillableReceipt(attempt_id=attempt.id, request_hash=attempt.request_hash,
-            response_hash=attempt.response.retained_sha256, policy=self.nonbillable_policy,
+            response_hash=attempt.response.retained_sha256, policy=policy,
             settled_at=self._now())
         receipt.validate_response(attempt.response, attempt_id=attempt.id,
             request_hash=attempt.request_hash, model_hash=attempt.model_configuration_hash,

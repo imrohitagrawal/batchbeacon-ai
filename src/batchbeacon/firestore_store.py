@@ -38,7 +38,14 @@ from batchbeacon.evidence_service import (
 )
 from batchbeacon.guest_admission import GuestAdmissionState, reserve_guest
 from batchbeacon.guest_service import GuestPolicy, GuestSession, OpaqueId
-from batchbeacon.shared_admission import Attempt, Budget, IncidentUsage, SessionUsage, Snapshot
+from batchbeacon.shared_admission import (
+    Attempt,
+    Budget,
+    IncidentUsage,
+    SessionUsage,
+    Snapshot,
+    settlement_lineage_matches,
+)
 
 Segment = Annotated[str, Field(pattern=r"^[a-z][a-z0-9_-]{0,63}$")]
 PositiveSeconds = Annotated[float, Field(gt=0, allow_inf_nan=False)]
@@ -165,7 +172,7 @@ class FirestoreStores:
     def __init__(self, client: FirestoreClient, policy: FirestorePolicy,
                  guest_policy: GuestPolicy, evidence_policy: EvidencePolicy,
                  action_policy: ActionPolicy, *, clock=lambda: datetime.now(UTC),
-                 monotonic=time.monotonic, guest_admission=None):
+                 monotonic=time.monotonic, guest_admission=None, predecessor_liabilities=None):
         if not isinstance(client, FirestoreClient) or client.api_endpoint != policy.api_endpoint:
             raise ValueError("explicit generated client and matching endpoint required")
         self.client, self.policy = client, policy
@@ -173,6 +180,9 @@ class FirestoreStores:
             guest_policy, evidence_policy, action_policy)
         self.clock, self.monotonic = clock, monotonic
         self.guest_admission = guest_admission
+        if predecessor_liabilities is not None:
+            predecessor_liabilities.validate_storage(policy)
+        self.predecessor_liabilities = predecessor_liabilities
         self.guests, self.shared = _Guests(self), _Shared(self)
         self.evidence, self.actions = _Evidence(self), _Actions(self)
         self.retail = None
@@ -497,8 +507,8 @@ class _Shared:
             attempt = records.get(s.name("attempt", address.attempt_id)) \
                 if address.attempt_id else None
             if attempt and (attempt.id != address.attempt_id or budget is None
-                or attempt.grant_hash != budget.grant_hash
-                or attempt.policy_hash != budget.policy_hash
+                or not settlement_lineage_matches(budget, attempt, address.liability_operation,
+                                                  s.predecessor_liabilities)
                 or (guest and attempt.session_id != guest.scope.session_id)):
                 raise _unavailable()
             history = None

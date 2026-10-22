@@ -306,6 +306,8 @@ def test_bounded_incomplete_original_prefix_retains_liability(runtime, failure):
     assert runtime[7].state().balance(attempt.pool).reserved_nanos == attempt.reserved_nanos
 
 
+@pytest.mark.parametrize('runtime', [{}, {'run_seconds': 50,
+    'request_timeout_seconds': 40.0}], indirect=True)
 def test_cancellation_retains_prefix_and_closes_owned_clients(runtime):
     from batchbeacon.shared_admission import Attempt
     config, shared, key, run, prepared, _, _, store = runtime
@@ -388,6 +390,41 @@ def test_valid_overrides_reach_final_wire_and_receipt(runtime):
     assert 0 < calls[1].extensions['timeout']['read'] <= 4.0
     attempt = runtime[1].inspect_attempt(runtime[2], runtime[3].id, result.attempt_id)
     assert attempt.model_configuration_hash == runtime[0].digest()
+
+
+@pytest.mark.parametrize('runtime', [{'run_seconds': 50, 'request_timeout_seconds': 40.0}],
+                         indirect=True)
+@pytest.mark.parametrize('count_seconds,generation_seconds', [(2, 35), (20, 25), (20, 31)])
+def test_extended_deadline_retains_original_budget_and_late_usage(
+        runtime, count_seconds, generation_seconds):
+    from datetime import timedelta
+
+    from batchbeacon.model_runtime import ModelFailure
+    from batchbeacon.shared_admission import Attempt
+
+    config, shared, key, run, prepared, proposal, clock, store = runtime
+    assert config.http_options().timeout == 40000
+    assert (run.deadline - run.started_at).total_seconds() == 50
+    timeouts = []
+    async def delayed(request):
+        timeouts.append(request.extensions['timeout']['read'])
+        if str(request.url).endswith(':countTokens'):
+            clock[0] += timedelta(seconds=count_seconds)
+            return httpx.Response(200, json={'totalTokens': 100})
+        clock[0] += timedelta(seconds=generation_seconds)
+        return httpx.Response(200, content=response(proposal))
+    if count_seconds + generation_seconds >= 50:
+        with pytest.raises(ModelFailure):
+            exercise(runtime, handler=delayed)
+    else:
+        result, calls = exercise(runtime, handler=delayed)
+        assert result.candidate == json.dumps(proposal).encode() and len(calls) == 2
+    assert timeouts[0] == 40
+    assert timeouts[1] == min(40, 50 - count_seconds)
+    a = Attempt.model_validate_json(next(iter(store.attempts.values())))
+    assert a.model_configuration_hash == config.digest()
+    assert a.response.complete and a.actual_nanos is not None
+    assert store.state().balance(a.pool).reserved_nanos == 0
 
 
 @pytest.mark.parametrize('runtime', [{'max_count_response_bytes': 16}], indirect=True)

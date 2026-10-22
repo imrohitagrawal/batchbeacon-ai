@@ -243,3 +243,70 @@ def test_nonbillable_settlement_is_atomic_across_independent_clients(runtime, en
     services[1].nonbillable_policy = None
     services[1].reconcile(attempt.id)
     assert read('budget') == after and read('attempt', attempt.id) == retained
+
+
+def test_predecessor_settlement_across_independent_clients_preserves_authority(runtime, env):
+    from batchbeacon.shared_admission import Address, Change, SharedDenied
+    from tests.unit.durable_fixtures import record_wire, run_binding, wire_response
+    from tests.unit.test_predecessor_liabilities import manifest
+
+    first, second = runtime
+    token, session = first[2].issue()
+    incident = first[2].create_incident(token, 'predecessor')
+    sp = replace(env[0].policy, project_id=first[0].policy.project_id)
+    grant = replace(env[0].grant, project_id=sp.project_id, policy_hash=sp.digest())
+    old = SharedAdmission(sp, grant, first[0].shared, clock=lambda: first[5][0])
+    old.initialize(env[7])
+    old.activate_phase(env[1].state().phase)
+    run = old.begin_run(session.capability_hash, incident.id, 'original',
+                        run_binding(first[2], token, incident.id))
+    a = old.reserve(session.capability_hash, run.id, 'b' * 32, 'c' * 64,
+                    operation_key='extract')
+    a = old.claim_dispatch(session.capability_hash, run.id, a.id,
+                            a.request_hash, a.model_configuration_hash)
+    old.finish_run(session.capability_hash, run.id, failed=True)
+    sp2 = replace(sp, run_seconds=50, model_configuration_hash='2' * 64)
+    grant2 = replace(grant, policy_hash=sp2.digest())
+    m = replace(manifest(old, sp2, grant2, a), namespace=first[0].policy.namespace,
+                environment_id=first[0].policy.environment_id)
+    def migrate(tx):
+        name = first[0].name('budget')
+        budget = tx.read({name: 'budget'})[name]
+        assert budget.grant_hash == grant.digest()
+        tx.write(name, 'budget', replace(budget, grant_hash=grant2.digest(),
+                                         policy_hash=sp2.digest()))
+        return budget
+    before = first[0].run(migrate)
+    services = []
+    for instance in runtime:
+        s = instance[0]
+        store = FirestoreStores(s.client, s.policy, s.guest_policy, s.evidence_policy,
+            s.action_policy, clock=s.clock, predecessor_liabilities=m)
+        services.append(SharedAdmission(sp2, grant2, store.shared, clock=s.clock,
+                                        predecessor_liabilities=m))
+    def read(kind, identifier=None):
+        name = second[0].name(kind, identifier) if identifier else second[0].name(kind)
+        return second[0].run(lambda tx: tx.read({name: kind}))[name]
+    for service in services:
+        with pytest.raises(SharedDenied, match='complete usage unavailable'):
+            service.reconcile(a.id)
+        with pytest.raises(OSError):
+            service.store.transact(Address(attempt_id=a.id), lambda s: Change(s.budget))
+    with pytest.raises((ValueError, OSError)):
+        old.claim_dispatch(session.capability_hash, run.id, a.id,
+                            a.request_hash, a.model_configuration_hash)
+    assert read('budget').balances == before.balances
+    record_wire(services[0], a, wire_response(100, 10))
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        list(pool.map(lambda service: service.reconcile(a.id), services))
+    after, retained = read('budget'), read('attempt', a.id)
+    assert retained.actual_nanos == a.price.cost_nanos(100, 10)
+    assert retained.grant_hash == grant.digest() and retained.policy_hash == sp.digest()
+    assert after.balance(a.pool).incurred_nanos == (
+        before.balance(a.pool).incurred_nanos + retained.actual_nanos)
+    assert after.balance(a.pool).reserved_nanos == 0
+    assert after.balance(a.pool).lifetime_attempts == 1
+    assert after.phase == before.phase and after.circuit == before.circuit
+    assert after.grant_hash == grant2.digest() and after.policy_hash == sp2.digest()
+    services[1].reconcile(a.id)
+    assert read('budget') == after and read('attempt', a.id) == retained
