@@ -215,3 +215,13 @@ configuration, conditional migration, deployment and finite per-call admission.
 [M8](evidence/M8-settlement-lineage-preparation.md) owns the preparation and remaining
 technical gates. This decision supersedes the plan's prohibition on this specific
 pool transfer; it does not authorize further reallocations or a larger budget.
+
+
+## U32 — one additional bounded validation call
+
+After the six planned calls were consumed, the owner explicitly approved exactly
+one additional AI validation call on the same unrelated-label case. The total test
+ceiling is seven. The ₹650 public pool, ₹6,000 lifetime budget and original unknown
+₹250 reservation remain unchanged. No further retry after any outcome is authorized.
+This is call authority, not a passing result or permission to change model, source,
+verifier, timeout policy or protected evaluation scope.

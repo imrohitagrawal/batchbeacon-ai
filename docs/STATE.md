@@ -9,7 +9,7 @@ independent public A reopening passed. Full local/hosted, Firestore, packaging,
 metadata migration, both-host and access/failure-recovery checks passed.
 **Full parity remains incomplete:** the unrelated-label call returned a provider
 504, correctly settled as nonbillable with no result/action; it is not a negative
-acceptance pass. All six planned calls are used. U31's ₹150 transfer is applied;
+acceptance pass. All seven authorized calls, including U32's single failed retry, are used. U31's ₹150 transfer is applied;
 the original unknown ₹250 remains held and the total budget is unchanged.
 [M7](evidence/M7-judge-readiness.md) owns exact evidence and remaining gate;
 [M8](evidence/M8-settlement-lineage-preparation.md) owns compatible rollback limits.

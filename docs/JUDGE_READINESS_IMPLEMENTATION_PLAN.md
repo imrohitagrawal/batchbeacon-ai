@@ -3,7 +3,7 @@
 Status: execution authorized; the core positive workflow is restored and independently
 verified on the deployed correction. Both positive examples passed actual AI journeys;
 the unrelated-label call returned a provider 504 and cannot count as negative acceptance.
-All six planned calls are used. U31's approved transfer and original-liability migration
+All seven authorized calls, including U32's single failed retry, are used. U31's approved transfer and original-liability migration
 are applied without releasing the unknown reservation. [M7](evidence/M7-judge-readiness.md)
 records exact results, failures and the remaining gate. No submission change or optional
 new guidance sample is included. This remains a bounded correction plan.
@@ -238,3 +238,15 @@ before the next slot. A failed positive or generic negative failure cannot pass.
 After migration, rollback must preserve the permanent admission fence, current
 metadata and a compatible original-liability reader. The old admission hash and
 pre-manifest image must not be restored. Actual results and limitations are in M7.
+
+
+## U32 — one additional validation call, now consumed
+
+The owner explicitly approved exactly one additional same-case unrelated-label
+retry, increasing the test ceiling from six to seven calls within the existing
+₹650 public pool and ₹6,000 total. The original unknown ₹250 remains reserved.
+The seventh call again returned a complete provider 504, with no accepted result
+or action. Both failures remain evidence. No eighth call or automatic retry is
+included. After two unchanged failures, diagnose and prepare a changed bounded
+latency/input-context experiment; do not relax identity rules or call either
+provider error a successful negative result. M7 records the current unpassed gate.

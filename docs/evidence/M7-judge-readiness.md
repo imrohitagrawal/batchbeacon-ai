@@ -26,13 +26,23 @@ remain unchanged. Typed HTTP/run deadlines are 40/50 seconds under the existing
 | Independent public A reopening | Ordinary public host, same saved cookie, no Origin override: mobile/desktop, image, hold, queue/reopen/reload, exact assets and unchanged accounting passed. Zero new AI calls or guests. This is not a separate fresh public A model invocation. |
 | Fresh public SFA B | New public guest, ordinary browser requests: one actual call passed in about 13 seconds; correct identity/current match, explicit hold, dirty queue, reload/image/mobile checks passed. Usage settled at about ₹6.47; independent evidence/action/accounting review passed. |
 | Fresh public unrelated label | One actual call returned complete HTTP 504 after about 40 seconds. Exact current-policy nonbillable receipt settled model charge at ₹0 without invented token usage. No comparison, hold eligibility or action. This operational failure does not pass identity rejection or scoped-negative acceptance. |
+| U32 explicit same-case retry | Owner approved exactly one seventh call within existing funds. It also returned complete provider HTTP 504 after about 40 seconds, with no result/hold. The original failed run remains; the new failure is separate evidence. No eighth call is authorized. |
 | Failure and access recovery | Both hosts pass retained unknown-case reopen, disabled unknown retry/hold, mobile expiry, exact assets, guestless/foreign/expired denial and unchanged accounting. Independent public failed-negative reload confirms truthful provider error, decoded image, explicit retry, no result/action and no automatic generation. |
 
 Independent implementation, judge/UX and release reviews distinguish passing
 positive journeys, passing failure handling and the unpassed negative-case gate.
-All six planned model calls were used; no seventh call is implied by product retry
-eligibility. A separately prepared one-call option requires owner approval under
-plan §11 and must retain this failed evidence.
+U32 approved exactly one additional same-case retry after the six planned calls.
+All seven authorized calls are now used; both current unrelated-label attempts
+failed operationally. Product retry eligibility does not authorize an eighth test.
+Both failures are preserved, and neither is counted as negative acceptance.
+
+The installed locked SDK converts the configured HTTP timeout into a 40-second
+server-timeout header; an offline check confirms the application preserves it.
+The two complete 504s near that boundary are consistent with provider execution
+exceeding the configured deadline. This does not establish an identity/parser defect,
+a general outage or that a larger timeout would succeed. Next work requires a
+changed bounded latency/input-context plan and independently reviewed end-to-end
+timing and compatible migration; no further paid test is inferred.
 
 Remaining limitations: no fresh public A generation, fresh full guidance lifecycle,
 protected model-quality study or universal availability claim. Guidance eligibility
