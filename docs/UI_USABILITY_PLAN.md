@@ -69,3 +69,7 @@ separately. A human usability study is not claimed unless it actually occurs.
 The requested layout correction is authorized; this plan is not evidence that
 an audit ran, a redesign shipped, or a background task was scheduled. Any later
 cloud release must retain the existing finite service and spending boundaries.
+
+## Scoped execution update
+
+The [video-parity repair](evidence/M7-judge-readiness.md) implements contextual guidance eligibility, an empty-state route to checking a product, selected-investigation history, later-stage disclosure, queue invalidation and visible mobile expiry. Local controlled desktop/mobile checks and independent review passed. This does not close the entire lifecycle usability matrix above or constitute a human usability study. Current real-AI readiness remains blocked as documented in M7.
