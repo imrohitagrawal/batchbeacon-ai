@@ -183,7 +183,7 @@ def test_invalid_policy_fails_closed(env, overrides):
         policy(env, **overrides)
 
 
-def test_verified_error_releases_capacity_for_an_already_admitted_next_run(env):
+def test_verified_error_releases_capacity_before_admitting_next_run(env):
     from batchbeacon.shared_admission import Pool
     from tests.unit.test_cloud_admission import NANO
     s, store = env[:2]
@@ -192,12 +192,13 @@ def test_verified_error_releases_capacity_for_an_already_admitted_next_run(env):
     balance = budget.balance(Pool.PUBLIC).model_copy(update={'incurred_nanos': 490 * NANO})
     store.budget = budget.model_copy(update={'balances': tuple(
         balance if b.pool == Pool.PUBLIC else b for b in budget.balances)}).model_dump_json()
-    next_run = begin(env, 'next-acquisition')
-    with pytest.raises(SharedDenied, match='insufficient uncommitted model allowance'):
-        reserve(env, next_run)
-    assert s.inspect_run(env[4], next_run.id).calls == 0
+    with pytest.raises(SharedDenied, match='requires operator review'):
+        begin(env, 'next-acquisition')
+    assert s.reconciliation_required(env[4])
     s.nonbillable_policy = policy(env)
     s.reconcile(a.id)
+    assert not s.reconciliation_required(env[4])
+    next_run = begin(env, 'next-acquisition')
     admitted = reserve(env, next_run)
     assert admitted.reserved_nanos == s.policy.reserve_nanos
     assert store.state().balance(Pool.PUBLIC).incurred_nanos == 490 * NANO

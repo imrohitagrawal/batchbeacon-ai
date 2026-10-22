@@ -15,10 +15,11 @@ from tests.browser.test_workbench_recovery import page  # noqa: F401
 pytestmark = pytest.mark.browser
 
 
-@pytest.mark.parametrize("status", ["FAILED", "TIMED_OUT", "INCOMPLETE"])
-def test_no_envelope_status_survives_reopen_without_repeating_extraction(page, status):
+@pytest.mark.parametrize("status,unresolved", [("FAILED", False), ("TIMED_OUT", False),
+    ("INCOMPLETE", False), ("FAILED", True), ("TIMED_OUT", True)])
+def test_no_envelope_status_survives_reopen_without_repeating_extraction(page, status, unresolved):
     result = page.evaluate(
-        """async(status)=>{
+        """async([status,unresolved])=>{
       state.csrf='test';state.config={guidance:'OFF'};
       const evidence={latest_run_id:'owned-run',latest_observation_revision:0,
         current:false,observation:null,result:null,extraction_history:[],
@@ -29,7 +30,8 @@ def test_no_envelope_status_survives_reopen_without_repeating_extraction(page, s
         const body=url.endsWith('/evidence')?evidence:
           url.endsWith('/captures')?{batches:[{ready:true,captures:[{id:'capture'}]}]}:
           url.endsWith('/actions')?{actions:[]}:
-          {run_id:'owned-run',state:status,current:false,diagnostics:['CHECK_FAILED']};
+          {run_id:'owned-run',state:status,current:false,
+            reconciliation_required:unresolved,diagnostics:['CHECK_FAILED']};
         return new Response(JSON.stringify(body),{status:200});
       };
       await loadIncident('owned-incident');
@@ -38,19 +40,19 @@ def test_no_envelope_status_survives_reopen_without_repeating_extraction(page, s
         checkDisabled:$('check').disabled,holdDisabled:$('confirm-open').disabled,
         statusHidden:$('refresh-acquisition').hidden,pending:state.pending,calls};
     }""",
-        status,
+        [status, unresolved],
     )
     expected = {
         "FAILED": "Extraction failed",
         "TIMED_OUT": "Extraction timed out",
         "INCOMPLETE": "Check outcome unresolved",
     }
-    assert result["title"] == expected[status]
+    assert result["title"] == ("Check outcome unresolved" if unresolved else expected[status])
     assert result["holdDisabled"] and result["pending"] is None
-    assert result["checkDisabled"] == (status in {"INCOMPLETE", "TIMED_OUT"})
-    assert result["statusHidden"] == (status not in {"INCOMPLETE", "TIMED_OUT"})
-    if status == "TIMED_OUT":
-        assert "operator review is required" in result["copy"]
+    assert result["checkDisabled"] == (unresolved or status == "INCOMPLETE")
+    assert result["statusHidden"] == (not unresolved and status != "INCOMPLETE")
+    if unresolved:
+        assert "Operator review is required" in result["copy"]
         assert "explicitly retry" not in result["copy"]
     assert all(method == "GET" for _, method in result["calls"])
     assert len(result["calls"]) == 8

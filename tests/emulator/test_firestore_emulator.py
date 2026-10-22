@@ -188,7 +188,7 @@ def test_source_update_racing_confirmation_never_renews_old_result(runtime, env)
 
 
 def test_nonbillable_settlement_is_atomic_across_independent_clients(runtime, env):
-    from batchbeacon.shared_admission import Attempt, Pool
+    from batchbeacon.shared_admission import Attempt, Pool, SharedDenied
     from tests.unit.test_nonbillable_reconciliation import failed, policy
     first = runtime[0]
     token, session = first[2].issue()
@@ -210,8 +210,26 @@ def test_nonbillable_settlement_is_atomic_across_independent_clients(runtime, en
         name = stores.name(kind, identifier) if identifier else stores.name(kind)
         return stores.run(lambda tx: tx.read({name: kind}))[name]
     before = read('budget')
-    with ThreadPoolExecutor(max_workers=2) as pool:
-        list(pool.map(lambda service: service.reconcile(attempt.id), services))
+    def new_run():
+        return services[1].admit_run(session.capability_hash, incident.id,
+                                     'after-settlement', run.binding)
+    assert services[1].reconciliation_required(session.capability_hash)
+    with pytest.raises(SharedDenied, match='requires operator review'):
+        new_run()
+    def racing_admission():
+        try:
+            result = new_run()
+        except SharedDenied:
+            return None
+        # Settlement is monotonic: a new run can only commit after that receipt.
+        assert read('attempt', attempt.id).actual_nanos == 0
+        return result
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        settlement = [pool.submit(service.reconcile, attempt.id) for service in services]
+        admission = pool.submit(racing_admission)
+        for future in settlement:
+            future.result()
+        admission.result()
     after, retained = read('budget'), read('attempt', attempt.id)
     assert isinstance(retained, Attempt) and retained.nonbillable_receipt
     assert retained.actual_nanos == 0 and retained.complete_usage is None
@@ -220,6 +238,8 @@ def test_nonbillable_settlement_is_atomic_across_independent_clients(runtime, en
     assert after.balance(Pool.PUBLIC).lifetime_attempts == 1
     assert after.phase == before.phase and after.grant_hash == before.grant_hash
     assert services[1].inspect_run(session.capability_hash, run.id).calls == 1
+    assert not services[1].reconciliation_required(session.capability_hash)
+    assert new_run().run.request_key == 'after-settlement'
     services[1].nonbillable_policy = None
     services[1].reconcile(attempt.id)
     assert read('budget') == after and read('attempt', attempt.id) == retained

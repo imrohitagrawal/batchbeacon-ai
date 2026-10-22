@@ -139,6 +139,48 @@ def test_failure_has_bounded_owned_status_and_no_invented_observation(coordinato
     assert len(view.state.extractions) == (1 if failure == 'proposal' else 0)
 
 
+def test_transport_unknown_blocks_new_generation_until_original_usage_settles(coordinator):
+    from batchbeacon.guest_service import GuestDenied
+    from tests.unit.durable_fixtures import record_wire
+    c = coordinator
+    requests = []
+    async def provider(request):
+        requests.append(request)
+        if str(request.url).endswith(':countTokens'):
+            return httpx.Response(200, json={'totalTokens': 100})
+        raise httpx.ReadTimeout('unknown original response', request=request)
+    c[0].transport_factory = lambda: httpx.MockTransport(provider)
+    first = acquire(c)
+    assert first.state == 'FAILED' and first.reconciliation_required
+    run = c[0].shared.inspect_run(c[6].capability_hash, first.run_id)
+    attempt = saved(c[3], 'attempt', run.attempt_ids[0])
+    assert attempt.dispatch_claimed and attempt.response is None and attempt.actual_nanos is None
+    before = saved(c[3], 'budget'), saved(c[3], 'usage', c[6].capability_hash)
+    assert acquire(c) == first
+    with pytest.raises(GuestDenied):
+        acquire(c, replace(c[1], request_key='different-key'))
+    assert len(requests) == 2  # countTokens plus original generation only.
+    assert (saved(c[3], 'budget'), saved(c[3], 'usage', c[6].capability_hash)) == before
+    # An offline retained-original receipt settles liability, never invents a result.
+    record_wire(c[0].shared, attempt)
+    c[0].shared.reconcile(attempt.id)
+    after = c[0].status(c[2], first.run_id)
+    assert after.state == 'FAILED' and not after.reconciliation_required and not after.current
+    admitted = c[0].shared.admit_run(c[6].capability_hash, run.incident_id,
+                                    'after-settlement', run.binding)
+    assert admitted.fresh and len(requests) == 2
+
+
+def test_settled_invalid_proposal_can_be_explicitly_retried(coordinator):
+    c = coordinator
+    c[5][0]['unexpected_field'] = 'invalid'
+    first = acquire(c)
+    assert first.state == 'FAILED' and not first.reconciliation_required
+    second = acquire(c, replace(c[1], request_key='explicit-retry'))
+    assert second.run_id != first.run_id and not second.reconciliation_required
+    assert len(c[4]) == 4
+
+
 @pytest.mark.parametrize('change', ['source', 'capture', 'duplicates', 'revision'])
 def test_invalid_selection_denied_before_any_model_call(coordinator, change):
     from batchbeacon.guest_service import GuestDenied

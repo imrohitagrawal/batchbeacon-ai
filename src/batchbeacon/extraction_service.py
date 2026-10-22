@@ -65,6 +65,7 @@ class AcquisitionStatus(Record):
     state: Literal['COMPLETE', 'REVIEW_REQUIRED', 'FAILED', 'TIMED_OUT',
                    'INCOMPLETE', 'SUPERSEDED', 'STALE']
     current: bool
+    reconciliation_required: bool = False
     extraction_revision: int | None = None
     observation_revision: int | None = None
     result_revision: int | None = None
@@ -145,6 +146,7 @@ class ExtractionService:
         else:
             state = 'INCOMPLETE'  # Status never asserts that an executor is still running.
         return AcquisitionStatus(run_id=run.id, incident_id=run.incident_id, state=state,
+            reconciliation_required=self.shared.reconciliation_required(key),
             current=current, extraction_revision=saved.revision if saved else None,
             observation_revision=view.observation.revision if current else None,
             result_revision=view.result.revision if current else None, diagnostics=diagnostics)
