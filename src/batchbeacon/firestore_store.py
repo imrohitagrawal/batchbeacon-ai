@@ -487,6 +487,11 @@ class _Shared:
             names = {s.name("budget"): "budget"}
             if address.attempt_id:
                 names[s.name("attempt", address.attempt_id)] = "attempt"
+            if address.inspect_session_attempts:
+                if guest is None or usage is None:
+                    raise _unavailable()
+                names.update({s.name("attempt", aid): "attempt"
+                              for run in usage.runs for aid in run.attempt_ids})
             records = tx.read(names)
             budget = records[s.name("budget")]
             attempt = records.get(s.name("attempt", address.attempt_id)) \
@@ -496,7 +501,13 @@ class _Shared:
                 or attempt.policy_hash != budget.policy_hash
                 or (guest and attempt.session_id != guest.scope.session_id)):
                 raise _unavailable()
-            result = change(Snapshot(budget, guest, usage, attempt))
+            history = None
+            if address.inspect_session_attempts:
+                history = tuple(records[s.name("attempt", aid)]
+                                for run in usage.runs for aid in run.attempt_ids)
+                if any(a is None for a in history):
+                    raise _unavailable()
+            result = change(Snapshot(budget, guest, usage, attempt, history))
             tx.limit_to(result.not_after)
             if guest:
                 tx.limit_to(guest.scope.expires_at)

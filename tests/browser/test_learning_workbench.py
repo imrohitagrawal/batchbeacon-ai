@@ -84,7 +84,14 @@ def learning_browser():
 def test_owned_guidance_browser_evaluation_activation_effect_rollback_and_reload(learning_browser):
     page, c, learning, errors = learning_browser
     page.get_by_role("link", name="Capture guidance", exact=True).click()
-    expect(page.locator("#guidance-state-title")).to_contain_text("revision 1")
+    expect(page.locator("#guidance-policy-state")).to_contain_text("revision 1")
+    if capture_dir := os.environ.get("BATCHBEACON_CAPTURE_DIR"):
+        from pathlib import Path
+
+        Path(capture_dir).mkdir(parents=True, exist_ok=True)
+        page.screenshot(
+            path=str(Path(capture_dir) / "guidance-eligible-desktop.png"), full_page=True
+        )
     page.locator("#guidance-request").click()
     expect(page.locator("#owned-guidance")).to_contain_text("leading zeros")
     page.locator("#feedback-save").click()
@@ -99,14 +106,14 @@ def test_owned_guidance_browser_evaluation_activation_effect_rollback_and_reload
     expect(page.locator("#learning-preview")).to_contain_text("avoid glare")
     page.locator("#learning-consent").check()
     page.locator("#learning-confirm").click()
-    expect(page.locator("#guidance-state-title")).to_contain_text("revision 2")
+    expect(page.locator("#guidance-policy-state")).to_contain_text("revision 2")
     page.locator("#guidance-request").click()
     expect(page.locator("#owned-guidance")).to_contain_text("avoid glare")
     page.locator("#learning-rollback").click()
     expect(page.locator("#learning-confirm")).to_be_disabled()
     page.locator("#learning-consent").check()
     page.locator("#learning-confirm").click()
-    expect(page.locator("#guidance-state-title")).to_contain_text("revision 3")
+    expect(page.locator("#guidance-policy-state")).to_contain_text("revision 3")
     page.locator("#guidance-request").click()
     expect(page.locator("#owned-guidance")).not_to_contain_text("glare")
     c[3][5][0] += timedelta(seconds=learning.policy.refresh_interval_seconds)
@@ -114,7 +121,7 @@ def test_owned_guidance_browser_evaluation_activation_effect_rollback_and_reload
     expect(page.locator("#verdict-title")).to_have_text("Review required")
     expect(page.locator("#check")).to_be_enabled()
     page.get_by_role("link", name="Capture guidance", exact=True).click()
-    expect(page.locator("#guidance-state-title")).to_contain_text("revision 3")
+    expect(page.locator("#guidance-policy-state")).to_contain_text("revision 3")
     expect(page.locator("#learning-counts")).to_contain_text("1/4 actual attempts")
     for width in (390, 1440):
         page.set_viewport_size({"width": width, "height": 1000})
@@ -125,7 +132,7 @@ def test_owned_guidance_browser_evaluation_activation_effect_rollback_and_reload
 def test_learning_lost_feedback_response_reconciles_original_key_after_reload(learning_browser):
     page, c, learning, errors = learning_browser
     page.get_by_role("link", name="Capture guidance", exact=True).click()
-    expect(page.locator("#guidance-state-title")).to_contain_text("revision 1")
+    expect(page.locator("#guidance-policy-state")).to_contain_text("revision 1")
     page.locator("#guidance-request").click()
     expect(page.locator("#owned-guidance")).to_contain_text("leading zeros")
 
@@ -134,7 +141,7 @@ def test_learning_lost_feedback_response_reconciles_original_key_after_reload(le
         assert response.status == 200
         route.abort("failed")
 
-    page.route("**/api/incidents/*/feedback", lost, times=1)
+    page.route("**/api/incidents/*/feedback?*", lost, times=1)
     page.locator("#feedback-save").click()
     expect(page.locator("#learning-recover")).to_be_enabled()
     assert len(learning.read(c[2]).feedback) == 1
@@ -158,7 +165,7 @@ def test_old_saved_request_does_not_replace_current_capture_guidance_after_corre
 
     page, c, learning, errors = learning_browser
     page.get_by_role("link", name="Capture guidance", exact=True).click()
-    expect(page.locator("#guidance-state-title")).to_contain_text("revision 1")
+    expect(page.locator("#guidance-policy-state")).to_contain_text("revision 1")
     page.locator("#guidance-request").click()
     expect(page.locator("#owned-guidance")).to_contain_text("leading zeros")
     prior = learning.read(c[2]).requests[-1]
@@ -190,16 +197,18 @@ def test_old_saved_request_does_not_replace_current_capture_guidance_after_corre
 def test_refresh_reports_completion_and_preserves_failures(learning_browser):
     page, c, learning, errors = learning_browser
     page.locator("nav [data-view=guidance]").click()
-    expect(page.locator("#guidance-state-title")).to_contain_text("revision 1")
+    expect(page.locator("#guidance-policy-state")).to_contain_text("revision 1")
     c[3][5][0] += timedelta(seconds=learning.policy.refresh_interval_seconds)
     requests = []
     page.on("request", lambda r: requests.append((r.method, r.url)))
     page.locator("#learning-refresh").click()
     expect(page.locator("#app-status")).to_have_text("Capture guidance records refreshed.")
     assert len(requests) == 1 and requests[0][0] == "GET"
-    assert requests[0][1].endswith("/api/learning")
-    page.route("**/api/learning", lambda route: route.fulfill(
-        status=503, json={"error": "evidence_temporarily_unavailable"}))
+    assert "/api/learning?incident=" in requests[0][1]
+    page.route(
+        "**/api/learning?*",
+        lambda route: route.fulfill(status=503, json={"error": "evidence_temporarily_unavailable"}),
+    )
     page.locator("#learning-refresh").click()
     expect(page.locator("#app-status")).to_have_text("evidence temporarily unavailable")
     expect(page.locator("#learning-counts")).to_contain_text("historical")

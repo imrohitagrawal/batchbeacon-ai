@@ -4,6 +4,8 @@
 
 BatchBeacon connects the package in hand to the conditions in selected official recall evidence. The demonstration uses synthetic labels, historical sources and simulated actions.
 
+**Current verification status:** fresh AI validation is blocked by an unresolved provider timeout and insufficient uncommitted allowance. The tour, previews and owned saved evidence remain available. Do not treat a timeout or rejected extraction as a result, or repeatedly retry. See [current repair evidence](../evidence/M7-judge-readiness.md).
+
 ## Try the retailer journey
 
 1. Open the [live prototype](https://batchbeacon.stackclimb.com). A bounded guest shop opens automatically. **Take the guided tour** is optional and uses no AI allowance.
@@ -12,7 +14,7 @@ BatchBeacon connects the package in hand to the conditions in selected official 
 4. Review the result and explicitly confirm a simulated hold.
 5. Refresh, open the retail queue and resume the same saved investigation. Counts and statuses belong to this guest shop.
 
-This path passed in a fresh unauthenticated public browser on Cloud Run with actual Gemini/ADK and Firestore persistence. The same action survived reload and reopening from the queue; the phone layout had no horizontal overflow. Independent accounting and private-boundary checks passed.
+This path passed historically in a fresh unauthenticated public browser on Cloud Run with actual Gemini/ADK and Firestore persistence; that earlier pass does not establish readiness of the current runtime. The same action survived reload and reopening from the queue; the phone layout had no horizontal overflow. Independent accounting and private-boundary checks passed.
 
 ## Two workspaces
 
@@ -49,7 +51,7 @@ Verified fallback: https://batchbeacon-ai-xotgrrfbcq-el.a.run.app . Sessions are
 separate between hostnames. This demo uses private, expiring guest shops, without
 account login/logout or cross-device recovery. Anonymous users can consume the
 finite public allowance; exhausted capacity is not automatically replenished.
-The deployed source is [04546e09](https://github.com/imrohitagrawal/batchbeacon-ai/tree/04546e0944adfed521efcd3b20e7fa7387c39101).
+Current correction source and deployment verification are tracked in [M7](../evidence/M7-judge-readiness.md). The earlier `04546e09` source reference describes a historical clarity release.
 The hosted narrow-screen failure was corrected and independently verified. The live
 release includes a prominent optional five-step guided overlay, actual sample-label
 previews, accessible example/source explanations and visible current/future scope. See [correction evidence](../evidence/M4-ui-domain-correction.md).

@@ -18,6 +18,8 @@ from pydantic import AwareDatetime, Field, TypeAdapter, model_validator
 from batchbeacon.attempt_evidence import (
     AttemptEvidenceLimits,
     CompleteUsage,
+    NonbillablePolicy,
+    NonbillableReceipt,
     ResponseEvidence,
     derive_usage,
     response_evidence,
@@ -179,6 +181,9 @@ class IncidentUsage(Record):
     verifications: tuple[VerificationReservation, ...] = ()
 
 
+RunFailureReason = Literal['ALLOWANCE_UNAVAILABLE', 'PROVIDER_UNAVAILABLE', 'CHECK_FAILED']
+
+
 class Run(Record):
     binding: RunBinding
     attempt_ids: tuple[OpaqueId, ...] = ()
@@ -193,6 +198,15 @@ class Run(Record):
     call_operation_keys: tuple[RequestKey, ...] = ()
     tool_ids: tuple[RequestKey, ...] = ()
     terminal: Literal["completed", "failed", "timed_out"] | None = None
+    failure_reason: RunFailureReason | None = Field(
+        default=None, exclude_if=lambda value: value is None)
+
+    @model_validator(mode='after')
+    def coherent_failure(self) -> Self:
+        if self.failure_reason is not None and (
+                self.terminal not in {'failed', 'timed_out'} or self.completion_hash):
+            raise ValueError('failure reason requires an unsuccessful terminal run')
+        return self
 
 
 class SessionUsage(Record):
@@ -225,6 +239,8 @@ class Attempt(Record):
     dispatch_claimed: bool = False
     usage_hash: Digest | None = None
     actual_nanos: Money | None = None
+    nonbillable_receipt: NonbillableReceipt | None = Field(
+        default=None, exclude_if=lambda value: value is None)
 
     @model_validator(mode="after")
     def coherent_evidence(self) -> Self:
@@ -235,7 +251,14 @@ class Attempt(Record):
             if self.response is None or self.complete_usage != derive_usage(
                     self.response, self.request_hash, self.evidence_limits):
                 raise ValueError("attempt usage inconsistent")
-        if (self.usage_hash is None) != (self.actual_nanos is None):
+        if self.nonbillable_receipt is not None:
+            if self.response is None or self.complete_usage is not None \
+                    or self.usage_hash is not None or self.actual_nanos != 0:
+                raise ValueError("conflicting settlement evidence")
+            self.nonbillable_receipt.validate_response(self.response, attempt_id=self.id,
+                request_hash=self.request_hash, model_hash=self.model_configuration_hash,
+                reserved_at=self.reserved_at)
+        elif (self.usage_hash is None) != (self.actual_nanos is None):
             raise ValueError("partial reconciliation receipt")
         if self.usage_hash is not None and (self.complete_usage is None
                 or self.usage_hash != self.complete_usage.digest()
@@ -252,6 +275,7 @@ class Address:
     # All IDs are runtime/server-owned, never a client-supplied authority claim.
     guest_key: str | None = None
     attempt_id: str | None = None
+    inspect_session_attempts: bool = False
 
 
 @dataclass(frozen=True)
@@ -260,6 +284,7 @@ class Snapshot:
     guest: GuestSession | None = None
     usage: SessionUsage | None = None
     attempt: Attempt | None = None
+    session_attempts: tuple[Attempt, ...] | None = None
 
 
 @dataclass(frozen=True)
@@ -270,6 +295,7 @@ class Change:
     # A denial that MUST commit (e.g. circuit opening) is data until after commit.
     denial: str | None = None
     not_after: datetime | None = None
+    reconciliation_required: bool = False
 
 
 @dataclass(frozen=True)
@@ -308,10 +334,15 @@ class SharedAdmission:
         store: SharedStore,
         *,
         clock: Callable[[], datetime] = lambda: datetime.now(UTC),
+        nonbillable_policy: NonbillablePolicy | None = None,
     ):
         if store is None:
             raise ValueError("an explicit shared transaction store is required")
         self.policy, self.grant, self.store, self.clock = policy, grant, store, clock
+        if nonbillable_policy is not None and \
+                nonbillable_policy.model_configuration_hash != policy.model_configuration_hash:
+            raise ValueError("nonbillable model binding invalid")
+        self.nonbillable_policy = nonbillable_policy
 
     def _now(self):
         now = self.clock()
@@ -433,7 +464,8 @@ class SharedAdmission:
         if not_after is not None and (not_after.tzinfo is None or not_after.utcoffset() is None):
             raise SharedDenied("aware execution deadline required")
         binding = RunBinding.model_validate_json(binding.model_dump_json())
-        address, run_id, started = Address(guest_key), uuid4().hex, self._now()
+        address = Address(guest_key, inspect_session_attempts=True)
+        run_id, started = uuid4().hex, self._now()
 
         def change(snapshot):
             guest = self._guest(snapshot, address)
@@ -444,6 +476,12 @@ class SharedAdmission:
                 if prior.incident_id != incident_id or prior.binding != binding:
                     raise SharedDenied("run request conflict")
                 return Change(snapshot.budget, usage, not_after=guest.scope.expires_at)
+            if any(r.terminal is None and self._now() < r.deadline for r in usage.runs):
+                raise SharedDenied("session already has an active run")
+            # Read attempt settlement in the same transaction as new-run admission.
+            # Failure/deadline labels do not prove that provider liability ended.
+            if self._unsettled(snapshot, guest):
+                raise SharedDenied("unresolved check requires operator review")
             budget = self._budget(snapshot)
             if binding.application_configuration_hash != self.policy.model_configuration_hash \
                     or len(binding.model_dump_json().encode()) > \
@@ -455,8 +493,6 @@ class SharedAdmission:
             if len({c.id for c in captures}) != len(captures) \
                     or any(ready.get(c.id) != c for c in captures):
                 raise SharedDenied("run capture unavailable")
-            if any(r.terminal is None and self._now() < r.deadline for r in usage.runs):
-                raise SharedDenied("session already has an active run")
             counter = next(
                 (i for i in usage.incidents if i.incident_id == incident_id),
                 None,
@@ -632,7 +668,7 @@ class SharedAdmission:
                 or attempt.grant_hash != budget.grant_hash
                 or attempt.phase_hash != budget.phase.digest()
                 or attempt.dispatch_claimed
-                or attempt.usage_hash is not None
+                or attempt.actual_nanos is not None
             ):
                 raise SharedDenied("dispatch claim unavailable")
             return Change(
@@ -724,7 +760,11 @@ class SharedAdmission:
             raise SharedDenied("verification expired after commit")
         return reservation
 
-    def finish_run(self, guest_key: str, run_id: str, *, failed: bool = False):
+    def finish_run(self, guest_key: str, run_id: str, *, failed: bool = False,
+                   failure_reason: RunFailureReason | None = None):
+        if failure_reason is not None and (not failed or failure_reason not in {
+                'ALLOWANCE_UNAVAILABLE', 'PROVIDER_UNAVAILABLE', 'CHECK_FAILED'}):
+            raise SharedDenied('invalid failure reason')
         address = Address(guest_key)
 
         def change(snapshot):
@@ -744,7 +784,9 @@ class SharedAdmission:
             usage = snapshot.usage.model_copy(
                 update={
                     "runs": tuple(
-                        r.model_copy(update={"terminal": reason}) if r.id == run_id else r
+                        Run.model_validate(r.model_dump() | {
+                            'terminal': reason, 'failure_reason': failure_reason})
+                        if r.id == run_id else r
                         for r in snapshot.usage.runs
                     )
                 }
@@ -767,6 +809,40 @@ class SharedAdmission:
         if self._now() >= result.not_after:
             raise SharedDenied("guest expired or invalid")
         return next(r for r in result.usage.runs if r.id == run_id)
+
+    @staticmethod
+    def _unsettled(snapshot, guest):
+        attempts = snapshot.session_attempts
+        expected = {aid: run for run in snapshot.usage.runs for aid in run.attempt_ids}
+        if len(expected) != sum(len(r.attempt_ids) for r in snapshot.usage.runs) or \
+                attempts is None or len(attempts) != len(expected) or \
+                {a.id for a in attempts} != set(expected):
+            raise SharedDenied("attempt history unavailable")
+        for attempt in attempts:
+            run = expected[attempt.id]
+            if attempt.session_id != guest.scope.session_id or attempt.run_id != run.id or \
+                    attempt.incident_id != run.incident_id or \
+                    attempt.run_binding_hash != run.binding.digest() or \
+                    attempt.model_configuration_hash != \
+                    run.binding.application_configuration_hash or \
+                    attempt.phase_hash != run.phase_hash or \
+                    attempt.operation_key not in run.call_operation_keys:
+                raise SharedDenied("attempt history binding invalid")
+        # Historical settled attempts remain readable after an admitted policy
+        # migration. This read never grants authority to settle an older grant.
+        return any(a.actual_nanos is None for a in attempts)
+
+    def reconciliation_required(self, guest_key: str) -> bool:
+        """Owned settlement status; no provider call, paid admission or record write."""
+        address = Address(guest_key, inspect_session_attempts=True)
+        def read(snapshot):
+            guest = self._guest(snapshot, address)
+            return Change(None, not_after=guest.scope.expires_at,
+                reconciliation_required=self._unsettled(snapshot, guest))
+        result = self.store.transact(address, read)
+        if self._now() >= result.not_after:
+            raise SharedDenied("guest expired or invalid")
+        return result.reconciliation_required
 
     def find_run(self, guest_key: str, incident_id: str, request_key: str) -> Run | None:
         """Owned key recovery without rebuilding changed inputs or acquiring permission."""
@@ -847,6 +923,10 @@ class SharedAdmission:
                 raise SharedDenied("no dispatch intent exists for a usage receipt")
             if attempt.response is None:
                 raise SharedDenied("complete usage unavailable")
+            if attempt.nonbillable_receipt is not None:
+                return Change(budget, attempt=attempt)
+            if not 200 <= attempt.response.status_code < 300:
+                return self._reconcile_nonbillable(budget, attempt)
             usage = derive_usage(attempt.response, attempt.request_hash, attempt.evidence_limits)
             input_tokens, output_and_thought_tokens = (usage.input_tokens,
                                                        usage.output_and_thought_tokens)
@@ -915,3 +995,25 @@ class SharedAdmission:
             result = self.store.transact(address, change)
         if result.denial:
             raise SharedDenied(result.denial)
+
+
+    def _reconcile_nonbillable(self, budget, attempt):
+        if self.nonbillable_policy is None or attempt.actual_nanos is not None \
+                or attempt.usage_hash is not None or attempt.complete_usage is not None:
+            raise SharedDenied("reviewed nonbillable settlement unavailable")
+        receipt = NonbillableReceipt(attempt_id=attempt.id, request_hash=attempt.request_hash,
+            response_hash=attempt.response.retained_sha256, policy=self.nonbillable_policy,
+            settled_at=self._now())
+        receipt.validate_response(attempt.response, attempt_id=attempt.id,
+            request_hash=attempt.request_hash, model_hash=attempt.model_configuration_hash,
+            reserved_at=attempt.reserved_at)
+        balance = budget.balance(attempt.pool)
+        if balance.reserved_nanos < attempt.reserved_nanos:
+            raise SharedDenied("inconsistent outstanding reservation")
+        attempt = self._attempt_record(attempt.model_copy(update={
+            "nonbillable_receipt": receipt, "actual_nanos": 0}))
+        balance = balance.model_copy(update={
+            "reserved_nanos": balance.reserved_nanos - attempt.reserved_nanos})
+        budget = budget.model_copy(update={"balances": tuple(
+            balance if b.pool == attempt.pool else b for b in budget.balances)})
+        return Change(budget, attempt=attempt)

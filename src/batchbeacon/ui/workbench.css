@@ -12,7 +12,7 @@
 #capture-file { width: 100%; }
 #session-state { max-width: 220px; }
 button:disabled { cursor: not-allowed; }
-@media (max-width: 760px) { #session-state { display: none; } }
+@media (max-width: 760px) { #session-state { display: block; max-width: none; width: 100%; padding: 8px 20px; overflow-wrap: anywhere; font-size: .75rem; } }
 
 .field-detail { overflow-wrap: anywhere; }
 
@@ -65,3 +65,12 @@ button:disabled { cursor: not-allowed; }
 .product-vision { margin-top: 16px; font-size: .875rem; }
 .product-vision summary { padding: 12px 0; min-height: 44px; color: var(--brand-navy); font-weight: 600; cursor: pointer; }
 .product-vision p { margin: 12px 0; line-height: 1.6; }
+
+.guidance-details { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 16px; }
+.guidance-details summary, .guidance-feedback summary { min-height: 44px; padding: 12px 0; cursor: pointer; color: var(--brand-navy); font-weight: 600; }
+.guidance-feedback label { display: block; margin: 12px 0 8px; }
+.guidance-feedback button { margin-top: 12px; }
+.control-help { color: var(--muted); font-size: .875rem; line-height: 1.5; }
+#guidance-context, #guidance-next { margin: 12px 0; overflow-wrap: anywhere; }
+.notice[data-kind="success"] { background: var(--completed-surface); color: var(--completed-ink); }
+.notice[data-kind="error"] { background: var(--selected); color: var(--accent); }

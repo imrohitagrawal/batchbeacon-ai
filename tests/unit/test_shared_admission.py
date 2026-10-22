@@ -63,7 +63,13 @@ class AtomicMemoryStore:
                 if address.attempt_id in self.attempts
                 else None
             )
-            snapshot = Snapshot(self.state(), guest, usage, attempt)
+            history = None
+            if address.inspect_session_attempts:
+                if guest is None or usage is None:
+                    raise SharedDenied("guest or usage unavailable")
+                history = tuple(Attempt.model_validate_json(self.attempts[aid])
+                                for run in usage.runs for aid in run.attempt_ids)
+            snapshot = Snapshot(self.state(), guest, usage, attempt, history)
             first, result = callback(snapshot), callback(snapshot)
             assert first == result
             self.before_commit(result)
@@ -270,6 +276,57 @@ def test_one_active_run_race_fixed_identity_and_lifetime_acquisitions(env):
         begin(env, "fourth")
     usage = SessionUsage.model_validate_json(next(iter(store.usage.values())))
     assert usage.incidents[0].acquisitions == 3
+
+
+@pytest.mark.parametrize("finish", [False, True])
+def test_called_timeout_blocks_new_keys_without_changing_liability(env, finish):
+    service, store, _, _, key, _, clock, _ = env
+    run = begin(env)
+    attempt = reserve(env, run)
+    assert claim(env, run, attempt)
+    clock[0] = run.deadline
+    if finish:
+        service.finish_run(key, run.id, failed=True)
+    before = (store.budget, dict(store.usage), dict(store.attempts))
+    with ThreadPoolExecutor(2) as workers:
+        def retry(request):
+            with pytest.raises(SharedDenied, match="requires operator review"):
+                begin(env, request)
+        list(workers.map(retry, ["new-key-a", "new-key-b"]))
+    assert (store.budget, store.usage, store.attempts) == before
+    repeated = service.admit_run(key, run.incident_id, run.request_key, run.binding)
+    assert not repeated.fresh and repeated.run.id == run.id
+    assert (store.budget, store.usage, store.attempts) == before
+
+
+@pytest.mark.parametrize("field", ["session_id", "run_id", "incident_id", "run_binding_hash",
+                                  "model_configuration_hash", "phase_hash", "operation_key"])
+def test_attempt_history_binding_cannot_admit_another_run(env, field):
+    service, store, _, _, key, _, _, _ = env
+    run = begin(env)
+    attempt = reserve(env, run)
+    service.finish_run(key, run.id, failed=True)
+    value = 'f' * (64 if field.endswith('hash') else 32)
+    store.attempts[attempt.id] = attempt.model_copy(update={field: value}).model_dump_json()
+    with pytest.raises(SharedDenied, match="history binding"):
+        begin(env, 'new-key')
+
+
+def test_settled_history_remains_readable_after_grant_change(env):
+    service, store, _, _, key, _, _, _ = env
+    run = begin(env)
+    attempt = reserve(env, run)
+    claim(env, run, attempt)
+    record_wire(service, attempt)
+    service.reconcile(attempt.id)
+    service.finish_run(key, run.id, failed=True)
+    assert not service.reconciliation_required(key)
+    service.grant = service.grant.model_copy(update={"expires_at": service.grant.expires_at +
+                                                    timedelta(seconds=1)})
+    store.budget = store.state().model_copy(update={"grant_hash": service.grant.digest()})\
+        .model_dump_json()
+    assert not service.reconciliation_required(key)
+    assert begin(env, 'new-grant').id != run.id
 
 
 def test_call_tool_and_retry_caps_count_individual_attempts(env):

@@ -60,7 +60,8 @@ def test_http_extraction_evidence_explicit_action_and_recovery(api):
     assert response.headers['referrer-policy'] == 'no-referrer'
     assert response.headers['x-content-type-options'] == 'nosniff'
     assert 'access-control-allow-origin' not in response.headers
-    assert set(status) == {'run_id', 'incident_id', 'state', 'current', 'extraction_revision',
+    assert set(status) == {'run_id', 'incident_id', 'state', 'current', 'reconciliation_required',
+                           'extraction_revision',
                           'observation_revision', 'result_revision', 'diagnostics'}
 
 

@@ -1,5 +1,18 @@
 # BatchBeacon AI — current execution state
 
+## Current judge-readiness correction — 22 October 2026
+
+The [video-parity plan](JUDGE_READINESS_IMPLEMENTATION_PLAN.md) is in execution.
+Source `9e28827` is deployed with independently reviewed accounting/recovery,
+queue, guidance and mobile-expiry corrections. Full local, Firestore, exact hosted
+push/PR and both-host checks passed; fresh guest entry passed without an AI call.
+**Judge readiness remains blocked:** later real-model checks failed date translation
+and then timed out without confirmed provider usage. The unknown reservation is
+preserved; no new model attempt fits current uncommitted public capacity.
+[M7](evidence/M7-judge-readiness.md) owns current evidence and remaining deadline,
+original-grant settlement and budget-decision work. The video/submission is unchanged.
+Earlier successful journeys below are historical, not current acceptance.
+
 19 October 2026. The working Google Cloud application uses non-production data. Guest
 access, rate and terminology corrections are deployed after the submitted release. The
 earlier fresh unauthenticated real-AI journey passed. Final v25 package submitted;

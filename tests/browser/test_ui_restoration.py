@@ -13,7 +13,7 @@ pytestmark = pytest.mark.browser
 def test_guidance_stage_does_not_advance_failed_or_running_evaluation(learning_browser):
     page, _, _, errors = learning_browser
     page.locator("nav [data-view=guidance]").click()
-    expect(page.locator("#guidance-state-title")).to_contain_text("revision 1")
+    expect(page.locator("#guidance-policy-state")).to_contain_text("revision 1")
     page.locator("#guidance-request").click()
     expect(page.locator("#owned-guidance")).to_contain_text("leading zeros")
     page.locator("#feedback-save").click()
@@ -54,7 +54,7 @@ def test_expiry_clears_completed_verdict_presentation(connected_browser):
 def test_guidance_reflows_at_320_with_default_and_doubled_text(learning_browser):
     page, _, _, errors = learning_browser
     page.locator("nav [data-view=guidance]").click()
-    expect(page.locator("#guidance-state-title")).to_contain_text("revision 1")
+    expect(page.locator("#guidance-policy-state")).to_contain_text("revision 1")
     page.set_viewport_size({"width": 320, "height": 1000})
     for size in ("100%", "200%"):
         page.evaluate("(size)=>document.documentElement.style.fontSize=size", size)
