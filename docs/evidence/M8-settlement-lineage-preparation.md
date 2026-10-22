@@ -25,11 +25,13 @@ reviewed compatible configuration and conditional metadata migration.
 
 ## Verification and limitations
 
-- Full local unit suite: 1,410 passed. Targeted tests cover exact binding mismatches,
+- Combined local unit suite: 1,414 passed, plus two subsequently added
+  migration-boundary regressions passed. Browser suite: 96 passed; edge suite: 29 passed. Targeted tests cover exact binding mismatches,
   expired original-rate settlement, unknown/partial response retention, concurrent
   idempotency, original-only error policy, runtime injection and SDK adapter checks.
-- Actual local Firestore emulator: six passed, including concurrent settlement across
-  independent clients after a counter-preserving metadata change. This is not cloud
+- Actual local Firestore emulator: seven passed, including concurrent settlement across
+  independent clients after a counter-preserving metadata change, and permanent
+  rejection of old guest issuers without resetting counters. This is not cloud
   IAM or deployed service evidence.
 - Independent implementation review: 32 targeted tests plus 11 additional binding
   and operation checks passed. Independent deadline review: 16 tests passed.
@@ -45,8 +47,8 @@ reviewed compatible configuration and conditional metadata migration.
 
 Review advisory: a preexisting generic configuration with multiple calls and an
 undrained active old run can reserve a new attempt under a successor policy. The
-actual one-call production configuration and mandatory worker drain exclude that
-scenario. This preparation does not certify arbitrary active-run migrations.
+actual one-call production configuration excludes that additional-call scenario;
+migration additionally fences old issuers and existing-session database writers. This preparation does not certify arbitrary active-run migrations.
 
 ## Remaining activation gates
 
@@ -54,8 +56,13 @@ scenario. This preparation does not certify arbitrary active-run migrations.
    transfer only through reviewed conditional migration; preserve the total ceiling
    and original unknown reservation. Refresh actual balances before any paid admission.
 2. Bind a reviewed manifest to the exact retained attempt and successor runtime. Close
-   admission and fully drain workers before conditional migration; a terminal run
-   alone does not prove that its worker stopped. Preserve counters, liability and
+   admission and conditionally migrate every guest metadata binding plus budget and
+   grant. Reopen only with `guest-admission-2`, preserving all limits, dates and
+   counters; never restore the old admission hash. Old existing-session transactions
+   conflict and then fail their metadata check; old issuers fail the permanent hash
+   fence. Neither terminal records nor elapsed time proves worker termination.
+   Already dispatched provider calls and private object uploads may finish; retain
+   every original claimed liability, and reject old publication. Preserve liability and
    existing owned records. Do not apply a successor error rule to an earlier call.
 3. Complete exact hosted push/PR checks, source packaging, compatible rollback,
    finite build admission and independent runtime/migration verification before deployment.
@@ -66,3 +73,8 @@ scenario. This preparation does not certify arbitrary active-run migrations.
 Private reproduction, failed harness attempts and independent review receipts remain
 in the ignored evidence store. No provider call or cloud mutation was made for this
 local preparation.
+
+The combined compatibility image also includes the [TLS trust correction](M9-tls-trust.md).
+After metadata migration, rollback must retain the new admission fence and a reader
+that understands the original-liability manifest. Restoring the original image or
+admission hash is not a safe rollback.

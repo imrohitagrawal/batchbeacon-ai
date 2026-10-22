@@ -272,3 +272,50 @@ def test_increased_window_preserves_sessions_counts_and_exact_boundary(setup):
     assert state(fresh, server).window_issued == 1
     assert state(fresh, server).issued_sessions == 53
     assert cold.resolve(issued[0][0]) == issued[0][1]
+
+
+def test_admission_epoch_keeps_original_default_and_limits():
+    original = policy().model_dump(mode="json")
+    assert original["version"] == "guest-admission-1"
+    assert policy().digest() == "d4518998725f6d930b92273c0f460bce59f486da4db962a98c2613fe23663990"
+    new = policy(version="guest-admission-2")
+    assert new.model_dump(exclude={"version"}) == policy().model_dump(exclude={"version"})
+    assert new.digest() != policy().digest()
+    assert GuestAdmissionPolicy.model_validate_json(new.model_dump_json()) == new
+    for version in ("guest-admission-3", 2, None):
+        with pytest.raises(ValidationError):
+            policy(version=version)
+
+
+def test_new_admission_epoch_fences_delayed_old_commit_without_reset(setup):
+    stores, server, old_guest, old = configure(setup, opening=1)
+    new = policy(version="guest-admission-2")
+    name = stores.name("guest_admission")
+    previous = state(stores, server)
+    migrated = GuestAdmissionState(**(previous.model_dump() | {"policy_hash": new.digest()}))
+    migration = [False]
+
+    def cutover(request):
+        if not migration[0]:
+            migration[0] = True
+            server.seed(stores._encode(name, "guest_admission", migrated))
+    server.before_commit = cutover
+    with pytest.raises(GuestDenied, match="demo_guest_capacity_unavailable"):
+        old_guest.issue()
+    assert server.aborts == 1
+    assert state(stores, server) == migrated
+    assert not any(n.rsplit("/", 1)[-1].startswith("guest-") for n in server.docs)
+
+    fresh = FirestoreStores(client(server), stores.policy, old_guest.policy,
+        stores.evidence_policy, stores.action_policy, clock=old_guest.clock,
+        guest_admission=new)
+    new_guest = GuestService(old_guest.policy, fresh.guests, old_guest.objects,
+        clock=old_guest.clock)
+    new_guest.issue()
+    after = state(stores, server)
+    assert after.issued_sessions == previous.issued_sessions + 1
+    assert after.window_issued == previous.window_issued + 1
+    assert after.window_started_at == previous.window_started_at
+    with pytest.raises(GuestDenied, match="demo_guest_capacity_unavailable"):
+        old_guest.issue()
+    assert state(stores, server) == after

@@ -310,3 +310,38 @@ def test_predecessor_settlement_across_independent_clients_preserves_authority(r
     assert after.grant_hash == grant2.digest() and after.policy_hash == sp2.digest()
     services[1].reconcile(a.id)
     assert read('budget') == after and read('attempt', a.id) == retained
+
+
+def test_permanent_admission_epoch_rejects_old_client_preserving_counters(runtime):
+    from datetime import timedelta
+
+    from batchbeacon.guest_admission import GuestAdmissionPolicy, GuestAdmissionState
+
+    old, new = runtime
+    before = GuestAdmissionPolicy(max_issued_sessions=None, max_sessions_per_window=30,
+        window_seconds=60, not_before=NOW, expires_at=NOW + timedelta(days=1))
+    after = before.model_copy(update={"version": "guest-admission-2"})
+    old[0].guest_admission = before
+    new[0].guest_admission = after
+    original = GuestAdmissionState(policy_hash=before.digest(), issued_sessions=27,
+        window_started_at=NOW, window_issued=3)
+    name = old[0].name("guest_admission")
+    def initialize(tx):
+        assert tx.read({name: "guest_admission"})[name] is None
+        tx.write(name, "guest_admission", original, create=True)
+    old[0].run(initialize)
+    migrated = original.model_copy(update={"policy_hash": after.digest()})
+
+    def migrate(tx):
+        assert tx.read({name: "guest_admission"})[name] == original
+        tx.write(name, "guest_admission", migrated, create=False)
+    new[0].run(migrate)
+    with pytest.raises(GuestDenied, match="demo_guest_capacity_unavailable"):
+        old[2].issue()
+    assert new[0].run(lambda tx: tx.read({name: "guest_admission"})[name]) == migrated
+    new[2].issue()
+    recorded = new[0].run(lambda tx: tx.read({name: "guest_admission"})[name])
+    assert recorded == migrated.model_copy(update={"issued_sessions": 28, "window_issued": 4})
+    with pytest.raises(GuestDenied, match="demo_guest_capacity_unavailable"):
+        old[2].issue()
+    assert new[0].run(lambda tx: tx.read({name: "guest_admission"})[name]) == recorded
