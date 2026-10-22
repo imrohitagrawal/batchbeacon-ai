@@ -26,7 +26,7 @@ function controls() {
   $('refresh-queue').disabled=off; $('queue-filter').disabled=off; for(const id of ['start-sample','new-review','upload','save-correction','reverify','source-choice','sample-choice'])$(id).disabled=off || !!state.pending;
   $('upload').disabled=off || (!!state.pending && state.pending.kind!=='capture');
   $('check').disabled=off || !state.incident || !state.captures.length || !!state.pending || unresolvedAcquisition();
-  text('check',state.acquisition && ['FAILED','TIMED_OUT'].includes(state.acquisition.state)?'Retry extraction':'Extract and check');
+  text('check',state.acquisition?.state==='FAILED'?'Retry extraction':'Extract and check');
   $('refresh-acquisition').hidden=!unresolvedAcquisition(); $('refresh-acquisition').disabled=off;
   $('capture').disabled=off || !state.incident || (!!state.pending && state.pending.kind!=='capture');
   $('correction').disabled=off || !state.evidence?.observation || !!state.pending;
@@ -68,7 +68,7 @@ function compare() { const box=$('comparisons');box.replaceChildren();const resu
 function fields() {const obs=state.evidence?.observation;if(!obs)return [];return [{field:'PRODUCT_NAME',observation:obs.identity.name},{field:'PACK',observation:obs.identity.pack},...obs.fields];}
 function correctionValue() {const f=fields().find(f=>f.field===$('correction-field').value);$('correction-value').value=f?.observation.value ?? '';}
 function captureInstruction() {const result=state.evidence?.result;text('capture-instruction',result?.outstanding_fields?.length ? `Required evidence: ${result.outstanding_fields.join(', ').replaceAll('_',' ')}. Include the complete requested marking; keep case and leading zeros readable.` : 'Include the full product name, pack, lot and required date panel. Preserve readable case and leading zeros.');}
-function unresolvedAcquisition() { return state.acquisitionUnknown || state.acquisition?.state==='INCOMPLETE'; }
+function unresolvedAcquisition() { return state.acquisitionUnknown || ['INCOMPLETE','TIMED_OUT'].includes(state.acquisition?.state); }
 function acquisitionProblem() {
   if(state.acquisitionUnknown)return {title:'Check status unavailable',copy:'The last check could not be read. Recheck its saved status; no new extraction has been started.'};
   const a=state.acquisition;
@@ -84,7 +84,7 @@ function acquisitionProblem() {
     SOURCE_REVIEW_REQUIRED:'The source interpretation requires review before a comparison can be accepted.'
   };
   if(a.state==='INCOMPLETE')return {title:'Check outcome unresolved',copy:'The saved operation is not complete. Recheck its status before another extraction; this does not start an AI call.'};
-  if(a.state==='TIMED_OUT')return {title:'Extraction timed out',copy:'This check reached its deadline. No new result is available. You may explicitly retry within the remaining allowance.'};
+  if(a.state==='TIMED_OUT')return {title:'Extraction timed out',copy:'This check reached its deadline without a confirmed result. Recheck saved status without starting another AI call. If it remains timed out, operator review is required; another extraction is unavailable in this workspace.'};
   if(a.state==='STALE' || a.state==='SUPERSEDED')return {title:'Evidence needs renewed review',copy:'The previous check no longer supports a current action. Review and reverify the saved evidence.'};
   return {title:a.state==='FAILED'?'Extraction failed':'Extraction needs review',copy:reasons[a.diagnostics?.[0]] || 'No accepted comparison is available from this check. Review the retained evidence before explicitly trying again.'};
 }

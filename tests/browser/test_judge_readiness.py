@@ -47,8 +47,11 @@ def test_no_envelope_status_survives_reopen_without_repeating_extraction(page, s
     }
     assert result["title"] == expected[status]
     assert result["holdDisabled"] and result["pending"] is None
-    assert result["checkDisabled"] == (status == "INCOMPLETE")
-    assert result["statusHidden"] == (status != "INCOMPLETE")
+    assert result["checkDisabled"] == (status in {"INCOMPLETE", "TIMED_OUT"})
+    assert result["statusHidden"] == (status not in {"INCOMPLETE", "TIMED_OUT"})
+    if status == "TIMED_OUT":
+        assert "operator review is required" in result["copy"]
+        assert "explicitly retry" not in result["copy"]
     assert all(method == "GET" for _, method in result["calls"])
     assert len(result["calls"]) == 8
 

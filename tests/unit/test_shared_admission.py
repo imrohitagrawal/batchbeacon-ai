@@ -272,6 +272,27 @@ def test_one_active_run_race_fixed_identity_and_lifetime_acquisitions(env):
     assert usage.incidents[0].acquisitions == 3
 
 
+@pytest.mark.parametrize("finish", [False, True])
+def test_called_timeout_blocks_new_keys_without_changing_liability(env, finish):
+    service, store, _, _, key, _, clock, _ = env
+    run = begin(env)
+    attempt = reserve(env, run)
+    assert claim(env, run, attempt)
+    clock[0] = run.deadline
+    if finish:
+        service.finish_run(key, run.id, failed=True)
+    before = (store.budget, dict(store.usage), dict(store.attempts))
+    with ThreadPoolExecutor(2) as workers:
+        def retry(request):
+            with pytest.raises(SharedDenied, match="requires operator review"):
+                begin(env, request)
+        list(workers.map(retry, ["new-key-a", "new-key-b"]))
+    assert (store.budget, store.usage, store.attempts) == before
+    repeated = service.admit_run(key, run.incident_id, run.request_key, run.binding)
+    assert not repeated.fresh and repeated.run.id == run.id
+    assert (store.budget, store.usage, store.attempts) == before
+
+
 def test_call_tool_and_retry_caps_count_individual_attempts(env):
     service, store, _, _, key, _, _, _ = env
     run = begin(env)

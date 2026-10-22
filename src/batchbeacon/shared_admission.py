@@ -472,6 +472,13 @@ class SharedAdmission:
                 if prior.incident_id != incident_id or prior.binding != binding:
                     raise SharedDenied("run request conflict")
                 return Change(snapshot.budget, usage, not_after=guest.scope.expires_at)
+            # A deadline is not evidence that a reserved provider attempt ended.
+            # Keep same-key reconciliation above this conservative session guard;
+            # no new key may turn an unresolved timeout into another dispatch.
+            if any(r.calls > 0 and (r.terminal == 'timed_out' or
+                    (r.terminal is None and self._now() >= r.deadline))
+                    for r in usage.runs):
+                raise SharedDenied("timed out check requires operator review")
             budget = self._budget(snapshot)
             if binding.application_configuration_hash != self.policy.model_configuration_hash \
                     or len(binding.model_dump_json().encode()) > \
