@@ -10,7 +10,10 @@ from batchbeacon.guest_service import GuestDenied
 
 
 class GuestAdmissionPolicy(Record):
-    version: Literal["guest-admission-1"] = "guest-admission-1"
+    # An explicit migration epoch permanently fences old issuers without
+    # changing allowances or resetting counters. Preserve the original default
+    # and serialization so existing configuration digests remain valid.
+    version: Literal["guest-admission-1", "guest-admission-2"] = "guest-admission-1"
     # Required explicit choice: null removes only the lifetime issuance ceiling.
     # Omitting the setting must never silently enable uncapped admission.
     max_issued_sessions: Annotated[int, Field(gt=0)] | None

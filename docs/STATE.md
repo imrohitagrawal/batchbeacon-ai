@@ -2,16 +2,19 @@
 
 ## Current judge-readiness correction — 22 October 2026
 
-The [video-parity plan](JUDGE_READINESS_IMPLEMENTATION_PLAN.md) is in execution.
-Source `9e28827` is deployed with independently reviewed accounting/recovery,
-queue, guidance and mobile-expiry corrections. Full local, Firestore, exact hosted
-push/PR and both-host checks passed; fresh guest entry passed without an AI call.
-**Judge readiness remains blocked:** later real-model checks failed date translation
-and then timed out without confirmed provider usage. The unknown reservation is
-preserved; no new model attempt fits current uncommitted public capacity.
-[M7](evidence/M7-judge-readiness.md) owns current evidence and remaining deadline,
-original-grant settlement and budget-decision work. The video/submission is unchanged.
-Earlier successful journeys below are historical, not current acceptance.
+The [video-parity plan](JUDGE_READINESS_IMPLEMENTATION_PLAN.md) has restored the
+core positive workflow. Source `317f562` and its reviewed successor runtime are
+live: actual SFA A/B extraction, explicit simulated hold, queue/reload/mobile and
+independent public A reopening passed. Full local/hosted, Firestore, packaging,
+metadata migration, both-host and access/failure-recovery checks passed.
+**Full parity remains incomplete:** the unrelated-label call returned a provider
+504, correctly settled as nonbillable with no result/action; it is not a negative
+acceptance pass. All seven authorized calls, including U32's single failed retry, are used. U31's ₹150 transfer is applied;
+the original unknown ₹250 remains held and the total budget is unchanged.
+[M7](evidence/M7-judge-readiness.md) owns exact evidence and remaining gate;
+[M8](evidence/M8-settlement-lineage-preparation.md) owns compatible rollback limits.
+The submitted video/package is unchanged. Earlier release observations below are
+historical; no protected-quality or universal-availability pass is claimed.
 
 19 October 2026. The working Google Cloud application uses non-production data. Guest
 access, rate and terminology corrections are deployed after the submitted release. The
@@ -33,12 +36,12 @@ concrete final package; no new material terms were accepted.
 U17 keeps UK review-only; uncompleted protected evaluation/custody is not waived
 into a pass. Consumer discovery/image extraction are future scope, not new features.
 
-## Accepted public application
+## Earlier accepted public application
 
 [Live prototype](https://batchbeacon.stackclimb.com) ·
 [Cloud Run fallback](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app) ·
 [public source](https://github.com/imrohitagrawal/batchbeacon-ai).
-Deployed application commit `f0d9c0f974baf5e68992d274d48c8bddcc59fba1` passed
+Historical application commit `f0d9c0f974baf5e68992d274d48c8bddcc59fba1` passed
 [hosted push checks](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39289689576)
 and [hosted PR checks](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/39289698513):
 1,341 unit, 86 browser and 29 edge checks in each. Image:

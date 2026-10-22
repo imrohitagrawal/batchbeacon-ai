@@ -33,6 +33,7 @@ from batchbeacon.reviewed_source import SourceAdmission, load_sfa
 from batchbeacon.shared_admission import (
     Address,
     Change,
+    PredecessorLiabilities,
     SharedAdmission,
     SharedDenied,
     SharedGrant,
@@ -86,6 +87,9 @@ class RuntimeConfig(Record):
     nonbillable_policy: NonbillablePolicy | None = Field(
         default=None, exclude_if=lambda value: value is None
     )
+    predecessor_liabilities: PredecessorLiabilities | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
 
     @model_validator(mode="after")
     def coherent(self):
@@ -124,6 +128,9 @@ class RuntimeConfig(Record):
         ):
             raise ValueError("nonbillable runtime binding invalid")
         self.learning.validate_capacity(self.guest.retail)
+        if self.predecessor_liabilities is not None:
+            self.predecessor_liabilities.validate_successor(self.shared, self.grant)
+            self.predecessor_liabilities.validate_storage(self.firestore)
         # Pure consumer checks use no store operation or credential discovery.
         self.extraction.validate_consumer(SharedAdmission(self.shared, self.grant, object()))
         if self.shared.max_recaptures + 1 != self.evidence.max_extractions:
@@ -265,6 +272,7 @@ def build_app(config: RuntimeConfig, asset_root: Path):
             config.evidence,
             config.action,
             guest_admission=config.guest_admission,
+            predecessor_liabilities=config.predecessor_liabilities,
         )
         objects = StorageObjects(objects_client, config.storage)
         guest = GuestService(config.guest, stores.guests, objects)
@@ -273,7 +281,9 @@ def build_app(config: RuntimeConfig, asset_root: Path):
         )
         actions = ActionService(evidence, stores.actions, config.action)
         shared = SharedAdmission(
-            config.shared, config.grant, stores.shared, nonbillable_policy=config.nonbillable_policy
+            config.shared, config.grant, stores.shared,
+            nonbillable_policy=config.nonbillable_policy,
+            predecessor_liabilities=config.predecessor_liabilities,
         )
         stores.enable_retail(RetailProjector(actions, config.shared, config.retail_read))
         evaluator = LearningEvaluator(suite, config.evaluation)

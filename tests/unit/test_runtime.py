@@ -241,3 +241,41 @@ def test_nonbillable_policy_is_optional_and_bound_to_exact_runtime(runtime, env)
                     {'endpoint': rule.endpoint.replace('/projects/', '/projects/other-')}):
         with pytest.raises(ValidationError):
             replace(config, nonbillable_policy=replace(rule, **updates))
+
+
+def test_predecessor_manifest_runtime_binding_and_consumer_injection(runtime, env, monkeypatch):
+    import google.auth
+
+    import batchbeacon.runtime as module
+    from tests.unit.test_predecessor_liabilities import manifest
+    from tests.unit.test_shared_admission import begin, claim, reserve
+
+    config, source, suite = runtime
+    assert "predecessor_liabilities" not in config.model_dump()
+    assert replace(config, predecessor_liabilities=None).digest() == config.digest()
+    run = begin(env)
+    a = claim(env, run, reserve(env, run))
+    m = replace(manifest(env[0], config.shared, config.grant, a),
+                namespace=config.firestore.namespace,
+                environment_id=config.firestore.environment_id)
+    bound = replace(config, predecessor_liabilities=m)
+    assert bound.digest() != config.digest()
+    assert RuntimeConfig.model_validate_json(bound.model_dump_json()) == bound
+    for changes in ({"successor_grant_hash": "9" * 64},
+                    {"successor_policy_hash": "9" * 64}, {"namespace": "other"},
+                    {"database_id": "other"}, {"environment_id": "other"}):
+        with pytest.raises(ValueError):
+            replace(config, predecessor_liabilities=replace(m, **changes))
+    monkeypatch.setenv("DISABLE_GCS_PYTHON_CLIENT_OTEL_BUCKET_METADATA", "true")
+    monkeypatch.setattr(module, "load_assets", lambda root, c: (source, suite))
+    monkeypatch.setattr(google.auth, "default",
+                        lambda **kw: (AnonymousCredentials(), "synthetic-project"))
+    received = []
+    for cls in (module.FirestoreStores, module.SharedAdmission):
+        original = cls.__init__
+        def construct(self, *args, _original=original, _cls=cls, **kwargs):
+            received.append((_cls, kwargs.get("predecessor_liabilities")))
+            return _original(self, *args, **kwargs)
+        monkeypatch.setattr(cls, "__init__", construct)
+    with TestClient(build_app(bound, Path("."))):
+        assert received == [(module.FirestoreStores, m), (module.SharedAdmission, m)]

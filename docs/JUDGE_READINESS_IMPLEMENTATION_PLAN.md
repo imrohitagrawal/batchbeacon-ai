@@ -1,6 +1,12 @@
 # Video parity and judge-readiness implementation plan
 
-Status: execution authorized by the owner. Prepared from the submitted video, current source, two independently reproduced live failures and three specialist reviews. Initial repairs are deployed. Later real-model validation failed date translation and then timed out with unknown provider liability; judge readiness remains blocked. The precise settlement-based retry guard is deployed with both-host and fresh-entry verification. See [observed execution evidence](evidence/M7-judge-readiness.md). No submission change or optional new guidance sample is included. This is a bounded correction plan, not a replacement PRD or a second execution framework.
+Status: execution authorized; the core positive workflow is restored and independently
+verified on the deployed correction. Both positive examples passed actual AI journeys;
+the unrelated-label call returned a provider 504 and cannot count as negative acceptance.
+All seven authorized calls, including U32's single failed retry, are used. U31's approved transfer and original-liability migration
+are applied without releasing the unknown reservation. [M7](evidence/M7-judge-readiness.md)
+records exact results, failures and the remaining gate. No submission change or optional
+new guidance sample is included. This remains a bounded correction plan.
 
 ## 1. Objective and factual baseline
 
@@ -208,4 +214,39 @@ Before writing new optional receipt/reason fields, provision and verify a compat
 
 A complete qualifying HTTP error and a client timeout without any retained response have different accounting evidence. The latter must retain its original reservation. New-run admission now checks complete owned attempt history in the same transaction and rejects unsettled original usage. A settled failed proposal may be explicitly retried; no failure state creates a comparison. Browser and actual-emulator checks cover this distinction.
 
-The failed prompt-correction attempt prevents readiness acceptance and consumes the third of six model slots. Three remaining acceptance slots are blocked by current public capacity. No pool reallocation is inferred from the instruction to execute. Before any deadline/grant change, preserve explicit original-grant liability and settlement lineage; then review a finite budget amendment and one changed diagnostic. The final UI/accounting release is a truthful failure-handling correction, not a completed main-path acceptance.
+The failed prompt-correction attempt prevents readiness acceptance and consumes the third of six model slots. At that checkpoint, three remaining acceptance slots were blocked by public capacity; the subsequent U31 refinement below supersedes that restriction within its exact bounds. The owner subsequently approved [U31](OWNER_DECISIONS.md#u31--bounded-model-pool-reallocation), moving ₹150 from development to public capacity within the unchanged total, with the unknown original reservation held. That decision permits only this specific exception to §11's pool-transfer prohibition. Before any deadline/grant change, preserve explicit original-grant liability and settlement lineage, refresh balances and independently review conditional migration and one changed diagnostic. The UI/accounting release is a truthful failure-handling correction, not a completed main-path acceptance.
+
+
+## Execution refinement — approved pool transfer and remaining acceptance
+
+U31 explicitly authorizes the ₹150 development-to-public transfer; it does not
+increase the ₹6,000 lifetime ceiling, release the unknown ₹250, or add model calls.
+The exact original liability manifest and permanent guest-admission version fence
+must remain effective after conditional metadata migration. Elapsed time does not
+prove old worker termination; database metadata conflicts reject stale writers.
+
+Three remaining model slots are serialized: a new SFA A case in an existing unused
+workspace on the zero-traffic candidate at 390px, then fresh public-host SFA B and
+unrelated-label cases after successful candidate promotion. Candidate A uses the
+disclosed Origin-forwarding test harness. An independent reviewer reopens that same
+A case on the ordinary public host without another generation or new guest. This
+replaces the originally proposed additional fresh independent A generation within
+the unchanged six-call ceiling; it is not evidence of a separate fresh public A
+model invocation. Each paid outcome must settle or remain conservatively reserved
+before the next slot. A failed positive or generic negative failure cannot pass.
+
+After migration, rollback must preserve the permanent admission fence, current
+metadata and a compatible original-liability reader. The old admission hash and
+pre-manifest image must not be restored. Actual results and limitations are in M7.
+
+
+## U32 — one additional validation call, now consumed
+
+The owner explicitly approved exactly one additional same-case unrelated-label
+retry, increasing the test ceiling from six to seven calls within the existing
+₹650 public pool and ₹6,000 total. The original unknown ₹250 remains reserved.
+The seventh call again returned a complete provider 504, with no accepted result
+or action. Both failures remain evidence. No eighth call or automatic retry is
+included. After two unchanged failures, diagnose and prepare a changed bounded
+latency/input-context experiment; do not relax identity rules or call either
+provider error a successful negative result. M7 records the current unpassed gate.

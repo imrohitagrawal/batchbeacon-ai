@@ -200,3 +200,28 @@ issuance/window accounting, model budgets and all other controls unchanged. Bind
 the new policy hash with a conditional counter-preserving migration; no reset of
 existing records or allowances is authorized. This configuration change is included
 with U26 in the same bounded build and deployment.
+
+## U31 — bounded model-pool reallocation
+
+The owner explicitly approved moving ₹150 from development to the public demo
+model pool: development ₹1,250 → ₹1,100; public ₹500 → ₹650. The ₹2,500 model
+root and ₹6,000 lifetime total remain unchanged. Protected and probe allocations,
+incurred charges and lifetime counters remain unchanged. The unresolved original
+call's ₹250 reservation must remain held.
+
+This is authority for the stated transfer, not evidence that it has been applied.
+Further AI tests still require reviewed original-liability accounting, deadline
+configuration, conditional migration, deployment and finite per-call admission.
+[M8](evidence/M8-settlement-lineage-preparation.md) owns the preparation and remaining
+technical gates. This decision supersedes the plan's prohibition on this specific
+pool transfer; it does not authorize further reallocations or a larger budget.
+
+
+## U32 — one additional bounded validation call
+
+After the six planned calls were consumed, the owner explicitly approved exactly
+one additional AI validation call on the same unrelated-label case. The total test
+ceiling is seven. The ₹650 public pool, ₹6,000 lifetime budget and original unknown
+₹250 reservation remain unchanged. No further retry after any outcome is authorized.
+This is call authority, not a passing result or permission to change model, source,
+verifier, timeout policy or protected evaluation scope.

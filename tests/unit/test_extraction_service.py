@@ -139,6 +139,8 @@ def test_failure_has_bounded_owned_status_and_no_invented_observation(coordinato
     assert len(view.state.extractions) == (1 if failure == 'proposal' else 0)
 
 
+@pytest.mark.parametrize('coordinator', [{}, {'run_seconds': 50,
+    'request_timeout_seconds': 40.0}], indirect=True)
 def test_transport_unknown_blocks_new_generation_until_original_usage_settles(coordinator):
     from batchbeacon.guest_service import GuestDenied
     from tests.unit.durable_fixtures import record_wire
@@ -418,6 +420,8 @@ def test_preparation_monotonic_time_is_not_restarted_at_model_setup(
 
 
 @pytest.mark.parametrize('phase', ['record_extraction', 'publish_verification', 'status'])
+@pytest.mark.parametrize('coordinator', [{}, {'run_seconds': 50,
+    'request_timeout_seconds': 40.0}], indirect=True)
 def test_no_fresh_success_after_late_blocking_phase(coordinator, monkeypatch, phase):
     from datetime import timedelta
 
@@ -427,7 +431,7 @@ def test_no_fresh_success_after_late_blocking_phase(coordinator, monkeypatch, ph
     original = getattr(instance, phase)
     def slow(*args, **kwargs):
         value = original(*args, **kwargs)
-        c[3][5][0] += timedelta(seconds=31)
+        c[3][5][0] += timedelta(seconds=c[0].config.run_seconds + 1)
         return value
     monkeypatch.setattr(instance, phase, slow)
     with pytest.raises(GuestDenied, match='acquisition_deadline_elapsed'):

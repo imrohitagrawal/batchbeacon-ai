@@ -4,7 +4,10 @@
 
 BatchBeacon connects the package in hand to the conditions in selected official recall evidence. The demonstration uses synthetic labels, historical sources and simulated actions.
 
-**Current verification status:** fresh AI validation is blocked by an unresolved provider timeout and insufficient uncommitted allowance. The tour, previews and owned saved evidence remain available. Do not treat a timeout or rejected extraction as a result, or repeatedly retry. See [current repair evidence](../evidence/M7-judge-readiness.md).
+**Current verification status:** both positive SFA examples passed actual AI extraction,
+comparison and explicit simulated hold, with queue/reload/mobile checks. The unrelated-label
+test hit a provider timeout and remains unverified as a negative example. Failure is visibly
+preserved and cannot authorize a hold. See [current evidence and limits](../evidence/M7-judge-readiness.md).
 
 ## Try the retailer journey
 
@@ -14,7 +17,12 @@ BatchBeacon connects the package in hand to the conditions in selected official 
 4. Review the result and explicitly confirm a simulated hold.
 5. Refresh, open the retail queue and resume the same saved investigation. Counts and statuses belong to this guest shop.
 
-This path passed historically in a fresh unauthenticated public browser on Cloud Run with actual Gemini/ADK and Firestore persistence; that earlier pass does not establish readiness of the current runtime. The same action survived reload and reopening from the queue; the phone layout had no horizontal overflow. Independent accounting and private-boundary checks passed.
+The current SFA A journey passed on the zero-traffic candidate with an existing unused
+session; an independent reviewer then reopened that same saved case on the ordinary
+public host without another AI call. SFA B passed in a fresh public browser. Both
+used actual Gemini/ADK and Firestore, with confirmed holds, queue/reload and phone
+layout checks. This does not certify every future provider request. The current
+unrelated-label provider failure is not evidence of a valid negative result.
 
 ## Two workspaces
 
