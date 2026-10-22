@@ -70,7 +70,8 @@ class AcquisitionStatus(Record):
     result_revision: int | None = None
     diagnostics: tuple[Literal['SOURCE_DISAGREEMENT', 'SOURCE_REVIEW_REQUIRED',
         'IDENTITY_EVIDENCE_DISAGREEMENT', 'IDENTITY_INPUT_UNAVAILABLE',
-        'PROPOSAL_INVALID', 'CHECK_FAILED'], ...] = ()
+        'PROPOSAL_INVALID', 'CHECK_FAILED', 'ALLOWANCE_UNAVAILABLE',
+        'PROVIDER_UNAVAILABLE'], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -135,7 +136,7 @@ class ExtractionService:
                 ('IDENTITY_EVIDENCE_DISAGREEMENT',)
                 if 'IDENTITY_EVIDENCE_DISAGREEMENT' in codes else
                 ('SOURCE_DISAGREEMENT',) if any(c.startswith('SOURCE_') for c in codes) else
-                ('PROPOSAL_INVALID',) if saved else ('CHECK_FAILED',))
+                ('PROPOSAL_INVALID',) if saved else (run.failure_reason or 'CHECK_FAILED',))
             if diagnostics in {('IDENTITY_EVIDENCE_DISAGREEMENT',),
                                ('IDENTITY_INPUT_UNAVAILABLE',)}:
                 state = 'REVIEW_REQUIRED'
@@ -200,6 +201,7 @@ class ExtractionService:
         if not admitted.fresh:
             return self.status(capability, run.id)
         complete, unknown = False, False
+        failure_reason = None
         try:
             fresh()
             # Preparation/admission may block; refresh dependency checks before the model.
@@ -262,14 +264,18 @@ class ExtractionService:
         except asyncio.CancelledError:
             self._finish(key, run.id, failed=True)
             raise
-        except ModelFailure:
-            pass
+        except ModelFailure as error:
+            failure_reason = ('ALLOWANCE_UNAVAILABLE' if str(error) == 'allowance_unavailable'
+                else 'PROVIDER_UNAVAILABLE' if str(error) in {
+                    'provider_status_rejected', 'count_unavailable',
+                    'provider_response_incomplete'}
+                else 'CHECK_FAILED')
         except GuestDenied as error:
             unknown = error.status >= 500
         except Exception:
             # Durable status/attempt history is the recovery path; no automatic re-execution.
             unknown = True
-        self._finish(key, run.id, failed=not complete)
+        self._finish(key, run.id, failed=not complete, failure_reason=failure_reason)
         fresh()
         if self.shared._now() >= run.deadline:
             raise GuestDenied(409, 'acquisition_deadline_elapsed')
@@ -281,9 +287,9 @@ class ExtractionService:
             raise GuestDenied(409, 'acquisition_deadline_elapsed')
         return result
 
-    def _finish(self, key, run_id, *, failed):
+    def _finish(self, key, run_id, *, failed, failure_reason=None):
         try:
-            self.shared.finish_run(key, run_id, failed=failed)
+            self.shared.finish_run(key, run_id, failed=failed, failure_reason=failure_reason)
         except Exception:
             # Cleanup is scoped to this run; failures neither refund nor restart anything.
             pass

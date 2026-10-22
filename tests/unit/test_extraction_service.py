@@ -490,3 +490,57 @@ def test_terminal_failure_keeps_reason_after_original_run_deadline(coordinator):
     c[3][5][0] = run.deadline + timedelta(seconds=1)
     assert c[0].status(c[2], before.run_id) == before
     assert len(c[4]) == 2
+
+
+@pytest.mark.parametrize('failure,diagnostic', [
+    ('allowance', 'ALLOWANCE_UNAVAILABLE'), ('provider', 'PROVIDER_UNAVAILABLE')])
+def test_failed_run_reason_survives_owned_reopen_without_redispatch(coordinator, monkeypatch,
+                                                                  failure, diagnostic):
+    from batchbeacon.shared_admission import SharedDenied
+    c = coordinator
+    if failure == 'allowance':
+        def unavailable(*args, **kwargs):
+            raise SharedDenied('insufficient uncommitted model allowance')
+        monkeypatch.setattr(c[0].shared, 'reserve', unavailable)
+    else:
+        async def provider(request):
+            c[4].append(request)
+            if str(request.url).endswith(':countTokens'):
+                return httpx.Response(200, json={'totalTokens': 100})
+            return httpx.Response(504, json={'error': {'code': 504,
+                'status': 'DEADLINE_EXCEEDED', 'message': 'private-provider-marker'}})
+        c[0].transport_factory = lambda: httpx.MockTransport(provider)
+    status = acquire(c)
+    assert status.state == 'FAILED' and status.diagnostics == (diagnostic,)
+    assert not status.current and status.result_revision is None
+    calls = len(c[4])
+    assert calls == (1 if failure == 'allowance' else 2)
+    run = c[0].shared.inspect_run(c[6].capability_hash, status.run_id)
+    assert run.failure_reason == diagnostic and run.calls == (failure == 'provider')
+    for _ in range(2):
+        assert c[0].status(c[2], status.run_id) == status
+        assert acquire(c) == status
+    assert len(c[4]) == calls
+    view = c[3][3].read_evidence(c[2], c[1].incident_id)
+    assert not view.hold_eligible and not view.state.results
+    assert 'private-provider-marker' not in status.model_dump_json()
+    c[0].shared.finish_run(c[6].capability_hash, run.id, failed=True,
+                          failure_reason='CHECK_FAILED')
+    assert c[0].status(c[2], status.run_id) == status
+
+
+@pytest.mark.parametrize('reason', ['paid ledger unavailable or circuit open',
+                                    'operator phase changed'])
+def test_local_dispatch_denial_is_not_misreported_as_provider_failure(coordinator,
+                                                                    monkeypatch, reason):
+    from batchbeacon.shared_admission import SharedDenied
+    c = coordinator
+    def denied(*args, **kwargs):
+        raise SharedDenied(reason)
+    monkeypatch.setattr(c[0].shared, 'reserve', denied)
+    status = acquire(c)
+    assert status.state == 'FAILED' and status.diagnostics == ('CHECK_FAILED',)
+    assert len(c[4]) == 1 and c[4][0].url.path.endswith(':countTokens')
+    assert reason not in status.model_dump_json()
+    assert c[0].status(c[2], status.run_id) == status
+    assert c[0].shared.inspect_run(c[6].capability_hash, status.run_id).calls == 0

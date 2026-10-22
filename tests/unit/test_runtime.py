@@ -224,3 +224,20 @@ def test_runtime_consumer_mismatch_rejected_before_any_credentials(runtime):
         )
     with pytest.raises(ValueError):
         replace(config, evidence=replace(config.evidence, max_extractions=2))
+
+
+def test_nonbillable_policy_is_optional_and_bound_to_exact_runtime(runtime, env):
+    from tests.unit.test_nonbillable_reconciliation import policy
+    config = runtime[0]
+    assert 'nonbillable_policy' not in config.model_dump()
+    rule = policy(env, model_id=config.extraction.model_id,
+        model_configuration_hash=config.extraction.digest(),
+        endpoint=config.extraction.endpoint('generateContent'))
+    bound = replace(config, nonbillable_policy=rule)
+    assert bound.digest() != config.digest()
+    assert bound.shared == config.shared and bound.grant == config.grant
+    assert RuntimeConfig.model_validate_json(bound.model_dump_json()).nonbillable_policy == rule
+    for updates in ({'model_configuration_hash': '9' * 64},
+                    {'endpoint': rule.endpoint.replace('/projects/', '/projects/other-')}):
+        with pytest.raises(ValidationError):
+            replace(config, nonbillable_policy=replace(rule, **updates))

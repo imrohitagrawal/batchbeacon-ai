@@ -33,7 +33,7 @@ from batchbeacon.cloud_policy import ProjectId
 from batchbeacon.contracts import Digest, Nonempty, Record
 from batchbeacon.extraction_input import PreparationPolicy, PreparedInput
 from batchbeacon.extraction_proposal import ExtractionProposal
-from batchbeacon.shared_admission import Run, SharedAdmission
+from batchbeacon.shared_admission import Run, SharedAdmission, SharedDenied
 
 PROMPT = (
     'Extract the source restrictions and the observed synthetic product label into the '
@@ -295,7 +295,12 @@ class _Guard(httpx.AsyncBaseTransport):
         try:
             return await self._dispatch(request)
         except Exception as caught:
-            error = str(caught) if isinstance(caught, ModelFailure) else 'model_transport_failed'
+            if isinstance(caught, SharedDenied) and str(caught) == \
+                    'insufficient uncommitted model allowance':
+                error = 'allowance_unavailable'
+            else:
+                error = (str(caught) if isinstance(caught, ModelFailure)
+                         else 'model_transport_failed')
         # ADK tracing may record exceptions: no raw SDK/transport chain may cross it.
         raise ModelFailure(error)
 

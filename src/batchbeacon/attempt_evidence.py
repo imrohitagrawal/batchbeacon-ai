@@ -5,7 +5,7 @@ import json
 from hashlib import sha256
 from typing import Annotated, Self
 
-from pydantic import Field, model_validator
+from pydantic import AwareDatetime, Field, model_validator
 
 from batchbeacon.contracts import Digest, Record
 
@@ -169,3 +169,70 @@ def candidate_text(parts) -> str:
             if base64.b64encode(decoded).decode() != signature:
                 raise ValueError("invalid thought signature")
     return "".join(part["text"] for part in parts)
+
+
+class NonbillablePolicy(Record):
+    """Operator-reviewed provider rule; never inferred from an absent response."""
+
+    model_id: str = Field(min_length=1, max_length=100)
+    model_configuration_hash: Digest
+    endpoint: str = Field(
+        pattern=r"^https://[a-z0-9.-]+/v[0-9]+(?:beta[0-9]+)?/projects/[a-z0-9-]+/locations/[a-z0-9-]+/publishers/google/models/[a-z0-9.-]+:generateContent$"
+    )
+    source_url: str = Field(
+        pattern=r"^https://cloud\.google\.com/gemini-enterprise-agent-platform/generative-ai/pricing$"
+    )
+    source_sha256: Digest
+    applicability_evidence_sha256: Digest
+    effective_from: AwareDatetime
+    observed_at: AwareDatetime
+    valid_until: AwareDatetime
+    statuses: tuple[Annotated[int, Field(ge=400, le=599)], ...] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def coherent(self):
+        if (
+            not self.effective_from <= self.observed_at < self.valid_until
+            or len(set(self.statuses)) != len(self.statuses)
+            or not self.endpoint.endswith("/" + self.model_id + ":generateContent")
+        ):
+            raise ValueError("nonbillable policy inconsistent")
+        return self
+
+
+class NonbillableReceipt(Record):
+    """Zero model charge under a reviewed error rule, not fabricated token usage."""
+
+    attempt_id: str = Field(pattern=r"^[a-zA-Z0-9_-]{1,128}$")
+    request_hash: Digest
+    response_hash: Digest
+    policy: NonbillablePolicy
+    settled_at: AwareDatetime
+
+    def validate_response(self, response, *, attempt_id, request_hash, model_hash, reserved_at):
+        if (
+            self.attempt_id != attempt_id
+            or self.request_hash != request_hash
+            or self.response_hash != response.retained_sha256
+            or self.policy.model_configuration_hash != model_hash
+            or not self.policy.effective_from <= reserved_at <= self.settled_at
+            or not self.policy.observed_at <= self.settled_at < self.policy.valid_until
+            or not response.complete
+            or response.status_code not in self.policy.statuses
+        ):
+            raise ValueError("nonbillable receipt binding invalid")
+        body = json.loads(
+            response.original().decode("utf-8"),
+            object_pairs_hook=_unique,
+            parse_constant=lambda _: (_ for _ in ()).throw(ValueError()),
+        )
+        # A retained provider error must not also contain a successful candidate/usage.
+        if (
+            type(body) is not dict
+            or set(body) != {"error"}
+            or type(body["error"]) is not dict
+            or type(body["error"].get("code")) is not int
+            or body["error"]["code"] != response.status_code
+            or not isinstance(body["error"].get("status"), str)
+        ):
+            raise ValueError("nonbillable provider error invalid")

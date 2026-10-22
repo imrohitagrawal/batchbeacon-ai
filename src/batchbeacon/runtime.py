@@ -9,6 +9,7 @@ from typing import Annotated, Literal
 from pydantic import Field, model_validator
 
 from batchbeacon.action_service import ActionPolicy, ActionService
+from batchbeacon.attempt_evidence import NonbillablePolicy
 from batchbeacon.contracts import Record
 from batchbeacon.evidence_service import EvidencePolicy, EvidenceService
 from batchbeacon.extraction_api import ExtractionHTTPPolicy
@@ -82,6 +83,9 @@ class RuntimeConfig(Record):
     learning: LearningPolicy
     evaluation: EvaluationPolicy
     assets: RuntimeAssets
+    nonbillable_policy: NonbillablePolicy | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
 
     @model_validator(mode="after")
     def coherent(self):
@@ -113,6 +117,12 @@ class RuntimeConfig(Record):
             or self.evaluation.limits != GuidanceLimits.from_shared(self.shared)
         ):
             raise ValueError("runtime configuration lineage disagrees")
+        if self.nonbillable_policy is not None and (
+            self.nonbillable_policy.model_id != self.extraction.model_id
+            or self.nonbillable_policy.model_configuration_hash != self.extraction.digest()
+            or self.nonbillable_policy.endpoint != self.extraction.endpoint("generateContent")
+        ):
+            raise ValueError("nonbillable runtime binding invalid")
         self.learning.validate_capacity(self.guest.retail)
         # Pure consumer checks use no store operation or credential discovery.
         self.extraction.validate_consumer(SharedAdmission(self.shared, self.grant, object()))
@@ -249,7 +259,11 @@ def build_app(config: RuntimeConfig, asset_root: Path):
             client_options=ClientOptions(api_endpoint=config.storage.api_endpoint),
         )
         stores = FirestoreStores(
-            firestore, config.firestore, config.guest, config.evidence, config.action,
+            firestore,
+            config.firestore,
+            config.guest,
+            config.evidence,
+            config.action,
             guest_admission=config.guest_admission,
         )
         objects = StorageObjects(objects_client, config.storage)
@@ -258,7 +272,9 @@ def build_app(config: RuntimeConfig, asset_root: Path):
             guest, stores.evidence, config.evidence, identities=reviewed.identities
         )
         actions = ActionService(evidence, stores.actions, config.action)
-        shared = SharedAdmission(config.shared, config.grant, stores.shared)
+        shared = SharedAdmission(
+            config.shared, config.grant, stores.shared, nonbillable_policy=config.nonbillable_policy
+        )
         stores.enable_retail(RetailProjector(actions, config.shared, config.retail_read))
         evaluator = LearningEvaluator(suite, config.evaluation)
         stores.enable_learning(

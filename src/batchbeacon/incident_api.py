@@ -127,6 +127,7 @@ def _evidence_view(view):
         if view.result else None,
         "current": view.current,
         "hold_eligible": view.hold_eligible,
+        "latest_run_id": view.latest_run_id,
         "latest_observation_revision": len(state.observations),
         "active_result_revision": state.active_result,
         "observation_history": [
