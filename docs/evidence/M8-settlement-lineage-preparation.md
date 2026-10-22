@@ -50,7 +50,8 @@ scenario. This preparation does not certify arbitrary active-run migrations.
 
 ## Remaining activation gates
 
-1. Obtain the pending explicit pool-reallocation decision; preserve the total ceiling
+1. Apply the owner-approved [U31](../OWNER_DECISIONS.md#u31--bounded-model-pool-reallocation)
+   transfer only through reviewed conditional migration; preserve the total ceiling
    and original unknown reservation. Refresh actual balances before any paid admission.
 2. Bind a reviewed manifest to the exact retained attempt and successor runtime. Close
    admission and fully drain workers before conditional migration; a terminal run
