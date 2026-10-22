@@ -344,10 +344,190 @@ class LearningService:
     def read(self, capability):
         return self._operate(capability, lambda tx, k, g, u, s, n: (s, s))
 
-    def refresh(self, capability, request_key):
+    def presentation(self, capability, incident=None):
+        """Owned UI snapshot; eligibility is explanatory, never mutation authority."""
+        session = self.guest.resolve(capability)
+        capacity = self.capability(session) if incident and self.capability else None
+        return self._operate(
+            capability,
+            lambda tx, k, g, u, s, n: (
+                s,
+                (s, self._presentation(tx, k, g, s, n, incident, capacity)),
+            ),
+        )
+
+    def _presentation(self, tx, key, guest, state, now, incident, capacity):
+        def unavailable(reason):
+            return {"available": False, "reason": reason}
+
+        def available():
+            return {"available": True, "reason": "Available for this saved evidence."}
+
+        actions = {
+            name: unavailable("Select and check an investigation first.")
+            for name in ("request", "feedback", "candidate", "evaluate", "activate")
+        }
+        actions["rollback"] = (
+            available()
+            if guest.demo_manager
+            and state.transitions
+            and state.transitions[-1].kind == TransitionType.ACTIVATE
+            else unavailable("No active wording change is available to roll back.")
+        )
+        context = {
+            "incident_id": incident,
+            "actions": actions,
+            "candidate_id": None,
+            "evaluation_id": None,
+            "feedback_id": None,
+            "summary": "Check a product or open a saved investigation to begin.",
+        }
+        if incident is None:
+            return context
+        try:
+            basis, evidence, counter = self._basis(tx, key, incident)
+        except GuestDenied as error:
+            if error.code != "learning_evidence_stale":
+                raise
+            context["summary"] = "Check or reverify this investigation before using its guidance."
+            for name in ("request", "feedback", "candidate", "evaluate", "activate"):
+                actions[name] = unavailable(context["summary"])
+            return context
+        decision = guidance_decision(
+            evidence.result,
+            evidence.observation,
+            evidence.notices,
+            evidence.context,
+            evidence.verifier_policy,
+            usage=GuidanceUsage(
+                acquisitions=counter.acquisitions, verifications=len(counter.verifications)
+            ),
+            limits=self.evaluator.policy.limits,
+            capability=capacity,
+            read_policy=self.evaluator.policy.read,
+        )
+        has_fields = bool(evidence.result.outstanding_fields)
+        context["summary"] = (
+            "This investigation needs clearer capture evidence. Request the current guidance first."
+            if has_fields
+            else "This label has no missing required fields. No further capture guidance is needed."
+        )
+        actions["request"] = (
+            available()
+            if decision.requested_fields and len(state.requests) < self.policy.max_requests
+            else unavailable(
+                "No missing required fields need another capture."
+                if not has_fields
+                else "Capture guidance is unavailable within the current capacity or limits."
+            )
+        )
+        actions["feedback"] = (
+            available()
+            if len(state.feedback) < self.guest.policy.retail.max_feedback
+            and (
+                not state.feedback
+                or now
+                >= state.feedback[-1].created_at
+                + timedelta(seconds=self.policy.feedback_interval_seconds)
+            )
+            else unavailable(
+                "Feedback is temporarily unavailable or its workspace limit is reached."
+            )
+        )
+        feedback = next(
+            (f for f in reversed(state.feedback) if f.basis.incident_id == incident), None
+        )
+        if feedback:
+            context["feedback_id"] = feedback.id
+            try:
+                self._candidate_inputs(tx, key, state, (feedback.id,))
+                actions["candidate"] = (
+                    available()
+                    if len(state.candidates) < self.guest.policy.retail.max_candidates
+                    else unavailable("The workspace wording-proposal limit is reached.")
+                )
+            except GuestDenied as error:
+                if error.status >= 500:
+                    raise
+                actions["candidate"] = unavailable(
+                    "This feedback cannot support a wording change. A current guidance request "
+                    "for a missing lot or date, with matching feedback, is required."
+                )
+        else:
+            actions["candidate"] = unavailable(
+                "Record feedback about eligible capture guidance first."
+            )
+        actions["evaluate"] = unavailable("Create a current wording proposal before evaluation.")
+        actions["activate"] = unavailable("Run and pass the fixed evaluation before activation.")
+        candidate = next(
+            (
+                c
+                for c in reversed(state.candidates)
+                if any(s.basis.incident_id == incident for s in c.supports)
+            ),
+            None,
+        )
+        if candidate:
+            context["candidate_id"] = candidate.id
+            evaluation = next(
+                (e for e in reversed(state.evaluations) if e.candidate.id == candidate.id), None
+            )
+            context["evaluation_id"] = evaluation.id if evaluation else None
+            actions["evaluate"] = unavailable(
+                "This proposal needs current supporting evidence and the current wording version."
+            )
+            try:
+                self._supports(tx, key, state, candidate)
+                can_evaluate = (
+                    len(state.evaluations) < self.guest.policy.retail.max_evaluations
+                    and not (evaluation and evaluation.status == EvaluationStatus.RUNNING)
+                    and (
+                        not state.evaluations
+                        or now
+                        >= state.evaluations[-1].created_at
+                        + timedelta(seconds=self.policy.evaluation_interval_seconds)
+                    )
+                )
+                actions["evaluate"] = (
+                    available()
+                    if can_evaluate
+                    else unavailable(
+                        "Wait for the current evaluation or its retry interval; "
+                        "workspace limits still apply."
+                    )
+                )
+                if evaluation:
+                    self._activation(tx, key, state, evaluation.id)
+                    r = self.guest.policy.retail
+                    can_activate = (
+                        guest.demo_manager
+                        and len(state.transitions) + 2 <= r.max_transitions
+                        and sum(t.kind == TransitionType.ACTIVATE for t in state.transitions)
+                        < r.max_forward_activations
+                    )
+                    actions["activate"] = (
+                        available()
+                        if can_activate
+                        else unavailable(
+                            "Activation is unavailable within this workspace's authority or limits."
+                        )
+                    )
+                else:
+                    actions["activate"] = unavailable("Run and pass the fixed evaluation first.")
+            except GuestDenied as error:
+                if error.status >= 500:
+                    raise
+                actions["activate"] = unavailable(
+                    "Activation needs a passing evaluation bound to current evidence and wording."
+                )
+        return context
+
+    def refresh(self, capability, request_key, *, incident=None, with_context=False):
         """One atomic, durable bounded snapshot; duplicate reads cannot overlap."""
         TypeAdapter(RequestKey).validate_python(request_key)
         digest = canonical(request_key)
+        session = self.guest.resolve(capability) if with_context else None
+        capacity = self.capability(session) if incident and self.capability else None
 
         def operation(tx, k, g, u, state, now):
             if digest in state.refresh_keys:
@@ -361,7 +541,12 @@ class LearningService:
                 refresh_keys=(*state.refresh_keys, digest),
                 next_refresh_at=now + timedelta(seconds=self.policy.refresh_interval_seconds),
             )
-            return updated, updated
+            result = (
+                (updated, self._presentation(tx, k, g, updated, now, incident, capacity))
+                if with_context
+                else updated
+            )
+            return updated, result
 
         return self._operate(capability, operation)
 
@@ -529,10 +714,13 @@ class LearningService:
         return self._operate(capability, operation)
 
     def _supports(self, tx, key, state, candidate):
-        if candidate.base != state.active:
+        return self._support_evidence(tx, key, state, candidate.base, candidate.supports)
+
+    def _support_evidence(self, tx, key, state, base, supports):
+        if base != state.active:
             raise denied("learning_base_changed")
         evidence = []
-        for support in candidate.supports:
+        for support in supports:
             f = self._find(state.feedback, support.feedback.id)
             if (
                 reference(f) != support.feedback
@@ -546,13 +734,38 @@ class LearningService:
                 reference(request) != f.basis.recapture
                 or request.basis != basis
                 or changed(f.basis, recapture=None) != basis
-                or request.binding != candidate.base
+                or request.binding != base
                 or request.evidence_hash != current.basis()
                 or request.usage_hash != counter.digest()
             ):
                 raise denied("learning_evidence_stale")
             evidence.append(current)
         return tuple(evidence)
+
+    def _candidate_inputs(self, tx, key, state, ids):
+        if state.active.policy.id != GuidancePolicyId.V1:
+            raise denied("no_safe_candidate")
+        supports = []
+        fields = []
+        for fid in ids:
+            f = self._find(state.feedback, fid)
+            field = {
+                FeedbackDetail.LOT_CODE_UNCLEAR: GuidanceField.LOT,
+                FeedbackDetail.DATE_PANEL_UNCLEAR: GuidanceField.BEST_BEFORE,
+            }.get(f.detail)
+            if (
+                f.category != FeedbackCategory.GUIDANCE_UNCLEAR
+                or field is None
+                or f.basis.recapture is None
+            ):
+                raise denied("no_safe_candidate")
+            request = self._find(state.requests, f.basis.recapture.id)
+            if field not in tuple(i.field for i in request.instructions):
+                raise denied("no_safe_candidate")
+            fields.append(field)
+            supports.append(FeedbackSupport(feedback=reference(f), basis=f.basis))
+        self._support_evidence(tx, key, state, state.active, supports)
+        return supports, fields
 
     def candidate(self, capability, key, feedback_ids):
         ids = tuple(feedback_ids)
@@ -567,27 +780,7 @@ class LearningService:
             prior = self._retry(state, key, "candidate", payload, state.candidates)
             if prior:
                 return state, prior
-            if state.active.policy.id != GuidancePolicyId.V1:
-                raise denied("no_safe_candidate")
-            supports = []
-            fields = []
-            for fid in ids:
-                f = self._find(state.feedback, fid)
-                field = {
-                    FeedbackDetail.LOT_CODE_UNCLEAR: GuidanceField.LOT,
-                    FeedbackDetail.DATE_PANEL_UNCLEAR: GuidanceField.BEST_BEFORE,
-                }.get(f.detail)
-                if (
-                    f.category != FeedbackCategory.GUIDANCE_UNCLEAR
-                    or field is None
-                    or f.basis.recapture is None
-                ):
-                    raise denied("no_safe_candidate")
-                request = self._find(state.requests, f.basis.recapture.id)
-                if field not in tuple(i.field for i in request.instructions):
-                    raise denied("no_safe_candidate")
-                fields.append(field)
-                supports.append(FeedbackSupport(feedback=reference(f), basis=f.basis))
+            supports, fields = self._candidate_inputs(tx, k, state, ids)
             record = ImprovementCandidate(
                 **self._common(g, now),
                 id=identifier,
@@ -603,7 +796,6 @@ class LearningService:
                 base=state.active,
                 proposed=policy_ref(GuidancePolicyId.V2),
             )
-            self._supports(tx, k, state, record)
             return self._append(state, key, "candidate", payload, "candidates", record), record
 
         return self._operate(capability, operation)

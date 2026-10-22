@@ -96,8 +96,9 @@ def mount_learning_api(app, service, policy):
         guest._live(session, guest._key(token))
         return public_record(record)
 
-    def snapshot(state):
+    def snapshot(state, context):
         return {
+            "context": context,
             "active": state.active.model_dump(mode="json"),
             "observed_at": guest._now().isoformat(),
             "requests": [public_record(x) for x in state.requests],
@@ -113,15 +114,25 @@ def mount_learning_api(app, service, policy):
             },
         }
 
-    def mutation_response(record, token, session):
+    def selection(request, token, default=None):
+        query = _queries(request, {"incident"})
+        incident = identifier(query["incident"]) if "incident" in query else default
+        if default is not None and incident != default:
+            raise GuestDenied(422, "invalid_learning_context")
+        if incident is not None:
+            guest.incident(token, incident)
+        return incident
+
+    def mutation_response(record, token, session, incident):
         result = response(record, token, session)
-        result["learning_state"] = snapshot(service.read(token))
+        state, context = service.presentation(token, incident)
+        result["learning_state"] = snapshot(state, context)
         guest._live(session, guest._key(token))
         return result
 
     @app.get("/api/learning")
     async def read(request: Request):
-        _queries(request, set())
+        _queries(request, {"incident"})
         await _no_body(request, policy)
         token, session, _ = await run_in_threadpool(owned, request)
         try:
@@ -130,46 +141,53 @@ def mount_learning_api(app, service, policy):
             key = TypeAdapter(RequestKey).validate_python(request.headers["idempotency-key"])
         except (ValueError, ValidationError):
             raise GuestDenied(422, "request_key_required") from None
-        state = await run_in_threadpool(service.refresh, token, key)
+        incident = await run_in_threadpool(selection, request, token)
+        state, context = await run_in_threadpool(
+            service.refresh, token, key, incident=incident, with_context=True
+        )
         guest._live(session, guest._key(token))
-        return snapshot(state)
+        return snapshot(state, context)
 
     @app.post("/api/incidents/{incident_id}/guidance")
     async def guidance(incident_id: str, request: Request):
         identifier(incident_id)
-        _queries(request, set())
+        _queries(request, {"incident"})
         await _no_body(request, policy)
         token, session, key = await run_in_threadpool(owned, request, True)
+        incident = await run_in_threadpool(selection, request, token, incident_id)
         result = await run_in_threadpool(service.guidance, token, incident_id, key)
-        return await run_in_threadpool(mutation_response, result, token, session)
+        return await run_in_threadpool(mutation_response, result, token, session, incident)
 
     @app.post("/api/incidents/{incident_id}/feedback")
     async def feedback(incident_id: str, request: Request):
         identifier(incident_id)
-        _queries(request, set())
+        _queries(request, {"incident"})
         token, session, key = await run_in_threadpool(owned, request, True)
+        incident = await run_in_threadpool(selection, request, token, incident_id)
         command = await _command(request, FeedbackCommand, policy)
         result = await run_in_threadpool(
             service.feedback, token, incident_id, key, command.detail, command.request_id
         )
-        return await run_in_threadpool(mutation_response, result, token, session)
+        return await run_in_threadpool(mutation_response, result, token, session, incident)
 
     @app.post("/api/learning/candidates")
     async def candidate(request: Request):
-        _queries(request, set())
+        _queries(request, {"incident"})
         token, session, key = await run_in_threadpool(owned, request, True)
+        incident = await run_in_threadpool(selection, request, token, None)
         command = await _command(request, CandidateCommand, policy)
         result = await run_in_threadpool(service.candidate, token, key, command.feedback_ids)
-        return await run_in_threadpool(mutation_response, result, token, session)
+        return await run_in_threadpool(mutation_response, result, token, session, incident)
 
     @app.post("/api/learning/candidates/{candidate_id}/evaluations")
     async def evaluate(candidate_id: str, request: Request):
         identifier(candidate_id)
-        _queries(request, set())
+        _queries(request, {"incident"})
         await _no_body(request, policy)
         token, session, key = await run_in_threadpool(owned, request, True)
+        incident = await run_in_threadpool(selection, request, token, None)
         result = await run_in_threadpool(service.evaluate, token, key, candidate_id)
-        return await run_in_threadpool(mutation_response, result, token, session)
+        return await run_in_threadpool(mutation_response, result, token, session, incident)
 
     @app.get("/api/learning/activation/prepare")
     async def prepare_activation(request: Request):
@@ -182,11 +200,12 @@ def mount_learning_api(app, service, policy):
 
     @app.post("/api/learning/activation")
     async def activate(request: Request):
-        _queries(request, set())
+        _queries(request, {"incident"})
         token, session, key = await run_in_threadpool(owned, request, True)
+        incident = await run_in_threadpool(selection, request, token, None)
         command = await _command(request, ActivationConfirmation, policy)
         result = await run_in_threadpool(service.activate, token, key, command)
-        return await run_in_threadpool(mutation_response, result, token, session)
+        return await run_in_threadpool(mutation_response, result, token, session, incident)
 
     @app.get("/api/learning/rollback/prepare")
     async def prepare_rollback(request: Request):
@@ -198,8 +217,9 @@ def mount_learning_api(app, service, policy):
 
     @app.post("/api/learning/rollback")
     async def rollback(request: Request):
-        _queries(request, set())
+        _queries(request, {"incident"})
         token, session, key = await run_in_threadpool(owned, request, True)
+        incident = await run_in_threadpool(selection, request, token, None)
         command = await _command(request, RollbackConfirmation, policy)
         result = await run_in_threadpool(service.rollback, token, key, command)
-        return await run_in_threadpool(mutation_response, result, token, session)
+        return await run_in_threadpool(mutation_response, result, token, session, incident)
