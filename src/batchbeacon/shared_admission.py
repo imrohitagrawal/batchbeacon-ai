@@ -277,7 +277,7 @@ class PredecessorLiabilities(Record):
     """Reviewed, exact original reservations; settlement only, never paid authority.
 
     Stored in operator runtime configuration, not a public request or the ledger.
-    A migration must preserve the outstanding balances and drain old workers.
+    A migration must preserve outstanding balances and fence stale database writers.
     Missing original provider evidence remains unknown after a migration.
     """
 
