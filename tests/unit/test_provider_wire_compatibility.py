@@ -50,7 +50,7 @@ def test_missing_implicit_thoughts_default_is_zero_only_with_exact_total():
 @pytest.mark.parametrize('change', [
     {'totalTokenCount':30501}, {'thoughtsTokenCount':None}, {'thoughtsTokenCount':True},
     {'thoughtsTokenCount':'0'}, {'thoughtsTokenCount':-1}, {'toolUsePromptTokenCount':1},
-    {'cachedContentTokenCount':1}, {'unknownMeter':1},
+    {'cachedContentTokenCount':30391}, {'unknownMeter':1},
 ])
 def test_incomplete_or_unknown_usage_never_fills_residual_thoughts(change):
     body = actual_shape()

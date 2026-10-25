@@ -263,7 +263,7 @@ def test_incomplete_or_invalid_usage_keeps_liability_private(env, raw):
     assert env[1].state() == before and saved(env, attempt).complete_usage is None
 
 
-@pytest.mark.parametrize("field,value", [("cachedContentTokenCount", 1),
+@pytest.mark.parametrize("field,value", [("cachedContentTokenCount", 101),
     ("toolUsePromptTokenCount", 1), ("cachedContentTokenCount", False),
     ("newBillableTokenCount", 1), ("trafficType", "PROVISIONED_THROUGHPUT"),
     ("promptTokensDetails", [{"modality": "TEXT", "tokenCount": 99}])])

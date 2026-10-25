@@ -151,3 +151,39 @@ passed controlled tests separately. An initial live probe assumed the wrong stat
 its failure and independent reproduction are preserved. No live unresolved-panel
 visibility or full first-time/assistive-technology acceptance is claimed.
 Private support evidence: `.local/run-records/support-contact/`.
+
+## Acceptance continuation: cache accounting and status semantics
+
+The [single current checklist](../USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md#9-authoritative-acceptance-checklist-and-continuation-checkpoint)
+owns all R01–R12/F1–F8 statuses. Independent planning reviews preceded corrections.
+The newer retained response reproduces a nonzero cached-token rejection; the older
+timeout has no corresponding complete response. The parser now validates cached
+counts and modality subsets within prompt totals and retains the entire prompt at
+the original evidence-bound price. Unknown meters, malformed usage and unsupported
+traffic still fail closed. No schema, discount, runtime policy or timeout changed.
+
+Five new offline regressions failed on the baseline; the corrected cache/durable/
+wire/runtime selection passed 166 tests. Independent retained-byte and synthetic
+concurrency/GET/reader checks passed separately. Actual retained bytes parsing is
+offline provider-evidence verification, not a fresh model invocation or successful
+product completion. Both live liabilities and failed runs remain unchanged.
+
+Pending status previously set aria-busy on its own live region, allowing AT to
+defer the update. Twenty delayed success/failure/duplicate-control regressions
+failed before correction and passed after separating the visual loader attribute
+from live-region busy semantics. Buttons retain truthful busy/disabled state.
+Independent controlled source/browser verification passed; actual screen-reader
+speech remains unverified. No full accessibility claim follows.
+
+The old image cannot read a synthetic settled cached receipt: reproduced offline.
+It remains a compatible rollback only while the ledger has no such receipt. Before
+any separately admitted settlement or new model operation, retain a verified
+cache-aware rollback image and recheck compatibility. Publication must prove all
+existing attempts and balances unchanged; it does not settle old attempts.
+
+Provider semantics: [GenerateContentResponse usage](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1/GenerateContentResponse)
+and [implicit caching](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/context-cache/context-cache-overview).
+Announcement semantics: [WAI-ARIA aria-busy](https://www.w3.org/TR/wai-aria-1.2/#aria-busy).
+
+Private continuation evidence: `.local/run-records/acceptance-continuation/`.
+Full-suite, hosted and publication results are recorded below when verified.

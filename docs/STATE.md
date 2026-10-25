@@ -1,9 +1,32 @@
 # BatchBeacon AI — current execution state
 
-## User-journey correction — 25 October 2026
+## Acceptance continuation — 25 October 2026
 
-The [consolidated R01–R12 plan](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md) is
-implemented and deployed through [PR #12](https://github.com/imrohitagrawal/batchbeacon-ai/pull/12).
+The [single R01–R12/F1–F8 acceptance register](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md#9-authoritative-acceptance-checklist-and-continuation-checkpoint)
+now separates implementation, controlled/deployed/model/AT/human evidence and
+remaining authority. Fresh readbacks confirm the support release on both hosts,
+unchanged runtime/IAM/accounting and two held unknown liabilities. Support is
+active; its one owner-confirmed test receipt requires no further setup decision.
+
+Independent planning reviews cleared two narrow corrections: cached-token subset
+parsing at the unchanged original conservative rate, and pending live-status
+semantics independent of the visual loader. Baseline regressions reproduced both;
+corrected targeted tests and independent reviews passed. Full local/emulator,
+hosted/package and deployment evidence are recorded in M9 as they complete.
+No settlement, paid model/countTokens call or support email is authorized or made.
+
+Full readiness remains incomplete. Current public capacity is below one attempt's
+reservation; paid authority is also exhausted. Fresh model/video, live unresolved
+panel, first-time human and actual screen-reader evidence remain separate gates.
+Existing reader rollback is valid only while cached receipts remain unwritten;
+cache-aware rollback must precede later settlement/model operations. Private current
+handoff: `.local/run-records/acceptance-continuation/HANDOFF.md`; run-policy pointer:
+`.local/run-policy.json`. The older root checkout and unrelated changes are preserved.
+
+## Prior user-journey correction — 25 October 2026
+
+The F1–F7 implementation from the [consolidated plan](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md) is
+deployed through [PR #12](https://github.com/imrohitagrawal/batchbeacon-ai/pull/12).
 Independent controlled reviews cleared feedback, owned capability projection,
 expiry/selection guards, navigation and the submitted positive workflow. Exact
 push/PR/main checks, Firestore emulator, packaged configuration/TLS checks,

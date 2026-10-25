@@ -78,9 +78,9 @@ button:disabled { cursor: not-allowed; }
 /* Journey feedback stays beside the operation, including narrow viewports. */
 .operation-status { margin: 12px 0; padding: 12px; border: 1px solid var(--line, #D5DBE4); border-radius: 8px; background: #EAF0F8; overflow-wrap: anywhere; }
 .operation-status[data-kind="error"] { background: #FFF2D8; color: #6A4A05; }
-.operation-status[aria-busy="true"]::before { content: ""; display: inline-block; width: .8em; height: .8em; margin-right: .6em; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: operation-spin 1s linear infinite; }
+.operation-status[data-busy="true"]::before { content: ""; display: inline-block; width: .8em; height: .8em; margin-right: .6em; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: operation-spin 1s linear infinite; }
 @keyframes operation-spin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .operation-status[aria-busy="true"]::before { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .operation-status[data-busy="true"]::before { animation: none; } }
 .preview-toolbar .operation-status { flex-basis: 100%; }
 #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary { scroll-margin-top: 150px; }
 #operator-help, .review-checklist, #check-explanation { margin-block: 12px; }

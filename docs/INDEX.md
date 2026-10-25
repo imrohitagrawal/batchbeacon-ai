@@ -25,6 +25,12 @@ One canonical definition per responsibility keeps the project portable. Generic 
 
 Future scope: [B0–B3 roadmap and ATT-01 PDF/image evidence](ROADMAP.md). Planned items are not delivered capabilities.
 
+## Current acceptance owner
+
+[User-journey plan section 9](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md#9-authoritative-acceptance-checklist-and-continuation-checkpoint)
+is the single current R01–R12/F1–F8 acceptance checklist. [M9](evidence/M9-user-journey-correction.md)
+contains supporting evidence; historical plans do not override its current statuses.
+
 ## Judge-facing public entry points
 
 - [User-journey correction plan](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md) and [implementation / remaining acceptance](evidence/M9-user-journey-correction.md).
