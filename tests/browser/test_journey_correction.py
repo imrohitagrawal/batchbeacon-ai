@@ -171,3 +171,30 @@ def test_label_ready_feedback_explains_unavailable_check_at_action(page, reason)
     assert 'Next, extract and check' not in result['copy']
     assert {None:'could not be confirmed','UNRESOLVED_ATTEMPT':'paused',
             'ALLOWANCE_UNAVAILABLE':'allowance is unavailable'}[reason] in result['copy']
+
+
+@pytest.mark.parametrize('email', [None, 'rohit@stackclimb.com'])
+def test_support_contact_opens_only_an_explicit_mail_link(connected_browser, email):
+    from batchbeacon.workbench import SupportContact
+    page, c, _, errors = connected_browser
+    def configuration(route):
+        response = route.fetch()
+        data = response.json()
+        data['support'] = SupportContact(email=email).public_view()
+        route.fulfill(response=response, json=data)
+    page.route('**/api/workbench/config', configuration)
+    page.reload()
+    expect(page.locator('#start-sample')).to_be_enabled()
+    page.evaluate("state.workspaceBlock='UNRESOLVED_ATTEMPT';render();")
+    page.locator('#operator-help summary').click()
+    if email:
+        link = page.locator('#support-contact a')
+        expect(link).to_have_text('Email the project operator: '+email)
+        expect(link).to_have_attribute('href',
+            'mailto:rohit@stackclimb.com?subject=BatchBeacon%20support')
+        expect(page.locator('#operator-help')).to_contain_text('No email is sent automatically')
+    else:
+        expect(page.locator('#support-contact')).to_have_text(
+            'No public support channel is configured.')
+        expect(page.locator('#support-contact a')).to_have_count(0)
+    assert not c[4] and not errors

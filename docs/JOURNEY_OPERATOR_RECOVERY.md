@@ -1,18 +1,20 @@
 # Unconfirmed-check operator procedure
 
-Responsible operator: the BatchBeacon project owner. No public support channel
-is configured or tested. A dedicated owner-controlled support address is the
-recommended next route; choosing/publishing it and verifying receipt require the
-owner’s destination decision. Public GitHub Issues is not the default for case
-records: this repository is public, and issue access is not separately private.
-[GitHub issue-access documentation](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-an-issues-only-repository).
+Responsible operator: the BatchBeacon project owner. Under U34 the owner selected
+`rohit@stackclimb.com` as the public support mailbox. The optional typed
+`BATCHBEACON_SUPPORT_EMAIL` deployment setting supplies the public contact; missing
+configuration keeps the explicit unavailable message, and malformed values stop
+startup. A mail link opens the visitor's email application with a generic subject;
+it does not send anything or attach case data. Receipt verification is still
+pending and must be recorded before claiming the handoff works. The private
+monitoring destination is not reused.
 
 Until then, the interface must say that no notification was sent and no response
 period is promised. The copyable case reference is an identifier, not a credential.
 It must not contain cookies, tokens, provider bodies or private logs. Saved labels
 and the exact official notice remain available only while owned access is valid.
 
-When an approved private channel is operational:
+When the approved mailbox is operational:
 
 1. Ask for the displayed case reference, observed message and whether access is
    still active. Do not request authentication cookies or tokens. Explain the

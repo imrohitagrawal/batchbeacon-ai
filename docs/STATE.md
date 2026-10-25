@@ -15,8 +15,8 @@ verification used one synthetic workspace, two labels and zero AI calls.
 **Full readiness remains incomplete.** Seven-call authority is exhausted; no
 further paid model call is authorized. Fresh read-only diagnosis found another
 unresolved cache-usage accounting outcome, distinct from the historical provider
-timeouts. Both unknown liabilities remain held. A public support destination,
-verified handoff, fresh full model acceptance and human/assistive-technology
+timeouts. Both unknown liabilities remain held. The owner selected `rohit@stackclimb.com` for support; the configurable contact
+update is being verified, with delivery/receipt still untested. Fresh full model acceptance and human/assistive-technology
 usability remain open. Original submitted video and other acceptance limits stay
 unchanged. Detailed private evidence is in `.local/run-records/journey-correction/`.
 
