@@ -3,11 +3,14 @@
 ## User-journey correction — 25 October 2026
 
 The [consolidated R01–R12 plan](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md) is
-implemented in a correction candidate. Independent controlled reviews cleared
-feedback, owned capability projection, expiry/selection guards, navigation and
-the submitted positive workflow. [M9](evidence/M9-user-journey-correction.md)
-tracks final local/hosted/deployed checks; deployment is not yet claimed.
-The current deployed baseline still matches the audited main source.
+implemented and deployed through [PR #12](https://github.com/imrohitagrawal/batchbeacon-ai/pull/12).
+Independent controlled reviews cleared feedback, owned capability projection,
+expiry/selection guards, navigation and the submitted positive workflow. Exact
+push/PR/main checks, Firestore emulator, packaged configuration/TLS checks,
+independent zero-traffic review and both-host browser/asset verification passed.
+[M9](evidence/M9-user-journey-correction.md) records source/image bindings and the
+limits of each evidence type. Runtime, IAM and unknown liabilities are unchanged;
+verification used one synthetic workspace, two labels and zero AI calls.
 
 **Full readiness remains incomplete.** Seven-call authority is exhausted; no
 further paid model call is authorized. Fresh read-only diagnosis found another

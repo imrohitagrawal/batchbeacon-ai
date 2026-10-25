@@ -62,8 +62,47 @@ bootstrap and push/PR checkout checks remain separate gates.
 Locked bootstrap and the full local command passed: 1,423 unit tests, 111 browser
 tests using the locked Chromium runtime, and 29 edge tests. The complete existing
 Firestore emulator suite passed (7 tests). These counts are separate evidence
-types. Exact hosted push/PR/main, packaged image and deployed checks remain pending;
-this record is not yet a release freeze or readiness declaration.
+types. Exact [push](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/40180926334),
+[PR merge checkout](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/40180944772)
+and [merged main](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/40181478422)
+checks each passed 1,423 unit, 111 browser and 29 edge tests. Bootstrap, locked
+browser installation, environment propagation, read-only token permissions and
+actual checkout trees were verified. [PR #12](https://github.com/imrohitagrawal/batchbeacon-ai/pull/12)
+merged the reviewed source `d811586c5bae030969c08ca64ed5b969f7618a39`; the main merge
+`dfb1abd692b64fa7333ef6c2a6dcd03468d726c5` has the same tree.
+
+One independently admitted bounded cloud build passed. Its generation-bound
+source archive equals the allowlisted manifest. Local and cloud packaged checks
+passed closed mode, exact current connected configuration/assets, original
+liability compatibility and TLS trust, without network/model calls in the smoke
+containers. Deployed image:
+`sha256:0c2668f5c94490b4b5134912df9bccaf9bb2dae033419303e8c6f3503209180d`.
+
+Independent zero-traffic review preceded promotion. The custom domain and Cloud
+Run fallback serve exact reviewed assets. Direct browser checks passed saved-label
+retention, visible mobile handoff after image decoding, authoritative unavailable
+AI reason/disabled controls, GET-only status feedback, correct-case queue reopen,
+reload, guidance navigation and desktop/390/320 reflow. Guestless capability reads
+return 401; another workspace's existing case returns 404. One new synthetic
+workspace and two sample uploads were used across candidate/live checks; the
+same test cookie was explicitly reused for each hostname. No extraction, action
+or guidance mutation was submitted. Model attempts and held liabilities remained
+unchanged. Runtime, IAM, resource limits and permanent admission v2 were preserved.
+
+Two failed browser probe runs remain recorded: a health-alias expectation also
+failed on the unchanged baseline (canonical health passed), and a mobile geometry
+probe selected a `display: contents` parent instead of the actual sticky navigation.
+Independent reproduction confirmed these probe defects; successful continuations
+reused the original workspace/cases without another upload. The initial desktop
+handoff screenshot preceded image paint; later retention and the decoded-image
+mobile viewport are separate evidence.
+
+A pre-existing OpenTelemetry dependency advisory remains open maintenance debt.
+Independent local tests confirmed the affected parser but did not reproduce an
+application request path reaching it. This increment does not fix the dependency
+or claim universal non-exploitability. Bounded dependency remediation is separate.
+
+These passed UI release gates do not establish full product readiness.
 
 Support handoff remains incomplete: no public destination has been selected or
 receipt tested. The UI explicitly says so and exposes only a copyable case
