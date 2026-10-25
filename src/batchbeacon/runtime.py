@@ -233,6 +233,9 @@ class ObservedCapacity:
 
 
 def build_app(config: RuntimeConfig, asset_root: Path):
+    from batchbeacon.workbench import SupportContact
+
+    support = SupportContact(email=os.environ.get("BATCHBEACON_SUPPORT_EMAIL"))
     # Validate all pure inputs before credential discovery or SDK construction.
     if (
         os.environ.get("DISABLE_GCS_PYTHON_CLIENT_OTEL_BUCKET_METADATA") != "true"
@@ -299,7 +302,7 @@ def build_app(config: RuntimeConfig, asset_root: Path):
         )
         refresh = RetailRefresh(stores.retail, config.refresh)
         app = create_workbench_app(
-            extraction, actions, refresh, config.http, learning=stores.learning
+            extraction, actions, refresh, config.http, learning=stores.learning, support=support
         )
         app.state.runtime_configuration_hash = config.digest()
 

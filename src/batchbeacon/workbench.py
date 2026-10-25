@@ -1,12 +1,16 @@
 """Connected local workbench. Explicit offline graph; no production fallback."""
 
 from pathlib import Path
+from typing import Annotated
+from urllib.parse import quote
 
 from fastapi import Request
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from pydantic import Field, field_validator
 from starlette.concurrency import run_in_threadpool
 
+from batchbeacon.contracts import Record
 from batchbeacon.extraction_api import (
     ExtractionHTTPPolicy,
     create_extraction_app,
@@ -20,19 +24,45 @@ from batchbeacon.retail_api import mount_retail_api
 ROOT = Path(__file__).resolve().parents[2]
 
 
+class SupportContact(Record):
+    """Optional owner-approved ASCII mailbox; never a URL or mail header template."""
+
+    email: Annotated[str, Field(strict=True, max_length=254, pattern=(
+        r"^[A-Za-z0-9_+-]+(?:\.[A-Za-z0-9_+-]+)*@"
+        r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?"
+        r"(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$"
+    ))] | None = None
+
+    @field_validator("email")
+    @classmethod
+    def local_part_bound(cls, value):
+        if value is not None and len(value.partition("@")[0]) > 64:
+            raise ValueError("support mailbox local part exceeds protocol limit")
+        return value
+
+    def public_view(self):
+        return {"email": self.email, "mailto": (
+            "mailto:" + quote(self.email, safe="@.") + "?subject=BatchBeacon%20support"
+            if self.email is not None else None
+        )}
+
+
 def create_workbench_test_app(extraction, actions, refresh, policy: ExtractionHTTPPolicy,
-                              *, learning=None):
+                              *, learning=None, support: SupportContact | None = None):
     """Compose existing owned adapters. This factory cannot activate a paid provider."""
-    return _create_workbench(extraction, actions, refresh, policy, real=False, learning=learning)
+    return _create_workbench(extraction, actions, refresh, policy, real=False,
+                             learning=learning, support=support)
 
 
 def create_workbench_app(extraction, actions, refresh, policy: ExtractionHTTPPolicy,
-                         *, learning=None):
+                         *, learning=None, support: SupportContact | None = None):
     """Compose an explicitly admitted graph; never initialize or replenish its budget."""
-    return _create_workbench(extraction, actions, refresh, policy, real=True, learning=learning)
+    return _create_workbench(extraction, actions, refresh, policy, real=True,
+                             learning=learning, support=support)
 
 
-def _create_workbench(extraction, actions, refresh, policy, *, real, learning):
+def _create_workbench(extraction, actions, refresh, policy, *, real, learning, support):
+    support = SupportContact() if support is None else SupportContact.model_validate(support)
     guest, evidence = extraction.evidence.guest, extraction.evidence
     if refresh.guest is not guest or refresh.retail.projector.actions is not actions:
         raise ValueError('one consistent workbench graph required')
@@ -44,6 +74,7 @@ def _create_workbench(extraction, actions, refresh, policy, *, real, learning):
         if learning.guest is not guest or learning.evidence is not evidence:
             raise ValueError('learning requires the same owned workbench graph')
         mount_learning_api(app, learning, policy)
+    app.state.support_configuration_hash = support.digest()
     app.title = 'BatchBeacon AI' if real else 'BatchBeacon AI — connected local integration'
     prior_denied = app.exception_handlers[GuestDenied]
 
@@ -89,6 +120,7 @@ def _create_workbench(extraction, actions, refresh, policy, *, real, learning):
         return {
             'mode': 'REAL_VERTEX_EXTRACTION' if real else 'LOCAL_INTEGRATION_SIMULATED_EXTRACTION',
             'server_time': guest._now().isoformat(),
+            'support': support.public_view(),
             'storage': 'Explicitly configured application stores' if real else
                 'Explicitly injected test adapters; not cloud persistence',
             'sources': [{'selection': key, 'notice': bundle.notice.model_dump(mode='json',

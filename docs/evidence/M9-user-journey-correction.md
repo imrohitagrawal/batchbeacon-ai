@@ -104,8 +104,9 @@ or claim universal non-exploitability. Bounded dependency remediation is separat
 
 These passed UI release gates do not establish full product readiness.
 
-Support handoff remains incomplete: no public destination has been selected or
-receipt tested. The UI explicitly says so and exposes only a copyable case
+At the initial journey release, support handoff remained incomplete: no public
+destination had been selected or receipt tested. The U34 follow-up below records
+the later owner selection. The UI explicitly says so and exposes only a copyable case
 reference. It does not expose the private monitoring address, send a message or
 promise a response. See the [operator procedure](../JOURNEY_OPERATOR_RECOVERY.md).
 
@@ -117,3 +118,16 @@ historical results or controlled fixtures into fresh acceptance.
 Private evidence: `.local/run-records/journey-correction/`, including retained
 baseline failures, reviewer reproduction suites, deployed baseline readback and
 F8 diagnosis. Session/account identifiers and detailed receipts remain private.
+
+## Owner-selected support contact follow-up
+
+Under U34 the owner selected `rohit@stackclimb.com`. A typed optional deployment
+setting supplies the mailbox and an encoded mail link; it cannot introduce mail
+headers, multiple recipients or arbitrary URLs. Invalid configuration fails before
+credential discovery. The visible link opens the visitor's email application with
+a generic subject. Case references remain an explicit copy/paste action; cookies,
+tokens and private logs are not attached. The application sends no email.
+
+The contact update is being verified separately from the deployed journey source
+above. Selecting the destination does not prove receipt or complete the support
+handoff. No test email has been sent, and no paid AI calls are authorized.

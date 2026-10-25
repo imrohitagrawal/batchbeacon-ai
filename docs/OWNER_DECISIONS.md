@@ -238,3 +238,11 @@ scope; full readiness must not be claimed while acceptance remains incomplete.
 No public support address has been selected or delivery verified. The owner
 requested an evidence-based recommendation; this does not authorize publishing
 the private monitoring destination or sending messages.
+
+## U34 — owner-selected public support mailbox
+
+The owner selects `rohit@stackclimb.com` for BatchBeacon support. This authorizes
+configuring and publishing that contact for the existing operator handoff. It does
+not authorize outbound messages, prove receipt or promise response times. Receipt
+verification remains a separate gate before advertising the handoff as working.
+No additional paid AI calls are authorized.

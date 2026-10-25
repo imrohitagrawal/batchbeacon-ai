@@ -222,3 +222,21 @@ def test_capture_storage_failure_is_unknown_and_reconcilable(workbench, monkeypa
     readback = client.get(prefix + '/capture-reconciliation', headers=headers).json()
     assert readback['found'] is committed
     assert (readback['batch']['ready'] if committed else readback['batch'] is None)
+
+
+@pytest.mark.parametrize("email", ["", "not-email", "a@-example.com", "a@example-.com",
+    "a@localhost", "a@example.com\n", "a@example.com\r\nBcc: other@example.com",
+    "a@example.com?bcc=other@example.com", "a@example.com,b@example.com",
+    ".a@example.com", "a..b@example.com", "a" * 65 + "@example.com", 123])
+def test_public_support_rejects_unsafe_or_malformed_mailbox(email):
+    from batchbeacon.workbench import SupportContact
+    with pytest.raises(ValueError):
+        SupportContact(email=email)
+
+
+def test_public_support_optional_and_encoded_boundaries():
+    from batchbeacon.workbench import SupportContact
+    assert SupportContact().public_view() == {"email": None, "mailto": None}
+    contact = SupportContact(email="a" * 63 + "+@example.com")
+    assert "%2B@example.com?subject=BatchBeacon%20support" in contact.public_view()["mailto"]
+    assert contact.digest() != SupportContact().digest()

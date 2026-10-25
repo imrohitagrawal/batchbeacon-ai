@@ -107,15 +107,20 @@ def runtime(setup, env):
     return config, source, suite
 
 
+@pytest.mark.parametrize("support_email", [None, "rohit@stackclimb.com"])
 @pytest.mark.parametrize("lifetime_cap", [20, None])
 def test_production_factory_constructs_owned_graph_without_rpc_or_budget_initialization(
-    runtime, monkeypatch, lifetime_cap
+    runtime, monkeypatch, lifetime_cap, support_email
 ):
     import google.auth
 
     import batchbeacon.runtime as module
     from batchbeacon.shared_admission import SharedAdmission
 
+    if support_email is None:
+        monkeypatch.delenv("BATCHBEACON_SUPPORT_EMAIL", raising=False)
+    else:
+        monkeypatch.setenv("BATCHBEACON_SUPPORT_EMAIL", support_email)
     config, source, suite = runtime
     config = replace(config, guest_admission=replace(config.guest_admission,
         max_issued_sessions=lifetime_cap))
@@ -141,6 +146,10 @@ def test_production_factory_constructs_owned_graph_without_rpc_or_budget_initial
         response = client.get("/health")
         assert response.status_code == 200 and response.json()["product"] == "not_ready"
         public = client.get("/api/workbench/config").json()
+        assert public["support"]["email"] == support_email
+        from batchbeacon.workbench import SupportContact
+        assert client.app.state.support_configuration_hash == SupportContact(
+            email=support_email).digest()
         assert public["guidance"] == "OWNED_LIFECYCLE_CONNECTED"
         assert public["mode"] == "REAL_VERTEX_EXTRACTION"
         assert client.app.state.runtime_configuration_hash == config.digest()
@@ -279,3 +288,11 @@ def test_predecessor_manifest_runtime_binding_and_consumer_injection(runtime, en
         monkeypatch.setattr(cls, "__init__", construct)
     with TestClient(build_app(bound, Path("."))):
         assert received == [(module.FirestoreStores, m), (module.SharedAdmission, m)]
+
+
+def test_invalid_support_environment_fails_before_credential_discovery(runtime, monkeypatch):
+    import google.auth
+    monkeypatch.setenv("BATCHBEACON_SUPPORT_EMAIL", "support@example.com?bcc=other@example.com")
+    monkeypatch.setattr(google.auth, "default", lambda **kw: pytest.fail("credential discovery"))
+    with pytest.raises(ValueError):
+        build_app(runtime[0], Path("."))
