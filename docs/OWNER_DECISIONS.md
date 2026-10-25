@@ -329,3 +329,66 @@ retry, transfer, model change or outbound contact is authorized. Investigation
 and offline correction do not authorize settlement of unknown liabilities.
 Human usability and actual assistive-technology evidence remain distinct gates;
 no deployment or test count alone establishes readiness.
+
+
+## U36 — newer retained-usage reconciliation only
+
+After reviewing the precise private Operation A proposal and its shared-public-
+capacity consequence, the owner explicitly authorized Operation A only. The
+reviewed guarded transaction records already-observed usage at the original bound
+rates and releases only the newer excess reservation. It is not a new AI call or
+a final discounted-invoice claim. Independent post-operation verification confirms
+completion, with the older liability, failed runs, expired ownership and unrelated
+records preserved. Released capacity is shared and not reserved for validation.
+
+This decision grants no generation, token-count, retry, pool transfer or outbound
+contact. Operation B requires its own refreshed proposal and explicit decision.
+The owner separately volunteered to operate the already-authorized screen reader,
+reported VoiceOver enabled and then reported no speech during the first controlled
+fixture task. Actual AT acceptance remains incomplete; no redundant conversational
+permission or accessibility-setting bypass is required or implied.
+
+
+## U37 — bounded fresh demonstration validation
+
+After independent review of the refreshed private Operation B proposal, the owner
+explicitly authorizes that operation only: at most three sequential generation
+calls and three associated token counts, with no retries. Fixed order is the third
+synthetic same-lot identity, then SFA A, then SFA B. One fresh owned workspace and
+a finite one-hour window apply; exact aggregate commitment and unchanged per-call
+reservation guards are bound privately. No pool transfer or lifetime-ceiling change.
+
+Stop on the first failure, incorrect extraction, unknown outcome, drift or failed
+admission. Protective refusal is not a passing deterministic nonmatch. Keep the
+reviewed model, prompt, historical source, deadlines and trust rules unchanged;
+independently verify each case before the next. Shared public capacity is not
+reserved, so completion of all three calls is not guaranteed. Token counting may
+precede a generation-admission failure; that still consumes its slot and stops
+the series. This does not authorize manual settlement or bypass of any stop.
+
+
+Execution stopped before any generation or token count because the retained PNG
+byte hash did not match the reviewed preparation manifest. Correct image pixels
+were independently verified afterward; that does not waive the stop. U37 does
+not authorize silently rebasing the guard or restarting the stopped series.
+
+
+## U38 — corrected capture binding within the original validation limits
+
+The owner explicitly authorizes corrected B2 after independent review of the
+private manifest defect and its correction. Reuse the same workspace and saved
+third label. Verify fixed approved pixels plus version-conditioned storage
+provenance, then bind the exact retained server bytes before each dispatch; no
+subsequent rebasing. Preserve U37's original absolute deadline and combined call,
+commitment and reservation ceilings. No additive allowance, retry, second
+workspace or third-label reupload is authorized. All original first-failure stop
+conditions, model/source/prompt/deadline rules and independent per-case review
+remain. The original zero-call stop remains historical evidence.
+
+
+Execution: one actual generation returned an incorrect product-name field and was
+refused by the retained-identity guard. Automatic usage settlement and preserved
+unrelated records were independently verified. One associated token count is
+supported by the unchanged guarded path; no separate raw count receipt is retained.
+The first-failure stop applies: no retry or remaining case is authorized under
+U37/U38. Further changed model evaluation needs a new concrete owner decision.

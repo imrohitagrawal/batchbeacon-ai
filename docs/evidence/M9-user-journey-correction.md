@@ -212,8 +212,9 @@ Evidence types remain distinct:
   using the original rate. This is historical provider-byte evidence, not a new
   model call, successful extraction completion or invoice reconciliation.
 - **Actual AT / human:** neither acceptance study is complete. The host capability
-  experiment did not capture speech, restored the original off state, and is not
-  a screen-reader pass. Further Mac accessibility-setting changes are excluded.
+  experiment did not capture speech and restored its then-original off state.
+  Later owner activation/recheck and failed disable supersede that state observation;
+  see the resumption chronology below. This is not a screen-reader pass.
 
 The first candidate browser probe observed one queue GET 429 during rapid reload.
 It omitted the response body, so its precise cause remains unconfirmed. The
@@ -262,3 +263,101 @@ blocked, fresh SFA A/B and third-identity validation lacks new authority, and
 actual AT and first-time H observation are incomplete. Prior source/protected and
 Operations limitations remain under U18; support receipt is not ongoing-availability
 proof. The prepared private settlement/validation proposal grants no authority.
+
+
+## Acceptance resumption — 26 October 2026
+
+No product code, runtime, deployment, source rules or submitted media changed.
+Independent refreshed release/API reads confirm the same source/image, full traffic,
+configuration/IAM and exact assets/support on both hosts. PR15/16 and final main CI
+remain successful; the earlier full suites are reused because their code/config
+bindings remain valid. Initial accounting inventory preserved both unknowns. The
+subsequent explicitly authorized Operation A settles only the newer retained usage;
+independent complete-inventory readback verifies the exact postimage, older hold,
+failed/timed-out runs and expired ownership. No legitimate active unresolved owner
+is available. No extraction completion, action or session recovery was fabricated.
+
+The private Operation A packet now includes a narrow transactional preimage/version
+and exact-postimage wrapper around the existing SharedAdmission/Firestore path.
+31primary and21independent fake-SDK tests plus3actual isolated emulator cases cover
+exact two-document writes, protected records, drift, replay and uncertain commit
+acknowledgement. Cache-aware reader/retained image compatibility passes; the prior
+reader cannot be used now that a cached settled receipt exists. The final private
+dispatch driver received focused tamper tests and independent review, then fresh
+exact admission and one guarded transaction under the owner's A-only authorization.
+Direct readback and independent verification confirm completion; shared public
+capacity reopened, with none reserved for validation. Runtime/image preflight is
+external to the transaction and relies on sole-integrator deployment control. No
+generation or token-count call ran during Operation A. The separately authorized
+U37 model series stopped at its first pre-call image guard; see below.
+
+The experience reviewer freshly verified the same220-second MP4 hash and inspected
+all44five-second sampled positions across the full sequence plus full narration/
+storyboard. This is complete-sequence sampled visual review, not continuous playback
+or actual subjective audio listening. No new narrative blocker was substantiated.
+
+A current-source local fake-service fixture was prepared for human observation.
+Controlled checks cover delayed success, refusal, unknown usage and upload error;
+agent-operated Chrome observed selection/saving, immediate processing, completion,
+unchecked confirmation, saved simulated action, queue/reopen and reload. Fixture
+clock/data/storage are synthetic and disclosed. These are C/B evidence, not live
+provider, actual assistive technology or first-time human results.
+
+VoiceOver chronology: the historical restored-OFF result predates the owner's later
+manual activation and failed disable. Owner permission exists; the recorded tool
+handoff failed without a visible permission prompt. A fresh supported inventory
+reported VoiceOver not running; the later owner report explicitly establishes
+owner-observed ON. During the first human-operated controlled task the owner heard
+nothing. This is a recorded AT failure with unlocalized cause: the pending
+diagnostic found silence on other webpages too, persisting after the owner
+reported settings correct. Working ordinary AT output is unestablished. No application
+root cause, speech pass or completed AT acceptance is inferred. No native app retry,
+setting change or restriction bypass occurred. The remaining AT tasks and uncoached
+novice study are incomplete.
+
+The canonical section9 register retains every R01–R12/F1–F8 and all historical
+broader limits. Exact evidence, failures, owner-decision packet and resource cleanup
+are private under `.local/run-records/acceptance-resume-20261026/`. Current public
+records omit ledger arithmetic; prior historical disclosure remains unmodified.
+
+
+U37's first pre-call image guard stopped before any generation or token count.
+The operation proposal incorrectly treated Mac-local PNG serialization as the
+expected deployed byte hash. Independent metadata/generation-bound storage reads
+and pixel comparison verify identical approved third-label pixels with different
+PNG bytes. This is an operation-manifest preparation defect, not a demonstrated
+wrong-image or product defect; the precise encoder cause is unproved. Original
+failure evidence remains immutable. A corrected, independently reviewed proposal
+required a fresh explicit decision and reuse of the existing owned workspace
+and saved third capture, without adding calls, retries, time or budget. U38 supplied
+that separate authority after 23 focused capture-verifier tests and independent
+review of fixed approved pixels, conditioned storage provenance and immutable
+actual server-byte bindings.
+
+
+B2 then passed fresh exact guards and executed one generation. The complete HTTP200
+response ended normally but put “Invented third identity,” the printed explanatory
+subtitle, into the product-name field. The server correctly refused the identity
+before comparison/action. Independent offline translation confirmed source agreement;
+pack, lot and date were correct. This is an incorrect extraction and failed model
+acceptance, not a deterministic nonmatch, timeout or successful negative case.
+The generation and retained usage are directly evidenced; one associated count is
+inferred from the unchanged guarded path, with no separately retained count bytes
+or original serialized wire request body. Request hash/input/configuration bindings
+and complete response bytes are retained privately.
+
+Automatic conservative original-rate settlement passed independent recomputation
+and complete-inventory comparison. No new unknown, unrelated record/version change,
+comparison or action occurred; the older hold remains. First-failure stop ended the
+series: SFA A/B and retries were not attempted. Independent final both-host assets,
+configuration and runtime reads pass. Actual browser evidence covers processing,
+duplicate-control disabling, refusal, correct image, queue/reopen/reload and phone
+context. These do not establish actual speech or novice comprehension. The lingering
+upload receipt is advisory wording ambiguity beside a truthful current refusal.
+No application source, image, configuration or submitted media changed.
+
+The canonical register retains fresh positive and deterministic-negative M gates,
+AT/H, unavailable legitimate live-panel evidence and broader U18 limitations. Future
+changed model evaluation requires a reviewed bounded proposal and new authority;
+remaining slots in the stopped series cannot be used. Private independent final
+proof and screenshots are under `backend/operation-b2/` in the resumption evidence.
