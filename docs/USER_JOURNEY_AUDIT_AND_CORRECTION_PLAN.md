@@ -262,8 +262,9 @@ AT capability investigation, and concrete human/model procedures.
    where both modality breakdowns exist, each cached modality within its prompt
    modality. Continue refusing tool use, unknown meters and non-on-demand traffic.
    The correction is prospective parsing capability, not authority to settle.
-   Current real public liability is ₹601.760977816 of ₹650; free ₹48.239022184
-   is below the unchanged ₹250 reservation. No new provider dispatch is admitted.
+   Current public uncommitted capacity is below the unchanged per-attempt
+   reservation. Exact live ledger values remain private. No new provider dispatch
+   is admitted.
    Both historical unknown attempts and all ledger receipts must remain unchanged
    through publication. The prior image is a valid rollback only while this
    executable unchanged-ledger fence holds. Retain the corrected image as a
