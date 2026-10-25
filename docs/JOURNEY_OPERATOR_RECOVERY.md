@@ -36,7 +36,17 @@ Operator procedure for the approved mailbox:
 6. Verify delivery and the user-visible readback before claiming that this route
    works. Record observed receipt and outcome separately from configuration.
 
-The current F8 diagnosis needs a bounded cache-accounting compatibility analysis
-using retained bytes and current official pricing/schema evidence, separate from
-the prior deadline hypothesis. No change to billing interpretation, reservations,
-current runtime or provider deadlines is part of the user-journey UI correction.
+F8 analysis verified two different causes: a newer complete response with cached
+prompt usage rejected by the old parser, and an older attempt without a complete
+response. The corrected parser validates cache subsets and conservatively values
+the full prompt at its original bound rate; this is not an invoice or cache-discount
+claim. Offline and emulator evidence is recorded in M9. Both liabilities remain
+held; no failed run becomes a successful extraction through this correction.
+
+A prepared private proposal covers only the newer retained receipt, exact
+preimages/postimages and idempotent transactional reconciliation. It still requires
+explicit owner authority, current ledger/configuration checks and a verified
+cache-aware rollback. Settlement may reopen shared public admission; it does not
+reserve capacity for validation. No new model/countTokens call, retry, email or
+settlement is authorized by this runbook. Fresh model/product acceptance and actual
+human/assistive-technology observation remain separate gates.
