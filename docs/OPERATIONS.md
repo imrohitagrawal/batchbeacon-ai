@@ -32,7 +32,12 @@ capacity reopened; it is available to other visitors and none is reserved for
 validation. Fresh admission remains required immediately before any separately
 authorized call. Exact live balances and reservation values remain private.
 Neither available funds nor an accounting-parser correction grants a new call or
-settlement. The seven-call validation allowance is exhausted.
+settlement. The historical seven-call validation allowance is exhausted. U37/U38
+subsequently authorized one bounded combined series; after a zero-call preparation
+stop and separately approved correction, its first model case failed extraction.
+Usage settled automatically with no new unknown liability. The series is stopped;
+unused slots do not authorize retries or later cases. Existing pools, lifetime
+ceiling, older hold and cache-aware rollback requirement remain unchanged.
 
 ModelPrice values are evidence-bound conservative ledger rates; `actual_nanos`
 is the usage-derived ledger valuation, not a statement of observed provider invoice.

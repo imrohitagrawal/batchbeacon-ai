@@ -288,7 +288,8 @@ exact admission and one guarded transaction under the owner's A-only authorizati
 Direct readback and independent verification confirm completion; shared public
 capacity reopened, with none reserved for validation. Runtime/image preflight is
 external to the transaction and relies on sole-integrator deployment control. No
-generation or token-count call ran; Operation B is a separate pending decision.
+generation or token-count call ran during Operation A. The separately authorized
+U37 model series stopped at its first pre-call image guard; see below.
 
 The experience reviewer freshly verified the same220-second MP4 hash and inspected
 all44five-second sampled positions across the full sequence plus full narration/
@@ -308,7 +309,8 @@ handoff failed without a visible permission prompt. A fresh supported inventory
 reported VoiceOver not running; the later owner report explicitly establishes
 owner-observed ON. During the first human-operated controlled task the owner heard
 nothing. This is a recorded AT failure with unlocalized cause: the pending
-diagnostic asks whether ordinary controls on another page speak. No application
+diagnostic found silence on other webpages too, persisting after the owner
+reported settings correct. Working ordinary AT output is unestablished. No application
 root cause, speech pass or completed AT acceptance is inferred. No native app retry,
 setting change or restriction bypass occurred. The remaining AT tasks and uncoached
 novice study are incomplete.
@@ -317,3 +319,45 @@ The canonical section9 register retains every R01–R12/F1–F8 and all historic
 broader limits. Exact evidence, failures, owner-decision packet and resource cleanup
 are private under `.local/run-records/acceptance-resume-20261026/`. Current public
 records omit ledger arithmetic; prior historical disclosure remains unmodified.
+
+
+U37's first pre-call image guard stopped before any generation or token count.
+The operation proposal incorrectly treated Mac-local PNG serialization as the
+expected deployed byte hash. Independent metadata/generation-bound storage reads
+and pixel comparison verify identical approved third-label pixels with different
+PNG bytes. This is an operation-manifest preparation defect, not a demonstrated
+wrong-image or product defect; the precise encoder cause is unproved. Original
+failure evidence remains immutable. A corrected, independently reviewed proposal
+required a fresh explicit decision and reuse of the existing owned workspace
+and saved third capture, without adding calls, retries, time or budget. U38 supplied
+that separate authority after 23 focused capture-verifier tests and independent
+review of fixed approved pixels, conditioned storage provenance and immutable
+actual server-byte bindings.
+
+
+B2 then passed fresh exact guards and executed one generation. The complete HTTP200
+response ended normally but put “Invented third identity,” the printed explanatory
+subtitle, into the product-name field. The server correctly refused the identity
+before comparison/action. Independent offline translation confirmed source agreement;
+pack, lot and date were correct. This is an incorrect extraction and failed model
+acceptance, not a deterministic nonmatch, timeout or successful negative case.
+The generation and retained usage are directly evidenced; one associated count is
+inferred from the unchanged guarded path, with no separately retained count bytes
+or original serialized wire request body. Request hash/input/configuration bindings
+and complete response bytes are retained privately.
+
+Automatic conservative original-rate settlement passed independent recomputation
+and complete-inventory comparison. No new unknown, unrelated record/version change,
+comparison or action occurred; the older hold remains. First-failure stop ended the
+series: SFA A/B and retries were not attempted. Independent final both-host assets,
+configuration and runtime reads pass. Actual browser evidence covers processing,
+duplicate-control disabling, refusal, correct image, queue/reopen/reload and phone
+context. These do not establish actual speech or novice comprehension. The lingering
+upload receipt is advisory wording ambiguity beside a truthful current refusal.
+No application source, image, configuration or submitted media changed.
+
+The canonical register retains fresh positive and deterministic-negative M gates,
+AT/H, unavailable legitimate live-panel evidence and broader U18 limitations. Future
+changed model evaluation requires a reviewed bounded proposal and new authority;
+remaining slots in the stopped series cannot be used. Private independent final
+proof and screenshots are under `backend/operation-b2/` in the resumption evidence.

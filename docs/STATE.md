@@ -11,18 +11,29 @@ and [M9](evidence/M9-user-journey-correction.md) record the refreshed evidence.
 Operation A completed under explicit owner authority and independent authoritative
 readback: only the newer retained usage was settled; the older liability, failed
 runs and expired ownership remain unchanged. Shared public capacity reopened; none
-is reserved for validation. No generation, token-count or email occurred. Operation B
-requires a separate decision. Fresh model/video acceptance and a legitimate live
-unresolved-panel case remain open. Full-sequence sampled video review and current
+is reserved for validation. Operation A made no provider call. U37 Operation B
+stopped before any provider call on a preparation-manifest image-hash mismatch.
+Independent checks proved identical approved pixels. U38 separately authorized
+corrected B2 within the original combined limits and deadline. Its first actual
+generation included the printed synthetic subtitle in the product name; the server
+refused comparison and action. Usage settled automatically, with no new unknown
+liability. Independent review confirms the failure and correct stop: no retries or
+remaining cases may run under this series. Queue/reopen/reload/mobile preserve the
+refused case with zero actions. Fresh positive and deterministic-negative model
+acceptance, actual AT/H and a legitimate live unresolved-panel case remain open.
+No email was sent. Full-sequence sampled video review and current
 controlled fixtures are complete within their stated limits. The owner reports
-VoiceOver enabled but no speech during the first fixture task; the cause and
-remaining AT tasks are unresolved. No setting was changed by the agent. An
+VoiceOver enabled but silent in the fixture and on other webpages despite a
+manual settings check. Working AT output is unestablished; the cause and remaining
+AT tasks are unresolved. No setting was changed by the agent. An
 unfamiliar participant is still needed for first-time human observation.
 Private exact decision/evidence/handoff: `.local/run-records/acceptance-resume-20261026/`.
 The older root checkout and unrelated modifications remain preserved. Broader U18
 limits and historical Git disclosure are unchanged; full readiness is not claimed.
 
-## Acceptance continuation — 25 October 2026
+## Historical acceptance continuation — 25 October 2026
+
+The resumption above supersedes the accounting, capacity and authority state below.
 
 The [single R01–R12/F1–F8 acceptance register](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md#9-authoritative-acceptance-checklist-and-continuation-checkpoint)
 records the completed authorized technical work and the remaining external gates.
