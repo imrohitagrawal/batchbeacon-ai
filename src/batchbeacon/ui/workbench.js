@@ -1,43 +1,96 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const labels = {MATCHED_HOLD_FOR_REVIEW:'Matches this recall', NOT_LISTED_IN_CHECKED_NOTICES:'Not listed in checked notices', REVIEW_REQUIRED:'Review required', NEEDS_RENEWED_REVIEW:'Needs renewed review', SIMULATED_ACTION_RECORDED:'Workspace action recorded', IN_PROGRESS:'In progress', NEEDS_EVIDENCE:'Needs evidence', NEEDS_HUMAN_REVIEW:'Needs human review'};
-const state = {config:null, csrf:null, incident:null, evidence:null, captures:[], actions:[], target:null, busy:false, pending:null, queue:null, queueDirty:true, queueReadAt:0, acquisition:null, acquisitionUnknown:false, expired:false};
+const state = {config:null, csrf:null, incident:null, evidence:null, captures:[], actions:[], target:null, busy:false, pending:null, queue:null, queueDirty:true, queueReadAt:0, acquisition:null, acquisitionUnknown:false, expired:false, capabilities:null, workspaceBlock:null, selection:0, sessionGeneration:0, viewGeneration:0, view:"workbench", operation:null, checkFailure:null, loading:false};
 const key = () => crypto.randomUUID();
 const text = (id, value) => { $(id).textContent = value; };
 const node = (tag, value, className) => { const e=document.createElement(tag); if(value!==undefined)e.textContent=value; if(className)e.className=className; return e; };
-function message(value, kind='info') { text('app-status',value); $('app-status').hidden=!value; $('app-status').dataset.kind=kind; }
+function message(value, kind='info') { if(state.expired && !value.includes('expired'))return; if(state.operation && (state.operation.selection!==state.selection || (state.operation.incident && state.operation.incident!==state.incident)))return; if(state.operation)operationStatus(state.operation.region,value,kind);  text('app-status',value); $('app-status').hidden=!value; $('app-status').dataset.kind=kind; }
 const admissionMessages = {demo_guest_capacity_unavailable:'Guest access is currently unavailable. The guided tour and example previews remain available.', guest_creation_rate_limited:'Several visitors are opening workspaces at once. Please wait a moment, then reload to try again.'};
 function requireSession() { if(!state.csrf || state.expired)throw new Error(state.sessionError || (state.expired?'Your guest session expired. Reload to request a new evaluation workspace.':'Your evaluation workspace is still opening. Please wait.')); }
 function safeError(e) { return e.message || 'The operation could not be confirmed. Reopen saved evidence before trying again.'; }
 function pending(value) { if(value)value={...value,session_expires_at:state.expiresAt}; state.pending=value; if(value)sessionStorage.setItem('bb_pending',JSON.stringify(value)); else sessionStorage.removeItem('bb_pending'); $('recover').hidden=!value; $('learning-recover').hidden=!value || value.kind!=='learning'; }
 async function api(path, {method='GET', body, operation}={}) {
+  const generation=state.sessionGeneration;
+  const assertActive=()=>{if(state.expired || generation!==state.sessionGeneration){const e=new Error('Stale response');e.stale=true;throw e;}};
   const headers={}; if(method!=='GET')headers['X-CSRF-Token']=state.csrf || '';
   if(operation)headers['Idempotency-Key']=operation;
   if(body && !(body instanceof FormData)){headers['Content-Type']='application/json';body=JSON.stringify(body);}
   let response; try { response=await fetch(path,{method,body,headers,credentials:'same-origin',cache:'no-store'}); }
   catch { const e=new Error('Connection interrupted. The outcome is unknown; reconcile before retrying.'); e.unknown=true; throw e; }
+  assertActive();
   let data; try { data=await response.json(); } catch { const reason=response.status===429 ? 'Service capacity is temporarily unavailable (429).' : `The server response could not be confirmed (${response.status}).`; const e=new Error(`${reason} Reconcile the original operation before retrying.`); e.status=response.status;e.unknown=true; throw e; }
+  assertActive();
   if(!response.ok){const e=new Error(admissionMessages[data.error] || (data.error || 'Request unavailable').replaceAll('_',' '));e.status=response.status;e.unknown=data.outcome==='unknown' || response.status>=500;if(response.status===401)expire();throw e;}
   return data;
 }
-function expire() { pending(null); state.expired=true; state.csrf=null; state.evidence=null; state.target=null; state.captures=[]; state.actions=[]; $('capture-images').replaceChildren(node('p','Guest access expired. Saved records are no longer accessible.')); $('comparisons').replaceChildren(); $('queue-rows').replaceChildren(); $('history').replaceChildren(); $('confirm-dialog').close(); text('session-state','Guest access expired'); text('verdict-title','Guest access expired'); text('verdict-copy','Evidence is no longer available in this session.'); text('decision-copy','Start a new evaluation workspace to continue.'); text('queue-count','Guest access expired; counts unavailable.'); $('queue-counts').replaceChildren(); text('queue-capability','Guest access expired; availability unknown.'); text('confirm-product',''); text('field-detail',''); state.queue=null;state.queueDirty=true;state.acquisition=null;state.acquisitionUnknown=false;state.learning=null;state.learningTarget=null;document.querySelector('.verdict').className='verdict neutral';text('active-wording','Guest access expired; wording unavailable.');text('proposed-wording','Guest access expired; proposal unavailable.');for(const step of $('guidance-steps').children)step.removeAttribute('aria-current');$('learning-dialog').close();$('owned-guidance').replaceChildren();$('learning-report').replaceChildren();$('learning-history').replaceChildren();text('learning-counts','Guest access expired; counts unavailable.'); message('Your guest session expired. Reload to request a new evaluation workspace.'); controls(); }
+function expire() { state.sessionGeneration++;state.selection++;state.capabilities=null;state.workspaceBlock=null;state.loading=false;state.operation=null;for(const el of document.querySelectorAll('.operation-status')){el.textContent='Guest access expired.';el.removeAttribute('aria-busy');}pending(null); state.expired=true; state.csrf=null; state.evidence=null; state.target=null; state.captures=[]; state.actions=[]; $('capture-images').replaceChildren(node('p','Guest access expired. Saved records are no longer accessible.')); $('comparisons').replaceChildren(); $('queue-rows').replaceChildren(); $('history').replaceChildren(); $('confirm-dialog').close(); text('session-state','Guest access expired'); text('verdict-title','Guest access expired'); text('verdict-copy','Evidence is no longer available in this session.'); text('decision-copy','Start a new evaluation workspace to continue.'); text('queue-count','Guest access expired; counts unavailable.'); $('queue-counts').replaceChildren(); text('queue-capability','Guest access expired; availability unknown.'); text('confirm-product',''); text('field-detail','');text('field-provenance',''); state.queue=null;state.queueDirty=true;state.acquisition=null;state.acquisitionUnknown=false;state.learning=null;state.learningTarget=null;document.querySelector('.verdict').className='verdict neutral';text('active-wording','Guest access expired; wording unavailable.');text('proposed-wording','Guest access expired; proposal unavailable.');for(const step of $('guidance-steps').children)step.removeAttribute('aria-current');$('learning-dialog').close();$('owned-guidance').replaceChildren();$('learning-report').replaceChildren();$('learning-history').replaceChildren();text('learning-counts','Guest access expired; counts unavailable.'); message('Your guest session expired. Reload to request a new evaluation workspace.'); controls(); }
 function controls() {
   const off=state.busy || !state.csrf || state.expired;
   $('refresh-queue').disabled=off; $('queue-filter').disabled=off; for(const id of ['start-sample','new-review','upload','save-correction','reverify','source-choice','sample-choice'])$(id).disabled=off || !!state.pending;
   $('upload').disabled=off || (!!state.pending && state.pending.kind!=='capture');
-  $('check').disabled=off || !state.incident || !state.captures.length || !!state.pending || unresolvedAcquisition();
+  $('check').disabled=off || !state.incident || !state.captures.length || !!state.pending || !state.capabilities?.workspace?.extraction?.available || unresolvedAcquisition();
   text('check',state.acquisition?.state==='FAILED' && !unresolvedAcquisition()?'Retry extraction':'Extract and check');
-  $('refresh-acquisition').hidden=!unresolvedAcquisition(); $('refresh-acquisition').disabled=off;
+  for(const id of ['refresh-acquisition','decision-recheck']){$(id).hidden=!unresolvedAcquisition() && !!state.capabilities?.workspace?.extraction?.available;$(id).disabled=off || !state.incident;}
   $('capture').disabled=off || !state.incident || (!!state.pending && state.pending.kind!=='capture');
-  $('correction').disabled=off || !state.evidence?.observation || !!state.pending;
-  const eligible=!acquisitionProblem() && state.evidence?.current && ['MATCHED_HOLD_FOR_REVIEW','REVIEW_REQUIRED'].includes(state.evidence?.result?.verdict);
+  $('correction').disabled=off || !state.capabilities?.incident?.correction?.available || !!state.pending;
+  $('save-correction').disabled=$('correction').disabled;
+  $('reverify').disabled=off || !state.capabilities?.incident?.verification?.available || !!state.pending;
+  const eligible=state.capabilities?.incident?.action?.available;
   const recorded=state.actions.some(a=>a.current && !a.requires_renewed_review);
   $('confirm-open').disabled=off || !eligible || recorded || !!state.pending;
   $('hold-confirm').disabled=off || !$('hold-consent').checked || !state.target;
-  $('recover').disabled=off; for(const radio of document.querySelectorAll('#example-cards input'))radio.disabled=off || !!state.pending; text('action-help',state.expired?'Guest access expired. Reload to open a new evaluation workspace.':state.busy?'Saving or checking evidence. Please wait.':state.pending?'The previous outcome needs reconciliation before another operation.':unresolvedAcquisition()?'The last outcome is unresolved. Recheck its saved status before starting another extraction.':!state.csrf?'Opening your evaluation workspace. If access is unavailable, the notice above explains why.':!state.incident?'Choose an example, then select Use this label.':!state.captures.length?'Add a readable sample label image before extraction.':recorded?'Workspace action saved. Open Retail queue to find this investigation.':'Extract and check uses the available bounded model allowance. The server explains any unavailable capacity; no action is automatic.'); learningControls(off);
+  $('recover').disabled=off; for(const radio of document.querySelectorAll('#example-cards input'))radio.disabled=off || !!state.pending; text('action-help',state.expired?'Guest access expired. Reload to open a new evaluation workspace.':state.busy?'Saving or checking evidence. Please wait.':state.pending?'The previous outcome needs reconciliation before another operation.':state.workspaceBlock?capabilityHelp():state.acquisitionUnknown?'Saved check status is unavailable. Recheck before another operation.':!state.csrf?'Opening your evaluation workspace. If access is unavailable, the notice above explains why.':!state.incident?'Choose an example, then select Use this label.':!state.captures.length?'Add a readable sample label image before extraction.':!state.capabilities?.workspace?.extraction?.available?capabilityHelp():recorded?'Workspace action saved. Open Retail queue to find this investigation.':'Extract and check uses the available bounded model allowance. The server explains any unavailable capacity; no action is automatic.'); learningControls(off); if(state.operation){const op=state.operation;for(const id of op.buttons || []){text(id,op.label);$(id).setAttribute('aria-busy','true');}}
 }
-async function task(operation) { if(state.busy)return; state.busy=true; controls(); message(''); try {await operation();}catch(e){message(safeError(e),'error');}finally{state.busy=false;controls();} }
-function show(view) { for(const el of document.querySelectorAll('.view'))el.hidden=el.id!==view; for(const a of document.querySelectorAll('[data-view]')){if(a.dataset.view===view)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');}text('page-name',view==='retail'?'Retail queue':view==='guidance'?'Capture guidance':'Check a product'); }
+const operations={
+  upload:{region:'sample-status',buttons:['start-sample'],label:'Saving label…',pending:'Saving this label image… No AI request has been sent.'},
+  capture:{region:'capture-status',buttons:['upload'],label:'Uploading images…',pending:'Uploading the selected label images…'},
+  extraction:{region:'label-status',buttons:['check'],label:'Extracting and checking…',pending:'Requesting label extraction and waiting for the AI response…'},
+  status:{region:'decision-status',buttons:['refresh-acquisition','decision-recheck'],label:'Checking saved status…',pending:'Reading saved status… No new AI request is being sent.'},
+  verification:{region:'decision-status',buttons:['reverify'],label:'Verifying evidence…',pending:'Comparing corrected evidence using fixed rules… No AI request is being sent.'},
+  action:{region:'decision-status',buttons:['hold-confirm'],label:'Saving action…',pending:'Saving your confirmed workspace action…'},
+  queue:{region:'queue-status',buttons:['refresh-queue'],label:'Refreshing queue…',pending:'Reading this workspace’s saved investigations…'},
+  guidance:{region:'guidance-status',buttons:['learning-refresh'],label:'Refreshing guidance…',pending:'Reading this investigation’s guidance records…'},
+  correction:{region:'label-status',buttons:['save-correction'],label:'Saving correction…',pending:'Saving the corrected field with its history…'},
+  refresh:{region:'app-status',buttons:[],label:'Loading…',pending:'Loading saved records…'}
+};
+function operationStatus(id,value,kind='info') {const el=$(id);el.textContent=value;el.hidden=!value;el.dataset.kind=kind;}
+function reveal(id) {const el=$(id);el.focus({preventScroll:true});el.scrollIntoView({block:'start',behavior:'instant'});}
+async function task(operation,kind='refresh') {
+  if(state.busy)return;
+  const op={...operations[kind],kind,view:state.viewGeneration,selection:state.selection};
+  const original=(op.buttons || []).map(id=>[id,$(id).textContent]);
+  state.busy=true;state.operation=op;message('');operationStatus(op.region,op.pending);
+  $(op.region).setAttribute('aria-busy','true');controls();
+  if(kind==='extraction'){text('verdict-title','Checking label');text('verdict-copy','Waiting for accepted extraction and comparison. No result is confirmed yet.');setStage(1);}
+  let succeeded=false;
+  try {await operation();succeeded=true;if($(op.region).textContent===op.pending)operationStatus(op.region,'');}
+  catch(e){if(!state.expired && !e.stale && op.selection===state.selection)message(safeError(e),'error');}
+  finally{
+    $(op.region).removeAttribute('aria-busy');for(const [id,label] of original){text(id,label);$(id).removeAttribute('aria-busy');}
+    state.busy=false;state.operation=null;controls();
+    if(!state.expired && op.view===state.viewGeneration && op.selection===state.selection && (!op.incident || op.incident===state.incident)){
+      if(kind==='upload' && succeeded && state.captures.length){reveal('evidence-title');if($('check').getBoundingClientRect().bottom>innerHeight)reveal('label-status');}
+      if(['extraction','verification','status','action'].includes(kind))reveal('verdict-title');
+    }
+  }
+}
+function show(view,{navigate=true,focus=true}={}) {
+  if(!['workbench','retail','guidance'].includes(view))view='workbench';
+  state.view=view;state.viewGeneration++;
+  for(const el of document.querySelectorAll('.view'))el.hidden=el.id!==view;
+  for(const a of document.querySelectorAll('[data-view]')){if(a.dataset.view===view)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');}
+  text('page-name',view==='retail'?'Retail queue':view==='guidance'?'Capture guidance':'Check a product');
+  if(navigate){const url=new URL(location.href);url.hash=view;if(url.href!==location.href)history.pushState(null,'',url);}
+  if(focus)reveal(view==='retail'?'retail-title':view==='guidance'?'guidance-title':'workbench-title');
+}
+async function routeView(view,options={}) {
+  show(view,options);
+  try {if(view==='retail'&&(!state.queue||state.queueDirty))await refresh();if(view==='guidance'&&state.config?.guidance==='OWNED_LIFECYCLE_CONNECTED'&&(!state.learning||state.learningStale||state.learning.context?.incident_id!==state.incident))await loadLearning();}
+  catch(e){if(!e.stale&&!state.expired)message(safeError(e),'error');}
+}
+window.addEventListener('popstate',()=>{const id=new URLSearchParams(location.search).get('incident');if(id&&id!==state.incident)loadIncident(id).catch(e=>{if(!e.stale&&!state.expired)message(safeError(e),'error');});routeView(location.hash.slice(1)||'workbench',{navigate:false});});
+function setStage(index){for(const [i,step] of [...$('journey-stages').children].entries()){if(i===index)step.setAttribute('aria-current','step');else step.removeAttribute('aria-current');}}
 const exampleExplanations = {
   'sfa-a': 'French product name: Camembert cheese made with raw milk. “Superieur” is part of the recorded name, not a quality assessment by BatchBeacon.',
   'sfa-b': 'Bertrand Pere & Fils is the producer name. “Camembert au lait cru” means Camembert cheese made with raw milk.',
@@ -61,14 +114,15 @@ function sourceView() { const selected=state.config.sources.find(s=>s.selection=
 function drawCaptures() { const box=$('capture-images');box.replaceChildren();if(!state.captures.length)box.append(node('p','No ready label images.'));state.captures.forEach((c,i)=>{const image=node('img');image.src=`/api/incidents/${state.incident}/captures/${c.id}`;image.alt=`Retained sample label, panel ${i+1}`;box.append(image);}); }
 function compare() { const box=$('comparisons');box.replaceChildren();const result=state.evidence?.result;
   if(!result){box.append(node('p',acquisitionProblem()?'No accepted comparison is available from the last check.':'No deterministic result yet.'));return;}
+  if(state.loading)box.append(node('p','Refreshing saved evidence. Displayed comparison is the previous reading.','context-line'));
   if(acquisitionProblem())box.append(node('p','Previously saved comparison · historical evidence','context-line'));
-  for(const candidate of result.candidates){const section=node('section');section.append(node('h3',`${candidate.product_id} · ${candidate.eligible_jurisdiction?'within selected jurisdiction':'outside selected jurisdiction'}`));const table=node('div',undefined,'comparison-table');table.setAttribute('role','table');table.setAttribute('aria-label',`Evidence for ${candidate.product_id}`);const header=node('div',undefined,'comparison-row table-heading');header.setAttribute('role','row');for(const title of ['Field','Your label','Recall notice','Result']){const cell=node('span',title);cell.setAttribute('role','columnheader');header.append(cell);}table.append(header);
-    for(const r of [candidate.identity,...candidate.predicates]){const row=node('div',undefined,'comparison-row');row.setAttribute('role','row');const head=node('strong');head.setAttribute('role','rowheader');const button=node('button',r.field.replaceAll('_',' '),'field-pick');button.type='button';button.setAttribute('aria-pressed','false');head.append(button);const source=r.source_values.length?r.source_values.join(' / '):r.source_date_range?`${r.source_date_range.lower_inclusive?"[":"("}${r.source_date_range.lower} – ${r.source_date_range.upper}${r.source_date_range.upper_inclusive?"]":")"}`:r.source_operator || 'Not specified';const outcome=r.outcome==='NOT_APPLICABLE'?'Not used':r.outcome.toLowerCase();button.addEventListener('click',()=>{for(const b of box.querySelectorAll('button'))b.setAttribute('aria-pressed','false');button.setAttribute('aria-pressed','true');for(const selected of box.querySelectorAll('.field-selected'))selected.classList.remove('field-selected');row.classList.add('field-selected');text('field-detail',`${r.field}: label ${r.observed ?? 'Unknown'}; notice ${source}; ${outcome}. ${r.reason.replaceAll('_',' ')}. Operator: ${r.source_operator || 'identity'}; applies: ${r.source_applies ?? 'not specified'}. Source evidence: ${r.source_evidence.map(e=>`${e.artifact_id} · ${e.locator} · SHA256 ${e.sha256}`).join('; ') || 'none'}. Label evidence: ${r.observation_evidence.map(e=>`${e.artifact_id} · ${e.locator} · SHA256 ${e.sha256}`).join('; ') || 'none'}.`);});row.append(head);for(const value of [r.observed ?? 'Unknown',source,outcome]){const c=node('span',value);c.setAttribute('role','cell');row.append(c);}table.append(row);}section.append(table);box.append(section); }
+  for(const candidate of result.candidates){const section=node('section');section.append(node('h3',`${candidate.identity.source_values.join(' / ') || candidate.product_id} · ${candidate.eligible_jurisdiction?'within selected jurisdiction':'outside selected jurisdiction'}`));const table=node('div',undefined,'comparison-table');table.setAttribute('role','table');table.setAttribute('aria-label',`Evidence for ${candidate.product_id}`);const header=node('div',undefined,'comparison-row table-heading');header.setAttribute('role','row');for(const title of ['Field','Your label','Recall notice','Result']){const cell=node('span',title);cell.setAttribute('role','columnheader');header.append(cell);}table.append(header);
+    for(const r of [candidate.identity,...candidate.predicates]){const row=node('div',undefined,'comparison-row');row.setAttribute('role','row');const head=node('strong');head.setAttribute('role','rowheader');const button=node('button',r.field.replaceAll('_',' '),'field-pick');button.type='button';button.setAttribute('aria-pressed','false');head.append(button);const source=r.source_values.length?r.source_values.join(' / '):r.source_date_range?`${r.source_date_range.lower_inclusive?"[":"("}${r.source_date_range.lower} – ${r.source_date_range.upper}${r.source_date_range.upper_inclusive?"]":")"}`:r.source_operator || 'Not specified';const outcome=r.outcome==='NOT_APPLICABLE'?'Not used':r.outcome.toLowerCase();button.addEventListener('click',()=>{for(const b of box.querySelectorAll('button'))b.setAttribute('aria-pressed','false');button.setAttribute('aria-pressed','true');for(const selected of box.querySelectorAll('.field-selected'))selected.classList.remove('field-selected');row.classList.add('field-selected');text('field-detail',`${r.field}: label ${r.observed ?? 'Unknown'}; notice ${source}; ${outcome}. ${r.reason.replaceAll('_',' ')}.`);text('field-provenance',`Operator: ${r.source_operator || 'identity'}; applies: ${r.source_applies ?? 'not specified'}. Source evidence: ${r.source_evidence.map(e=>`${e.artifact_id} · ${e.locator} · SHA256 ${e.sha256}`).join('; ') || 'none'}. Label evidence: ${r.observation_evidence.map(e=>`${e.artifact_id} · ${e.locator} · SHA256 ${e.sha256}`).join('; ') || 'none'}.`);});row.append(head);for(const value of [r.observed ?? 'Unknown',source,outcome]){const c=node('span',value);c.setAttribute('role','cell');row.append(c);}table.append(row);}section.append(table);box.append(section); }
 }
 function fields() {const obs=state.evidence?.observation;if(!obs)return [];return [{field:'PRODUCT_NAME',observation:obs.identity.name},{field:'PACK',observation:obs.identity.pack},...obs.fields];}
 function correctionValue() {const f=fields().find(f=>f.field===$('correction-field').value);$('correction-value').value=f?.observation.value ?? '';}
 function captureInstruction() {const result=state.evidence?.result;text('capture-instruction',result?.outstanding_fields?.length ? `Required evidence: ${result.outstanding_fields.join(', ').replaceAll('_',' ')}. Include the complete requested marking; keep case and leading zeros readable.` : 'Include the full product name, pack, lot and required date panel. Preserve readable case and leading zeros.');}
-function unresolvedAcquisition() { return state.acquisitionUnknown || state.acquisition?.reconciliation_required || state.acquisition?.state==='INCOMPLETE'; }
+function unresolvedAcquisition() { return !!state.workspaceBlock || state.acquisitionUnknown || state.acquisition?.reconciliation_required || state.acquisition?.state==='INCOMPLETE'; }
 function acquisitionProblem() {
   if(state.acquisitionUnknown)return {title:'Check status unavailable',copy:'The last check could not be read. Recheck its saved status; no new extraction has been started.'};
   const a=state.acquisition;
@@ -89,26 +143,62 @@ function acquisitionProblem() {
   if(a.state==='STALE' || a.state==='SUPERSEDED')return {title:'Evidence needs renewed review',copy:'The previous check no longer supports a current action. Review and reverify the saved evidence.'};
   return {title:a.state==='FAILED'?'Extraction failed':'Extraction needs review',copy:reasons[a.diagnostics?.[0]] || 'No accepted comparison is available from this check. Review the retained evidence before explicitly trying again.'};
 }
-function render() {const e=state.evidence;const result=e?.result;const failed=e?.extraction_history?.at(-1)?.validation==='INVALID';const problem=acquisitionProblem();const recorded=state.actions.find(a=>a.current&&!a.requires_renewed_review);text('incident-id',state.incident?`Incident ${state.incident.slice(0,8)}`:'No incident selected');
+function render() {if(state.expired)return;const failure=state.checkFailure?.incident===state.incident?state.checkFailure:null;const e=state.evidence;const result=e?.result;const failed=e?.extraction_history?.at(-1)?.validation==='INVALID';const problem=acquisitionProblem();const recorded=state.actions.find(a=>a.current&&!a.requires_renewed_review);text('incident-id',state.incident?`Incident ${state.incident.slice(0,8)}`:'No incident selected');
   document.querySelector('.verdict').className='verdict'+(problem?' neutral':recorded?' completed':(!result || result.verdict==='NOT_LISTED_IN_CHECKED_NOTICES')?' neutral':'');
-  text('verdict-title',problem?problem.title:recorded?'Workspace action recorded':e?.observation&&!e.current?'Evidence needs renewed review':result?labels[result.verdict]:failed?'Extraction needs review':'Ready for evidence');
-  text('verdict-copy',problem?`${problem.copy}${result?' Previous saved comparison is historical; it cannot authorize a new action.':''}`:recorded?(recorded.action.action_type==='SIMULATED_HOLD'?'A stock hold was recorded in this workspace. No live inventory was changed.':'A request for further review was saved in this workspace. Uncertainty remains unresolved.'):result?`Checked ${result.checked_sources.length} selected notice version(s). ${e.current?'Current for the saved historical source selection.':'Historical result; no new action is available.'}`:failed?'The extraction was not accepted. Review the retained evidence; no comparison or action was created.':'Choose an example and use its label, then select Extract and check.');
+  text('verdict-title',problem?problem.title:failure&&!e?.current?failure.title:recorded?'Workspace action recorded':e?.observation&&!e.current?'Evidence needs renewed review':result?labels[result.verdict]:state.loading?'Loading saved evidence':failed?'Extraction needs review':state.captures.length?'Label ready':'Ready for evidence');
+  text('verdict-copy',failure&&!problem&&!e?.current?failure.copy:problem?`${problem.copy}${result?' Previous saved comparison is historical; it cannot authorize a new action.':''}`:recorded?(recorded.action.action_type==='SIMULATED_HOLD'?'A stock hold was recorded in this workspace. No live inventory was changed.':'A request for further review was saved in this workspace. Uncertainty remains unresolved.'):result?`Checked ${result.checked_sources.length} selected notice version(s). ${e.current?'Current for the saved historical source selection.':'Historical result; no new action is available.'}`:failed?'The extraction was not accepted. Review the retained evidence; no comparison or action was created.':state.loading?'Reading this investigation’s saved records.':state.captures.length?labelReadyCopy():'Choose an example and use its label, then select Extract and check.');
   text('decision-title',problem?'Resolve the check before an action':recorded?'Saved workspace action':'Your confirmation comes next');
   text('decision-copy',problem?'No new action is available from this check. Retained evidence and earlier actions remain in the review history.':result?.verdict==='NOT_LISTED_IN_CHECKED_NOTICES'?'No hold is supported by these checked notices. This is not safety, clearance or permission to sell.':recorded?'The server retains the confirmed evidence revisions and source epochs.':'A result never places stock on hold automatically.');
+  setStage(recorded?4:result?3:state.captures.length?1:0);
+  if(!result && state.captures.length && !problem)operationStatus('label-status',labelReadyCopy());
+  text('check-explanation-copy',problem?problem.copy:result?'Gemini proposed the label details. Fixed rules compared accepted identity first, then lot, required date and notice scope. Review each field below; unknown or missing evidence is not a match.':'No accepted AI check is available for this label. Uploading only saves the image.');
+  text('capability-help',capabilityHelp());$('operator-help').hidden=!state.workspaceBlock;$('saved-label-link').hidden=!state.captures.length;$('case-reference').value=state.incident || '';
   captureInstruction(); const action=result?.verdict==='REVIEW_REQUIRED'?'Review follow-up request':'Review stock hold';text('confirm-open',action);$('reverify').hidden=!e?.observation || !!e.current;compare();
   $('correction-field').replaceChildren(...fields().map(f=>{const o=node('option',f.field.replaceAll('_',' '));o.value=f.field;return o;}));correctionValue();
   const history=$('history');history.replaceChildren();for(const x of e?.extraction_history || [])history.append(node('p',`Extraction v${x.revision} · ${x.validation==='INVALID'?'not accepted':'accepted'} · ${x.prompt_version}`));for(const o of e?.observation_history || [])history.append(node('p',`Observation v${o.revision} · extraction v${o.extraction_revision} · ${o.correction_count} correction(s)`));for(const r of e?.result_history || [])history.append(node('p',`Result v${r.revision} · observation v${r.observation_revision} · ${labels[r.verdict]} · ${r.checked_sources.map(s=>s.version).join(', ')}`));for(const f of fields())history.append(node('p',`${f.field}: raw “${f.observation.raw}”; normalized “${f.observation.value ?? 'Unknown'}”; state ${f.observation.state}`)); for(const c of e?.observation?.corrections || [])history.append(node('p',`Correction ${c.field}: “${c.previous.value ?? c.previous.raw}” → “${c.replacement.value ?? c.replacement.raw}”`)); for(const a of state.actions)history.append(node('p',`${a.action.action_type==='SIMULATED_HOLD'?'Stock hold':'Request for further review'} · result v${a.action.result_revision} · ${a.requires_renewed_review?'historical — renewed review required':'current saved action'}`)); controls(); }
-async function loadIncident(id, knownAcquisition=null) {
-  state.incident=id;state.evidence=null;state.actions=[];state.target=null;state.captures=[];state.acquisition=knownAcquisition;state.acquisitionUnknown=false;
+function labelReadyCopy(){return 'Label saved. '+(state.capabilities?.workspace?.extraction?.available?'Next, extract and check its details. No AI check has run for this label.':capabilityHelp());}
+function capabilityHelp(){
+  const reason=state.capabilities?.workspace?.extraction?.reason;
+  if(state.workspaceBlock)return 'New AI checks in this workspace are paused while an earlier request is resolved. Your saved label and notice remain available. Recheck reads status only; it does not settle the request.';
+  if(!state.capabilities)return 'Availability could not be confirmed. Recheck saved status before another operation.';
+  if(reason==='ACQUISITION_LIMIT')return 'This case’s extraction allowance is exhausted. Inspect saved evidence or correct a completed extraction when available.';
+  if(reason==='ALLOWANCE_UNAVAILABLE')return 'AI allowance is unavailable. Saved evidence can still be reviewed; no new check has been sent.';
+  if(!state.capabilities.incident.correction.available && state.evidence?.observation)return 'This case has no completed latest extraction. Its earlier comparison is historical; correction and reverification cannot complete that request.';
+  return 'Inspect product identity, exact lot, required date and the selected notice before confirming an eligible action.';
+}
+async function loadIncident(id,knownAcquisition=null) {
+  if(state.expired)return;
+  const selection=++state.selection,session=state.sessionGeneration;
+  const valid=()=>!state.expired && session===state.sessionGeneration && selection===state.selection;
+  const changed=state.incident!==id;
+  state.incident=id;state.learningStale=true;state.capabilities=null;state.loading=true;state.target=null;
+  if(changed){operationStatus('label-status','');operationStatus('decision-status','');state.checkFailure=null;state.evidence=null;state.actions=[];state.captures=[];state.acquisition=knownAcquisition;state.acquisitionUnknown=false;}
+  else if(knownAcquisition)state.acquisition=knownAcquisition;
   drawCaptures();render();$('capture-panel').hidden=true;$('correction-panel').hidden=true;$('capture-file').value='';text('capture-status','');
   const url=new URL(location.href);url.searchParams.set('incident',id);history.replaceState(null,'',url);
-  const [e,c,a]=await Promise.all([api(`/api/incidents/${id}/evidence`),api(`/api/incidents/${id}/captures`),api(`/api/incidents/${id}/actions`)]);
-  state.evidence=e;state.captures=c.batches.filter(b=>b.ready).at(-1)?.captures || [];state.actions=a.actions;
-  if(e.latest_run_id){
-    try {state.acquisition=await api(`/api/incidents/${id}/acquisitions/${e.latest_run_id}`);}
-    catch(error){if(state.expired)throw error;state.acquisitionUnknown=true;message('Saved check status is unavailable. Recheck it before another extraction.','error');}
-  }
-  drawCaptures();render();show('workbench');
+  try {
+    const [e,c,a,cap]=await Promise.all([api(`/api/incidents/${id}/evidence`),api(`/api/incidents/${id}/captures`),api(`/api/incidents/${id}/actions`),api(`/api/incidents/${id}/capabilities`).catch(error=>{if(error.stale||state.expired)throw error;return null;})]);
+    if(!valid())return;
+    state.evidence=e;state.captures=c.batches.filter(b=>b.ready).at(-1)?.captures || [];state.actions=a.actions;
+    state.capabilities=cap?.workspace?.extraction && cap?.incident?cap:null;
+    if(state.capabilities)state.workspaceBlock=['UNRESOLVED_ATTEMPT','ACTIVE_REQUEST'].includes(cap.workspace.extraction.reason)?cap.workspace.extraction.reason:null;
+    state.acquisition=knownAcquisition;state.acquisitionUnknown=false;
+    if(e.latest_run_id){try {const acquisition=await api(`/api/incidents/${id}/acquisitions/${e.latest_run_id}`);if(!valid())return;state.acquisition=acquisition;}
+      catch(error){if(!valid())return;state.acquisitionUnknown=true;message('Saved check status is unavailable. Recheck it before another extraction.','error');}}
+    if(!valid())return;state.loading=false;drawCaptures();render();
+  } catch(error){if(!valid())return;state.loading=false;state.capabilities=null;render();throw error;}
+}
+async function loadOwnedIncident(id,known=null){
+  const selection=state.selection,op=state.operation;
+  if(op&&op.selection!==selection)return;
+  try {await loadIncident(id,known);}
+  finally {if(op&&state.selection===selection+1&&state.incident===id)op.selection=state.selection;}
+}
+async function recheck(){
+  await loadOwnedIncident(state.incident);
+  if(state.expired)return;
+  const checked=new Date().toLocaleTimeString();
+  message(`${!state.capabilities?'Availability is still unconfirmed; no new AI request was sent.':unresolvedAcquisition()?'Still unresolved; no new AI request was sent.':'Saved status refreshed; no new AI request was sent.'} Checked at ${checked}.`);
 }
 
 async function captureFiles(files) {
@@ -121,40 +211,139 @@ async function upload(files) {
   if(!files.length)throw new Error('Choose at least one sample label image.');
   if(files.length>state.config.max_images || files.some(f=>f.size>state.config.max_image_bytes))throw new Error('The selected images exceed this workspace’s upload limits.');
   if(state.pending && state.pending.kind!=='capture')throw new Error('Reconcile the pending operation first.');
+  const incident=state.incident,selection=state.selection; const selected=()=>!state.expired&&state.incident===incident&&state.selection===selection; if(state.operation)state.operation.incident=incident;
   const resuming=!!state.pending;
   const fingerprints=await captureFiles(files);
+  if(!selected())return;
   if(state.pending) {
     const p=state.pending;
     if(p.incident!==state.incident || JSON.stringify(p.files)!==JSON.stringify(fingerprints))throw new Error('Select the same original images in the same order to resume this upload.');
     const observed=await reconcileCapture(p);
-    if(observed.found && observed.batch.ready){pending(null);await loadIncident(p.incident);message('The original upload is already retained. No images were uploaded again.');return;}
-  } else pending({kind:'capture',incident:state.incident,operation:key(),files:fingerprints});
+    if(!selected())return;
+    if(observed.found && observed.batch.ready){pending(null);await loadOwnedIncident(p.incident);message('The original upload is already retained. No images were uploaded again.');return;}
+  } else pending({kind:'capture',incident,operation:key(),files:fingerprints});
   const operation=state.pending.operation;
   const data=new FormData();files.forEach(f=>data.append('images',f));
   try {
-    const result=await api(`/api/incidents/${state.incident}/captures`,{method:'POST',operation,body:data});
+    const result=await api(`/api/incidents/${incident}/captures`,{method:'POST',operation,body:data});
     if(!result.ready){const e=new Error('The original upload is pending. Reconcile before continuing.');e.unknown=true;throw e;}
-    pending(null);state.captures=result.captures;drawCaptures();text('capture-status','Images retained for this incident. Select Extract and check to process them.');
+    pending(null);if(state.expired||state.incident!==incident)return;state.captures=result.captures;drawCaptures();text('capture-status','Images retained for this incident. Select Extract and check to process them.');render();
   } catch(e){if(!e.unknown && !resuming)pending(null);throw e;}
 }
-async function startSample() {const response=await fetch(`/samples/${$('sample-choice').value}.png`);if(!response.ok)throw new Error('Sample unavailable.');const blob=await response.blob();const created=await api('/api/incidents',{method:'POST',operation:key()});state.incident=created.incident_id;state.queueDirty=true;await upload([new File([blob],'synthetic-label.png',{type:'image/png'})]);await loadIncident(state.incident);message('Sample label uploaded. Extract and check when ready.');}
-async function acquire() {state.queueDirty=true;const operation=key();pending({kind:'acquisition',incident:state.incident,operation});try{const result=await api(`/api/incidents/${state.incident}/acquisitions`,{method:'POST',operation,body:{source_selection:$('source-choice').value,capture_ids:state.captures.map(c=>c.id),expected_observation_revision:state.evidence.latest_observation_revision}});if(['INCOMPLETE'].includes(result.state)){state.acquisition=result;render();message('Acquisition is incomplete. Reconcile the original request before starting another.');return;}pending(null);await loadIncident(state.incident,result);const problem=acquisitionProblem();message(problem?problem.copy:'Extraction and comparison completed.',problem?'error':'success');}catch(e){if(!e.unknown)pending(null);else if(!state.expired){state.acquisitionUnknown=true;render();}throw e;}}
-async function prepare() {const kind=state.evidence.result.verdict==='MATCHED_HOLD_FOR_REVIEW'?'SIMULATED_HOLD':'SIMULATED_REVIEW_REQUEST';const data=await api(`/api/incidents/${state.incident}/actions/prepare?action_type=${kind}`);if(data.target.observation_revision!==state.evidence.observation.revision || data.target.result_revision!==state.evidence.result.revision){await loadIncident(state.incident);throw new Error('Evidence changed before confirmation. Review the newly loaded values, then prepare the action again.');}state.target=data.target;text('confirm-title',kind==='SIMULATED_HOLD'?'Review this stock hold':'Review this follow-up request');text('confirm-product',`${state.evidence.observation.identity.name.value || 'Unresolved identity'} · ${state.evidence.observation.identity.pack.value || 'Unknown pack'} · ${state.evidence.observation.fields.map(f=>`${f.field}: ${f.observation.value ?? 'Unknown'}`).join(' · ')} · observation v${data.target.observation_revision} · result v${data.target.result_revision} · sources ${state.evidence.result.checked_sources.map(s=>`${s.version} (epoch ${s.epoch})`).join(', ')}`);text('hold-confirm',kind==='SIMULATED_HOLD'?'Confirm stock hold':'Confirm review request');$('hold-consent').checked=false;text('confirm-status','');$('confirm-dialog').showModal();controls();}
-async function confirm() {state.queueDirty=true;const target=state.target;pending({kind:'action',incident:state.incident,operation:key(),target});try{await api(`/api/incidents/${state.incident}/actions`,{method:'POST',operation:state.pending.operation,body:{target,explicit_confirmation:true}});pending(null);$('confirm-dialog').close();await loadIncident(state.incident);message('Workspace action saved. No live inventory was changed.');}catch(e){$('confirm-dialog').close();if(!e.unknown)pending(null);state.target=null;await loadIncident(state.incident);throw e;}}
-async function recover() {state.queueDirty=true;const p=state.pending;if(!p)return;if(p.kind==='capture'){const result=await reconcileCapture(p);if(result.found && result.batch.ready){pending(null);await loadIncident(p.incident);message('The original upload is retained. No images were uploaded again.');}else{await loadIncident(p.incident);show('workbench');$('capture-panel').hidden=false;$('capture').setAttribute('aria-expanded','true');message('The original upload is '+(result.found?'pending':'not recorded')+'. Select the same original images in the same order, then Upload selected images to resume its original request.');}return;}else if(p.kind==='learning'){const value=await api(p.path,{method:'POST',operation:p.operation,body:p.body});pending(null);renderLearning(value.learning_state);show('guidance');return;}else if(p.kind==='verification'){await api(`/api/incidents/${p.incident}/verifications`,{method:'POST',operation:p.operation});}else if(p.kind==='acquisition'){const result=await api(`/api/incidents/${p.incident}/acquisitions/reconcile`,{operation:p.operation});if(result.state==='INCOMPLETE'){message('The original acquisition is still unresolved. No new request was started.');return;}}else{const result=await api(`/api/incidents/${p.incident}/actions/reconcile?result_revision=${p.target.result_revision}&action_type=${p.target.action_type}`);if(!result.found){message('No committed action found. Review the current evidence before making another decision.');}}pending(null);await loadIncident(p.incident);}
-async function refresh() {requireSession();const remaining=state.queueReadAt+(state.config.refresh_interval_seconds*1000)-Date.now();if(remaining>0){text('queue-status','Waiting briefly before refreshing the saved snapshot…');await new Promise(resolve=>setTimeout(resolve,remaining));requireSession();}text('queue-status','Refreshing this workspace…');try{const data=await api(`/api/retail/queue?filter=${$('queue-filter').value}`,{operation:key()});state.queue=data;state.queueDirty=false;state.queueReadAt=Date.now();const rows=data.snapshot.rows;const container=$('queue-rows');container.replaceChildren();text('queue-count',`${rows.length} saved incident(s) · ${data.visible_count} shown · snapshot ${new Date(data.snapshot.generated_at).toLocaleTimeString()}`);$('queue-counts').replaceChildren(...Object.entries(data.snapshot.category_counts).map(([category,n])=>node('span',`${labels[category]}: ${n}`)));for(const row of rows.filter(r=>data.visible_incident_ids.includes(r.incident_id))){const item=node('div');item.setAttribute('role','listitem');const link=node('a',undefined,'queue-row');link.href=`?incident=${row.incident_id}#workbench`;link.addEventListener('click',e=>{e.preventDefault();task(()=>loadIncident(row.incident_id));});const name=node('div');name.append(node('strong',row.product_name),node('small',`Incident ${row.incident_id.slice(0,8)} · observation v${row.observation_revision}`));link.append(name,node('span',row.jurisdiction),node('span',labels[row.category],`state-tag ${row.category==='SIMULATED_ACTION_RECORDED'?'completed':'neutral'}`),node('span',row.current?'View saved evidence':'Review evidence'));item.append(link);container.append(item);}if(!data.visible_count)container.append(node('p','No incidents match this filter.','empty-state'));text('queue-capability',`Saved evidence: ${data.saved_evidence.state.toLowerCase()}. New verification: ${data.new_verification.state.toLowerCase()}. Counts cover this evaluation workspace only.`);text('queue-status','Manual refresh complete. No model call was made.');}catch(e){text('queue-status',`Refresh unavailable. ${state.queue?'The displayed snapshot is historical; its counts are not a current reading.':'Counts are unknown.'}`);throw e;}}
-for(const a of document.querySelectorAll('[data-view]'))a.addEventListener('click',e=>{e.preventDefault();show(a.dataset.view);if(a.dataset.view==='retail'&&(!state.queue||state.queueDirty))task(refresh);if(a.dataset.view==='guidance'&&state.config?.guidance==='OWNED_LIFECYCLE_CONNECTED')task(loadLearning);});
+async function startSample() {
+  const selection=state.selection;
+  const response=await fetch(`/samples/${$('sample-choice').value}.png`);
+  if(!response.ok)throw new Error('Sample unavailable.');
+  const blob=await response.blob();requireSession();if(state.selection!==selection)return;
+  const created=await api('/api/incidents',{method:'POST',operation:key()});
+  state.queueDirty=true;if(state.selection!==selection)return;await loadOwnedIncident(created.incident_id);
+  if(state.incident!==created.incident_id||state.expired)return;
+  if(state.operation)state.operation.incident=created.incident_id;
+  await upload([new File([blob],'synthetic-label.png',{type:'image/png'})]);
+  if(state.incident!==created.incident_id||state.expired)return;
+  await loadOwnedIncident(created.incident_id);
+  message('Sample label uploaded. Extract and check when ready. No AI request was sent.');
+}
+async function acquire() {
+  const incident=state.incident,selection=state.selection;
+  const selected=()=>!state.expired&&state.incident===incident&&state.selection===selection;
+  if(state.operation)state.operation.incident=incident;
+  state.checkFailure=null;state.queueDirty=true;const operation=key();
+  pending({kind:'acquisition',incident,operation});
+  try {
+    const result=await api(`/api/incidents/${incident}/acquisitions`,{method:'POST',operation,body:{source_selection:$('source-choice').value,capture_ids:state.captures.map(c=>c.id),expected_observation_revision:state.evidence.latest_observation_revision}});
+    if(result.state==='INCOMPLETE'){
+      if(selected()){state.acquisition=result;render();message('The request is incomplete. Recheck saved status; no new AI request will be sent.');}
+      return;
+    }
+    pending(null);if(!selected())return;
+    await loadOwnedIncident(incident,result);
+    if(state.incident!==incident||state.expired)return;
+    const problem=acquisitionProblem();const value=problem?problem.copy:'Extraction and comparison completed. Review identity, lot, required date and source scope.';
+    message(value,problem?'error':'success');operationStatus('decision-status',value,problem?'error':'success');
+  } catch(e) {
+    if(!e.unknown)pending(null);
+    if(!selected())return;
+    try {await loadOwnedIncident(incident);}catch(readError){if(readError.stale||state.expired)return;}
+    if(state.incident!==incident||state.expired)return;
+    if(e.unknown)state.acquisitionUnknown=true;
+    state.checkFailure={incident,title:'Check could not start',copy:`The check could not finish: ${safeError(e)}. Saved evidence remains available. No product conclusion follows from this failure.`};
+    render();operationStatus('decision-status',safeError(e),'error');throw e;
+  }
+}
+async function prepare() {const incident=state.incident,selection=state.selection;if(state.operation)state.operation.incident=incident;const kind=state.evidence.result.verdict==='MATCHED_HOLD_FOR_REVIEW'?'SIMULATED_HOLD':'SIMULATED_REVIEW_REQUEST';const data=await api(`/api/incidents/${state.incident}/actions/prepare?action_type=${kind}`);if(state.expired||state.incident!==incident||state.selection!==selection)return;if(data.target.observation_revision!==state.evidence.observation.revision || data.target.result_revision!==state.evidence.result.revision){await loadOwnedIncident(state.incident);throw new Error('Evidence changed before confirmation. Review the newly loaded values, then prepare the action again.');}state.target=data.target;text('confirm-title',kind==='SIMULATED_HOLD'?'Review this stock hold':'Review this follow-up request');text('confirm-product',`${state.evidence.observation.identity.name.value || 'Unresolved identity'} · ${state.evidence.observation.identity.pack.value || 'Unknown pack'} · ${state.evidence.observation.fields.map(f=>`${f.field}: ${f.observation.value ?? 'Unknown'}`).join(' · ')} · observation v${data.target.observation_revision} · result v${data.target.result_revision} · sources ${state.evidence.result.checked_sources.map(s=>`${s.version} (epoch ${s.epoch})`).join(', ')}`);text('hold-confirm',kind==='SIMULATED_HOLD'?'Confirm stock hold':'Confirm review request');$('hold-consent').checked=false;text('confirm-status','');$('confirm-dialog').showModal();controls();}
+async function confirm() {
+  const incident=state.incident,selection=state.selection,target=state.target;
+  if(state.operation)state.operation.incident=incident;
+  state.queueDirty=true;pending({kind:'action',incident,operation:key(),target});
+  try {
+    await api(`/api/incidents/${incident}/actions`,{method:'POST',operation:state.pending.operation,body:{target,explicit_confirmation:true}});
+    pending(null);$('confirm-dialog').close();
+    if(state.expired||state.incident!==incident||state.selection!==selection)return;
+    await loadOwnedIncident(incident);message('Workspace action saved. No live inventory was changed.');
+  } catch(e) {
+    $('confirm-dialog').close();if(!e.unknown)pending(null);state.target=null;
+    if(state.expired||state.incident!==incident||state.selection!==selection)return;
+    await loadOwnedIncident(incident);throw e;
+  }
+}
+async function saveCorrection(){
+  const incident=state.incident,selection=state.selection;
+  if(state.operation)state.operation.incident=incident;
+  state.queueDirty=true;const f=fields().find(f=>f.field===$('correction-field').value);
+  const replacement={...f.observation,state:'KNOWN',value:$('correction-value').value,raw:$('correction-value').value};
+  await api(`/api/incidents/${incident}/corrections`,{method:'POST',operation:key(),body:{expected_revision:state.evidence.latest_observation_revision,field:f.field,replacement}});
+  if(state.expired||state.incident!==incident||state.selection!==selection)return;
+  await loadOwnedIncident(incident);message('Correction saved. Previous results are historical until re-verification.');
+}
+async function reverify(){
+  const incident=state.incident,selection=state.selection;
+  if(state.operation)state.operation.incident=incident;
+  state.queueDirty=true;const operation=key();pending({kind:'verification',incident,operation});
+  try {await api(`/api/incidents/${incident}/verifications`,{method:'POST',operation});pending(null);}
+  catch(e){if(!e.unknown)pending(null);throw e;}
+  if(state.expired||state.incident!==incident||state.selection!==selection)return;
+  await loadOwnedIncident(incident);message('Corrected evidence was deterministically re-verified. No model call was made.');
+}
+async function recover() {
+  state.queueDirty=true;const p=state.pending;if(!p)return;
+  const selection=state.selection;const selected=()=>!state.expired&&state.selection===selection;
+  if(state.operation)state.operation.incident=state.incident;
+  if(p.kind==='capture'){
+    const result=await reconcileCapture(p);if(!selected())return;
+    if(result.found&&result.batch.ready){pending(null);await loadOwnedIncident(p.incident);message('The original upload is retained. No images were uploaded again.');}
+    else {await loadOwnedIncident(p.incident);if(state.expired||state.incident!==p.incident)return;$('capture-panel').hidden=false;$('capture').setAttribute('aria-expanded','true');message('The original upload is '+(result.found?'pending':'not recorded')+'. Select the same original images in the same order, then Upload selected images to resume its original request.');}
+    return;
+  }
+  if(p.kind==='learning'){
+    const value=await api(p.path,{method:'POST',operation:p.operation,body:p.body});pending(null);
+    if(selected()&&state.incident===p.incident){renderLearning(value.learning_state);controls();}return;
+  }
+  if(p.kind==='verification')await api(`/api/incidents/${p.incident}/verifications`,{method:'POST',operation:p.operation});
+  else if(p.kind==='acquisition'){
+    const result=await api(`/api/incidents/${p.incident}/acquisitions/reconcile`,{operation:p.operation});
+    if(!selected())return;
+    if(result.state==='INCOMPLETE'){message('The original acquisition is still unresolved. No new request was started.');return;}
+  } else {
+    const result=await api(`/api/incidents/${p.incident}/actions/reconcile?result_revision=${p.target.result_revision}&action_type=${p.target.action_type}`);
+    if(!selected())return;
+    if(!result.found)message('No committed action found. Review the current evidence before making another decision.');
+  }
+  pending(null);if(selected())await loadOwnedIncident(p.incident);
+}
+async function refresh() {requireSession();const remaining=state.queueReadAt+(state.config.refresh_interval_seconds*1000)-Date.now();if(remaining>0){text('queue-status','Waiting briefly before refreshing the saved snapshot…');await new Promise(resolve=>setTimeout(resolve,remaining));requireSession();}text('queue-status','Refreshing this workspace…');try{const data=await api(`/api/retail/queue?filter=${$('queue-filter').value}`,{operation:key()});state.queue=data;state.queueDirty=false;state.queueReadAt=Date.now();const rows=data.snapshot.rows;const container=$('queue-rows');container.replaceChildren();text('queue-count',`${rows.length} saved incident(s) · ${data.visible_count} shown · snapshot ${new Date(data.snapshot.generated_at).toLocaleTimeString()}`);$('queue-counts').replaceChildren(...Object.entries(data.snapshot.category_counts).map(([category,n])=>node('span',`${labels[category]}: ${n}`)));for(const row of rows.filter(r=>data.visible_incident_ids.includes(r.incident_id))){const item=node('div');item.setAttribute('role','listitem');const link=node('a',undefined,'queue-row');link.href=`?incident=${row.incident_id}#workbench`;link.addEventListener('click',e=>{e.preventDefault();show('workbench');loadIncident(row.incident_id).then(()=>{if(state.view==='workbench'&&!state.expired)reveal('evidence-title');}).catch(error=>{if(!state.expired&&!error.stale)message(safeError(error),'error');});});const name=node('div');name.append(node('strong',row.product_name),node('small',`Incident ${row.incident_id.slice(0,8)} · observation v${row.observation_revision}`));link.append(name,node('span',row.jurisdiction),node('span',({LABEL_REQUIRED:'Needs a label',LABEL_READY:'Label saved — ready to check',CHECK_PENDING:'Check pending',CHECK_INCOMPLETE:'Check incomplete'}[row.stage] || labels[row.category]),`state-tag ${row.category==='SIMULATED_ACTION_RECORDED'?'completed':'neutral'}`),node('span',row.stage==='LABEL_READY'?'Open label and check':row.stage==='LABEL_REQUIRED'?'Add a label':row.current?'View saved evidence':'Review evidence'));item.append(link);container.append(item);}if(!data.visible_count)container.append(node('p','No incidents match this filter.','empty-state'));text('queue-capability',`Saved evidence: ${data.saved_evidence.state.toLowerCase()}. New verification: ${data.new_verification.state.toLowerCase()}. Counts cover this evaluation workspace only.`);text('queue-status','Manual refresh complete. No model call was made.');}catch(e){if(state.expired||e.stale)throw e;text('queue-status',`Refresh unavailable. ${state.queue?'The displayed snapshot is historical; its counts are not a current reading.':'Counts are unknown.'}`);e.message=$('queue-status').textContent+' '+safeError(e);throw e;}}
+for(const a of document.querySelectorAll('[data-view]'))a.addEventListener('click',e=>{e.preventDefault();routeView(a.dataset.view);});
 $('new-review').addEventListener('click',()=>{show('workbench');$('sample-choice').focus();});
 for(const id of ['capture','correction'])$(id).addEventListener('click',()=>{const p=$(id+'-panel');p.hidden=!p.hidden;$(id).setAttribute('aria-expanded',String(!p.hidden));});
 $('source-choice').addEventListener('change',sourceView);$('correction-field').addEventListener('change',correctionValue);
-$('start-sample').addEventListener('click',()=>task(startSample));$('check').addEventListener('click',()=>task(acquire));$('upload').addEventListener('click',()=>task(()=>upload([...$('capture-file').files])));
-$('confirm-open').addEventListener('click',()=>task(prepare));$('hold-consent').addEventListener('change',controls);$('hold-confirm').addEventListener('click',()=>task(confirm));$('recover').addEventListener('click',()=>task(recover));
+$('start-sample').addEventListener('click',()=>task(startSample,'upload'));$('check').addEventListener('click',()=>task(acquire,'extraction'));$('upload').addEventListener('click',()=>task(()=>upload([...$('capture-file').files]),'capture'));
+$('confirm-open').addEventListener('click',()=>task(prepare));$('hold-consent').addEventListener('change',controls);$('hold-confirm').addEventListener('click',()=>task(confirm,'action'));$('recover').addEventListener('click',()=>task(recover));
 $('confirm-dialog').addEventListener('close',()=>{state.target=null;$('hold-consent').checked=false;controls();$('confirm-open').focus();});
-$('save-correction').addEventListener('click',()=>task(async()=>{state.queueDirty=true;const f=fields().find(f=>f.field===$('correction-field').value);const replacement={...f.observation,state:'KNOWN',value:$('correction-value').value,raw:$('correction-value').value};await api(`/api/incidents/${state.incident}/corrections`,{method:'POST',operation:key(),body:{expected_revision:state.evidence.latest_observation_revision,field:f.field,replacement}});await loadIncident(state.incident);message('Correction saved. Previous results are historical until re-verification.');}));
-$('reverify').addEventListener('click',()=>task(async()=>{state.queueDirty=true;const operation=key();pending({kind:'verification',incident:state.incident,operation});try {await api(`/api/incidents/${state.incident}/verifications`,{method:'POST',operation});pending(null);}catch(e){if(!e.unknown)pending(null);throw e;}await loadIncident(state.incident);message('Corrected evidence was deterministically re-verified. No model call was made.');}));
-$('refresh-acquisition').addEventListener('click',()=>task(()=>loadIncident(state.incident)));
-$('refresh-queue').addEventListener('click',()=>task(refresh));$('queue-filter').addEventListener('change',()=>task(refresh));
-async function init() {state.config=await api('/api/workbench/config');if(state.config.mode==='REAL_VERTEX_EXTRACTION'){text('runtime-title','BatchBeacon AI');text('runtime-detail','Real AI analysis · Non-production data');text('result-disclosure','Server result · Gemini extraction');}else{text('runtime-title','Local integration');text('runtime-detail','Test extraction · Non-production data · Test storage');text('result-disclosure','Server result · test extraction');}for(const row of state.config.samples){const option=node('option',row.name);option.value=row.id;$('sample-choice').append(option);}for(const row of state.config.sources){const option=node('option',`${row.notice.authority} · ${row.notice.dependency.version}`);option.value=row.selection;$('source-choice').append(option);}exampleCards();sourceView();if(state.config.guidance==='OWNED_LIFECYCLE_CONNECTED'){$('learning-controls').hidden=false;text('guidance-state-title','Your workspace’s capture guidance');text('guidance-state-copy','Saved requests, feedback and evaluated wording changes belong to this evaluation workspace only.');}else{text('guidance-state-copy','Capture guidance is unavailable in this configuration.');}let session;try{session=await api('/api/guest',{method:'POST'});}catch(e){state.sessionError=safeError(e);text('session-state',state.expired?'Guest access expired':'Guest access unavailable');text('queue-count','Guest access unavailable; counts unknown.');text('learning-counts','Guest access unavailable; counts unknown.');throw e;}state.csrf=session.csrf_token;state.expiresAt=session.expires_at;text('session-state',`Workspace access expires ${new Date(session.expires_at).toLocaleString(undefined,{year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'})}`);const ttl=Date.parse(session.expires_at)-Date.parse(state.config.server_time);if(ttl>0)setTimeout(expire,ttl);try{const saved=JSON.parse(sessionStorage.getItem('bb_pending')||'null');pending(saved?.session_expires_at===session.expires_at?saved:null);}catch{pending(null);}const id=new URLSearchParams(location.search).get('incident')||state.pending?.incident;if(id)await loadIncident(id);else{const view=document.querySelector('nav [aria-current=page]')?.dataset.view;if(view==='retail')await refresh();if(view==='guidance'&&state.config.guidance==='OWNED_LIFECYCLE_CONNECTED')await loadLearning();}controls();}
+$('save-correction').addEventListener('click',()=>task(saveCorrection,'correction'));
+$('reverify').addEventListener('click',()=>task(reverify,'verification'));
+for(const id of ['refresh-acquisition','decision-recheck'])$(id).addEventListener('click',()=>task(recheck,'status'));
+$('refresh-queue').addEventListener('click',()=>task(refresh,'queue'));$('queue-filter').addEventListener('change',()=>task(refresh,'queue'));
+async function init() {state.config=await api('/api/workbench/config');if(state.config.mode==='REAL_VERTEX_EXTRACTION'){text('runtime-title','BatchBeacon AI');text('runtime-detail','Real AI analysis · Non-production data');text('result-disclosure','Server result · Gemini extraction');}else{text('runtime-title','Local integration');text('runtime-detail','Test extraction · Non-production data · Test storage');text('result-disclosure','Server result · test extraction');}for(const row of state.config.samples){const option=node('option',row.name);option.value=row.id;$('sample-choice').append(option);}for(const row of state.config.sources){const option=node('option',`${row.notice.authority} · ${row.notice.dependency.version}`);option.value=row.selection;$('source-choice').append(option);}exampleCards();sourceView();if(state.config.guidance==='OWNED_LIFECYCLE_CONNECTED'){$('learning-controls').hidden=false;text('guidance-state-title','Your workspace’s capture guidance');text('guidance-state-copy','Saved requests, feedback and evaluated wording changes belong to this evaluation workspace only.');}else{text('guidance-state-copy','Capture guidance is unavailable in this configuration.');}let session;try{session=await api('/api/guest',{method:'POST'});}catch(e){state.sessionError=safeError(e);text('session-state',state.expired?'Guest access expired':'Guest access unavailable');text('queue-count','Guest access unavailable; counts unknown.');text('learning-counts','Guest access unavailable; counts unknown.');throw e;}state.csrf=session.csrf_token;state.expiresAt=session.expires_at;text('session-state',`Workspace access expires ${new Date(session.expires_at).toLocaleString(undefined,{year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'})}`);const ttl=Date.parse(session.expires_at)-Date.parse(state.config.server_time);if(ttl>0)setTimeout(expire,ttl);try{const saved=JSON.parse(sessionStorage.getItem('bb_pending')||'null');pending(saved?.session_expires_at===session.expires_at?saved:null);}catch{pending(null);}const id=new URLSearchParams(location.search).get('incident')||state.pending?.incident;if(id)await loadOwnedIncident(id);show(['retail','guidance'].includes(location.hash.slice(1))?location.hash.slice(1):'workbench',{navigate:false,focus:false});{const view=document.querySelector('nav [aria-current=page]')?.dataset.view;if(view==='retail')await refresh();if(view==='guidance'&&state.config.guidance==='OWNED_LIFECYCLE_CONNECTED')await loadLearning();}controls();}
 task(init);
 
 function learningSelection() {
@@ -205,12 +394,13 @@ function learningControls(off) {
 
 async function loadLearning() {
   requireSession();
+  const selected=state.selection;
   try {
-    const l=await api('/api/learning'+(state.incident?'?incident='+encodeURIComponent(state.incident):''),{operation:key()});renderLearning(l);
-  } catch(e) {text('learning-counts',state.learning?'Refresh failed. Displayed records are historical; current counts are unknown.':'Guidance records unavailable; counts unknown.');throw e;}
+    const l=await api('/api/learning'+(state.incident?'?incident='+encodeURIComponent(state.incident):''),{operation:key()});if(selected!==state.selection||state.expired)return;renderLearning(l);controls();
+  } catch(e) {if(selected!==state.selection||state.expired||e.stale)return;text('learning-counts',state.learning?'Refresh failed. Displayed records are historical; current counts are unknown.':'Guidance records unavailable; counts unknown.');throw e;}
 }
 function renderLearning(l) {
-    state.learning=l;
+    state.learning=l;state.learningStale=false;
     const {request,feedback,candidate,evaluation}=learningSelection();
     const policyText=(id)=>state.config.guidance_policies[id]?.instructions.map(i=>i.text).join(' ') || 'Wording unavailable.';
     text('active-wording',`${l.active.policy.id.replaceAll('_',' ')} · revision ${l.active.activation_revision}. ${policyText(l.active.policy.id)}`);
@@ -227,14 +417,17 @@ function renderLearning(l) {
     $('learning-history').replaceChildren(...l.transitions.map(t=>node('p',`${t.kind}: ${t.previous.policy.id} r${t.previous.activation_revision} → ${t.next.policy.id} r${t.next.activation_revision}. Saved historical transition.`)));
 }
 async function learningMutation(path,body) {
+  const selection=state.selection,incident=state.incident;if(state.operation)state.operation.incident=incident;
   if(state.incident)path+='?incident='+encodeURIComponent(state.incident);
   const operation=key();pending({kind:'learning',incident:state.incident,operation,path,body});
-  try {const value=await api(path,{method:'POST',operation,body});pending(null);renderLearning(value.learning_state);return value;}
+  try {const value=await api(path,{method:'POST',operation,body});pending(null);if(!state.expired&&state.selection===selection&&state.incident===incident)renderLearning(value.learning_state);return value;}
   catch(e){if(!e.unknown)pending(null);throw e;}
 }
 async function prepareLearning(kind) {
+  const selection=state.selection,incident=state.incident;if(state.operation)state.operation.incident=incident;
   const evaluation=learningSelection().evaluation;
   const target=await api(kind==='activate'?`/api/learning/activation/prepare?evaluation=${evaluation.id}`:'/api/learning/rollback/prepare');
+  if(state.expired||state.selection!==selection||state.incident!==incident)return;
   state.learningTarget={kind,target};$('learning-consent').checked=false;
   text('learning-confirm-title',kind==='activate'?'Review evaluated capture wording':'Review guidance rollback');
   const box=$('learning-preview');box.replaceChildren();
@@ -243,8 +436,8 @@ async function prepareLearning(kind) {
   $('learning-dialog').showModal();
 }
 $('guidance-start').addEventListener('click',()=>{show('workbench');$('sample-choice').focus();});
-$('guidance-queue').addEventListener('click',()=>{show('retail');if(!state.queue||state.queueDirty)task(refresh);});
-$('learning-refresh').addEventListener('click',()=>task(async()=>{await loadLearning();message('Capture guidance records refreshed.','success');}));
+$('guidance-queue').addEventListener('click',()=>{show('retail');if(!state.queue||state.queueDirty)task(refresh,'queue');});
+$('learning-refresh').addEventListener('click',()=>task(async()=>{await loadLearning();message('Capture guidance records refreshed.','success');},'guidance'));
 $('learning-recover').addEventListener('click',()=>task(recover));
 $('guidance-request').addEventListener('click',()=>task(()=>learningMutation(`/api/incidents/${state.incident}/guidance`)));
 $('feedback-save').addEventListener('click',()=>task(()=>learningMutation(`/api/incidents/${state.incident}/feedback`,{detail:$('feedback-detail').value,request_id:currentGuidance(learningSelection().request)?learningSelection().request.id:null})));

@@ -225,3 +225,16 @@ ceiling is seven. The ₹650 public pool, ₹6,000 lifetime budget and original 
 ₹250 reservation remain unchanged. No further retry after any outcome is authorized.
 This is call authority, not a passing result or permission to change model, source,
 verifier, timeout policy or protected evaluation scope.
+
+
+## U33 — consolidated user-journey correction
+
+The owner instructs implementation of the consolidated R01–R12 plan and F1–F8
+in dependency order, independent review and applicable release verification.
+Preserve unrelated work and the submitted video’s workflow. The seven-call AI
+allowance is exhausted: no further paid AI calls are authorized. UI/capability
+corrections and read-only operational diagnosis can proceed within the existing
+scope; full readiness must not be claimed while acceptance remains incomplete.
+No public support address has been selected or delivery verified. The owner
+requested an evidence-based recommendation; this does not authorize publishing
+the private monitoring destination or sending messages.

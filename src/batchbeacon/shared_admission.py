@@ -916,6 +916,49 @@ class SharedAdmission:
         # migration. This read never grants authority to settle an older grant.
         return any(a.actual_nanos is None for a in attempts)
 
+    def operation_availability(self, guest_key: str, incident_id: str) -> dict:
+        """Read-only admission snapshot, never a reservation or authority to dispatch."""
+        address = Address(guest_key, inspect_session_attempts=True)
+        observed = {}
+
+        def read(snapshot):
+            guest = self._guest(snapshot, address)
+            self._incident(guest, incident_id)
+            counter = next((i for i in snapshot.usage.incidents
+                            if i.incident_id == incident_id), None)
+            if counter is None:
+                raise SharedDenied("incident usage unavailable")
+            reason = 'AVAILABLE'
+            if self._unsettled(snapshot, guest):
+                reason = 'UNRESOLVED_ATTEMPT'
+            elif any(r.terminal is None and self._now() < r.deadline
+                     for r in snapshot.usage.runs):
+                reason = 'ACTIVE_REQUEST'
+            elif counter.acquisitions >= 1 + self.policy.max_recaptures:
+                reason = 'ACQUISITION_LIMIT'
+            else:
+                try:
+                    budget = self._budget(snapshot)
+                    balance = budget.balance(budget.phase.pool)
+                    amount = self.policy.reserve_nanos
+                    if (balance.committed + amount > min(
+                            self.grant.ceiling(budget.phase.pool),
+                            budget.phase.max_pool_liability_nanos)
+                            or sum(b.committed for b in budget.balances) + amount
+                            > self.grant.root_ceiling_nanos):
+                        reason = 'ALLOWANCE_UNAVAILABLE'
+                except SharedDenied:
+                    reason = 'ALLOWANCE_UNAVAILABLE'
+            observed.update(extraction_reason=reason,
+                            verification_available=len(counter.verifications)
+                            < self.policy.max_verifications)
+            return Change(None, not_after=guest.scope.expires_at)
+
+        result = self.store.transact(address, read)
+        if self._now() >= result.not_after:
+            raise SharedDenied("guest expired or invalid")
+        return observed
+
     def reconciliation_required(self, guest_key: str) -> bool:
         """Owned settlement status; no provider call, paid admission or record write."""
         address = Address(guest_key, inspect_session_attempts=True)

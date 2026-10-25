@@ -107,9 +107,15 @@ def test_comparison_retains_operator_and_reference_for_review(page):
       compare();
       [...document.querySelectorAll('#comparisons button')].find(b=>b.textContent==='LOT').click();
       return document.getElementById('comparisons').textContent+' '+
-        document.getElementById('field-detail').textContent;
+        document.getElementById('field-detail').textContent+' '+
+        document.getElementById('field-provenance').textContent;
     }""")
     assert "EXACT" in result and "lot row 2" in result and "front label lot" in result, result
+    details = page.locator('#field-provenance').locator('..')
+    assert details.evaluate('(el)=>el.tagName') == 'DETAILS'
+    assert not details.evaluate('(el)=>el.open')
+    details.locator('summary').click()
+    assert details.evaluate('(el)=>el.open')
 
 
 def test_date_range_uses_typed_contract_bounds(page):
