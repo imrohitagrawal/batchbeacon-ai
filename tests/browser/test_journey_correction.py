@@ -198,3 +198,32 @@ def test_support_contact_opens_only_an_explicit_mail_link(connected_browser, ema
             'No public support channel is configured.')
         expect(page.locator('#support-contact a')).to_have_count(0)
     assert not c[4] and not errors
+
+
+@pytest.mark.parametrize('kind', ['upload', 'capture', 'extraction', 'status', 'verification',
+                                 'action', 'queue', 'guidance', 'correction', 'refresh'])
+@pytest.mark.parametrize('failure', [False, True])
+def test_pending_status_remains_announcable_while_duplicate_work_is_blocked(page, kind, failure):
+    result = page.evaluate('''async ({kind,failure})=>{
+      state.csrf='synthetic';state.config={guidance:'OFF'};
+      let release, reject, dispatches=0;
+      const work=task(async()=>{dispatches++;await new Promise((r,j)=>{release=r;reject=j;});
+        message('Operation completed.');},kind);
+      const el=$(operations[kind].region);
+      const pending={text:el.textContent,visible:!el.hidden,role:el.getAttribute('role'),
+        busy:!!el.closest('[aria-busy="true"]'),
+        buttons:operations[kind].buttons.map(id=>({disabled:$(id).disabled,
+          busy:$(id).getAttribute('aria-busy')}))};
+      await task(()=>{dispatches++;},kind);
+      if(failure)reject(new Error('Operation refused.'));else release();await work;
+      return {pending,dispatches,terminal:el.textContent,
+        busy:!!el.closest('[aria-busy="true"]'),spinner:el.dataset.busy};
+    }''', {'kind': kind, 'failure': failure})
+    assert result['pending']['visible'] and result['pending']['text']
+    assert result['pending']['role'] == 'status'
+    assert not result['pending']['busy']
+    assert all(button['disabled'] and button['busy'] == 'true'
+               for button in result['pending']['buttons'])
+    assert result['dispatches'] == 1
+    assert result['terminal'] == ('Operation refused.' if failure else 'Operation completed.')
+    assert not result['busy'] and result['spinner'] != 'true'

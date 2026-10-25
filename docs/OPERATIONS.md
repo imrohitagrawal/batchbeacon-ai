@@ -15,6 +15,28 @@ completed acceptance claims. No notification channel is configured by inference.
 The tables below retain the configuration policy; proposals are not evidence of
 an implemented resource. Use actual receipts for effective settings.
 
+## Current authority reconciliation
+
+U28 extends the existing funded period through **31 December 2026, 23:59 IST**;
+U29 sets the Cloud Run provider monthly cap to **₹1,000** without changing its
+₹800 lifetime allocation or the **₹6,000** project ceiling. U30's configured health
+and component notifications and observed test receipts are separate from complete
+Operations acceptance. No additional message is authorized by this record.
+
+U31 changes development/public model pools to **₹1,100 / ₹650**; protected ₹600
+and probes ₹150 preserve the ₹2,500 model total. The older tables below are the
+original proposal, superseded only by these named amendments. Fresh continuation
+readback confirms public incurred ₹101.760977816 and held ₹500 across two unknown
+attempts. The remaining ₹48.239022184 cannot admit the current ₹250 reservation.
+Neither available funds nor an accounting-parser correction grants a new call or
+settlement. The seven-call validation allowance is exhausted.
+
+ModelPrice values are evidence-bound conservative ledger rates; `actual_nanos`
+is the usage-derived ledger valuation, not a statement of observed provider invoice.
+When cached prompt tokens are supported, they remain included in the full prompt
+valuation at the original input rate. No inferred discount, tax credit, rate change
+or liability release is permitted. See the [current acceptance checklist](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md#9-authoritative-acceptance-checklist-and-continuation-checkpoint).
+
 ## 1. Configure in dependency order
 
 | Order | Proposed configuration | Local verification / gate |

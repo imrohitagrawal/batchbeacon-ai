@@ -251,3 +251,81 @@ On 25 October the owner separately authorized one verification email to that
 mailbox, then confirmed receipt with an inbox screenshot. That completes the
 observed test-receipt gate; it does not authorize additional messages or establish
 a response deadline, ongoing availability or successful case reconciliation.
+
+
+## Recovered U28–U30 authority
+
+The following owner amendments were retained in the older root checkout and are
+reconciled here without modifying that checkout. Later U31–U34 remain effective.
+
+## U28 — hosting extension and cumulative spending notifications
+
+The owner extends the existing project's hosting and operational authorization
+through **31 December 2026, 23:59 IST**. This supersedes U09's end date, not its
+**₹6,000 total lifetime ceiling** or the finite allocations in OPERATIONS.
+Existing spending, reservations and issuance counters carry forward without a
+reset. No new subscription, persistent account, UI change, video replacement or
+additional AI evaluation is authorized by this operations request.
+
+Extend the runtime grant, public phase and factually revalidated pricing period.
+Preserve eight-hour workspaces, the eight-hour offset between final new-workspace
+admission and funded expiry, no lifetime workspace ceiling, and the 30-per-60-second
+rate. A configuration-only deployment may reuse the exact existing image, with
+independently verified, conditional metadata migration preserving active workspaces
+and historical evidence. No historical receipt or evaluation may be relabelled.
+
+The owner also requests alerts for each cumulative **₹100** of project spending.
+Preserve the original billing-period start and existing service caps; monthly
+resets do not renew lifetime allowances. Use native project-scoped notifications,
+with an owner-specified destination. The owner supplied the destination privately;
+the native channel and all 60 ₹100–₹6,000 milestone alerts are configured and
+independently verified. Existing service caps and operating-alert recipients remain
+unchanged. Actual email delivery has not yet been observed.
+Provider cost-reporting delay and configuration verification are distinct from
+observed email delivery; no instantaneous or exactly-once alert guarantee is made.
+This decision does not create a native agent goal, scheduled monitoring process,
+automatic deletion or guaranteed provider shutdown at the funded deadline.
+
+## U29 — Cloud Run monthly service cap
+
+The owner explicitly raises the Cloud Run monthly provider spend cap from ₹400
+to **₹1,000**. Provider update and independent readback passed: the cap remains
+configured; project/service scope, notification thresholds and recipients, and
+all other 62 budgets remain unchanged. This is not a new lifetime allocation:
+the recorded ₹800 hosting allocation and ₹6,000 total lifetime ceiling remain.
+No instance, concurrency, application, model or deployment setting changes.
+
+## U30 — availability monitoring and operational notification verification
+
+The owner authorizes a five-minute non-AI health check with outage and recovery
+emails to the previously supplied destination, verification of operational error
+notifications, component monitoring and a remaining-capacity check before judging.
+Use bounded native monitoring, preserve the submitted application and do not
+induce a production outage or make paid AI probes for monitoring.
+
+One permanent public HTTPS check from three locations preserves the existing
+check-count policy. A separately labelled temporary test check/policy may verify
+opening and recovery delivery, then must be removed. Connect existing error
+policies and use native dependency metrics where supported. Static health and
+quiet passive metrics are not proof of an end-to-end AI journey or remaining
+allowance. Configuration, observed incidents and received email are distinct gates.
+
+The extended-period monitoring estimate explicitly relies on the freshly verified
+one-million-per-project monthly native uptime execution allowance; one check uses
+at most 26,784 executions in a 31-day month. Without that allowance the extended
+gross monitoring estimate exceeds the existing ₹600 pool. Preserve the ₹6,000
+ceiling, account separately for Cloud Run/logging/transfer and review or disable
+monitoring at funded expiry; no automatic expiry mechanism is asserted.
+
+
+## U35 — acceptance continuation
+
+The owner requests recovery of current state, reconciliation and independent
+review of the existing R01–R12/F1–F8 plan, then execution of all authorized,
+dependency-ready corrections and acceptance. One integrator remains responsible;
+independent product/accessibility, backend/accounting, security/operations and
+judge/video reviewers are explicitly authorized. No new paid AI, countTokens,
+retry, transfer, model change or outbound contact is authorized. Investigation
+and offline correction do not authorize settlement of unknown liabilities.
+Human usability and actual assistive-technology evidence remain distinct gates;
+no deployment or test count alone establishes readiness.

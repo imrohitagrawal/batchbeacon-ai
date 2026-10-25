@@ -345,3 +345,52 @@ def test_permanent_admission_epoch_rejects_old_client_preserving_counters(runtim
     with pytest.raises(GuestDenied, match="demo_guest_capacity_unavailable"):
         old[2].issue()
     assert new[0].run(lambda tx: tx.read({name: "guest_admission"})[name]) == recorded
+
+
+def test_cached_usage_settlement_is_atomic_and_keeps_failed_run(runtime, env):
+    from batchbeacon.shared_admission import Pool
+    from tests.unit.durable_fixtures import record_wire, run_binding, wire_response
+
+    first = runtime[0]
+    token, session = first[2].issue()
+    incident = first[2].create_incident(token, 'cache-accounting')
+    policy = replace(env[0].policy, project_id=first[0].policy.project_id)
+    grant = replace(env[0].grant, project_id=policy.project_id, policy_hash=policy.digest())
+    services = [SharedAdmission(policy, grant, r[0].shared, clock=lambda: first[5][0])
+                for r in runtime]
+    services[0].initialize(env[7])
+    services[0].activate_phase(env[1].state().phase)
+    run = services[0].begin_run(session.capability_hash, incident.id, 'cached',
+                                run_binding(first[2], token, incident.id))
+    attempt = services[0].reserve(session.capability_hash, run.id, 'b' * 32, 'c' * 64,
+                                  operation_key='extract')
+    services[0].claim_dispatch(session.capability_hash, run.id, attempt.id,
+                               attempt.request_hash, attempt.model_configuration_hash)
+    services[0].finish_run(session.capability_hash, run.id, failed=True)
+    body = json.loads(wire_response(100, 10, 5))
+    body['usageMetadata']['cachedContentTokenCount'] = 90
+    record_wire(services[0], attempt, json.dumps(body).encode())
+
+    def read(kind, identifier=None):
+        stores = runtime[1][0]
+        name = stores.name(kind, identifier) if identifier else stores.name(kind)
+        return stores.run(lambda tx: tx.read({name: kind}))[name]
+
+    before = read('budget')
+    failed_run = services[1].inspect_run(session.capability_hash, run.id)
+    assert services[1].reconciliation_required(session.capability_hash)
+    assert read('budget') == before  # Status GET never settles retained cache evidence.
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        list(pool.map(lambda service: service.reconcile(attempt.id), services))
+    after, receipt = read('budget'), read('attempt', attempt.id)
+    cost = attempt.price.cost_nanos(100, 15)
+    assert receipt.actual_nanos == cost and receipt.complete_usage.input_tokens == 100
+    assert receipt.usage_hash == receipt.complete_usage.digest()
+    assert after.balance(Pool.PUBLIC).reserved_nanos == 0
+    assert after.balance(Pool.PUBLIC).incurred_nanos == (
+        before.balance(Pool.PUBLIC).incurred_nanos + cost)
+    assert after.balance(Pool.PUBLIC).lifetime_attempts == 1
+    assert services[1].inspect_run(session.capability_hash, run.id) == failed_run
+    assert failed_run.terminal == 'failed' and failed_run.completion_hash is None
+    services[0].reconcile(attempt.id)
+    assert read('budget') == after and read('attempt', attempt.id) == receipt

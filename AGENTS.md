@@ -29,8 +29,8 @@ The unchanged originals are `HACKATHON_BRIEF.md` and
   values into applicable evidence. Missing cost/authority closes paid admission.
 
 ## Authority and human gates
-- Kickoff adopts U09–U12: scoped existing project, finite INR 6,000 pools through
-  7 November 2026 23:59 IST; bounded public synthetic app after security gates;
+- Kickoff adopts U09–U12, extended by U28: scoped existing project, finite INR 6,000 pools through
+  31 December 2026 23:59 IST; bounded public synthetic app after security gates;
   ordinary create/commit/push/publication to imrohitagrawal/batchbeacon-ai.
 - Discover actual state before external operations. No new subscriptions,
   unbounded calls, privilege expansion, public buckets or inferred messaging.

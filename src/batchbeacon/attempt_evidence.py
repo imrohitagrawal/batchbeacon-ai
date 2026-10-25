@@ -128,9 +128,15 @@ def derive_usage(response: ResponseEvidence, request_hash: str,
                   for k in required]
         if any(type(n) is not int or n < 0 for n in counts) or counts[3] != sum(counts[:3]):
             raise ValueError("incomplete usage")
-        for name in optional_counts:
-            if name in usage and (type(usage[name]) is not int or usage[name] != 0):
-                raise ValueError("unsupported billing mode")
+        # Implicit cache hits are a subset of prompt tokens, not an additional
+        # meter. Keep the entire prompt at the original bound input rate: this
+        # conservative ledger valuation neither assumes a discount nor an invoice.
+        cached = usage.get("cachedContentTokenCount", 0)
+        if type(cached) is not int or not 0 <= cached <= counts[0]:
+            raise ValueError("invalid cached prompt subset")
+        tool_tokens = usage.get("toolUsePromptTokenCount", 0)
+        if type(tool_tokens) is not int or tool_tokens != 0:
+            raise ValueError("unsupported billing mode")
         for detail, total in details.items():
             if detail not in usage:
                 continue
@@ -142,6 +148,12 @@ def derive_usage(response: ResponseEvidence, request_hash: str,
                     for row in rows) or len({row["modality"] for row in rows}) != len(rows) \
                     or sum(row["tokenCount"] for row in rows) != usage.get(total, 0):
                 raise ValueError("usage detail mismatch")
+        if "cacheTokensDetails" in usage and "promptTokensDetails" in usage:
+            prompt_modalities = {row["modality"]: row["tokenCount"]
+                                 for row in usage["promptTokensDetails"]}
+            if any(row["tokenCount"] > prompt_modalities.get(row["modality"], 0)
+                   for row in usage["cacheTokensDetails"]):
+                raise ValueError("cached modality exceeds prompt subset")
         if "trafficType" in usage and usage["trafficType"] != "ON_DEMAND":
             raise ValueError("unsupported traffic type")
         return CompleteUsage(request_hash=request_hash, response_hash=response.retained_sha256,
