@@ -25,10 +25,12 @@ Operations acceptance. No additional message is authorized by this record.
 
 U31 changes development/public model pools to **₹1,100 / ₹650**; protected ₹600
 and probes ₹150 preserve the ₹2,500 model total. The older tables below are the
-original proposal, superseded only by these named amendments. Fresh continuation
-readback confirms two unknown liabilities remain held and remaining public capacity
-cannot admit the configured per-attempt reservation. Exact live balances and
-reservation values remain in ignored private evidence.
+original proposal, superseded only by these named amendments. U36 authorizes only
+the newer retained-usage reconciliation. Independent post-operation readback
+confirms its completion and the older unknown liability remains held. Shared public
+capacity reopened; it is available to other visitors and none is reserved for
+validation. Fresh admission remains required immediately before any separately
+authorized call. Exact live balances and reservation values remain private.
 Neither available funds nor an accounting-parser correction grants a new call or
 settlement. The seven-call validation allowance is exhausted.
 

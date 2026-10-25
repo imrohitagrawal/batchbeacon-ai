@@ -1,5 +1,27 @@
 # BatchBeacon AI — current execution state
 
+## Acceptance resumption — 26 October 2026
+
+Fresh independent reads confirm unchanged deployed source `bc7da038c6`, image,
+runtime/IAM, both public hosts' assets/support and successful PR15/16 checks.
+No product implementation or deployment was repeated. The
+[single acceptance register](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md#9-authoritative-acceptance-checklist-and-continuation-checkpoint)
+and [M9](evidence/M9-user-journey-correction.md) record the refreshed evidence.
+
+Operation A completed under explicit owner authority and independent authoritative
+readback: only the newer retained usage was settled; the older liability, failed
+runs and expired ownership remain unchanged. Shared public capacity reopened; none
+is reserved for validation. No generation, token-count or email occurred. Operation B
+requires a separate decision. Fresh model/video acceptance and a legitimate live
+unresolved-panel case remain open. Full-sequence sampled video review and current
+controlled fixtures are complete within their stated limits. The owner reports
+VoiceOver enabled but no speech during the first fixture task; the cause and
+remaining AT tasks are unresolved. No setting was changed by the agent. An
+unfamiliar participant is still needed for first-time human observation.
+Private exact decision/evidence/handoff: `.local/run-records/acceptance-resume-20261026/`.
+The older root checkout and unrelated modifications remain preserved. Broader U18
+limits and historical Git disclosure are unchanged; full readiness is not claimed.
+
 ## Acceptance continuation — 25 October 2026
 
 The [single R01–R12/F1–F8 acceptance register](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md#9-authoritative-acceptance-checklist-and-continuation-checkpoint)

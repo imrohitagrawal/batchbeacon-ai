@@ -329,3 +329,21 @@ retry, transfer, model change or outbound contact is authorized. Investigation
 and offline correction do not authorize settlement of unknown liabilities.
 Human usability and actual assistive-technology evidence remain distinct gates;
 no deployment or test count alone establishes readiness.
+
+
+## U36 — newer retained-usage reconciliation only
+
+After reviewing the precise private Operation A proposal and its shared-public-
+capacity consequence, the owner explicitly authorized Operation A only. The
+reviewed guarded transaction records already-observed usage at the original bound
+rates and releases only the newer excess reservation. It is not a new AI call or
+a final discounted-invoice claim. Independent post-operation verification confirms
+completion, with the older liability, failed runs, expired ownership and unrelated
+records preserved. Released capacity is shared and not reserved for validation.
+
+This decision grants no generation, token-count, retry, pool transfer or outbound
+contact. Operation B requires its own refreshed proposal and explicit decision.
+The owner separately volunteered to operate the already-authorized screen reader,
+reported VoiceOver enabled and then reported no speech during the first controlled
+fixture task. Actual AT acceptance remains incomplete; no redundant conversational
+permission or accessibility-setting bypass is required or implied.

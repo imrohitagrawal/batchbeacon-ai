@@ -199,8 +199,8 @@ not complete model, assistive-technology or human acceptance.
 
 | ID | Acceptance criterion retained | Implementation and evidence | Remaining gate / role / next action |
 |---|---|---|---|
-| R01 | Exercise every meaningful control; label selection persists and explicit extraction alone starts AI. | Implemented F1–F6; current 1,464 U / 133 B / 29 edge / eight E and exact push/PR/main CI pass; historical S upload and M positives distinguished. | Current S retained-label/recheck/queue/reload/focus/mobile checks pass on both hosts. Mandatory fresh M journey requires separately authorized accounting/admission and validation. |
-| R02 | Immediate accessible progress, duplicate prevention and visible completion/refusal/error with next action. | Implemented F1/F2; pending live region now remains nonbusy while visual loader/buttons reflect actual state. Twenty baseline failures now pass; independent C/B review passes. Historical S upload handoff retained. | Mandatory: accessibility reviewer verifies pending/terminal announcements with actual AT; no claim from role=status alone. |
+| R01 | Exercise every meaningful control; label selection persists and explicit extraction alone starts AI. | Implemented F1–F6; current 1,464 U / 133 B / 29 edge / eight E and exact push/PR/main CI pass; historical S upload and M positives distinguished. | Current S retained-label/recheck/queue/reload/focus/mobile checks pass on both hosts. Accounting reconciliation is complete under U36; mandatory fresh M journey still requires separate authority and fresh admission. |
+| R02 | Immediate accessible progress, duplicate prevention and visible completion/refusal/error with next action. | Implemented F1/F2; pending live region now remains nonbusy while visual loader/buttons reflect actual state. Twenty baseline failures now pass; independent C/B review passes. Historical S upload handoff retained. | Owner-operated AT reported no speech in the first controlled task; cause unlocalized, diagnostic pending. Accessibility reviewer/integrator must verify actual pending/terminal output and remaining tasks; role=status alone is not acceptance. |
 | R03 | First-user, product, code and usability perspectives assess the whole journey. | Independent technical product/code/video reviews in M9; agent walkthroughs only. | Mandatory H: a first-time participant follows the short procedure below; owner arranges participant, integrator records assistance. |
 | R04 | Preserve filmed choose/upload → extract/compare → review → confirm → queue/reopen, plus unrelated-label and guidance behavior. | Section 3 segment contract; exact retained-video provenance review and controlled positive flow in M9. Earlier M positives and unrelated-call failures retained. | Mandatory M+H: fresh SFA A and B positives plus third-identity same-lot outcome, guidance scope and current mobile queue; no timeout-as-negative. |
 | R05 | Explain purpose, sample data, limited notice coverage and complete journey. | F7 text/stages implemented; M9 C/B and both-host S purpose/retained-workspace observations pass. | Mandatory H comprehension: participant explains purpose and next step without coaching. Preserve no safety/clearance/worldwide claim. |
@@ -209,8 +209,8 @@ not complete model, assistive-technology or human acceptance.
 | R08 | Link intended image, identity, exact lot/date, source/scope/version and differences to review/action. | F7 checklist, provenance and currentness; M9 C/B, historical M evidence. | Mandatory fresh M evidence-support review after authorized validation; H identifies exact checked notice and limits. |
 | R09 | Only presently permitted actions; read-only recheck, support contact and expired recovery are honest. | F3–F6 capabilities, ownership/expiry, configured support; M9 U/C/B/CI/S (live panel absent in test workspace). | Mandatory live-panel dependency and AT/H; never imply notification, response deadline, settlement or transferable expired case. |
 | R10 | Evidence-backed field states; no invented confidence or safety score. | Implemented without numeric confidence; source/C/B review in M9. | H confirms nonmatch is understood as scoped, not safety; any contrary response is a finding, not a pass. |
-| R11 | Research, code/history/video review, retained failed evidence and complete requirement coverage. | Sections 1–8 and M9 retained; four required specialist perspectives completed, findings reproduced/classified and corrections independently verified. Exact submitted MP4/keyframes and narration provenance reviewed. | Integrator retains failed evidence and updates this register after remaining external acceptance; no continuous-video or unavailable speech review claimed. |
-| R12 | Reviewed bounded plan, dependencies, meaningful regression, release/rollback and honest closeout. | Sections 6–7 plus this checkpoint; independent planning/correction/release reviews completed in dependency order. | Authorized technical correction/release work complete with both-host S checks and durable handoff. Owner accounting decision, fresh M, actual AT/H and unavailable live-panel state remain explicit blockers. |
+| R11 | Research, code/history/video review, retained failed evidence and complete requirement coverage. | Sections 1–8 and M9 retained; four required specialist perspectives completed, findings reproduced/classified and corrections independently verified. Exact submitted MP4/narration provenance reviewed; fresh sampled visual review covers all 44 five-second positions across the complete sequence. | Integrator retains failed evidence and updates this register after remaining external acceptance; no continuous-video or unavailable speech review claimed. |
+| R12 | Reviewed bounded plan, dependencies, meaningful regression, release/rollback and honest closeout. | Sections 6–7 plus this checkpoint; independent planning/correction/release reviews completed in dependency order. | Authorized technical correction/release work complete with both-host S checks and durable handoff. Operation A is independently complete; separate fresh M authority, actual AT/H and unavailable live-panel state remain explicit blockers. |
 | F1 | Adjacent upload/extraction progress and visible saved-label handoff, errors cannot reuse prior label. | Implemented; current U/C/B/CI regressions pass, including corrected nonbusy progress semantics; prior S upload preserved. | R02 actual AT and H remain; current S checks cover retained-label/recheck, not a fresh upload. |
 | F2 | Distinct no-label/ready/checking/completed/failed/unresolved/expired stages reflect facts. | Implemented; current U/C/B/CI covers completion, refusal, failure, stale response and corrected progress; S nonmodel subset. | Fresh M completion remains F8; actual AT must hear pending/terminal transitions. |
 | F3 | Owned case capabilities disable futile recovery; recheck beside unresolved explanation. | Implemented; M9 U/C/B/CI, deployed API/config and support. | Visible S panel remains incomplete: original capability was unavailable during its valid interval and both known unresolved sessions are now expired. Need a future legitimately owned active case, not an extra paid attempt to create one. |
@@ -218,7 +218,7 @@ not complete model, assistive-technology or human acceptance.
 | F5 | Late success/error cannot overwrite expiry or another selected case. | Implemented; independently reproduced regressions and current full U/C/B/CI pass. | Controlled race coverage complete for this increment; no claim of live race injection or H/AT acceptance. |
 | F6 | Explicit navigation reveals destination, focus and scroll; reload/back/reopen preserve context. | Implemented; current C/B keyboard/race tests and both-host S navigation focus, mobile, queue and reload pass. | Actual AT/H testing remains; agent browser operation is not human usability. |
 | F7 | Clear short purpose, readable queue/status, technical details disclosed on demand. | Implemented advisory clarity work; M9 C/B and both-host S observations. | Additional cosmetic refinement is ADVISORY_DEBT; required R05/R06 comprehension still mandatory. |
-| F8 | Supported usage/accounting, preserved unknowns, actual successful complete positive and unrelated/wrong-product validation. | PARTIAL. Strict cache-subset parser implemented and independently verified with retained provider bytes, U/C/E; unchanged original-rate valuation and unknown liabilities. Earlier no-response timeout remains distinct. | Separate settlement decision for newer receipt only; then recheck admission and request bounded fresh SFA A/B + third-identity M/video validation. Actual provider success is not proved by offline parsing. Keep both liabilities held until explicit authority. |
+| F8 | Supported usage/accounting, preserved unknowns, actual successful complete positive and unrelated/wrong-product validation. | PARTIAL. Strict cache-subset parser implemented and independently verified with retained provider bytes, U/C/E; original-rate valuation preserved, newer usage settled under U36 and older unknown held. Earlier no-response timeout remains distinct. | Operation A is owner-authorized and independently verified: newer retained usage settled, older liability held, failed runs/expired ownership preserved. Cache-aware rollback is now mandatory. Separately refresh admission and request bounded third-identity then SFA A/B M/video validation. Accounting repair does not prove provider success or reserve capacity. |
 
 ### Classification and independent work
 
@@ -329,9 +329,9 @@ keyboard to select/upload, hear immediate progress and terminal status, inspect
 field/source evidence, move through confirmation with unchecked consent, reopen
 queue, recheck unchanged/resolved state, and handle failure/expiry. Use controlled
 slow/failure fixtures to avoid paid calls. Verify focus after navigation/dialogs,
-no duplicate or suppressed announcements, and hidden/ineligible controls. Restore
-any temporary setting themselves; the agent will not change Mac accessibility
-settings again. If tools cannot observe speech, prepare this procedure
+no duplicate or suppressed announcements, and hidden/ineligible controls. Establish the current setting before any temporary change and restore it afterward.
+The later owner-authorized recheck supersedes the earlier no-toggle commitment;
+failed tool permission handoff does not imply absent conversational permission. If tools cannot observe speech, prepare this procedure
 and record AT as NOT RUN, never PASS from DOM roles or a screenshot.
 
 ### Planning review disposition
@@ -343,12 +343,19 @@ cleared this checklist and substantiated the R02 pending-region defect: the
 defer the pending announcement. Correct only this boundary by keeping the live
 status nonbusy, retaining busy buttons and an independent visual loader state.
 This proves suppressible semantics, not observed VoiceOver speech suppression.
-A brief VoiceOver capability experiment restored the original off state but could
-not observe speech; AT remains NOT RUN for acceptance. No further host accessibility
-setting changes are part of this continuation. Private plan reviews and baseline
+A historical VoiceOver capability experiment restored its then-original off state
+but could not observe speech. The owner subsequently authorized a recheck, manually
+enabled VoiceOver, and requested disable; tool access prevented that disable.
+The later capability inventory reports VoiceOver not running, which does not
+verify the accessibility setting or spoken output. That inventory did not close AT. In the later owner-operated fixture attempt the
+owner reported VoiceOver ON and no speech; diagnosis is pending. No setting was
+changed by the agent and no restoration is claimed. Private plan reviews and baseline
 reproductions are retained under the acceptance-continuation evidence directory.
 
-### Closeout and exact next authority
+### Historical closeout before U36
+
+The following pre-resumption decision state is retained as history. U36 and the
+resumption disposition below supersede its pending Operation A status.
 
 Authorized unblocked correction and nonpaid verification are complete for this
 increment. No complete product-readiness claim follows. The next owner decision
@@ -368,3 +375,115 @@ are private. No new paid call is authorized now. H and AT procedures above are
 ready for an actual participant/operator; they cannot be completed by agent review.
 Live unresolved-panel acceptance needs a future legitimately owned active state;
 expired cases cannot supply it and no paid call may manufacture it.
+
+
+### Acceptance-resume planning checkpoint — 26 October 2026
+
+The owner requests continuation from the completed technical closeout, preserving
+all R01–R12/F1–F8 definitions above. Root changes remain unrelated and preserved;
+the clean acceptance worktree is the sole integration location. No new product
+implementation, redesign or repeated broad suite is justified by recovery so far.
+Independent product/UX/accessibility, backend/accounting, security/operations and
+judge/video reviewers cover this checkpoint. Their exact review and fresh evidence
+are private in `.local/run-records/acceptance-resume-20261026/`.
+
+Dependency order and acceptance:
+
+1. Refresh remote/deployed source, immutable image, runtime/support, both-host
+   assets, accounting inventory and document versions. Reuse still-bound unit,
+   controlled, emulator, browser and hosted evidence; keep each evidence type
+   distinct. At this initial checkpoint no model, token-count, settlement or email
+   was authorized; the subsequent A-only decision below supersedes settlement scope.
+2. Prepare Operation A only for the newer retained complete response. The prior
+   packet proves offline arithmetic but lacks an execution wrapper that pins the
+   reviewed document versions inside the transaction. This is a REQUIRED_CONTRACT
+   preparation gap for R12/F8, not a newly demonstrated public application defect.
+   After independent plan review, prepare the smallest private wrapper around the
+   existing SharedAdmission and Firestore transaction path: compare exact guarded
+   document preimages/versions in the transaction, allow only target/budget writes,
+   require the reviewed postimages, preserve older liability/failed runs/ownership,
+   abort drift, and classify uncertain acknowledgement through authoritative reads.
+   Test drift, replay, concurrency, failed acknowledgement and write restrictions
+   offline and with the existing loopback emulator. Do not execute a live write.
+3. Verify a retained cache-aware rollback against the proposed settled receipt.
+   The earlier reader is incompatible after such a receipt; do not offer it as a
+   post-settlement rollback. Present the precise refreshed operation and shared
+   public-capacity consequence for explicit owner decision only after preparation.
+4. Extend submitted-video review across the accessible complete sequence with
+   accurately labelled sampled visuals and retained narration. Preserve publication;
+   sampled frames, complete decoding and actual audiovisual listening are distinct.
+   Correct AT chronology: earlier OFF restoration predates later owner activation
+   and failed disable. Owner authorization exists; the tool permission handoff
+   failed without an owner-visible prompt. Current setting/spoken output are not
+   verified. Use a supported capability inventory or human-operated procedure;
+   never bypass restrictions or infer missing conversational permission.
+5. Prepare actual screen-reader and unfamiliar-participant tasks using current,
+   clearly labelled controlled slow/failure fixtures without provider calls. Retain
+   H/AT as incomplete until actual observations exist. Check for a legitimate
+   owned active unresolved case; never restore expired ownership or create a paid
+   failure to obtain panel evidence.
+6. Only after separately authorized A and independent post-verification, refresh
+   Operation B as a separate owner decision: third identity first, then SFA A/B,
+   at most three sequential generations and associated token counts, no retries,
+   unchanged configuration and reservation, stop on first failure/unknown/drift.
+   Available capacity is neither authority nor exclusive validation capacity.
+
+The lifetime ceiling and existing pools remain unchanged. No build/deployment is
+planned. Any later publication receives applicable exact hosted checks and private
+content scanning; application-source identity remains separate from documentation
+head. Existing historical broader U18 gates and Git-history disclosure limitations
+remain open. This checkpoint changes execution preparation and evidence chronology,
+not accepted scope or completed implementation.
+
+
+### Resumption verification and disposition
+
+Fresh real-service reads confirm the same application source/image, 100% serving
+revision, runtime/IAM, both-host assets and support configuration. Remote PR15/16
+and their checks remain successful; documentation main is not packaged source.
+The initial refreshed accounting inventory retained both liabilities and terminal
+failed/timed-out runs. After the explicit A-only decision, independently verified
+readback records the newer retained usage and releases its excess reservation. The
+older liability and all seven protected records, including failed runs and expired
+ownership, are unchanged; no extraction completion or action was created. Shared
+public capacity reopened and is not reserved for validation. No legitimate active
+owned unresolved case was available. Newly observed empty
+workspace records are unattributed public activity, not our model tests. Exact
+ledger values/versions remain private. No provider call or email was performed.
+
+The R12/F8 preparation gap is corrected privately:31focused fake-SDK checks,
+21independent fake-SDK checks and3actual loopback emulator cases verify exact
+transaction guards, two-document write scope, replay and lost-acknowledgement
+readback. Independent review confirms cache-aware rollback compatibility. This
+preparation was followed by explicit owner authorization for Operation A only.
+Focused dispatch-binding tests and independent review preceded the single guarded
+transaction. Authoritative readback and an independent complete inventory verify
+the exact postimage and absence of unrelated changes. An acknowledgement alone was
+not treated as completion. This does not close F8 model acceptance. Operation B
+remains a separate owner decision with unchanged limits and negative case first.
+
+Current-source controlled human fixtures are prepared for delayed success,
+identity-evidence refusal, unresolved accounting and upload error. Their fake-service
+verification passes. Agent-operated browser checks observed immediate saving and
+checking feedback, completion, unchecked consent, simulated action, queue/reopen
+and reload. This is C/B evidence only. The fixture uses a disclosed simulated
+clock; it is not deployed/model, screen-reader speech or novice-human evidence.
+The prior defective baseline fixture remains retained and must not be reused as
+the current candidate. The owner subsequently operated the success fixture and
+reported VoiceOver enabled but no speech during the requested actions. Record this
+as an observed AT failure with cause unlocalized, not a pass or yet a demonstrated
+application defect. The pending diagnostic distinguishes speech elsewhere from
+missing application announcements; browser/version, spoken output and remaining
+tasks are still missing. First-time H participation remains unavailable. A supported
+inventory was read; no native app retries or accessibility-setting changes were
+made. Human tasks and moderator setup are in the private handoff.
+
+All twenty rows above retain their acceptance criteria and current classifications.
+R01/R04/R08/F8 still require separately authorized fresh model evidence; R02/F1/F2/F6
+require actual AT; R03/R05/R06/R10 and relevant journey/recovery rows require novice
+observations; R07/R09/F3/F4 retain the unavailable legitimate live-panel dependency.
+F5 controlled coverage and completed implementation stay accepted. R11/R12 recovery,
+review and truthful evidence reconciliation are updated, with dependent gates open.
+Further F7 cosmetics remain advisory. Full judge reproduction and full product
+readiness are not certified; the narrower U18 scope and broader historical gaps
+remain distinct.
