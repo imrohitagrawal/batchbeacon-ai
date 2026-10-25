@@ -106,7 +106,7 @@ These passed UI release gates do not establish full product readiness.
 
 At the initial journey release, support handoff remained incomplete: no public
 destination had been selected or receipt tested. The U34 follow-up below records
-the later owner selection. The UI explicitly says so and exposes only a copyable case
+the later owner selection. At that release the UI explicitly said so and exposed only a copyable case
 reference. It does not expose the private monitoring address, send a message or
 promise a response. See the [operator procedure](../JOURNEY_OPERATOR_RECOVERY.md).
 
@@ -128,6 +128,26 @@ credential discovery. The visible link opens the visitor's email application wit
 a generic subject. Case references remain an explicit copy/paste action; cookies,
 tokens and private logs are not attached. The application sends no email.
 
-The contact update is being verified separately from the deployed journey source
-above. Selecting the destination does not prove receipt or complete the support
-handoff. No test email has been sent, and no paid AI calls are authorized.
+The implementation merged through [PR #13](https://github.com/imrohitagrawal/batchbeacon-ai/pull/13),
+source `351990d6cf7879ede920ccedadc070fb63e6f8c7`. Independent contract and UI
+reviews, 1,440 unit, 113 browser, 29 edge and seven Firestore emulator tests passed.
+Exact source-push, PR-merge and main hosted checks passed; packaged configuration,
+TLS, source archive and zero-traffic candidate checks passed.
+
+The owner subsequently authorized one verification email and confirmed receipt
+with an inbox screenshot. This is an observed test receipt, not a promise of
+ongoing availability, delivery deadlines or resolved cases. The existing candidate
+was promoted after fresh independent review. Both public hostnames passed exact
+configuration/asset and retained-session browser checks; no new workspace, upload,
+action or AI request was made. Runtime JSON, resources, IAM, accounting and unknown
+liabilities remain unchanged. Image:
+`sha256:e6e474e6c81842cdeb74e01491c8ca277762dab59506e5fe44227928f3d6ac6d`.
+No additional email or paid AI call is authorized.
+
+The retained live test workspace has exhausted allowance without its own unresolved
+request, so the operator panel is correctly hidden. Live configuration, encoded
+link and exact assets passed; visible unresolved-panel keyboard/mobile behavior
+passed controlled tests separately. An initial live probe assumed the wrong state;
+its failure and independent reproduction are preserved. No live unresolved-panel
+visibility or full first-time/assistive-technology acceptance is claimed.
+Private support evidence: `.local/run-records/support-contact/`.

@@ -5,16 +5,16 @@ Responsible operator: the BatchBeacon project owner. Under U34 the owner selecte
 `BATCHBEACON_SUPPORT_EMAIL` deployment setting supplies the public contact; missing
 configuration keeps the explicit unavailable message, and malformed values stop
 startup. A mail link opens the visitor's email application with a generic subject;
-it does not send anything or attach case data. Receipt verification is still
-pending and must be recorded before claiming the handoff works. The private
+it does not send anything or attach case data. The owner authorized one verification email and confirmed receipt with an inbox
+screenshot. This verifies that test handoff, not ongoing delivery or case resolution. The private
 monitoring destination is not reused.
 
-Until then, the interface must say that no notification was sent and no response
+The interface must continue to say that no notification was sent and no response
 period is promised. The copyable case reference is an identifier, not a credential.
 It must not contain cookies, tokens, provider bodies or private logs. Saved labels
 and the exact official notice remain available only while owned access is valid.
 
-When the approved mailbox is operational:
+Operator procedure for the approved mailbox:
 
 1. Ask for the displayed case reference, observed message and whether access is
    still active. Do not request authentication cookies or tokens. Explain the

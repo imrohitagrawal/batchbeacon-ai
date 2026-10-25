@@ -235,7 +235,7 @@ Preserve unrelated work and the submitted video’s workflow. The seven-call AI
 allowance is exhausted: no further paid AI calls are authorized. UI/capability
 corrections and read-only operational diagnosis can proceed within the existing
 scope; full readiness must not be claimed while acceptance remains incomplete.
-No public support address has been selected or delivery verified. The owner
+At this decision, no public support address had been selected or delivery verified. The owner
 requested an evidence-based recommendation; this does not authorize publishing
 the private monitoring destination or sending messages.
 
@@ -246,3 +246,8 @@ configuring and publishing that contact for the existing operator handoff. It do
 not authorize outbound messages, prove receipt or promise response times. Receipt
 verification remains a separate gate before advertising the handoff as working.
 No additional paid AI calls are authorized.
+
+On 25 October the owner separately authorized one verification email to that
+mailbox, then confirmed receipt with an inbox screenshot. That completes the
+observed test-receipt gate; it does not authorize additional messages or establish
+a response deadline, ongoing availability or successful case reconciliation.
