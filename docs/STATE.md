@@ -1,6 +1,23 @@
 # BatchBeacon AI — current execution state
 
-## Current judge-readiness correction — 22 October 2026
+## User-journey correction — 25 October 2026
+
+The [consolidated R01–R12 plan](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md) is
+implemented in a correction candidate. Independent controlled reviews cleared
+feedback, owned capability projection, expiry/selection guards, navigation and
+the submitted positive workflow. [M9](evidence/M9-user-journey-correction.md)
+tracks final local/hosted/deployed checks; deployment is not yet claimed.
+The current deployed baseline still matches the audited main source.
+
+**Full readiness remains incomplete.** Seven-call authority is exhausted; no
+further paid model call is authorized. Fresh read-only diagnosis found another
+unresolved cache-usage accounting outcome, distinct from the historical provider
+timeouts. Both unknown liabilities remain held. A public support destination,
+verified handoff, fresh full model acceptance and human/assistive-technology
+usability remain open. Original submitted video and other acceptance limits stay
+unchanged. Detailed private evidence is in `.local/run-records/journey-correction/`.
+
+## Historical judge-readiness correction — 22 October 2026
 
 The [video-parity plan](JUDGE_READINESS_IMPLEMENTATION_PLAN.md) has restored the
 core positive workflow. Source `317f562` and its reviewed successor runtime are

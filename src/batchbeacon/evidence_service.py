@@ -283,6 +283,7 @@ class EvidenceView:
     current: bool
     hold_eligible: bool
     latest_run_id: str | None = None
+    acquisition_complete: bool = False
 
 
 class EvidenceService:
@@ -807,7 +808,8 @@ class EvidenceService:
             run = self._latest_run(snapshot, state)
             views[:] = [EvidenceView(state, obs, result, current,
                                      bool(current and result.hold_eligible),
-                                     run.id if run else None)]
+                                     run.id if run else None,
+                                     self._acquisition_current(snapshot, state))]
             return state
 
         self._transaction(capability, incident_id, read)
@@ -827,4 +829,5 @@ class EvidenceService:
             environments[0].at(self.guest._now(), len(value.state.results)),
             environments[0].verifier_policy))
         return EvidenceView(value.state, value.observation, value.result, current,
-                            bool(current and value.result.hold_eligible), value.latest_run_id)
+                            bool(current and value.result.hold_eligible), value.latest_run_id,
+                            value.acquisition_complete)

@@ -685,6 +685,9 @@ class RetailProjector:
             reasons=result.reasons if result else (),
             outstanding_fields=fields,
             category=category,
+            stage=("SAVED_REVIEW" if action_current else "COMPARISON_READY" if current
+                   else "CHECK_PENDING" if running else "CHECK_INCOMPLETE" if p.run
+                   else "LABEL_READY" if ready else "LABEL_REQUIRED"),
             latest_action=ref(action.id, action.result_revision, action.digest())
             if action
             else None,

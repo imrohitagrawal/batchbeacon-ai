@@ -389,7 +389,8 @@ class LearningService:
         except GuestDenied as error:
             if error.code != "learning_evidence_stale":
                 raise
-            context["summary"] = "Check or reverify this investigation before using its guidance."
+            context["summary"] = ("Open this investigation’s saved evidence to see its available "
+                                  "next step. Guidance requires a completed, current comparison.")
             for name in ("request", "feedback", "candidate", "evaluate", "activate"):
                 actions[name] = unavailable(context["summary"])
             return context

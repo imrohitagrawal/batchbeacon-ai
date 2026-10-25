@@ -75,6 +75,28 @@ class AcquisitionStatus(Record):
         'PROVIDER_UNAVAILABLE'], ...] = ()
 
 
+class OperationCapability(Record):
+    available: bool
+    reason: Literal['AVAILABLE', 'UNRESOLVED_ATTEMPT', 'ACTIVE_REQUEST',
+                    'ACQUISITION_LIMIT', 'ALLOWANCE_UNAVAILABLE', 'VERIFICATION_LIMIT',
+                    'NO_COMPLETED_EXTRACTION', 'NO_CURRENT_ACTION', 'LABEL_REQUIRED']
+
+
+class WorkspaceCapabilities(Record):
+    extraction: OperationCapability
+
+
+class IncidentCapabilities(Record):
+    correction: OperationCapability
+    verification: OperationCapability
+    action: OperationCapability
+
+
+class OperationCapabilities(Record):
+    workspace: WorkspaceCapabilities
+    incident: IncidentCapabilities
+
+
 @dataclass(frozen=True)
 class SourceBundle:
     notice: AuthorityNotice
@@ -111,6 +133,33 @@ class ExtractionService:
         self.evidence, self.shared, self.config = evidence, shared, config
         self.sources = MappingProxyType(dict(sources))
         self.transport_factory, self.credentials_factory = transport_factory, credentials_factory
+
+    @owned_boundary
+    def capabilities(self, capability, incident_id):
+        guest = self.evidence.guest
+        session = guest.resolve(capability)
+        incident = guest.incident(capability, incident_id)
+        view = self.evidence.read_evidence(capability, incident_id)
+        admission = self.shared.operation_availability(guest._key(capability), incident_id)
+        reason = admission['extraction_reason']
+        if reason == 'AVAILABLE' and not any(b.ready and b.captures for b in incident.batches):
+            reason = 'LABEL_REQUIRED'
+        complete = bool(view.observation and view.acquisition_complete)
+        verification = complete and admission['verification_available']
+        action = bool(view.current and view.result.verdict in {
+            Verdict.MATCHED_HOLD_FOR_REVIEW, Verdict.REVIEW_REQUIRED})
+        guest._live(session, guest._key(capability))
+        return OperationCapabilities(
+            workspace=WorkspaceCapabilities(extraction=OperationCapability(
+                available=reason == 'AVAILABLE', reason=reason)),
+            incident=IncidentCapabilities(
+                correction=OperationCapability(available=complete,
+                    reason='AVAILABLE' if complete else 'NO_COMPLETED_EXTRACTION'),
+                verification=OperationCapability(available=verification,
+                    reason='AVAILABLE' if verification else 'VERIFICATION_LIMIT'
+                    if complete else 'NO_COMPLETED_EXTRACTION'),
+                action=OperationCapability(available=action,
+                    reason='AVAILABLE' if action else 'NO_CURRENT_ACTION')))
 
     @owned_boundary
     def status(self, capability, run_id):

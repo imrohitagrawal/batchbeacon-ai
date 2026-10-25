@@ -119,6 +119,14 @@ def _create_extraction_app(extraction, actions, policy):
         finally:
             capacity.release()
 
+    @app.get('/api/incidents/{incident_id}/capabilities')
+    async def capabilities(incident_id: str, request: Request):
+        token, session = await run_in_threadpool(owned, request, incident_id)
+        _queries(request, set())
+        await _no_body(request, policy)
+        result = await run_in_threadpool(extraction.capabilities, token, incident_id)
+        return response(result, token, session)
+
     @app.post('/api/incidents/{incident_id}/acquisitions')
     async def acquire(incident_id: str, request: Request):
         token, session = await run_in_threadpool(owned, request, incident_id, mutation=True)

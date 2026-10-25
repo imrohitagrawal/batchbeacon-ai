@@ -27,6 +27,8 @@ Future scope: [B0–B3 roadmap and ATT-01 PDF/image evidence](ROADMAP.md). Plann
 
 ## Judge-facing public entry points
 
+- [User-journey correction plan](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md) and [implementation / remaining acceptance](evidence/M9-user-journey-correction.md).
+
 - [Current video-parity correction plan](JUDGE_READINESS_IMPLEMENTATION_PLAN.md) and [observed repair evidence / open readiness gates](evidence/M7-judge-readiness.md).
 
 - [Product gallery and live-demo provenance](SHOWCASE.md): explicit distinction between reviewed visual-candidate screenshots, final release video and actual deployment evidence.

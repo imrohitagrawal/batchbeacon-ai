@@ -161,6 +161,9 @@ class IncidentSummary(Record):
     reasons: tuple[Identifier, ...]
     outstanding_fields: tuple[GuidanceField, ...]
     category: QueueCategory
+    stage: Literal["LABEL_REQUIRED", "LABEL_READY", "CHECK_PENDING", "CHECK_INCOMPLETE",
+                   "COMPARISON_READY", "SAVED_REVIEW"] | None = Field(
+                       default=None, exclude_if=lambda value: value is None)
     latest_action: VersionRef | None = None
     action_type: ActionType | None = None
     uncertainty_unresolved: bool = False

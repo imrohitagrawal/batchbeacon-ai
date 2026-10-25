@@ -27,7 +27,11 @@ def test_no_envelope_status_survives_reopen_without_repeating_extraction(page, s
       const calls=[];
       window.fetch=async(url,options)=>{
         calls.push([url,options.method]);
-        const body=url.endsWith('/evidence')?evidence:
+        const body=url.endsWith('/capabilities')?{
+          workspace:{extraction:{available:!unresolved && status!=='INCOMPLETE',
+            reason:unresolved?'UNRESOLVED_ATTEMPT':'AVAILABLE'}},
+          incident:{correction:{available:false},verification:{available:false},
+            action:{available:false}}}:url.endsWith('/evidence')?evidence:
           url.endsWith('/captures')?{batches:[{ready:true,captures:[{id:'capture'}]}]}:
           url.endsWith('/actions')?{actions:[]}:
           {run_id:'owned-run',state:status,current:false,
@@ -55,7 +59,7 @@ def test_no_envelope_status_survives_reopen_without_repeating_extraction(page, s
         assert "Operator review is required" in result["copy"]
         assert "explicitly retry" not in result["copy"]
     assert all(method == "GET" for _, method in result["calls"])
-    assert len(result["calls"]) == 8
+    assert len(result["calls"]) == 10
 
 
 def test_unavailable_saved_status_blocks_new_extraction(page):
