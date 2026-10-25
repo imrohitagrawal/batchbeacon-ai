@@ -3,24 +3,35 @@
 ## Acceptance continuation — 25 October 2026
 
 The [single R01–R12/F1–F8 acceptance register](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md#9-authoritative-acceptance-checklist-and-continuation-checkpoint)
-now separates implementation, controlled/deployed/model/AT/human evidence and
-remaining authority. Fresh readbacks confirm the support release on both hosts,
-unchanged runtime/IAM/accounting and two held unknown liabilities. Support is
-active; its one owner-confirmed test receipt requires no further setup decision.
+records the completed authorized technical work and the remaining external gates.
+[PR #15](https://github.com/imrohitagrawal/batchbeacon-ai/pull/15) merged the strict
+cached-token parser correction and nonbusy processing-status semantics. Source
+`bc7da038c6f30b41abe0a4b8f5b6395234f95efd` is deployed at image `sha256:4bb48a2048df5ddbfbfb845a649f4d7c9da33cb66610f5efd770f6e82073452f`.
 
-Independent planning reviews cleared two narrow corrections: cached-token subset
-parsing at the unchanged original conservative rate, and pending live-status
-semantics independent of the visual loader. Baseline regressions reproduced both;
-corrected targeted tests and independent reviews passed. Full local/emulator,
-hosted/package and deployment evidence are recorded in M9 as they complete.
-No settlement, paid model/countTokens call or support email is authorized or made.
+Independent planning/correction/release review, 1,464 unit, 133 browser, 29 edge and
+eight Firestore emulator tests passed. Exact hosted push/PR/main and allowlisted
+packaged-source checks passed. Both public hostnames passed actual configuration,
+asset, retained-label, read-only recheck, queue/reload, focus and mobile checks.
+[M9](evidence/M9-user-journey-correction.md) separates these evidence types and
+retains the failed rapid-reload probe. Runtime/IAM, model budget and both unknown
+liabilities are unchanged. Intervening public guest activity was explicitly
+reconciled before promotion; our probes issued no guest, upload or action.
+Support remains active under the existing owner-confirmed receipt; no email sent.
 
-Full readiness remains incomplete. Current public capacity is below one attempt's
-reservation; paid authority is also exhausted. Fresh model/video, live unresolved
-panel, first-time human and actual screen-reader evidence remain separate gates.
-Existing reader rollback is valid only while cached receipts remain unwritten;
-cache-aware rollback must precede later settlement/model operations. Private current
-handoff: `.local/run-records/acceptance-continuation/HANDOFF.md`; run-policy pointer:
+**Full readiness remains incomplete.** Public model capacity is below one attempt's
+reservation and the seven-call validation authority is exhausted. No settlement,
+model/countTokens call or retry was made. The newer complete response parses
+offline, but that does not recover its failed run or prove current model output.
+Fresh SFA A/B and third-identity model/video acceptance, first-time human and actual
+screen-reader evidence remain open. Both known unresolved owner sessions have now
+expired; no usable known live panel case is available. The original submitted
+video's provenance/keyframes were reviewed; continuous playback is not claimed.
+
+The corrected digest is retained as a cache-aware rollback candidate. The prior
+reader is compatible only while cached settled receipts remain unwritten; future
+settlement/model authority must recheck compatibility and current admission.
+Private proposal, evidence, resource ownership and exact next actions:
+`.local/run-records/acceptance-continuation/HANDOFF.md`; policy pointer:
 `.local/run-policy.json`. The older root checkout and unrelated changes are preserved.
 
 ## Prior user-journey correction — 25 October 2026

@@ -186,4 +186,79 @@ and [implicit caching](https://docs.cloud.google.com/gemini-enterprise-agent-pla
 Announcement semantics: [WAI-ARIA aria-busy](https://www.w3.org/TR/wai-aria-1.2/#aria-busy).
 
 Private continuation evidence: `.local/run-records/acceptance-continuation/`.
-Full-suite, hosted and publication results are recorded below when verified.
+The corrected source is `bc7da038c6f30b41abe0a4b8f5b6395234f95efd`;
+[PR #15](https://github.com/imrohitagrawal/batchbeacon-ai/pull/15) merged as
+`dee87ad7866c3ca3b075496d7ea83cfebb4d286e`. Its final documentation successor
+`91378c6` changes no packaged runtime file.
+
+Evidence types remain distinct:
+
+- **Unit / controlled:** 1,464 unit and 133 browser checks pass with locked bootstrap;
+  29 edge checks pass. Baseline cache/status failures remain retained. Independent
+  backend, UX/video and security/operations reviews cleared the narrow corrections.
+- **Firestore emulator:** eight tests pass, including concurrent/idempotent cached
+  receipt reconciliation, preserved failed run and read-only recheck. These do not
+  settle a production liability.
+- **Hosted CI:** exact source push/PR, final documentation push/PR and merged-main
+  commands, dependencies, permissions and checkout topology pass. Final checks:
+  [push](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/40211640311),
+  [PR merge](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/40211645716),
+  [merged main](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/40212220684).
+- **Package / candidate real service:** one reviewed build passed network-disabled
+  runtime, TLS, support and cache checks. Generation-bound archive matched all
+  60 manifest files. Independent zero-traffic configuration/IAM/image and existing
+  owned-workspace browser checks passed. No new guest, upload, action or AI request.
+- **Actual provider evidence:** the retained complete response now parses offline
+  using the original rate. This is historical provider-byte evidence, not a new
+  model call, successful extraction completion or invoice reconciliation.
+- **Actual AT / human:** neither acceptance study is complete. The host capability
+  experiment did not capture speech, restored the original off state, and is not
+  a screen-reader pass. Further Mac accessibility-setting changes are excluded.
+
+The first candidate browser probe observed one queue GET 429 during rapid reload.
+It omitted the response body, so its precise cause remains unconfirmed. The
+changed probe waits for visible queue completion and the existing configured
+minimum interval before reload; it retains strict response assertions and captures
+error details. It passed without product/rate-policy changes. Both results remain
+private evidence; the success does not erase the transient failure or prove
+universal availability.
+
+The submitted media review used the exact retained final MP4, matched to the
+publication receipt for `https://youtu.be/IpY2_GeR4Ic`, with SHA-256
+`f9ec73a82eeab9139dc943f1df2b8dbf40edce11090fc3c90101a7dd7cb8b930`.
+Reviewers inspected its narration/storyboard, retained contact sheet and fresh
+60/125-second frames; the integrator also inspected the contact sheet. Continuous
+YouTube playback or a new full audiovisual review is not claimed. The film shows
+explicit extraction, evidence review, unchecked human confirmation, saved queue,
+phone/reopen, actual unrelated-identity extraction rejection, and explicitly prior
+guidance evaluation. A timeout is not that filmed negative result.
+
+The reviewed candidate was promoted once. Both
+[custom hostname](https://batchbeacon.stackclimb.com) and
+[Cloud Run hostname](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app) passed exact
+asset/configuration and existing-workspace browser checks at the corrected image:
+`sha256:4bb48a2048df5ddbfbfb845a649f4d7c9da33cb66610f5efd770f6e82073452f`. Actual serving readback confirmed the exact revision/digest,
+100% traffic, unchanged runtime/IAM/resources/support, model ledger and both held
+unknowns. The corrected image remains retained for cache-aware rollback.
+
+A guest-admission preimage changed between candidate review and promotion. The
+check stopped before dispatch. A narrowly reviewed new exact preimage preserved
+old evidence, confirmed unchanged model/attempt records, and continued to reject
+further drift. No quota, policy, model, settlement or second build was introduced.
+Our candidate and both-host probes reused existing access and issued no new guest,
+upload, action, model request or email. Aggregate public activity is not silently
+attributed to our tests.
+
+Current S evidence includes retained-label/unavailable messaging, configured
+support link (not opened; no email sent), read-only recheck, queue completion/reload, navigation
+focus and 320/390/1440-pixel reflow. It does not include fresh extraction or visible
+unresolved-panel access. Both recorded unresolved owner sessions have expired;
+the newer original capability was unavailable during its valid window. Controlled
+panel/ownership/expiry tests pass, but no usable known live case remains.
+
+The prospective accounting correction and its release are accepted within this
+scope. Full judge reproduction remains unverified: public model admission is
+blocked, fresh SFA A/B and third-identity validation lacks new authority, and
+actual AT and first-time H observation are incomplete. Prior source/protected and
+Operations limitations remain under U18; support receipt is not ongoing-availability
+proof. The prepared private settlement/validation proposal grants no authority.
