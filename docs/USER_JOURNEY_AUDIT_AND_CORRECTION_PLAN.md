@@ -195,6 +195,25 @@ Current technical release: PR #15 merged; source `bc7da038c6f30b41abe0a4b8f5b639
 real-service/browser evidence and failures. This is technical release acceptance,
 not complete model, assistive-technology or human acceptance.
 
+### Current U42 supervised observation
+
+The current supervised continuation supersedes earlier financial admission stops for
+this testing work. Actual same-image candidate activation and compatible metadata
+migration were verified. One fresh third-label model response again combined the
+name with a sample caption; exact canonical request reconstruction confirms the
+candidate instruction was actually sent. The guard refused comparison and action,
+usage settled automatically and the historical unknown remained untouched. No A/B
+or repeated third call followed. Current recovery is ordinary workspace access with
+paid extraction closed on the coherent candidate, not a full-readiness release.
+
+R01/R04/R08/R12/F8 therefore remain open for a changed extraction correction and
+successful fresh model acceptance. R02/F1/F2/F6 now have additional actual browser
+progress, saved-label focus, truthful refusal and queue evidence; AT/H are still
+separate open gates. F7's stale upload/status receipts remain tracked advisory debt.
+All twenty requirements below are retained; older U38/U41 row narratives describe
+historical checkpoints, not a prohibition on reviewed independent correction work
+under U42. Private detail is in the supervised acceptance run record.
+
 ### Requirement-by-requirement register
 
 | ID | Acceptance criterion retained | Implementation and evidence | Remaining gate / role / next action |
@@ -218,7 +237,7 @@ not complete model, assistive-technology or human acceptance.
 | F5 | Late success/error cannot overwrite expiry or another selected case. | Implemented; independently reproduced regressions and current full U/C/B/CI pass. | Controlled race coverage complete for this increment; no claim of live race injection or H/AT acceptance. |
 | F6 | Explicit navigation reveals destination, focus and scroll; reload/back/reopen preserve context. | Implemented; current C/B keyboard/race tests and both-host S navigation focus, mobile, queue and reload pass. | U38 refused-case queue/reopen/reload and mobile context also pass. Actual AT/H remains; agent browser operation is not human usability. |
 | F7 | Clear short purpose, readable queue/status, technical details disclosed on demand. | Implemented advisory clarity work; M9 C/B and both-host S observations. | Lingering upload receipt after extraction is ADVISORY_DEBT: historical upload-specific wording beside truthful refusal, no demonstrated false result/action. Product owner tracks a later small wording/clearing improvement; R05/R06 H comprehension remains mandatory. |
-| F8 | Supported usage/accounting, preserved unknowns, actual successful complete positive and unrelated/wrong-product validation. | PARTIAL. Strict cache-subset parser implemented and independently verified with retained provider bytes, U/C/E; original-rate valuation preserved, newer usage settled under U36 and older unknown held. Earlier no-response timeout remains distinct. | Operation A is owner-authorized and independently verified: newer retained usage settled, older liability held, failed runs/expired ownership preserved. Cache-aware rollback is now mandatory. U38 produced one incorrect-name M response, correctly refused and automatically settled with no new unknown; series stopped before A/B. REQUIRED_CONTRACT model-acceptance gap remains. U39 offline field-selection diagnosis/candidate regression is complete; actual candidate efficacy remains unproved. U41 approves the conditional packet, but fresh whole-commitment admission failed before activation; no new calls or recovery occurred. No retries under U37/U38. |
+| F8 | Supported usage/accounting, preserved unknowns, actual successful complete positive and unrelated/wrong-product validation. | PARTIAL. Strict cache-subset parser implemented and independently verified with retained provider bytes, U/C/E; original-rate valuation preserved, newer usage settled under U36 and older unknown held. Earlier no-response timeout remains distinct. | Operation A is owner-authorized and independently verified: newer retained usage settled, older liability held, failed runs/expired ownership preserved. Cache-aware rollback is now mandatory. U38 produced one incorrect-name M response, correctly refused and automatically settled with no new unknown; series stopped before A/B. REQUIRED_CONTRACT model-acceptance gap remains. U39 preparation and U41 financial stop remain history. Under U42 the candidate was activated and actually dispatched once; the same name/caption error recurred, with exact request binding verified. Source agreement and automatic settlement passed; deterministic nonmatch and fresh A/B remain incomplete. Paid extraction is closed, ordinary access recovery retains the coherent candidate, and a reviewed changed correction remains necessary. No retries under the failed series. |
 
 ### Classification and independent work
 
@@ -717,3 +736,29 @@ unchanged. R11/R12 now include this independently verified admission stop and
 GET-only public checks, not deployment/model acceptance. The integrator stopped
 before activation; there is no expired operation window, held candidate liability
 or restoration task. No automatic retry or authority expansion is permitted.
+
+
+### U43 changed name-schema correction plan
+
+Fresh service and complete inventory reads match the supervised handoff: ordinary
+access open, paid extraction closed, previous unknown held. Backend/AI, product/UX/
+accessibility and operations reviews support a minimal field-specific name schema
+description plus generic field-selection examples. Preserve original labels, prior
+failed responses, genuine multiline names, ambiguity and strict identity rules.
+
+Implement and test actual ADK schema propagation, configuration lineage and both
+failed-response regressions. Run full local/browser/edge/emulator and exact hosted
+push/PR checks before a source-bound new image. Review a conditional migration that
+preserves the active workspace and historical records, including derived retail
+and pristine learning-baseline compatibility; the old zero-owner procedure is
+inapplicable. Verify packaged assets, zero-traffic candidate, compatible recovery,
+then authorized promotion and both-host readback. No monetary reapproval gate.
+
+Fresh acceptance proceeds third-label deterministic nonmatch, then A/B positive
+review/explicit confirmation/queue/reopen/reload, one verified result at a time.
+A protective refusal is never a nonmatch pass. Diagnose further failure and retain
+all evidence. Actual AT, unfamiliar-user comprehension, legitimate active unresolved
+panel and broader source/protected/Operations gates remain distinct and pending.
+All section 9 requirements remain authoritative; this is execution planning, not
+a completed release or model-acceptance claim. Private detailed plan and evidence:
+`.local/run-records/name-schema-acceptance-20261026/`.

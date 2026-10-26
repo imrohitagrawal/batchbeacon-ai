@@ -1,5 +1,36 @@
 # BatchBeacon AI — current execution state
 
+## Supervised acceptance: model defect reproduced, ordinary access recovery
+
+U42 removes monetary stops for supervised end-to-end testing. The reviewed private
+continuation used existing DEVELOPMENT capacity without changing public pool limits
+or releasing the historical unknown liability. A deployment adapter incompatibility
+was diagnosed, the initial fences were restored, and the minimally corrected request
+was validated and independently verified before activation. The same source image
+now serves the reviewed name-boundary prompt candidate; compatible record metadata
+was migrated without changing ownership, expiry, prior attempts or balances.
+
+One fresh real-model third-label check again included the printed sample caption in
+the product name. Exact retained request reconstruction proves the intended candidate
+instruction was sent. Source translation agreed, but identity validation correctly
+refused comparison and action. Usage settled automatically, with no new unknown.
+The failed series is stopped; A/B and deterministic nonmatch remain incomplete.
+Actual label-save and extraction progress, focus, refusal and queue evidence are
+retained. Existing stale upload/status receipts remain advisory ambiguity; actual
+screen-reader output and first-time human observations are not established.
+
+Recovery restores ordinary workspace access on the coherent candidate while keeping
+paid extraction closed. It does not claim full functionality or authorize an inverse
+after reopening. Original expiry and all liabilities remain intact. A changed model
+correction and complete fresh judge acceptance remain necessary. Private timing
+estimates and transfer-cost estimates were explicitly amended after technical review;
+actual request deadlines, ownership, the original overall authority horizon and call
+history remain enforced. No scheduler or background continuation is installed.
+
+The single R01–R12/F1–F8 register remains in the user-journey plan section 9. Current
+private evidence and continuation details: `.local/run-records/supervised-acceptance-20261026/`.
+Earlier checkpoints below are history, not current public extraction availability.
+
 ## Approved conditional operation: admission stopped — 26 October 2026
 
 U41 explicitly approves the exact combined packet and conditional recovery within

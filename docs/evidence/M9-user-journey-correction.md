@@ -524,3 +524,73 @@ execution clock was not started and no rollback is necessary. Outstanding non-mo
 obligations were reviewed separately; no full financial admission is claimed.
 Existing AT/novice procedures remain ready, with actual participation/output gaps
 unchanged. Exact receipts and independent reviews accompany the private packet.
+
+
+### U42 supervised model observation and operational corrections
+
+The owner removed financial stop thresholds for supervised testing. Existing typed
+DEVELOPMENT-phase support covered the finite three-case workload, preserving public
+allocations and the original unresolved liability. No unlimited public mode or
+manual settlement was introduced. The private operator adapter initially sent a
+query field rejected by the actual Cloud Run API. Complete readback proved no
+candidate effect; original controls were restored. Validation-only comparison
+isolated one unsupported query parameter, and the corrected activation was then
+independently verified. This failure remains retained, not counted as deployment
+success. Current image/application source is unchanged; prompt configuration and
+compatible metadata changed through reviewed guarded operations.
+
+Private operational timing and aggregate transfer-cost estimates were amended
+explicitly under the continuation instruction. Actual request/response bounds,
+original overall authority horizon, natural owner expiry, call accounting and
+unknown-outcome protections remain. Eighty focused private coordinator/adapter
+checks pass, including failed acknowledgements, exact fresh readback, original
+horizon, no replay and ordinary-only recovery. These are not eighty new application
+unit tests, new hosted CI, actual AT speech or human usability observations.
+
+The actual third-label request included the candidate instruction, established by
+exact canonical request hash reconstruction. Gemini nevertheless selected both the
+product name and the separate sample caption as a KNOWN name. Source translation
+agreed and other inspected label fields were correct. The unchanged identity guard
+refused the extraction: no comparison or action was created. One generation settled
+automatically in DEVELOPMENT; public balances and older liability remain unchanged,
+with no new unknown. No A/B or retry followed. This is a failed model-acceptance case
+and a successful protective refusal, not a passing deterministic nonmatch.
+
+Actual browser evidence confirms immediate Saving label / Extracting and checking
+feedback, disabled competing controls, retained-label completion, focus handoff,
+truthful rejection, and a queue with one needs-human-review case and zero actions.
+Independent UX review retains lingering upload/status messages as duplicate F7
+advisory ambiguity. Working screen-reader output, novice comprehension and a
+legitimate active unresolved panel remain unverified. Safe changed recovery restores
+ordinary access while keeping extraction closed on the coherent candidate; failed
+case history and original expiry remain intact, with no inverse after reopening.
+
+Next correction work must address field selection using the retained exact request
+and response; merely retrying the failed prompt or weakening identity validation is
+not a fix. A field-specific schema/instruction candidate with unrelated examples is
+an offline recommendation, not proven efficacy or an activated change. All twenty
+requirements remain in section 9 of the canonical plan. Detailed operation, model,
+review and UI evidence stays in the ignored supervised acceptance record.
+
+
+## U43 name-schema correction: local implementation checkpoint
+
+Independent backend/AI, product/UX/accessibility and operations planning reviews
+completed after fresh deployed service and complete inventory reconciliation.
+The sole production change adds name-specific response schema guidance; an explicit
+versioned prompt candidate adds generic field-selection examples. Original samples,
+identity rules, translator, source review and historical failed responses remain.
+
+Local verification: 1,483 unit tests, 133 browser tests, 29 edge tests and eight
+Firestore emulator tests pass. An initial test-line lint failure was corrected;
+its log is retained. Independent backend review ran 19 boundary tests and replayed
+both exact failed provider responses through the current translator/pure identity
+guard: source agreement and protective identity refusal remain. Actual ADK mock
+requests carry the exact schema and prompt. These are controlled regressions, not
+proof that the new model experiment succeeds.
+
+New image, hosted checks, compatible active-owner migration and actual third/A/B
+acceptance are pending at this checkpoint. Fresh reads show ordinary access open,
+paid extraction closed and the historical unknown preserved. Actual screen-reader,
+unfamiliar-user and live unresolved-panel evidence remain pending. Private evidence:
+`.local/run-records/name-schema-acceptance-20261026/`.

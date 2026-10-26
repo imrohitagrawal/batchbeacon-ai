@@ -92,7 +92,15 @@ class ProposedCode(Record):
 
 
 class LabelProposal(Record):
-    name: ProposedValue
+    name: ProposedValue = Field(description=(
+        'Product name only, including its genuine brand and variant across all name lines. '
+        'Select the field before transcribing: exclude separate sample/demonstration captions, '
+        'provenance, sale disclaimers, pack, origin, lot and date fields. Do not remove genuine '
+        'name words merely because they include Test or Synthetic. For KNOWN, raw and value '
+        'must equal the selected visible name verbatim; locations cover that name, not captions. '
+        'If the name boundary is unclear, retain visible text in raw, use AMBIGUOUS and null '
+        'value. Never choose or complete this field from the authority notice.'
+    ))
     pack: ProposedValue
     identifiers: tuple[ProposedCode, ...]
     lot: ProposedValue
