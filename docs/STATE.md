@@ -22,57 +22,56 @@ samples or substituting catalog identities. Source `9deb89d` passed 1,483 unit,
 133 browser, 29 edge and eight Firestore emulator tests; exact hosted push/PR/main
 checks and packaged-source provenance passed separately.
 
-PR #21 is merged; source `a0d2320` is deployed as image
-`sha256:09dd9bde95dfa9b848a4aff6574094a64999a97a90a26abb605e81b41ef58cee`.
-Local full checks passed 1,506 unit, 145 browser, 30 edge and eight Firestore
-emulator tests. Exact hosted push, PR merge checkout and merged-main checks passed;
-packaged-source/build provenance and independent promotion readbacks passed.
-Both public origins serve the exact assets and health responses at 100% traffic.
-The reviewed HIGH reasoning/output configuration preserves finite request limits,
-failed history, source environment, ownership, expiry and accounting.
-Existing owned workspace access works. One new workspace was issued normally for
-supervised tests, then new issuance was fenced again. Paid extraction is closed.
-This is limited availability, not a complete working public extraction release.
+PR #21's bounded progress transport is deployed. PR #22 source `45a4e5a`
+(merged main `c0e4cc4`) adds availability-aware saved-label feedback and fixes stale
+upload responses after returning to the same case. Image
+`sha256:f35d2d1470abd5aa152cec4ca4dfa75450bc03e8c8151079d73aff884fb1b839`
+is serving at 100% traffic. Full local checks passed 1,506 unit, 173 browser,
+30 edge and eight emulator tests; exact hosted push/PR/main checks, packaged-source
+provenance and independent both-host readbacks passed. The live sites are
+[custom host](https://batchbeacon.stackclimb.com) and
+[Cloud Run fallback](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app).
+Ordinary new visitor entry is restored. Paid extraction remains closed.
 
-Actual new third-label experiments produced three distinct outcomes: LOW repeated
-the name/caption error and was correctly refused; HIGH with the shorter deadline
-returned a complete provider deadline error; HIGH with the longer deadline returned
-MAX_TOKENS and incomplete JSON before reaching the label. Each known response
-settled automatically; the historical unknown liability remains held. No result or
-action was accepted from these failures. Fresh positive A/B and successful
-identity-based nonmatch remain unverified. The exhausted case is not reset.
+Actual LOW proposals included a caption in the name and were correctly refused.
+HIGH produced provider deadlines and, in a separate attempt, MAX_TOKENS before a
+complete proposal. The latest supervised fallback-host third-label attempt also
+returned a complete provider deadline error. Independent review verified one
+attempt, valid zero-model-charge settlement under the retained error policy and
+preservation of the older unknown liability. No token usage was invented, and no
+comparison or action was accepted. These outcomes do not prove why HIGH was slow.
 
-The last browser request received a gateway timeout while the server retained a
-complete response. Read-only original-key reconciliation recovered the known failed,
-exhausted state without another extraction. This demonstrates delivery-uncertainty
-recovery, not a workspace blocked by an unknown accounting liability.
+The earlier custom-host gateway timeout recovered through original-key read-only
+reconciliation. The latest direct-origin request displayed pending and terminal
+failure feedback; it does not verify current custom-host model delivery. Rechecking
+saved status made no model request or state change. Existing failed cases, all
+owner expiries and retained images remain unchanged.
 
 ## Current correction and next verification
 
-The deployed transport correction adds opt-in whitespace progress on the same
-bounded request, a validated final status/body envelope and worker ownership through
-disconnect. Typed finite progress settings, expiry checks and no-transform handling
-passed controlled HTTP/browser and edge tests. Real-model custom-host delivery is
-still unverified. The next model experiment increases finite output allowance once;
-no call on this configuration has occurred. Two retained A captures are preserved;
-the selected unused A's pixels, storage generation and ownership passed independent
-verification. Fresh third/A/B, consent/deduplication, queue/reopen, reload/mobile and
-actual custom-host response delivery remain required.
+Three independent specialists reviewed a changed name-line extraction contract.
+The model must describe visible name and adjacent caption lines, classify their
+roles and select exact line indices. Deterministic validation rejects inconsistent
+name text, locations, roles or selection; it never strips a caption or repairs a
+proposal. The existing image-bound identity and source checks remain authoritative.
+The candidate uses a new prompt/schema/translator with finite LOW/output policy;
+this is a changed experiment, not evidence of model efficacy.
 
-Human testing exposed a reproduced feedback defect: successful sample and manual
-uploads instructed extraction while capability disabled it. A bounded UI correction
-uses availability-aware handoff copy and focuses the saved-state explanation when
-checking is unavailable. This correction and the related stale-upload selection guard pass full local
-1,506 unit, 173 browser, 30 edge and eight emulator tests, with independent UX
-verification. Hosted checks and deployment remain pending.
-Server admission, ownership, accounting, runtime and model instructions are unchanged.
+The correction is implemented locally. Full checks pass 1,546 unit, 173 browser,
+30 edge and eight emulator tests. Independent backend review passed 322 focused
+tests and 14 additional probes; all 352 retained records decode identically to the
+deployed parser. Product review passed 32 focused browser checks and safe multiline
+text rendering. Exact hosted release, compatible metadata migration and both-host
+verification precede use. Fresh successful third-label
+nonmatch and positive A/B workflows remain required. No exhausted counter or owner
+expiry is reset. Actual speech and unfamiliar-user evidence remain separate gates.
 
-Private checkpoints: `.local/run-records/name-schema-acceptance-20261026/`,
-`.local/run-records/high-reasoning-acceptance-20261026/`,
-`.local/run-records/high-timeout-acceptance-20261026/` and
-`.local/run-records/acquisition-progress-acceptance-20261026/`.
-The root checkout's unrelated edits remain untouched; one isolated integrator owns
-source, shared contracts and deployment. No support message was sent.
+Private checkpoints: `.local/run-records/availability-feedback-acceptance-20261026/`,
+`.local/run-records/fallback-workflow-acceptance-20261026/` and
+`.local/run-records/name-line-acceptance-20261026/`; earlier failures remain in their
+original records. The root checkout's unrelated edits remain untouched. One
+isolated integrator owns source, shared contracts and deployment. No support message
+was sent.
 
 ## Remaining human and product gates
 

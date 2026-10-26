@@ -13,7 +13,7 @@ import pytest
 
 from batchbeacon.extraction_proposal import ExtractionProposal, LabelProposal
 from batchbeacon.model_runtime import PROMPT, ExtractionConfig, digest
-from tests.unit.test_extraction_proposal import known
+from tests.unit.test_extraction_proposal import declare_name_lines, known
 from tests.unit.test_firestore_store import no_network_or_credentials as no_network_or_credentials  # noqa
 from tests.unit.test_firestore_store import setup as setup  # noqa
 from tests.unit.test_reviewed_extraction import acquire, build_reviewed, view
@@ -51,8 +51,18 @@ def test_observed_two_line_name_is_refused_without_trimming(setup, env, candidat
             else build_reviewed(setup, env))
     case[5][0]['label']['name'] = known(OBSERVED_NAME)
     case[5][0]['label']['name']['locations'] = [{'panel': 0, 'box': box} for box in boxes]
+    label = case[5][0]['label']
+    # Authored new-schema controls. A single observation containing a newline is
+    # invalid; two internally consistent NAME_COMPONENT observations still reach
+    # the original pixel-bound identity refusal (classification is not truth).
+    raws = OBSERVED_NAME.split('\n') if len(boxes) == 2 else [OBSERVED_NAME]
+    label['name_lines'] = [{'raw': raw, 'role': 'NAME_COMPONENT', 'location': loc}
+                           for raw, loc in zip(raws, label['name']['locations'], strict=True)]
+    label['name_line_indices'] = list(range(len(raws)))
     original = copy.deepcopy(case[5][0])
-    assert_no_publication(case, acquire(case), 'IDENTITY_EVIDENCE_DISAGREEMENT')
+    assert_no_publication(case, acquire(case),
+        'IDENTITY_EVIDENCE_DISAGREEMENT' if len(boxes) == 2 else 'PROPOSAL_INVALID',
+        expected_state='REVIEW_REQUIRED' if len(boxes) == 2 else 'FAILED')
     assert case[5][0] == original
 
 
@@ -96,6 +106,13 @@ def test_candidate_reaches_sealed_requests_without_changing_controlled_verdicts(
 def test_genuine_line_wrap_is_preserved_verbatim_and_resolves(setup, env):
     case = candidate_case(setup, env)
     case[5][0]['label']['name'] = known('Meadow Vale\nBrie')
+    label = case[5][0]['label']
+    label['name']['locations'] = [
+        {'panel': 0, 'box': [0.1, 0.2, 0.8, 0.3]},
+        {'panel': 0, 'box': [0.1, 0.3, 0.8, 0.4]}]
+    label['name_lines'] = [{'raw': raw, 'role': 'NAME_COMPONENT', 'location': loc}
+        for raw, loc in zip(('Meadow Vale', 'Brie'), label['name']['locations'], strict=True)]
+    label['name_line_indices'] = [0, 1]
     assert acquire(case).state == 'COMPLETE'
     result = view(case)
     observed = result.state.extractions[0].envelope.values.identity.name
@@ -116,6 +133,7 @@ def test_ambiguous_field_boundary_does_not_become_nonmatch(setup, env):
     case = candidate_case(setup, env)
     case[5][0]['label']['name'] = known(OBSERVED_NAME)
     case[5][0]['label']['name'].update(state='AMBIGUOUS', value=None)
+    declare_name_lines(case[5][0]['label'])
     status = acquire(case)
     result = view(case)
     assert status.state == 'REVIEW_REQUIRED'
@@ -129,6 +147,7 @@ def test_ambiguous_field_boundary_does_not_become_nonmatch(setup, env):
 def test_candidate_does_not_accept_recalled_name_for_third_image(setup, env, source_index):
     case = candidate_case(setup, env)
     case[5][0]['label']['name'] = known(case[5][0]['source']['products'][source_index]['name'])
+    declare_name_lines(case[5][0]['label'])
     assert_no_publication(case, acquire(case), 'IDENTITY_EVIDENCE_DISAGREEMENT')
 
 
@@ -140,3 +159,35 @@ def test_inert_candidate_has_explicit_binding_and_does_not_replace_default(candi
     assert ExtractionConfig.model_fields['instruction'].default == PROMPT
     assert PROMPT != instruction
     assert ExtractionConfig.model_fields['prompt_version'].default != candidate['prompt_version']
+
+
+@pytest.mark.parametrize('index', [0, 1, 2])
+def test_name_line_contract_reaches_one_bounded_adk_request_with_original_inputs(setup, env, index):
+    case = build_reviewed(setup, env, (index,), extraction_overrides={
+        'thinking_level': 'LOW', 'max_output_tokens': 4096,
+        'request_timeout_seconds': 180.0, 'run_seconds': 210})
+    label = case[5][0]['label']
+    label['name_lines'].append({'raw': 'Demonstration only', 'role': 'ANNOTATION',
+                               'location': {'panel': 0, 'box': [.1, .5, .8, .6]}})
+    original = copy.deepcopy(case[5][0])
+    assert acquire(case).state == 'COMPLETE'
+    assert case[5][0] == original and len(case[4]) == 2
+    count, generation = (json.loads(request.content) for request in case[4])
+    assert generation['contents'] == count['contents']
+    assert generation['systemInstruction'] == count['systemInstruction']
+    assert generation['generationConfig'] == count['generationConfig']
+    config = generation['generationConfig']
+    assert config['responseJsonSchema'] == ExtractionProposal.model_json_schema()
+    assert config['maxOutputTokens'] == 4096 and config['thinkingConfig']['thinking_level'] == 'LOW'
+    assert case[0].config.http_options().timeout == 180000
+    assert case[0].config.http_options().retry_options.attempts == 1
+    assert case[0].config.run_seconds == 210
+    assert case[0].config.prompt_version == 'source-label-proposal-9-name-lines'
+    instruction = generation['systemInstruction']['parts'][0]['text']
+    assert instruction.startswith(PROMPT) and 'name_line_indices' in instruction
+    assert all(entry.name not in instruction
+               for entry in case[0].evidence.identities.catalog.identities)
+    result = view(case)
+    assert result.result.verdict == ('NOT_LISTED_IN_CHECKED_NOTICES' if index == 2
+                                     else 'MATCHED_HOLD_FOR_REVIEW')
+    assert result.state.extractions[0].envelope.configuration_hash == case[0].config.digest()

@@ -37,7 +37,7 @@ from batchbeacon.evidence_service import ExtractedIdentity, ExtractedValues
 Positive = Annotated[int, Field(gt=0)]
 Index = Annotated[int, Field(ge=0)]
 Coordinate = Annotated[float, Field(ge=0, le=1, allow_inf_nan=False)]
-TRANSLATOR_VERSION = "proposal-translation-2"
+TRANSLATOR_VERSION = "proposal-translation-3"
 
 
 class ProposalPolicy(Record):
@@ -91,7 +91,34 @@ class ProposedCode(Record):
     observation: ProposedValue
 
 
+class NameLine(Record):
+    """Untrusted visible-line observation, not verified identity or layout truth."""
+    raw: str
+    location: CaptureLocation
+    role: Literal['NAME_COMPONENT', 'ANNOTATION', 'OTHER', 'UNCERTAIN']
+
+    @model_validator(mode='after')
+    def single_line(self) -> Self:
+        if '\r' in self.raw or '\n' in self.raw:
+            raise ValueError('name observation must be one printed line')
+        return self
+
+
 class LabelProposal(Record):
+    name_lines: tuple[NameLine, ...] = Field(description=(
+        'Observe the visible name lines and adjacent or competing captions before selecting '
+        'the name. Give each printed line its exact raw text, own location and proposed role. '
+        'Roles are untrusted: genuine brand/variant lines are NAME_COMPONENT; separate '
+        'sample/provenance captions are ANNOTATION; unrelated fields are OTHER; uncertain '
+        'name membership is UNCERTAIN. Do not classify by fixed position or a word blacklist.'
+    ))
+    name_line_indices: tuple[Index, ...] = Field(description=(
+        'Unique zero-based indices of NAME_COMPONENT observations in name reading order. '
+        'For KNOWN, raw and value must equal these exact lines joined by one newline and '
+        'name.locations must equal their locations in that order. Include all genuine name '
+        'components; only an exact duplicate on another panel may be unselected. '
+        'Use an empty selection for UNKNOWN or AMBIGUOUS; uncertain membership is AMBIGUOUS.'
+    ))
     name: ProposedValue = Field(description=(
         'Product name only, including its genuine brand and variant across all name lines. '
         'Select the field before transcribing: exclude separate sample/demonstration captions, '
@@ -106,6 +133,36 @@ class LabelProposal(Record):
     lot: ProposedValue
     best_before: ProposedValue
     use_by: ProposedValue
+
+    @model_validator(mode='after')
+    def name_linkage(self) -> Self:
+        lines, indices = self.name_lines, self.name_line_indices
+        locations = [(v.location.panel, v.location.box) for v in lines]
+        if len(set(locations)) != len(locations):
+            raise ValueError('duplicate name observation location')
+        if any(v.role == 'UNCERTAIN' for v in lines) \
+                and self.name.state != ValueState.AMBIGUOUS:
+            raise ValueError('uncertain name boundary requires ambiguous state')
+        if self.name.state != ValueState.KNOWN:
+            if indices or self.name.value is not None:
+                raise ValueError('unknown or ambiguous name cannot select a value')
+            return self
+        if not indices or len(set(indices)) != len(indices) \
+                or any(i >= len(lines) for i in indices):
+            raise ValueError('invalid name selection')
+        selected = tuple(lines[i] for i in indices)
+        if any(v.role != 'NAME_COMPONENT' or not v.raw.strip() for v in selected):
+            raise ValueError('name selection requires visible name components')
+        for i, line in enumerate(lines):
+            if i not in indices and line.role == 'NAME_COMPONENT' and not any(
+                line.raw == v.raw and line.location.panel != v.location.panel for v in selected
+            ):
+                raise ValueError('name component omitted')
+        expected = '\n'.join(v.raw for v in selected)
+        if self.name.raw != expected or self.name.value != expected \
+                or self.name.locations != tuple(v.location for v in selected):
+            raise ValueError('name selection disagrees with emitted name')
+        return self
 
 
 class SourceCode(Record):
@@ -147,7 +204,7 @@ class ExtractionProposal(Record):
 
 class TranslationReport(Record):
     """Not a publish command. Consumers must retain and enforce the disposition."""
-    translator_version: Literal["proposal-translation-2"] = TRANSLATOR_VERSION
+    translator_version: Literal["proposal-translation-3"] = TRANSLATOR_VERSION
     source_status: Literal["AGREES_WITH_REVIEW", "DISAGREES", "REVIEW_MISSING"]
     diagnostics: tuple[Nonempty, ...]
     proposal: ExtractionProposal
@@ -288,6 +345,8 @@ def translate_proposal(
         _bounded(parsed, policy)
         proposal = ExtractionProposal.model_validate_json(raw)
         label = proposal.label
+        if any(line.location.panel >= len(captures) for line in label.name_lines):
+            raise ProposalInvalid("capture_panel_unavailable")
         if len({c.kind for c in label.identifiers}) != len(label.identifiers):
             raise ProposalInvalid("duplicate_label_identifier_kind")
         values = ExtractedValues(identity=ExtractedIdentity(

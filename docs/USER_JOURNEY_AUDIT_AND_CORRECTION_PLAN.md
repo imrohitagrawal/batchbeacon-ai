@@ -805,3 +805,24 @@ continuation. It preserves the original server operation and does not retry it.
 Independent verification and final full checks govern release of this correction.
 
 Final local validation passes1,506unit/173browser/30edge/eight Firestore emulator tests. Independent UX verification passes89 targeted checks and real-CSS desktop/narrow probes. These are controlled local results; exact hosted and deployed correction checks are still pending, as are actual human and model acceptance.
+
+
+### Superseding availability release and changed name-line experiment
+
+PR22 availability handoff/F5 guards are deployed and independently verified on both
+hosts after full local, exact hosted and packaged-image checks. Ordinary visitor
+entry is restored; paid extraction stays closed. The latest actual third-label
+request returned a reconciled provider deadline failure with no comparison/action.
+M9 records its accounting and preserved history; no R01/R04/R08/F8 success follows.
+
+The reviewed conditional line-classification correction is now implemented locally,
+with exact name/location linkage and unchanged identity/source safeguards. Three
+specialist plan reviews and independent backend/history verification pass. Hosted
+release and actual new third then A/B remain pending; R12 requires the full release
+sequence. This checkpoint supersedes earlier 'no call on enlarged output' wording.
+
+R02/F1/F2/F6 still need actual automatic screen-reader speech. Safari capture is
+incomplete, prior tab-switch recordings excluded, and Mac control returned with
+VoiceOver off. R03/R05/R06/R10/F7 still need established first-time H observations;
+R07/R09/F3/F4 still need a legitimately owned active unresolved-accounting panel.
+All section9 row criteria and broader disclosed gates remain unchanged.

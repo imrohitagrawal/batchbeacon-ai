@@ -38,6 +38,19 @@ def location(value):
     return [{"quote": value, "occurrence": 0}]
 
 
+def declare_name_lines(label):
+    """Explicit authored fixture linkage, never called by a runtime/response handler.
+
+    Existing controls use a single printed name line. Multiline tests must supply
+    their own distinct locations; this helper must not repair malformed emission.
+    """
+    name = label['name']
+    label['name_lines'] = ([{'raw': name['raw'], 'role': 'NAME_COMPONENT',
+                            'location': copy.deepcopy(name['locations'][0])}]
+                          if name['state'] == 'KNOWN' else [])
+    label['name_line_indices'] = [0] if name['state'] == 'KNOWN' else []
+
+
 def rig():
     reviewed = notice()
     source = json.dumps({"synthetic source": "SG", "products": [
@@ -57,6 +70,7 @@ def rig():
                   "identifiers": [], "lot": known("232511"),
                   "best_before": known("2026-10-17", kind="DATE", panel=1),
                   "use_by": unknown()}}
+    declare_name_lines(proposed['label'])
     refs = tuple(EvidenceRef(kind=EvidenceKind.CAPTURE, artifact_id=f"server-panel-{i}",
         sha256=str(i + 1) * 64, locator="retained entire image") for i in range(2))
     return proposed, source, reviewed, refs
@@ -107,6 +121,7 @@ def test_complete_two_product_agreement_is_pure_deterministic_and_roundtrips(mon
 def test_label_identity_never_infers_a_match_or_reviewed_resolution(identity):
     p, *_ = rig()
     p["label"]["name"] = known(identity)
+    declare_name_lines(p['label'])
     r = run(p)
     assert r.label_values.identity.name.value == identity
     assert r.label_values.fields[0].observation.value == "232511"
@@ -383,7 +398,7 @@ def test_label_type_is_server_owned_and_model_type_metadata_is_forbidden():
     proposal, source, notice, captures = rig()
     report = translate_proposal(json.dumps(proposal).encode(), source_bytes=source,
         notice=notice, captures=captures, policy=ProposalPolicy())
-    assert report.translator_version == 'proposal-translation-2'
+    assert report.translator_version == 'proposal-translation-3'
     assert [(field.field.value, field.observation.value_type.value)
         for field in report.label_values.fields] == [
         ('LOT', 'TEXT'), ('BEST_BEFORE', 'DATE'), ('USE_BY', 'DATE')]
