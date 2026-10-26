@@ -1,12 +1,16 @@
 """Explicit offline acquisition HTTP integration; default application stays unmounted."""
 
 import asyncio
+import json
+from contextlib import suppress
 from threading import BoundedSemaphore
+from time import monotonic
 from typing import Annotated
 
+import anyio
 from fastapi import Request
-from fastapi.responses import JSONResponse
-from pydantic import Field, TypeAdapter, ValidationError
+from fastapi.responses import JSONResponse, StreamingResponse
+from pydantic import Field, TypeAdapter, ValidationError, model_validator
 from starlette.concurrency import run_in_threadpool
 
 from batchbeacon.action_service import ActionService
@@ -24,6 +28,31 @@ from batchbeacon.incident_api import (
 
 class ExtractionHTTPPolicy(IncidentHTTPPolicy):
     max_concurrent_acquisitions: Annotated[int, Field(gt=0)] = 1
+    progress_response_enabled: bool = False
+    progress_interval_seconds: Annotated[float, Field(gt=0, allow_inf_nan=False)] = 15.0
+    progress_timeout_seconds: Annotated[float, Field(gt=0, allow_inf_nan=False)] = 230.0
+
+    @model_validator(mode='after')
+    def progress_window(self):
+        if self.progress_interval_seconds >= self.progress_timeout_seconds:
+            raise ValueError('progress_interval_must_fit_response_window')
+        return self
+
+
+PROGRESS_PROTOCOL = 'acquisition-progress-v1'
+PROGRESS_MEDIA_TYPE = 'application/vnd.batchbeacon.acquisition+json'
+
+
+class _OwnedProgressResponse(StreamingResponse):
+    """A disconnect must not detach the acquisition from its request lifecycle."""
+
+    async def __call__(self, scope, receive, send):
+        try:
+            await super().__call__(scope, receive, send)
+        finally:
+            # ASGI 2.4 send failures do not necessarily close the iterator.
+            with anyio.CancelScope(shield=True):
+                await self.body_iterator.aclose()
 
 
 class AcquisitionStart(Record):
@@ -54,6 +83,9 @@ def create_extraction_app(
 
 
 def _create_extraction_app(extraction, actions, policy):
+    if policy.progress_response_enabled \
+            and policy.progress_timeout_seconds <= extraction.config.run_seconds:
+        raise ValueError('progress_window_must_cover_model_run')
     evidence = extraction.evidence
     guest = evidence.guest
     app = create_incident_test_app(guest, evidence, actions, policy)
@@ -134,6 +166,50 @@ def _create_extraction_app(extraction, actions, policy):
         _queries(request, set())
         body = await _command(request, AcquisitionStart, policy)
         command = AcquisitionCommand(incident_id=incident_id, request_key=key, **body.model_dump())
+        progress = request.headers.getlist('x-batchbeacon-progress')
+        if progress and progress != [PROGRESS_PROTOCOL]:
+            raise GuestDenied(406, 'unsupported_acquisition_progress')
+        if progress and policy.progress_response_enabled:
+            async def stream():
+                # This is the same finite worker as the ordinary response. The
+                # iterator and response both join it, even after a disconnect.
+                worker = asyncio.create_task(run_in_threadpool(execute, token, command))
+                deadline = monotonic() + policy.progress_timeout_seconds
+                try:
+                    yield b'\n'
+                    while not worker.done():
+                        remaining = deadline - monotonic()
+                        if remaining <= 0:
+                            break
+                        done, _ = await asyncio.wait(
+                            {worker}, timeout=min(policy.progress_interval_seconds, remaining))
+                        if not done and monotonic() < deadline:
+                            yield b'\n'
+                    try:
+                        if not worker.done() or monotonic() >= deadline:
+                            raise GuestDenied(503, 'acquisition_response_deadline_elapsed')
+                        # Recheck immutable ownership expiry at final publication.
+                        payload = response(worker.result(), token, session)
+                        status = 200
+                    except GuestDenied as error:
+                        rejected = await denied(request, error)
+                        payload, status = json.loads(rejected.body), rejected.status_code
+                    except Exception:
+                        payload = {'error': 'acquisition_response_unavailable',
+                                   'outcome': 'unknown', 'recovery': 'original_request_key'}
+                        status = 503
+                    yield json.dumps({'protocol': PROGRESS_PROTOCOL, 'status': status,
+                                      'body': payload}, separators=(',', ':')).encode()
+                finally:
+                    # A stopped stream does not cancel a model call, release its
+                    # capacity early, or imply a refund. The bounded worker owns
+                    # accounting through actual completion, as on the JSON path.
+                    with anyio.CancelScope(shield=True), suppress(Exception):
+                        await asyncio.shield(worker)
+
+            return _OwnedProgressResponse(stream(), media_type=PROGRESS_MEDIA_TYPE,
+                headers={'Cache-Control': 'private, no-store, no-transform',
+                         'X-Accel-Buffering': 'no'})
         result = await run_in_threadpool(execute, token, command)
         return response(result, token, session)
 

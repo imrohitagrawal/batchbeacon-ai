@@ -97,7 +97,9 @@ def create_guest_test_app(service: GuestService) -> FastAPI:
     @app.middleware("http")
     async def private_headers(request, call_next):
         response = await call_next(request)
-        response.headers["Cache-Control"] = "no-store, private"
+        no_transform = 'no-transform' in response.headers.get('Cache-Control', '').split(', ')
+        response.headers["Cache-Control"] = "no-store, private" + (
+            ', no-transform' if no_transform else '')
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Referrer-Policy"] = "no-referrer"
         return response

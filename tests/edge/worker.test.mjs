@@ -36,3 +36,13 @@ test('unsafe Domain-bearing app cookie fails closed',async()=>{const {response}=
 test('exact secure host-only app cookie survives without sharing Domain',async()=>{const cookie='__Host-bb_guest=value; Path=/; Max-Age=100; Secure; HttpOnly; SameSite=Strict';const {response}=await exercise(request(),()=>new Response('ok',{headers:{'set-cookie':cookie}}));assert.equal(response.status,200);assert.equal(response.headers.get('set-cookie'),cookie);});
 
 for(const config of [{...env,PUBLIC_ORIGIN:'http://batchbeacon.example'},{...env,UPSTREAM_ORIGIN:'https://user:secret@example.com'},{...env,UPSTREAM_ORIGIN:UPSTREAM+'/arbitrary'},{...env,PUBLIC_ORIGIN:UPSTREAM},{}]) test(`invalid config rejects before fetch ${JSON.stringify(config)}`,async()=>{const {response,calls}=await exercise(request(),undefined,config);assert.ok(response.status>=500);assert.equal(calls.length,0);});
+
+test('acquisition heartbeat is forwarded before final body without transformation or retry',async()=>{
+ let controller;const stream=new ReadableStream({start(c){controller=c;c.enqueue(new TextEncoder().encode('\n'));}});
+ const {response,calls}=await exercise(request({url:PUBLIC+'/api/incidents/'+'a'.repeat(32)+'/acquisitions',headers:{'X-BatchBeacon-Progress':'acquisition-progress-v1'}}),()=>new Response(stream,{headers:{'Content-Type':'application/vnd.batchbeacon.acquisition+json','Cache-Control':'private, no-store, no-transform','X-Accel-Buffering':'no'}}));
+ assert.equal(calls.length,1);assert.equal(calls[0].headers['x-batchbeacon-progress'],'acquisition-progress-v1');
+ assert.match(response.headers.get('cache-control'),/no-transform/);assert.equal(response.headers.get('x-accel-buffering'),'no');
+ const reader=response.body.getReader();const first=await reader.read();assert.equal(new TextDecoder().decode(first.value),'\n');assert.equal(first.done,false);
+ const final=JSON.stringify({protocol:'acquisition-progress-v1',status:503,body:{error:'unavailable',outcome:'unknown'}});
+ controller.enqueue(new TextEncoder().encode(final));controller.close();assert.equal(new TextDecoder().decode((await reader.read()).value),final);assert.equal((await reader.read()).done,true);
+});

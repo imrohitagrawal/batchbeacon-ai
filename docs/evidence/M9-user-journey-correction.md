@@ -594,3 +594,37 @@ acceptance are pending at this checkpoint. Fresh reads show ordinary access open
 paid extraction closed and the historical unknown preserved. Actual screen-reader,
 unfamiliar-user and live unresolved-panel evidence remain pending. Private evidence:
 `.local/run-records/name-schema-acceptance-20261026/`.
+
+
+## U43 name-schema, reasoning and request-delivery correction
+
+PR #20 source `9deb89d` and immutable image
+`sha256:5f02919d372975b0e99f7f8bb254b650ff02551353a4af61ca928ee93b73e3e0`
+passed1,483unit/133browser/29edge/eightFirestore-emulator tests, exact hosted
+push/PR/main topology and allowlisted packaged-source checks. Generic field-boundary
+schema/prompt retained original labels, raw/value semantics and deterministic guards.
+
+Actual LOW still selected the caption into the name and was refused. HIGH first
+returned complete provider504; a longer finite request returned complete200 with
+MAX_TOKENS, incomplete source JSON and no label proposal. Exact canonical requests,
+original responses and usage/price receipts were independently checked. All known
+outcomes settled automatically; historical unknown liability and failed custody
+remain. No fresh A/B or successful nonmatch is established.
+
+The last customhost response timed out while origin processing completed. Original-key
+reconciliation recovered the saved known failure with exhausted allowance and no
+comparison/action, without a second AI request. This is actual delivery recovery,
+not unknown-accounting panel acceptance. The finite Worker timer proof was narrowed:
+it did not remove the separate proxy idle limit and ends at response headers.
+
+Three independent specialists reviewed the local correction: opt-in JSON whitespace
+heartbeats on the same request, explicit final protocol/status/body validation,
+immutable-expiry recheck and worker ownership through disconnect. Typed progress
+policy is disabled by default; activation and actual hosted delivery remain gated.
+Focused23unit/12browser/30edge checks passed, including real Uvicorn early chunks,
+ASGI2.0/2.4 disconnects and original-key recovery. Additional independent cancellation
+and browser error/expiry probes passed. These are not real-model or human evidence.
+
+Current public availability, next release steps and private run pointers are in
+STATE. The existing section9 register retains all20 requirements, exact submitted
+video parity, AT/unfamiliar-human dependencies and broader disclosed quality gates.

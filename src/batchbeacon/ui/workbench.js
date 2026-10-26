@@ -14,6 +14,8 @@ async function api(path, {method='GET', body, operation}={}) {
   const generation=state.sessionGeneration;
   const assertActive=()=>{if(state.expired || generation!==state.sessionGeneration){const e=new Error('Stale response');e.stale=true;throw e;}};
   const headers={}; if(method!=='GET')headers['X-CSRF-Token']=state.csrf || '';
+  const progress=method==='POST' && /^\/api\/incidents\/[a-f0-9]{32}\/acquisitions$/.test(path);
+  if(progress)headers['X-BatchBeacon-Progress']='acquisition-progress-v1';
   if(operation)headers['Idempotency-Key']=operation;
   if(body && !(body instanceof FormData)){headers['Content-Type']='application/json';body=JSON.stringify(body);}
   let response; try { response=await fetch(path,{method,body,headers,credentials:'same-origin',cache:'no-store'}); }
@@ -21,7 +23,17 @@ async function api(path, {method='GET', body, operation}={}) {
   assertActive();
   let data; try { data=await response.json(); } catch { const reason=response.status===429 ? 'Service capacity is temporarily unavailable (429).' : `The server response could not be confirmed (${response.status}).`; const e=new Error(`${reason} Reconcile the original operation before retrying.`); e.status=response.status;e.unknown=true; throw e; }
   assertActive();
-  if(!response.ok){const e=new Error(admissionMessages[data.error] || (data.error || 'Request unavailable').replaceAll('_',' '));e.status=response.status;e.unknown=data.outcome==='unknown' || response.status>=500;if(response.status===401)expire();throw e;}
+  let status=response.status;
+  if(response.headers.get('Content-Type')?.split(';')[0]==='application/vnd.batchbeacon.acquisition+json'){
+    const object=v=>v!==null && typeof v==='object' && !Array.isArray(v);
+    const body=data?.body;
+    const success=object(body) && /^[a-f0-9]{32}$/.test(body.run_id) && body.incident_id===path.split('/')[3] && ['COMPLETE','REVIEW_REQUIRED','FAILED','TIMED_OUT','INCOMPLETE','SUPERSEDED','STALE'].includes(body.state) && typeof body.current==='boolean' && typeof body.reconciliation_required==='boolean';
+    if(!progress || !response.ok || !object(data) || Object.keys(data).sort().join(',')!=='body,protocol,status' || data.protocol!=='acquisition-progress-v1' || !Number.isInteger(data.status) || !(data.status===200?success:data.status>=400 && data.status<=599 && object(body) && typeof body.error==='string' && body.error.length>0)){
+      const e=new Error('The final server response could not be confirmed. Reconcile the original operation before retrying.');e.unknown=true;throw e;
+    }
+    status=data.status;data=body;
+  }
+  if(status<200 || status>=300){const e=new Error(admissionMessages[data.error] || (data.error || 'Request unavailable').replaceAll('_',' '));e.status=status;e.unknown=data.outcome==='unknown' || status>=500;if(status===401)expire();throw e;}
   return data;
 }
 function expire() { state.sessionGeneration++;state.selection++;state.capabilities=null;state.workspaceBlock=null;state.loading=false;state.operation=null;for(const el of document.querySelectorAll('.operation-status')){el.textContent='Guest access expired.';delete el.dataset.busy;}pending(null); state.expired=true; state.csrf=null; state.evidence=null; state.target=null; state.captures=[]; state.actions=[]; $('capture-images').replaceChildren(node('p','Guest access expired. Saved records are no longer accessible.')); $('comparisons').replaceChildren(); $('queue-rows').replaceChildren(); $('history').replaceChildren(); $('confirm-dialog').close(); text('session-state','Guest access expired'); text('verdict-title','Guest access expired'); text('verdict-copy','Evidence is no longer available in this session.'); text('decision-copy','Start a new evaluation workspace to continue.'); text('queue-count','Guest access expired; counts unavailable.'); $('queue-counts').replaceChildren(); text('queue-capability','Guest access expired; availability unknown.'); text('confirm-product',''); text('field-detail','');text('field-provenance',''); state.queue=null;state.queueDirty=true;state.acquisition=null;state.acquisitionUnknown=false;state.learning=null;state.learningTarget=null;document.querySelector('.verdict').className='verdict neutral';text('active-wording','Guest access expired; wording unavailable.');text('proposed-wording','Guest access expired; proposal unavailable.');for(const step of $('guidance-steps').children)step.removeAttribute('aria-current');$('learning-dialog').close();$('owned-guidance').replaceChildren();$('learning-report').replaceChildren();$('learning-history').replaceChildren();text('learning-counts','Guest access expired; counts unavailable.'); message('Your guest session expired. Reload to request a new evaluation workspace.'); controls(); }

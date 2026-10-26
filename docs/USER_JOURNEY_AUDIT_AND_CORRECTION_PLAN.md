@@ -190,35 +190,46 @@ earlier support-not-configured statements. U28–U30 authority was retained in t
 older checkout; U31's public model pool is ₹650, total remains ₹6,000. No additional
 AI/countTokens/retry/email or settlement authority follows from this continuation.
 
-Current technical release: PR #15 merged; source `bc7da038c6f30b41abe0a4b8f5b6395234f95efd` and image
-`sha256:4bb48a2048df5ddbfbfb845a649f4d7c9da33cb66610f5efd770f6e82073452f` are verified on both public hostnames. M9 records exact CI/package,
-real-service/browser evidence and failures. This is technical release acceptance,
-not complete model, assistive-technology or human acceptance.
+Historical technical release PR #15 and its image remain documented in M9.
+Current deployed source is PR #20 (`9deb89d`, image
+`sha256:5f02919d372975b0e99f7f8bb254b650ff02551353a4af61ca928ee93b73e3e0`),
+with independently reviewed successor runtime configuration. The new progress
+transport implementation is local and not yet deployed.
 
-### Current U42 supervised observation
+### Current U43 supervised observation
 
-The current supervised continuation supersedes earlier financial admission stops for
-this testing work. Actual same-image candidate activation and compatible metadata
-migration were verified. One fresh third-label model response again combined the
-name with a sample caption; exact canonical request reconstruction confirms the
-candidate instruction was actually sent. The guard refused comparison and action,
-usage settled automatically and the historical unknown remained untouched. No A/B
-or repeated third call followed. Current recovery is ordinary workspace access with
-paid extraction closed on the coherent candidate, not a full-readiness release.
+U42/U43 authorize reviewed diagnosis, correction, supervised testing and release;
+older monetary stops and exhausted-series statements remain history, not a ban
+on changed experiments. Known charges and unknown liabilities are preserved.
 
-R01/R04/R08/R12/F8 therefore remain open for a changed extraction correction and
-successful fresh model acceptance. R02/F1/F2/F6 now have additional actual browser
-progress, saved-label focus, truthful refusal and queue evidence; AT/H are still
-separate open gates. F7's stale upload/status receipts remain tracked advisory debt.
-All twenty requirements below are retained; older U38/U41 row narratives describe
-historical checkpoints, not a prohibition on reviewed independent correction work
-under U42. Private detail is in the supervised acceptance run record.
+The generic schema/name prompt at LOW repeated the caption/name defect; the guard
+refused it. HIGH with the shorter deadline returned a complete provider deadline
+error. A longer finite deadline returned complete HTTP200 with MAX_TOKENS and
+incomplete JSON before any label proposal. These are distinct failures, all retained;
+known usage settled automatically and the historical unknown remains held.
+No successful deterministic nonmatch or fresh A/B has followed.
+
+The custom-host browser received524 while the origin completed after the proxy's
+idle boundary. Original-key read-only reconciliation recovered a known failed,
+exhausted case without another model call. This extends R07/R09 delivery recovery
+evidence; it does not satisfy F3/F4's active accounting-unresolved panel gate.
+Existing owner access works; paid extraction is closed and new issuance temporarily
+fenced. Ordinary full extraction availability is not claimed.
+
+Three specialists reviewed the next correction: opt-in whitespace progress on the
+same bounded request, validated final outcome, preserved worker/accounting ownership
+through disconnect, and one larger finite model output allowance. Local focused
+unit/real-HTTP/browser/edge checks pass. Full hosted/release verification, explicit
+fresh-owner admission without resetting old custody, and actual customhost third/A/B
+workflows remain next. AT/H and legitimate live unresolved-panel evidence stay open.
+All20 criteria below remain; older row narratives are dated historical evidence.
+Private checkpoints are named in STATE; M9 holds supporting public evidence.
 
 ### Requirement-by-requirement register
 
 | ID | Acceptance criterion retained | Implementation and evidence | Remaining gate / role / next action |
 |---|---|---|---|
-| R01 | Exercise every meaningful control; label selection persists and explicit extraction alone starts AI. | Implemented F1–F6; current 1,464 U / 133 B / 29 edge / eight E and exact push/PR/main CI pass; historical S upload and M positives distinguished. | Current S retained-label/recheck/queue/reload/focus/mobile checks pass on both hosts. Accounting reconciliation is complete under U36. U38 fresh M third-case failed extraction and stopped the series; no later cases/retries permitted. Integrator retains failure; future changed experiment needs reviewed scope and new authority. |
+| R01 | Exercise every meaningful control; label selection persists and explicit extraction alone starts AI. | Implemented F1–F6; deployed 1,483 U / 133 B / 29 edge / eight E and exact push/PR/main CI pass; historical S upload and M positives distinguished. | Current S retained-label/recheck/queue/reload/focus/mobile checks pass on both hosts. Accounting reconciliation is complete under U36. U38 and later supervised M third failures are retained. U43 authorizes changed reviewed corrections; current transport/output correction needs hosted release and fresh third/A/B evidence. |
 | R02 | Immediate accessible progress, duplicate prevention and visible completion/refusal/error with next action. | Implemented F1/F2; pending live region now remains nonbusy while visual loader/buttons reflect actual state. Twenty baseline failures now pass; independent C/B review passes. Current S upload handoff and M pending/refusal feedback observed under U38; no speech inferred. | Owner-operated AT reported no speech in the first controlled task; also silent on other webpages after a manual settings check; cause unknown. Accessibility reviewer/integrator must verify actual pending/terminal output and remaining tasks; role=status alone is not acceptance. |
 | R03 | First-user, product, code and usability perspectives assess the whole journey. | Independent technical product/code/video reviews in M9; agent walkthroughs only. | Mandatory H: a first-time participant follows the short procedure below; owner arranges participant, integrator records assistance. |
 | R04 | Preserve filmed choose/upload → extract/compare → review → confirm → queue/reopen, plus unrelated-label and guidance behavior. | Section 3 segment contract; exact retained-video provenance review and controlled positive flow in M9. Earlier M positives and unrelated-call failures retained. | Mandatory M+H remains: U38 third identity was refused for incorrect extracted name, not a deterministic nonmatch; A/B were not attempted. The filmed protective refusal is supported independently of the still-failed deterministic nonmatch. U39 candidate/changed-experiment preparation does not close either fresh A/B or nonmatch M acceptance; H participation needed. |
@@ -229,7 +240,7 @@ under U42. Private detail is in the supervised acceptance run record.
 | R09 | Only presently permitted actions; read-only recheck, support contact and expired recovery are honest. | F3–F6 capabilities, ownership/expiry, configured support; M9 U/C/B/CI/S (live panel absent in test workspace). | Mandatory live-panel dependency and AT/H; never imply notification, response deadline, settlement or transferable expired case. |
 | R10 | Evidence-backed field states; no invented confidence or safety score. | Implemented without numeric confidence; source/C/B review in M9. | H confirms nonmatch is understood as scoped, not safety; any contrary response is a finding, not a pass. |
 | R11 | Research, code/history/video review, retained failed evidence and complete requirement coverage. | Sections 1–8 and M9 retained; four required specialist perspectives completed, findings reproduced/classified and corrections independently verified. Exact submitted MP4/narration provenance reviewed; fresh sampled visual review covers all 44 five-second positions across the complete sequence. | Integrator retains failed evidence and updates this register after remaining external acceptance; no continuous-video or unavailable speech review claimed. |
-| R12 | Reviewed bounded plan, dependencies, meaningful regression, release/rollback and honest closeout. | Sections 6–7 plus this checkpoint; independent planning/correction/release reviews completed in dependency order. | Authorized technical correction/release work complete with both-host S checks and durable handoff. Operation A is independently complete. B2 capture correction independently verified; first M case failed and series stopped. Integrator closes evidence/release; future changed M experiment needs review/new authority, AT/H and live-panel state remain blocked. |
+| R12 | Reviewed bounded plan, dependencies, meaningful regression, release/rollback and honest closeout. | Sections 6–7 plus this checkpoint; independent planning/correction/release reviews completed in dependency order. | Authorized technical correction/release work complete with both-host S checks and durable handoff. Operation A is independently complete. B2 capture correction independently verified; first M case failed and series stopped. Integrator closes evidence/release; U43 authorizes further changed reviewed M work; current correction/release and fresh model evidence remain, with AT/H and live-panel state still pending. |
 | F1 | Adjacent upload/extraction progress and visible saved-label handoff, errors cannot reuse prior label. | Implemented; current U/C/B/CI regressions pass, including corrected nonbusy progress semantics; current S upload/save and M processing/refusal observed. | R02 actual AT and H remain; U37 fresh upload passed; U38 reused and reverified that retained image. Lingering upload receipt after extraction is tracked advisory ambiguity below. |
 | F2 | Distinct no-label/ready/checking/completed/failed/unresolved/expired stages reflect facts. | Implemented; current U/C/B/CI covers completion, refusal, failure, stale response and corrected progress; S nonmodel subset and U38 actual M pending/refusal. | Fresh successful M completion remains F8; actual protective refusal observed, but AT must hear pending/terminal transitions. |
 | F3 | Owned case capabilities disable futile recovery; recheck beside unresolved explanation. | Implemented; M9 U/C/B/CI, deployed API/config and support. | Visible S panel remains incomplete: original capability was unavailable during its valid interval and both known unresolved sessions are now expired. Need a future legitimately owned active case, not an extra paid attempt to create one. |
@@ -237,7 +248,7 @@ under U42. Private detail is in the supervised acceptance run record.
 | F5 | Late success/error cannot overwrite expiry or another selected case. | Implemented; independently reproduced regressions and current full U/C/B/CI pass. | Controlled race coverage complete for this increment; no claim of live race injection or H/AT acceptance. |
 | F6 | Explicit navigation reveals destination, focus and scroll; reload/back/reopen preserve context. | Implemented; current C/B keyboard/race tests and both-host S navigation focus, mobile, queue and reload pass. | U38 refused-case queue/reopen/reload and mobile context also pass. Actual AT/H remains; agent browser operation is not human usability. |
 | F7 | Clear short purpose, readable queue/status, technical details disclosed on demand. | Implemented advisory clarity work; M9 C/B and both-host S observations. | Lingering upload receipt after extraction is ADVISORY_DEBT: historical upload-specific wording beside truthful refusal, no demonstrated false result/action. Product owner tracks a later small wording/clearing improvement; R05/R06 H comprehension remains mandatory. |
-| F8 | Supported usage/accounting, preserved unknowns, actual successful complete positive and unrelated/wrong-product validation. | PARTIAL. Strict cache-subset parser implemented and independently verified with retained provider bytes, U/C/E; original-rate valuation preserved, newer usage settled under U36 and older unknown held. Earlier no-response timeout remains distinct. | Operation A is owner-authorized and independently verified: newer retained usage settled, older liability held, failed runs/expired ownership preserved. Cache-aware rollback is now mandatory. U38 produced one incorrect-name M response, correctly refused and automatically settled with no new unknown; series stopped before A/B. REQUIRED_CONTRACT model-acceptance gap remains. U39 preparation and U41 financial stop remain history. Under U42 the candidate was activated and actually dispatched once; the same name/caption error recurred, with exact request binding verified. Source agreement and automatic settlement passed; deterministic nonmatch and fresh A/B remain incomplete. Paid extraction is closed, ordinary access recovery retains the coherent candidate, and a reviewed changed correction remains necessary. No retries under the failed series. |
+| F8 | Supported usage/accounting, preserved unknowns, actual successful complete positive and unrelated/wrong-product validation. | PARTIAL. Strict cache-subset parser implemented and independently verified with retained provider bytes, U/C/E; original-rate valuation preserved, newer usage settled under U36 and older unknown held. Earlier no-response timeout remains distinct. | Operation A is owner-authorized and independently verified: newer retained usage settled, older liability held, failed runs/expired ownership preserved. Cache-aware rollback is now mandatory. U38 produced one incorrect-name M response, correctly refused and automatically settled with no new unknown; series stopped before A/B. REQUIRED_CONTRACT model-acceptance gap remains. U39 preparation and U41 financial stop remain history. Under U42 the candidate was activated and actually dispatched once; the same name/caption error recurred, with exact request binding verified. Source agreement and automatic settlement passed; deterministic nonmatch and fresh A/B remain incomplete. Later schema LOW also failed identity; HIGH first hit a provider deadline, then MAX_TOKENS before a complete proposal. Charges settled and old unknown stayed held. Current paid admission is closed/new issuance fenced. U43 progress/output correction and fresh owner-bound third/A/B remain; no exhausted counter reset or unchanged retry. |
 
 ### Classification and independent work
 
