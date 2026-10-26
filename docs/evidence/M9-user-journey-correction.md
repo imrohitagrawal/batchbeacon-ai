@@ -628,3 +628,43 @@ and browser error/expiry probes passed. These are not real-model or human eviden
 Current public availability, next release steps and private run pointers are in
 STATE. The existing section9 register retains all20 requirements, exact submitted
 video parity, AT/unfamiliar-human dependencies and broader disclosed quality gates.
+
+
+## U43 progress release and observed availability feedback
+
+PR21 source a0d2320 / merged main c178b8b passed full local1,506unit/145browser/
+30edge/eight emulator and exact hosted push/PR/main1,506/145/30 checks. The
+allowlisted generation-bound Cloud Build source and five packaged offline smokes
+passed. Image09dd9bde is deployed Ready100%; independent readback verifies exact
+assets on both origins, unchanged service permissions and all retained accounting.
+Compatible metadata changes preserved owners and domain records. The edge change
+only preserves no-transform; other routes/settings remain unchanged. One new owner
+was issued normally and issuance refenced, with paid admission closed. No model call
+on the enlarged output configuration has occurred. Selected A capture pixels,
+storage generation and ownership independently pass; both saved A records remain.
+
+The user's next-step confusion was reproduced independently in both upload paths:
+terminal receipt instructed extraction while capability disabled the button.
+Classified REQUIRED_CONTRACT under R02/F1/R05/R09, not an authorization failure.
+Backend, product/UX and operations reviews support one shared availability-aware
+handoff, reason-specific recovery and guarded focus. No runtime/model/policy change.
+Implementation and review are pending release; full hosted and packaged-image
+verification remain required before deployment. Initial test lint failure is retained
+and corrected. Root unrelated changes remain untouched.
+
+The user reports VoiceOver reads navigation/static content. Exact automatic
+pending/terminal speech and uncoached unfamiliar-user completion are unverified.
+Recordings affected by reported tab switching are excluded. Concurrent Voice Control
+was observed; speech feedback interference is a hypothesis, not audio-verified.
+VoiceOver was turned off as requested. No automated/AX result substitutes for human
+acceptance. All R01–R12/F1–F8 and broader source/protected/Operations gates remain.
+
+Independent review also reproduced an existing F5 violation in both upload paths:
+a late response after leaving and reopening the same case could replace current
+capture/status and clear a newer pending key. Four primary success/refusal
+regressions failed before correction and pass afterward. The correction reuses the
+captured selection guard at the response/error boundary and guards sample-flow
+continuation. It preserves the original server operation and does not retry it.
+Independent verification and final full checks govern release of this correction.
+
+Final local validation passes1,506unit/173browser/30edge/eight Firestore emulator tests. Independent backend verification passes77 journey/recovery checks; UX verification passes89 targeted checks and real-CSS desktop/narrow probes. These are controlled local results; exact hosted and deployed correction checks are still pending, as are actual human and model acceptance.

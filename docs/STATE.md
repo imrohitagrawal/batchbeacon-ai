@@ -22,13 +22,17 @@ samples or substituting catalog identities. Source `9deb89d` passed 1,483 unit,
 133 browser, 29 edge and eight Firestore emulator tests; exact hosted push/PR/main
 checks and packaged-source provenance passed separately.
 
-Deployed image is `sha256:5f02919d372975b0e99f7f8bb254b650ff02551353a4af61ca928ee93b73e3e0`.
-Its reviewed successor configuration uses HIGH reasoning and a finite longer request
-window. Exact migration/promotion readbacks preserved ownership, expiry, failed
-history, source environment and accounting. Both public origins serve health and
-HTML. Existing owned workspace access works; new workspace issuance is temporarily
-fenced for supervised isolation. Paid extraction is closed. This is limited
-availability, not a complete working public extraction release.
+PR #21 is merged; source `a0d2320` is deployed as image
+`sha256:09dd9bde95dfa9b848a4aff6574094a64999a97a90a26abb605e81b41ef58cee`.
+Local full checks passed 1,506 unit, 145 browser, 30 edge and eight Firestore
+emulator tests. Exact hosted push, PR merge checkout and merged-main checks passed;
+packaged-source/build provenance and independent promotion readbacks passed.
+Both public origins serve the exact assets and health responses at 100% traffic.
+The reviewed HIGH reasoning/output configuration preserves finite request limits,
+failed history, source environment, ownership, expiry and accounting.
+Existing owned workspace access works. One new workspace was issued normally for
+supervised tests, then new issuance was fenced again. Paid extraction is closed.
+This is limited availability, not a complete working public extraction release.
 
 Actual new third-label experiments produced three distinct outcomes: LOW repeated
 the name/caption error and was correctly refused; HIGH with the shorter deadline
@@ -45,19 +49,23 @@ recovery, not a workspace blocked by an unknown accounting liability.
 
 ## Current correction and next verification
 
-The working correction adds opt-in whitespace progress on the same bounded request,
-with a validated final status/body envelope and worker ownership through disconnect.
-Typed progress configuration, expiry checks and no-transform preservation are
-implemented locally; no new worker queue, retry or automatic action is introduced.
-Focused unit, actual local HTTP/browser and edge regressions pass. Independent
-specialist reviews and complete hosted/release checks govern activation; these
-local changes are not yet deployed.
+The deployed transport correction adds opt-in whitespace progress on the same
+bounded request, a validated final status/body envelope and worker ownership through
+disconnect. Typed finite progress settings, expiry checks and no-transform handling
+passed controlled HTTP/browser and edge tests. Real-model custom-host delivery is
+still unverified. The next model experiment increases finite output allowance once;
+no call on this configuration has occurred. Two retained A captures are preserved;
+the selected unused A's pixels, storage generation and ownership passed independent
+verification. Fresh third/A/B, consent/deduplication, queue/reopen, reload/mobile and
+actual custom-host response delivery remain required.
 
-The reviewed next model experiment increases the finite output allowance once,
-preserving prompt/schema, source, model, accounting and identity validation. A fresh
-workspace must be issued normally and bound explicitly while preserving the old
-owner and exhausted history. Fresh third/A/B, consent/deduplication, queue/reopen,
-reload/mobile and actual custom-host response delivery remain required.
+Human testing exposed a reproduced feedback defect: successful sample and manual
+uploads instructed extraction while capability disabled it. A bounded UI correction
+uses availability-aware handoff copy and focuses the saved-state explanation when
+checking is unavailable. This correction and the related stale-upload selection guard pass full local
+1,506 unit, 173 browser, 30 edge and eight emulator tests, with independent UX
+verification. Hosted checks and deployment remain pending.
+Server admission, ownership, accounting, runtime and model instructions are unchanged.
 
 Private checkpoints: `.local/run-records/name-schema-acceptance-20261026/`,
 `.local/run-records/high-reasoning-acceptance-20261026/`,
@@ -68,11 +76,15 @@ source, shared contracts and deployment. No support message was sent.
 
 ## Remaining human and product gates
 
-Actual assistive-technology speech is unverified; the earlier operator reported
-silence outside the app too. An unfamiliar participant is still required for
-uncoached comprehension and task completion. Agent browser tests do not satisfy
-either requirement. A legitimate active workspace with unknown accounting remains
-needed for the unresolved panel; never manufacture one or restore expired custody.
+The operator reports audible VoiceOver navigation, but exact automatic pending and
+terminal announcements remain unverified. Earlier recordings are excluded because
+the user reported tab switching. Concurrent speech input is a possible interference
+source, not an established cause. VoiceOver was turned off as requested. The
+participant reported uncertainty about the next step after upload; that finding is
+retained. Prior exposure and uncoached task completion remain unconfirmed. Automated
+checks cannot establish either human gate. A legitimate active workspace with unknown
+accounting remains needed for the unresolved panel; never manufacture one or restore
+expired custody.
 
 Human source/gold review, protected final-case custody, complete development and
 protected quality evaluation, live-source refresh/update, full deployed journeys,

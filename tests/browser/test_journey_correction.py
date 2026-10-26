@@ -14,7 +14,8 @@ def test_saved_label_has_truthful_next_stage(connected_browser):
     page.locator('#start-sample').click()
     expect(page.locator('#check')).to_be_enabled()
     expect(page.locator('#verdict-title')).to_have_text('Label ready')
-    expect(page.locator('#label-status')).to_contain_text('No AI check has run')
+    expect(page.locator('#label-status')).to_contain_text(
+        'Saving a label does not start an AI check')
     assert not c[4] and not errors
 
 
@@ -161,7 +162,7 @@ def test_label_ready_feedback_explains_unavailable_check_at_action(page, reason)
     result = page.evaluate('''reason=>{
       state.csrf='test';state.config={guidance:'OFF'};state.incident='case';
       state.captures=[{id:'label'}];state.evidence={current:false};
-      state.workspaceBlock=reason==='UNRESOLVED_ATTEMPT'?reason:null;
+      state.workspaceBlock=['UNRESOLVED_ATTEMPT','ACTIVE_REQUEST'].includes(reason)?reason:null;
       state.capabilities=reason?{workspace:{extraction:{available:false,reason}},
         incident:{correction:{available:false},verification:{available:false},
           action:{available:false}}}:null;
@@ -227,3 +228,103 @@ def test_pending_status_remains_announcable_while_duplicate_work_is_blocked(page
     assert result['dispatches'] == 1
     assert result['terminal'] == ('Operation refused.' if failure else 'Operation completed.')
     assert not result['busy'] and result['spinner'] != 'true'
+
+
+@pytest.mark.parametrize('width', [390, 1280])
+@pytest.mark.parametrize('kind', ['sample', 'manual'])
+@pytest.mark.parametrize('reason', ['AVAILABLE', 'ALLOWANCE_UNAVAILABLE',
+                                   'UNRESOLVED_ATTEMPT', 'ACTIVE_REQUEST',
+                                   'ACQUISITION_LIMIT', None])
+def test_upload_handoff_matches_available_next_action(page, width, kind, reason):
+    """Both actual upload paths must not direct users to a disabled AI action."""
+    page.set_viewport_size({'width': width, 'height': 844})
+    result = page.evaluate('''async ({kind,reason})=>{
+      state.csrf='test';state.config={guidance:'OFF',max_images:2,max_image_bytes:999};
+      state.incident='case';state.evidence={current:false};
+      const cap=reason?{workspace:{extraction:{available:reason==='AVAILABLE',reason}},
+        incident:{correction:{available:false},verification:{available:false},
+          action:{available:false}}}:null;
+      state.capabilities=cap;
+      state.workspaceBlock=['UNRESOLVED_ATTEMPT','ACTIVE_REQUEST'].includes(reason)?reason:null;
+      const calls=[];let saved=false;
+      window.fetch=async (url,options={})=>{
+        calls.push({url,method:options.method||'GET'});
+        if(url.startsWith('/samples/'))return new Response('synthetic');
+        let data;
+        if(url==='/api/incidents')data={incident_id:'case'};
+        else if(url.endsWith('/capabilities'))data=cap;
+        else if(url.endsWith('/evidence'))data={current:false,latest_run_id:null};
+        else if(url.endsWith('/actions'))data={actions:[]};
+        else if(url.endsWith('/captures')){
+          if(options.method==='POST'){saved=true;data={ready:true,captures:[{id:'image'}]};}
+          else data={batches:saved?[{ready:true,captures:[{id:'image'}]}]:[]};
+        }else throw new Error('Unexpected request '+url);
+        return new Response(JSON.stringify(data));
+      };
+      if(kind==='sample')await task(startSample,'upload');
+      else await task(()=>upload([
+        new File(['synthetic'],'label.png',{type:'image/png'})]),'capture');
+      return {global:$('app-status').textContent,
+        adjacent:$(kind==='sample'?'sample-status':'capture-status').textContent,
+        label:$('label-status').textContent,disabled:$('check').disabled,
+        recheckVisible:!$('refresh-acquisition').hidden,
+        recheckDisabled:$('refresh-acquisition').disabled,
+        focus:document.activeElement.id,calls};
+    }''', {'kind': kind, 'reason': reason})
+    assert result['global'] == result['adjacent'] == result['label']
+    assert result['global'].startswith('Label saved.')
+    assert not any('/acquisitions' in call['url'] for call in result['calls'])
+    if reason == 'AVAILABLE':
+        assert not result['disabled']
+        assert 'Next, extract and check' in result['global']
+    else:
+        assert result['disabled']
+        assert 'extract and check' not in result['global'].lower()
+        assert result['recheckVisible'] and not result['recheckDisabled']
+        assert result['focus'] == 'label-status'
+        assert {None: 'could not be confirmed',
+                'ALLOWANCE_UNAVAILABLE': 'Recheck does not start an AI request',
+                'UNRESOLVED_ATTEMPT': 'does not settle the request',
+                'ACTIVE_REQUEST': 'does not settle the request',
+                'ACQUISITION_LIMIT': 'exhausted'}[reason] in result['global']
+
+
+@pytest.mark.parametrize('kind', ['sample', 'manual'])
+@pytest.mark.parametrize('failure', [False, True])
+def test_late_upload_after_same_case_reopen_preserves_current_state(page, kind, failure):
+    result = page.evaluate('''async ({kind,failure})=>{
+      state.csrf='test';state.config={guidance:'OFF',max_images:2,max_image_bytes:999};
+      state.incident='case';state.evidence={current:false};
+      let release, started;const sent=new Promise(r=>started=r);let posts=0;
+      window.fetch=async (url,options={})=>{
+        if(url.startsWith('/samples/'))return new Response('synthetic');
+        if(url.endsWith('/captures') && options.method==='POST'){
+          posts++;started();return new Promise(r=>release=r);
+        }
+        const data=url==='/api/incidents'?{incident_id:'case'}:
+          url.endsWith('/captures')?{batches:[]}:
+          url.endsWith('/capabilities')?null:
+          url.endsWith('/evidence')?{current:false,latest_run_id:null}:{actions:[]};
+        return new Response(JSON.stringify(data));
+      };
+      const work=kind==='sample'?task(startSample,'upload'):task(()=>upload([
+        new File(['synthetic'],'label.png',{type:'image/png'})]),'capture');
+      await sent;
+      state.incident='another';state.selection++;
+      state.incident='case';state.selection++;
+      state.captures=[{id:'current-capture'}];
+      pending({kind:'capture',incident:'case',operation:'current-key'});
+      operationStatus('label-status','Current label status');
+      operationStatus('capture-status','Current capture status');
+      text('app-status','Current global status');
+      $('evidence-title').focus();
+      release(new Response(JSON.stringify(failure?{error:'rejected'}:
+        {ready:true,captures:[{id:'stale-capture'}]}),{status:failure?400:200}));
+      await work;
+      return {captures:state.captures,pending:state.pending?.operation,
+        label:$('label-status').textContent,capture:$('capture-status').textContent,
+        global:$('app-status').textContent,focus:document.activeElement.id,posts};
+    }''', {'kind': kind, 'failure': failure})
+    assert result == {'captures': [{'id': 'current-capture'}], 'pending': 'current-key',
+                      'label': 'Current label status', 'capture': 'Current capture status',
+                      'global': 'Current global status', 'focus': 'evidence-title', 'posts': 1}
