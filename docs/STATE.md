@@ -20,7 +20,11 @@ and [M9](evidence/M9-user-journey-correction.md) retain all R01–R12/F1–F8 ga
 The exact one-case changed experiment and conditional accounting/configuration
 migration are prepared privately, with no paid or deployment authority. The stopped
 U37/U38 series stays stopped. Migration requires zero active owners; reversal also
-requires no unknown candidate attempt. After any future test, paid admission closes;
+requires no unknown candidate attempt. Controlled review corrected an expired-cookie
+recovery defect in the initial proposal: only the two configuration markers on
+already-expired guest envelopes additionally change; ownership, expiry and payloads
+remain intact, and normal expiry rejection is preserved. After any future test,
+paid admission closes;
 no immediate old-prompt restoration is promised. No expired session is recovered.
 The local unresolved-to-settled-failed fixture now supports human recheck observation;
 controlled checks pass, actual speech and novice observations remain incomplete.
