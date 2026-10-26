@@ -747,3 +747,55 @@ pass. Automatic pending/terminal screen-reader speech, uncoached completion and
 broader purpose comprehension remain pending. Earlier recordings remain excluded.
 All R01–R12/F1–F8 requirements, exact submitted-video scope and broader disclosed
 source/evaluation/Operations limits remain in force.
+
+
+## Actual name-line refusal and next bounded correction
+
+Native browser recovery reopened the original fallback workspace with its original
+expiry and retained failed case. Read-only recheck displayed completion with no
+new AI request; authoritative full352 inventory comparison was exact. A fresh third
+label was saved normally. Independent generation-specific storage/pixel and scope
+review confirmed the original image and preserved prior history. The page showed
+capability-aware saved-label instructions, then enabled extraction after read-only
+recheck of a reviewed supervised phase. One explicit extraction displayed pending
+feedback and disabled duplicate operations, then focused the truthful refusal.
+These are agent-operated browser observations, not human or VoiceOver evidence.
+
+The complete provider STOP response had a valid v3 line structure, correct source,
+lot and date. It assigned the caption a NAME_COMPONENT role and selected it with the
+food name. Exact canonical request reconstruction matched the independently prepared
+request; 17 independent outcome checks confirmed one generation, accurate known-usage
+settlement, preserved older unknown liability, unchanged prior ownership/history and
+no comparison/action. A/B were not attempted. Paid admission was closed, ordinary
+entry restored and the resulting356 records independently verified. Fallback delivery
+of this response does not prove the previous custom-host idle boundary is resolved.
+
+A separate R02/F1 current-availability contradiction was observed and independently
+reproduced: sample-status retained its old successful unavailable receipt after recheck
+enabled extraction. Two added regression cases failed before the local correction;
+manual-path and error/unknown controls already passed. A guarded success-receipt
+marker now distinguishes obsolete success text from pending/error/unknown messages.
+Independent review found a missed navigation-during-save branch; marking was separated
+from focus's view guard, preserving retail focus while retiring the old receipt on
+return and recheck. Independent72 journey tests and seven intercepted-browser scenarios
+pass on final source; the initial failed evidence is retained. Full hosted and deployed
+verification remain pending. No layout or product safeguard was changed.
+
+The next prompt candidate adds a generic semantic distinction between food identity
+and text describing the exercise/specimen. It does not name the actual fixture, its
+caption, selected indices or desired verdict. Three specialist plan reviews pass.
+Independent23 offline checks verify the actual installed ADK count/generation request
+carries the candidate and that the retained failed label is still refused. Original
+v9 instruction is an exact prefix; schema, model, LOW4096, prices and all deadlines
+remain. Eight configuration/commitment paths change; all356 records decode identically
+under immutable deployed and current code. A source-digest proof-label error was
+corrected and independently verified without changing the candidate. These are
+preparation proofs, not deployment or model efficacy. Full release and fresh correct
+third/A/B remain next; all human, AT, legitimate unknown-panel and broader gates persist.
+
+The documentation checkpoint PR24 merged normally to01fea28 after exact hosted push,
+PR-merge and merged-main1546unit/173browser/30edge checks; it did not change runtime.
+Detailed failures, bounded policies, records and subsequent correction evidence remain
+private under the name-line and semantic-role acceptance checkpoints.
+
+Final local receipt-correction checks pass1,546unit/180browser/30edge/eight emulator tests. Hosted and deployment checks remain separate pending gates.
