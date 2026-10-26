@@ -710,3 +710,40 @@ recordings remain excluded. All R01–R12/F1–F8 and source/gold/protected/Oper
 retain their criteria; automated tests do not satisfy human acceptance.
 
 Final local name-line validation passes1,546unit/173browser/30edge/eight emulator. Independent product review passes32 focused browser checks and safe multiline text rendering; HTML/JS/CSS remain identical to the availability release. These are local technical results, not a release or model/human acceptance claim.
+
+
+## Name-line correction deployed; successor workflows pending
+
+PR23 source `dec8f7ed593e270f4082d882ac3c7be21b4c7da9` merged normally to
+`4b7d63f348bb203ee22520f17a090e51ed00939e`. Exact hosted
+[push](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/40368635608),
+[PR merge checkout](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/40368681606)
+and [merged main](https://github.com/imrohitagrawal/batchbeacon-ai/actions/runs/40369679107)
+passed1546unit/173browser/30edge checks, including locked bootstrap, permissions,
+environment and checkout topology. Local eight-emulator checks also passed.
+The exact60-file package passed local build plus five offline smokes and seven
+Cloud Build steps; independent generation-bound archive/image verification passed.
+Image `sha256:076c8f763adc4bd9baccae35e3df4fd9d128614b2bbe870f5e4f32bdbb60551e`
+is Ready at100% with the new required line schema, prompt and LOW/output policy.
+
+Independent transition checks verified65 declared metadata writes over352 guarded
+records, preserving all original guest payloads, costs, unknown liabilities and
+history. Traffic-only promotion and both-host exact assets/health/config/anonymous
+ownership rejection passed. Ordinary issuance was restored by one reviewed hash
+change, with351 other records unchanged and paid phase/circuit closed. Existing
+owner browser readback and actual model efficacy remain separate pending checks.
+
+The bounded successor preserves the existing failed case and original owner. Its
+private operation-stage checks passed36 probes; subsequent proof-binding gaps were
+corrected and independently verified with42 more probes. These checks include
+retained historical data and controlled ADK/SDK fixtures; they are not actual new
+provider responses. No new model call, comparison or action has occurred on this
+release. Live browser continuation remains pending while control tooling is
+recovered; API readbacks are not browser evidence.
+
+The reported handoff confusion is now established as first-use failure evidence.
+A returning participant can verify the correction but cannot supply a fresh first-use
+pass. Automatic pending/terminal screen-reader speech, uncoached completion and
+broader purpose comprehension remain pending. Earlier recordings remain excluded.
+All R01–R12/F1–F8 requirements, exact submitted-video scope and broader disclosed
+source/evaluation/Operations limits remain in force.

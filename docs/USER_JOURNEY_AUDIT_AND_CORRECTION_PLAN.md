@@ -231,7 +231,7 @@ Private checkpoints are named in STATE; M9 holds supporting public evidence.
 |---|---|---|---|
 | R01 | Exercise every meaningful control; label selection persists and explicit extraction alone starts AI. | Implemented F1–F6; deployed 1,483 U / 133 B / 29 edge / eight E and exact push/PR/main CI pass; historical S upload and M positives distinguished. | Current S retained-label/recheck/queue/reload/focus/mobile checks pass on both hosts. Accounting reconciliation is complete under U36. U38 and later supervised M third failures are retained. U43 authorizes changed reviewed corrections; current transport/output correction needs hosted release and fresh third/A/B evidence. |
 | R02 | Immediate accessible progress, duplicate prevention and visible completion/refusal/error with next action. | Implemented F1/F2; pending live region now remains nonbusy while visual loader/buttons reflect actual state. Twenty baseline failures now pass; independent C/B review passes. Current S upload handoff and M pending/refusal feedback observed under U38; no speech inferred. | Owner-operated AT reported no speech in the first controlled task; also silent on other webpages after a manual settings check; cause unknown. Accessibility reviewer/integrator must verify actual pending/terminal output and remaining tasks; role=status alone is not acceptance. |
-| R03 | First-user, product, code and usability perspectives assess the whole journey. | Independent technical product/code/video reviews in M9; agent walkthroughs only. | Mandatory H: a first-time participant follows the short procedure below; owner arranges participant, integrator records assistance. |
+| R03 | First-user, product, code and usability perspectives assess the whole journey. | Independent technical product/code/video reviews in M9; reported first-use handoff failure is established, with corrected completion still pending. | Mandatory H: a first-time participant follows the short procedure below; owner arranges participant, integrator records assistance. |
 | R04 | Preserve filmed choose/upload → extract/compare → review → confirm → queue/reopen, plus unrelated-label and guidance behavior. | Section 3 segment contract; exact retained-video provenance review and controlled positive flow in M9. Earlier M positives and unrelated-call failures retained. | Mandatory M+H remains: U38 third identity was refused for incorrect extracted name, not a deterministic nonmatch; A/B were not attempted. The filmed protective refusal is supported independently of the still-failed deterministic nonmatch. U39 candidate/changed-experiment preparation does not close either fresh A/B or nonmatch M acceptance; H participation needed. |
 | R05 | Explain purpose, sample data, limited notice coverage and complete journey. | F7 text/stages implemented; M9 C/B and both-host S purpose/retained-workspace observations pass. | Mandatory H comprehension: participant explains purpose and next step without coaching. Preserve no safety/clearance/worldwide claim. |
 | R06 | Text explains Gemini proposal, one bounded ADK workflow, deterministic rules and human consent. | F7 implementation/source, C/B review and current S exact assets. No voice feature. | Mandatory H comprehension; judge reviewer checks current text against code/video. |
@@ -826,3 +826,26 @@ incomplete, prior tab-switch recordings excluded, and Mac control returned with
 VoiceOver off. R03/R05/R06/R10/F7 still need established first-time H observations;
 R07/R09/F3/F4 still need a legitimately owned active unresolved-accounting panel.
 All section9 row criteria and broader disclosed gates remain unchanged.
+
+
+### Name-line release verified; actual successor acceptance pending
+
+PR23 source dec8f7e/main4b7d63f is deployed at100% as image076c8f76 after local
+1546unit/173browser/30edge/eight emulator, exact hosted push/PR/main, packaged-source
+provenance and independent metadata/traffic/both-host checks. All352 retained
+records preserve their historical ownership, counters, liabilities and expiry.
+Ordinary visitor entry is restored; paid extraction remains closed. No actual
+model call on this new name-line representation has yet occurred. Earlier failure
+observations remain unchanged; R01/R04/R08/F8 still need fresh third then A/B.
+
+R12's technical release checks pass for this correction. The private successor
+preflight's proof-binding defects were corrected and independently verified; real
+baseline/capture/dispatch admission is separate. Live browser control needs recovery
+before continuation.
+
+R03 now includes established first-use handoff-failure evidence. A later test by
+that same participant is a returning-participant correction retest, not a new
+first-use pass. Purpose comprehension, uncoached corrected completion, broader H
+and R02/F1/F2/F6 actual speech remain pending. No verified Safari recording exists;
+VoiceOver was verified off and control returned. All other section9 criteria and
+broader source/protected/Operations gates remain unchanged.
