@@ -328,3 +328,116 @@ def test_late_upload_after_same_case_reopen_preserves_current_state(page, kind, 
     assert result == {'captures': [{'id': 'current-capture'}], 'pending': 'current-key',
                       'label': 'Current label status', 'capture': 'Current capture status',
                       'global': 'Current global status', 'focus': 'evidence-title', 'posts': 1}
+
+
+@pytest.mark.parametrize('kind', ['sample', 'manual'])
+@pytest.mark.parametrize('available', [False, True])
+def test_saved_receipt_cannot_contradict_refreshed_availability(page, kind, available):
+    result = page.evaluate('''async ({kind,available})=>{
+      state.csrf='test';state.config={guidance:'OFF',max_images:2,max_image_bytes:999};
+      state.incident='case';state.evidence={current:false};
+      let enabled=!available,saved=false;const calls=[];
+      const capabilities=()=>({workspace:{extraction:{available:enabled,
+        reason:enabled?'AVAILABLE':'ALLOWANCE_UNAVAILABLE'}},incident:{
+        correction:{available:false},verification:{available:false},action:{available:false}}});
+      state.capabilities=capabilities();
+      window.fetch=async(url,options={})=>{
+        calls.push({url,method:options.method||'GET'});
+        if(url.startsWith('/samples/'))return new Response('synthetic');
+        let data;
+        if(url==='/api/incidents')data={incident_id:'case'};
+        else if(url.endsWith('/capabilities'))data=capabilities();
+        else if(url.endsWith('/evidence'))data={current:false,latest_run_id:null};
+        else if(url.endsWith('/actions'))data={actions:[]};
+        else if(url.endsWith('/captures')){
+          if(options.method==='POST'){saved=true;data={ready:true,captures:[{id:'image'}]};}
+          else data={batches:saved?[{ready:true,captures:[{id:'image'}]}]:[]};
+        }else throw new Error('Unexpected request '+url);
+        return new Response(JSON.stringify(data));
+      };
+      if(kind==='sample')await task(startSample,'upload');
+      else await task(()=>upload([
+        new File(['synthetic'],'label.png',{type:'image/png'})]),'capture');
+      const id=kind==='sample'?'sample-status':'capture-status';
+      const before=$(id).textContent;
+      enabled=available;await task(recheck,'status');
+      return {before,receipt:$(id).textContent,hidden:$(id).hidden,
+        label:$('label-status').textContent,disabled:$('check').disabled,
+        focus:document.activeElement.id,calls};
+    }''', {'kind': kind, 'available': available})
+    assert result['before'].startswith('Label saved.')
+    assert not result['receipt']
+    assert result['disabled'] is not available
+    assert ('Next, extract and check' in result['label']) is available
+    assert result['focus'] == 'verdict-title'
+    assert sum(c['method'] == 'POST' and c['url'].endswith('/captures')
+               for c in result['calls']) == 1
+    assert not any('/acquisitions' in c['url'] for c in result['calls'])
+
+
+@pytest.mark.parametrize('response_status', [400, 503])
+def test_recheck_preserves_sample_upload_error_or_unknown(page, response_status):
+    result = page.evaluate('''async status=>{
+      state.csrf='test';state.config={guidance:'OFF',max_images:2,max_image_bytes:999};
+      state.incident='case';state.evidence={current:false};let posts=0;
+      window.fetch=async(url,options={})=>{
+        if(url.startsWith('/samples/'))return new Response('synthetic');
+        if(url.endsWith('/captures') && options.method==='POST'){
+          posts++;return new Response(JSON.stringify({error:'upload_not_confirmed'}),{status});
+        }
+        const data=url==='/api/incidents'?{incident_id:'case'}:
+          url.endsWith('/captures')?{batches:[]}:
+          url.endsWith('/evidence')?{current:false,latest_run_id:null}:
+          url.endsWith('/capabilities')?null:{actions:[]};
+        return new Response(JSON.stringify(data));
+      };
+      await task(startSample,'upload');
+      const before=$('sample-status').textContent,pendingBefore=state.pending?.operation;
+      await task(recheck,'status');
+      return {before,after:$('sample-status').textContent,posts,
+        pendingBefore,pendingAfter:state.pending?.operation};
+    }''', response_status)
+    assert result['before'] == result['after'] == 'upload not confirmed'
+    assert result['posts'] == 1
+    if response_status == 503:
+        assert result['pendingBefore'] == result['pendingAfter']
+        assert result['pendingAfter']
+    else:
+        assert result.get('pendingAfter') is None
+
+
+def test_sample_receipt_refreshes_after_leaving_during_save(page):
+    result = page.evaluate('''async()=>{
+      state.csrf='test';state.config={guidance:'OFF',max_images:2,max_image_bytes:999};
+      state.incident='case';state.evidence={current:false};
+      let release,started,saved=false,available=false;let posts=0,acquisitions=0;
+      const sent=new Promise(r=>started=r);
+      window.fetch=async(url,options={})=>{
+        if(url.startsWith('/samples/'))return new Response('synthetic');
+        if(url.includes('/acquisitions'))acquisitions++;
+        if(url.endsWith('/captures') && options.method==='POST'){
+          posts++;started();return new Promise(r=>release=()=>{
+            saved=true;r(new Response(JSON.stringify({ready:true,captures:[{id:'image'}]})));
+          });
+        }
+        const data=url==='/api/incidents'?{incident_id:'case'}:
+          url.endsWith('/evidence')?{current:false,latest_run_id:null}:
+          url.endsWith('/captures')?{batches:saved?[{ready:true,captures:[{id:'image'}]}]:[]}:
+          url.endsWith('/capabilities')?{workspace:{extraction:{available,
+            reason:available?'AVAILABLE':'ALLOWANCE_UNAVAILABLE'}},incident:{
+            correction:{available:false},verification:{available:false},action:{available:false}}}:
+          {actions:[]};
+        return new Response(JSON.stringify(data));
+      };
+      const saving=task(startSample,'upload');await sent;
+      show('retail');release();await saving;
+      const focus=document.activeElement.id;
+      show('workbench');available=true;await task(recheck,'status');
+      return {focus,receipt:$('sample-status').textContent,disabled:$('check').disabled,
+        label:$('label-status').textContent,posts,acquisitions};
+    }''')
+    assert result['focus'] == 'retail-title'
+    assert not result['receipt']
+    assert not result['disabled']
+    assert 'Next, extract and check' in result['label']
+    assert result['posts'] == 1 and result['acquisitions'] == 0

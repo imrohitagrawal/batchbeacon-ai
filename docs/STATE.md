@@ -38,50 +38,47 @@ Ordinary new-workspace admission is restored; independent policy readback passed
 Paid extraction remains closed; a complete working public AI workflow is not claimed.
 
 Historical LOW proposals included a caption in the name and were correctly refused.
-HIGH produced provider deadlines and, in a separate attempt, MAX_TOKENS before a
-complete proposal. The latest supervised fallback-host third-label attempt also
-returned a complete provider deadline error. Independent review verified one
-attempt, valid zero-model-charge settlement under the retained error policy and
-preservation of the older unknown liability. No token usage was invented, and no
-comparison or action was accepted. These outcomes do not prove why HIGH was slow.
+HIGH produced deadlines and, separately, MAX_TOKENS before a complete proposal.
+Those failed experiments and their accounting remain retained.
 
-The earlier custom-host gateway timeout recovered through original-key read-only
-reconciliation. The latest direct-origin request displayed pending and terminal
-failure feedback; it does not verify current custom-host model delivery. Rechecking
-saved status made no model request or state change. Existing failed cases, all
-owner expiries and retained images remain unchanged.
+The deployed name-line representation has now received one fresh supervised
+third-label request. It completed with a structurally valid proposal but classified
+the demonstration caption as part of the food name. Independent request, response
+and ledger review confirms the identity refusal, known-usage settlement, preserved
+older unknown liability and no comparison/action. This is a semantic classification
+failure; it is not an output-length or timeout failure. A/B were not attempted.
+
+Existing-owner native browser recovery, original expiry, saved image, read-only
+recheck and pending/terminal refusal feedback were observed. Full inventory
+comparison confirmed recheck made no state change or model request. Paid admission
+was closed and ordinary entry restored with independent exact postimage verification.
+This fallback-host observation does not prove custom-host model delivery or speech.
 
 ## Current correction and next verification
 
-Three independent specialists reviewed a changed name-line extraction contract.
-The model must describe visible name and adjacent caption lines, classify their
-roles and select exact line indices. Deterministic validation rejects inconsistent
-name text, locations, roles or selection; it never strips a caption or repairs a
-proposal. The existing image-bound identity and source checks remain authoritative.
-The candidate uses a new prompt/schema/translator with finite LOW/output policy;
-this is a changed experiment, not evidence of model efficacy.
+A reproduced R02/F1 defect left an old successful upload receipt saying AI was
+unavailable after a newer status check enabled extraction. The local correction
+retires only superseded successful sample receipts. Pending/error/unknown messages,
+original recovery keys and expiry/selection guards remain. Independent review found
+and verified a related navigation-during-save correction; 72 focused browser tests
+and seven independent controlled scenarios pass. Final local checks pass 1,546 unit,
+180 browser, 30 edge and eight emulator tests. Hosted and release checks remain
+pending; this UI correction is not yet deployed.
 
-The correction is implemented, deployed and independently verified within its
-technical release scope. Independent backend review passed 322 focused tests and
-14 probes; all 352 retained records decode identically to the prior parser. Product
-review passed 32 browser checks and safe multiline rendering. The new LOW/output
-configuration preserves the finite timeout chain and old liabilities. No actual
-model call has yet tested this new representation.
+Three specialists reviewed a changed semantic-role instruction through the existing
+typed runtime configuration. It distinguishes text describing the food from text
+describing an exercise or specimen, with generic contrasting examples and unchanged
+schema, model, LOW/output limits and finite deadlines. Independent installed-ADK
+mock checks verify propagation; the retained failed response still receives identity
+refusal. All 356 records decode identically. The candidate remains unproven and
+undeployed. Fresh correct third-label nonmatch must precede positive A/B workflows.
 
-Fresh successful third-label nonmatch and positive A/B workflows remain required.
-Reviewed successor preparation preserves the failed case and original owner, with
-three new finite cases and no reset. Proof-binding defects found in private test
-preparation were corrected and independently verified with 42 probes, in addition
-to 36 history-stage probes. Actual baseline/capture/dispatch review still precedes
-use. Live browser control needs recovery before continuation; no browser or human
-pass is inferred from the deployed API checks.
-
-Private checkpoints: `.local/run-records/availability-feedback-acceptance-20261026/`,
-`.local/run-records/fallback-workflow-acceptance-20261026/` and
-`.local/run-records/name-line-acceptance-20261026/`; earlier failures remain in their
-original records. The root checkout's unrelated edits remain untouched. One
+Private checkpoints: `.local/run-records/name-line-acceptance-20261026/` and
+`.local/run-records/semantic-role-acceptance-20261027/`. Earlier failures remain in
+their original records. The root checkout's unrelated edits remain untouched. One
 isolated integrator owns source, shared contracts and deployment. No support message
-was sent.
+was sent. The separate API-only fallback was reviewed but not used; any future API
+results must remain distinct from browser, human and assistive-technology evidence.
 
 ## Remaining human and product gates
 

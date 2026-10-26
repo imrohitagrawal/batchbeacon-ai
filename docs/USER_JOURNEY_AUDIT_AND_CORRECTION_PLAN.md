@@ -849,3 +849,28 @@ first-use pass. Purpose comprehension, uncoached corrected completion, broader H
 and R02/F1/F2/F6 actual speech remain pending. No verified Safari recording exists;
 VoiceOver was verified off and control returned. All other section9 criteria and
 broader source/protected/Operations gates remain unchanged.
+
+
+### Name-line real outcome and semantic-role continuation
+
+The first actual request on PR23 completed with a valid line-linked proposal but
+misclassified the test caption as a food-name component. The identity guard refused;
+no comparison/action was accepted. Independent full request/response/accounting
+review passed as a reconciled failure, with known usage settled and the prior unknown
+held. The original owner and both failed cases remain; A/B were not attempted.
+Ordinary entry was restored after paid closure with all356 records reconciled.
+R01/R04/R08/F8 therefore remain incomplete despite technical release success.
+
+R02/F1 gained a separately reproduced REQUIRED_CONTRACT defect: a successful sample
+receipt retained an unavailable message after recheck enabled extraction. The local
+fix retires only superseded success receipts and preserves pending/error/unknown
+messages and F5 selection/expiry protection. An initial fix missed navigation during
+save; independent reproduction and corrected verification are retained. Final local,
+hosted and release gates govern the new correction. Actual AT/H remains separate.
+
+A reviewed generic semantic-role prompt is prepared through typed runtime policy,
+with the same schema/model/LOW/output/deadline chain and strict identity/source guards.
+Mock propagation and history compatibility pass; efficacy remains unproved. New
+normal custody and a finite changed third→A→B plan must bind the deployed candidate;
+old attempts/expiry are never reset. API testing, if used, supplies S/M evidence only.
+All20 criteria and broader disclosed source/protected/Operations gates remain unchanged.

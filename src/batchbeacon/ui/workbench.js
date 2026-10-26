@@ -66,7 +66,8 @@ const operations={
   correction:{region:'label-status',buttons:['save-correction'],label:'Saving correction…',pending:'Saving the corrected field with its history…'},
   refresh:{region:'app-status',buttons:[],label:'Loading…',pending:'Loading saved records…'}
 };
-function operationStatus(id,value,kind='info') {const el=$(id);el.textContent=value;el.hidden=!value;el.dataset.kind=kind;}
+function operationStatus(id,value,kind='info') {const el=$(id);delete el.dataset.completedLabelSave;el.textContent=value;el.hidden=!value;el.dataset.kind=kind;}
+function clearCompletedSampleReceipt() {if($('sample-status').dataset.completedLabelSave)operationStatus('sample-status','');}
 function reveal(id) {const el=$(id);el.focus({preventScroll:true});el.scrollIntoView({block:'start',behavior:'instant'});}
 async function task(operation,kind='refresh') {
   if(state.busy)return;
@@ -75,14 +76,16 @@ async function task(operation,kind='refresh') {
   state.busy=true;state.operation=op;message('');operationStatus(op.region,op.pending);
   // Keep live status eligible for immediate announcement; busy belongs to buttons.
   $(op.region).dataset.busy='true';controls();
-  if(kind==='extraction'){text('verdict-title','Checking label');text('verdict-copy','Waiting for accepted extraction and comparison. No result is confirmed yet.');setStage(1);}
+  if(kind==='extraction'){clearCompletedSampleReceipt();text('verdict-title','Checking label');text('verdict-copy','Waiting for accepted extraction and comparison. No result is confirmed yet.');setStage(1);}
   let succeeded=false;
   try {await operation();succeeded=true;if($(op.region).textContent===op.pending)operationStatus(op.region,'');}
   catch(e){if(!state.expired && !e.stale && op.selection===state.selection)message(safeError(e),'error');}
   finally{
     delete $(op.region).dataset.busy;for(const [id,label] of original){text(id,label);$(id).removeAttribute('aria-busy');}
     state.busy=false;state.operation=null;controls();
-    if(!state.expired && op.view===state.viewGeneration && op.selection===state.selection && (!op.incident || op.incident===state.incident)){
+    const current=!state.expired && op.selection===state.selection && (!op.incident || op.incident===state.incident);
+    if(current && kind==='upload' && succeeded && state.captures.length && !state.pending && $('sample-status').textContent)$('sample-status').dataset.completedLabelSave='true';
+    if(current && op.view===state.viewGeneration){
       if(['upload','capture'].includes(kind) && succeeded && state.captures.length){if(!state.capabilities?.workspace?.extraction?.available)reveal('label-status');else if(kind==='upload'){reveal('evidence-title');if($('check').getBoundingClientRect().bottom>innerHeight)reveal('label-status');}}
       if(['extraction','verification','status','action'].includes(kind))reveal('verdict-title');
     }
@@ -181,6 +184,7 @@ function capabilityHelp(){
 }
 async function loadIncident(id,knownAcquisition=null) {
   if(state.expired)return;
+  clearCompletedSampleReceipt();
   const selection=++state.selection,session=state.sessionGeneration;
   const valid=()=>!state.expired && session===state.sessionGeneration && selection===state.selection;
   const changed=state.incident!==id;
