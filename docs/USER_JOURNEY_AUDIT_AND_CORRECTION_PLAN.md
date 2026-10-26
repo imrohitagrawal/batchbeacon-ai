@@ -623,3 +623,19 @@ silent-baseline observation is preserved; no additional permission is needed, bu
 ordinary screen-reader output must work before attributing missing announcements
 to the app. An unfamiliar participant remains necessary for the uncoached walkthrough.
 No human completion is inferred from agent fixture review.
+
+
+### Conditional migration correction: expired-cookie recovery
+
+A final controlled decoder/service/API review reproduced an R09 REQUIRED_CONTRACT
+in the proposed budget-only migration: retained expired cookies with old guest
+configuration markers received repeated 503 responses before expiry validation.
+Cookie-absent normal issuance still worked; no ownership bypass or live migration
+occurred. The smallest corrected proposal also rebinds the two configuration markers
+on already-expired guest envelopes. Every payload, scope, expiry, learning/retail
+record, history and liability remains unchanged. Zero active owners, complete
+transactional read/versions and independent verification remain mandatory in both
+directions. Derived target markers must match the exact typed runtime and source
+binding. Acceptance adds retained-cookie 401 recovery, absent-cookie issuance,
+immutable expired payloads and atomic multi-record stale-state refusal. The earlier
+budget-only preparation is superseded; no new financial or execution authority follows.

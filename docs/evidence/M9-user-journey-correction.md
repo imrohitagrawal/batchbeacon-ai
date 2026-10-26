@@ -431,3 +431,31 @@ production failure behavior and future human comprehension are distinct evidence
 The same canonical register retains all 20 requirements and broader U18 limitations.
 Private exact proof, reviews, failures, proposal and cleanup are under
 `.local/run-records/third-label-correction-20261026/`.
+
+
+### Conditional migration expiry-recovery amendment
+
+The initial budget-only proposal was subsequently superseded on one compatibility
+point. Controlled SDK decoder/service/HTTP evidence reproduced repeated 503 for a
+retained expired cookie: stale guest configuration markers were rejected before
+ordinary expiry validation. Normal cookie-absent issuance still worked. This was an
+R09 REQUIRED_CONTRACT in the conditional operation proposal, not a live migration
+or ownership bypass. No affected proposal was executed.
+
+The smallest corrected plan also updates only the two derived configuration markers
+on already-expired guest envelopes. Every guest payload, ownership, expiry, incident,
+learning/retail record and history remains unchanged. Target markers derive from the
+exact typed runtime and reviewed source binding. The retained expired guest
+postimages now decode normally and are rejected with 401 in both forward and inverse
+controls, permitting existing expiry cleanup without restoring access. The source
+preimages include both historical and current learning markers; inverse targets the
+reviewed runtime markers instead of restoring obsolete values.
+
+The revised pure plan passes 32 focused checks. Four actual loopback Firestore tests
+cover the bounded conditional metadata writes and complete transaction-read inventory,
+lost acknowledgement, and atomic refusal after budget, attempt or guest drift.
+Independent backend/operations verification passed for the revised proposal;
+production activation still requires an explicit owner decision and fresh admission.
+Existing call/spending/window limits, zero-active-owner
+rule, unknown-liability stop and deferred rollback remain unchanged. No production
+source or deployment changed; the original budget-only evidence is retained privately.
