@@ -392,3 +392,15 @@ unrelated records were independently verified. One associated token count is
 supported by the unchanged guarded path; no separate raw count receipt is retained.
 The first-failure stop applies: no retry or remaining case is authorized under
 U37/U38. Further changed model evaluation needs a new concrete owner decision.
+
+
+## U39 — unpaid third-label diagnosis and correction preparation
+
+The owner authorizes unpaid inspection of retained input/request/prompt/schema,
+response and identity guard; independently reviewed minimal offline corrections
+and meaningful regressions; and continued AT/human preparation. Preserve original
+sample/video evidence and the stopped U37/U38 series. No paid operation is granted.
+Prepare exact prompt/sample/model/runtime/deployment changes for any additional
+authority they require before execution. Complete available offline work before
+presenting one bounded changed paid experiment. Protective-refusal parity must
+remain distinct from the stricter successful deterministic-nonmatch requirement.

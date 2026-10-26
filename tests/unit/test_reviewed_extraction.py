@@ -40,7 +40,7 @@ def reviewed(setup, env, request):
     return build_reviewed(setup, env, indices)
 
 
-def build_reviewed(setup, env, indices=(2,), *, configure=None):
+def build_reviewed(setup, env, indices=(2,), *, configure=None, extraction_overrides=None):
     stores, server, guest, old_evidence, _, now = setup
     server.clock = lambda: now[0]
     proposal, source, notice, _ = rig()
@@ -60,6 +60,8 @@ def build_reviewed(setup, env, indices=(2,), *, configure=None):
         adk_version=version('google-adk'), genai_version=version('google-genai'),
         identity_resolution_policy_hash=admission.digest(),
         identity_normalization_hash=identities.derivation_hash)
+    if extraction_overrides:
+        config = replace(config, **extraction_overrides)
     p = replace(env[0].policy, model_configuration_hash=config.digest(),
                 run_seconds=config.run_seconds)
     grant = replace(env[0].grant, policy_hash=p.digest())
