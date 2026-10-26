@@ -474,3 +474,15 @@ existing workspace expiry and unrelated changes. Actual screen-reader output,
 unfamiliar-participant evidence and other unresolved gates remain explicit;
 automated tests do not establish human acceptance. Final material submission
 terms, new privileges/subscriptions and destructive operations retain their gates.
+
+
+## U44 — preserve the filmed opening hero and description
+
+The owner explicitly requests the opening hero line and description shown in the
+submitted video, correcting their drift during clarity work. Restore the exact two
+original text nodes: “Turn recall information into clear, accountable action.” and
+“BatchBeacon connects product labels with official recall evidence, helping retail
+staff and managers identify affected stock and record a reviewed response.”
+Preserve the implemented functional, focus/accessibility, ownership, source-trust
+and safety corrections. This authorizes their reviewed restoration/release without
+routine repeat approval; it does not establish unfamiliar-user or actual AT acceptance.

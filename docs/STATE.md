@@ -85,18 +85,65 @@ all deterministic safeguards. Its new package passed local/container and actual
 cloud build checks, independent metadata migration, promotion and both-host checks.
 Image `sha256:53c95b917d329dbf837b99f810524d59f70dfc7ee2f4fabacfebb7709b601d45`
 is ready at 100% traffic with the already hosted-tested application source. All
-363 records retain domain history and accounting. Ordinary entry restoration was
-verified, then temporarily fenced for the supervised sequence; paid extraction is
-closed pending exact request review. Fresh correct third-label nonmatch must
-precede positive A/B workflows.
+367 retained records preserve domain history and accounting after one new
+supervised third-label attempt. This response correctly interpreted the source but
+again included the sample caption in the food name. Identity protection refused
+comparison and action. Complete usage settled, the older unknown liability stayed
+held, and no A/B request followed. Ordinary entry restoration was independently
+verified at that failed-experiment closeout; paid extraction is closed. The
+alternating source/name failures require a changed,
+reviewed model or representation experiment. No unchanged retry or counter reset
+is admitted. Fresh correct third-label nonmatch still precedes positive A/B.
+
+The separately reviewed MEDIUM/8,192-output configuration was deployed using the
+same verified image, with independent metadata, promotion and both-host checks.
+Its single fresh third-label request exhausted the output allowance and returned
+incomplete JSON. The server published no extraction, comparison or action. Exact
+known usage settled; the older unknown liability remains held. All 374 records
+were reconciled, ordinary entry restored and paid extraction closed independently.
+A/B were not attempted; the two unused attempts were retired.
+
+Three specialists reviewed a cause-driven output-headroom correction to 16,384,
+keeping MEDIUM, the exact prompt/model/schema, source/images, prices and finite
+deadlines. The typed candidate has exactly seven configuration/commitment changes.
+Independent checks pass 58 installed-ADK controls, 175 semantic controls, ten
+metadata tests and all-history decode; local build and five offline container
+checks pass. These are configuration and safeguard evidence, not real-model
+success. The candidate is deployed and independently verified at 100% on both hosts,
+with all 374 records preserved through 69 metadata updates. The fresh third→A→B
+sequence produced an independently accepted third-label scoped nonmatch. The
+name excludes the sample caption, source restrictions agree, and no action was
+created. Positive A then exhausted the output allowance and returned incomplete
+JSON; known usage settled and no comparison/action was published. B was not
+attempted, and the remaining allowance was retired. Paid extraction is closed
+and ordinary entry independently restored with all 383 records preserved.
+Positive A/B, eligible actions and post-workflow acceptance remain incomplete.
+Original ownership, history, counters and expiry remain unchanged.
 
 Private checkpoints: `.local/run-records/name-line-acceptance-20261026/` and
 `.local/run-records/semantic-role-acceptance-20261027/`. Earlier failures remain in
 their original records. The root checkout's unrelated edits remain untouched. One
 isolated integrator owns source, shared contracts and deployment. No support message
-was sent. The API workflow has now been used for one known failed case and original-key
+was sent. API testing retains failed and accepted cases plus an original-key
 recovery. These results remain distinct from browser, human and assistive-technology
-evidence. The next series preserves that owner, failed case, counters and expiry.
+evidence. The latest series reused the normally issued owner by original credential-file
+reference, preserving its earlier failed case, counters and expiry. Further model
+work requires a separately reviewed cause-driven plan; no automatic retry follows.
+
+The owner identified drift in the opening hero and description from the submitted
+video. The exact two filmed text nodes are restored in PR27, with unchanged DOM,
+focus/ARIA attributes, CSS/JS, safeguards and runtime. Independent patch/render
+reviews and local 1,546 unit, 180 browser, 30 edge and eight emulator checks pass.
+PR27 merged after exact hosted push/PR checks. Its new cloud build and packaged
+source verification pass; merged-main CI and deployment are pending. The wording
+restoration is not yet claimed live. This owner correction is not first-use participant evidence.
+
+A separately reviewed MEDIUM/24,576 completion-headroom candidate is prepared.
+It keeps the exact prompt, model, schema, price and finite deadlines. Independent
+ADK checks, complete typed history and Linux-container projection checks preserve
+the accepted third result and original receipt timestamps. No live activation or
+new owner is claimed. It requires fresh third/A/B on normal new custody; the prior
+nonmatch cannot be relabelled as acceptance of the changed runtime.
 
 ## Remaining human and product gates
 

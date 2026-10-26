@@ -854,3 +854,118 @@ retest. Four-row API postmodel testing is planned: the retained failed case plus
 three new cases, without owner/counter resets. API tests cannot close human or AT
 gates. R07/R09/F3/F4 still need a legitimate active unresolved-accounting panel;
 no unknown liability is manufactured. All R01–R12/F1–F8 criteria remain intact.
+
+### Source-membership runtime: actual known failure and restoration
+
+The deployed source-membership runtime received exactly one supervised third-label
+request. The completed response now agrees with the reviewed source, but again
+classifies the printed purpose caption as part of the food name. Independent
+backend and visual reviews confirm IDENTITY_EVIDENCE_DISAGREEMENT and zero
+observations, comparisons or actions. Complete usage settled; no new unknown
+liability arose and the older hold remains. Paid admission is closed and ordinary
+entry restored, with exact independent readback across all 367 records. A/B were
+not attempted, and the two unused planned attempts were retired. Existing owner
+history, expiry and two used incident slots remain; no reset is permitted.
+
+The alternating semantic failures do not establish a guard defect or a specific
+internal model cause. They require a changed model/configuration or representation
+experiment with independent review, rather than another identical prompt retry.
+Fresh third/A/B, feedback/eligible action workflows and human/AT gates remain open.
+A second unfamiliar participant is available; the neutral first-look observation
+has been requested but no answer is recorded.
+
+A new dependency alert for OpenTelemetry's tracestate parser was separately
+reproduced offline. The current production composition did not expose the affected
+parser through tested inbound routes; no release-blocking application exploit was
+demonstrated. The alert remains open as advisory dependency debt for a compatible
+update with full integration/hosted/release checks. No live malformed requests,
+dependency changes or alert dismissal were performed in this increment.
+
+### Next bounded reasoning experiment: prepared, not accepted
+
+Three independent plan reviews approved testing MEDIUM reasoning with an 8,192
+output allowance, preserving the exact source-membership prompt, schema, Gemini
+model, admitted price, source/images and finite deadlines. Zero reported thought
+tokens in prior responses are an observation, not a proved cause. Installed-ADK
+propagation checks and semantic controls pass; retained bad responses still refuse.
+All 60 image files match the deployed package, so independently reviewed image reuse
+keeps original build provenance separate from the new external runtime setting.
+The zero-traffic candidate is ready; metadata migration and live-case evidence are
+pending. No new cloud build or model efficacy is claimed.
+
+The planned fresh normal workspace preserves both prior failed cases and their
+original owner/counters. Three fresh cases are bounded and sequential, with no
+automatic retry or new monetary approval threshold. Private post-workflow review
+also found and corrected a missing original-custody validation at its new-owner
+adapter; no actual request occurred through that path. Independent verification
+remains required before any post-workflow request. Human and AT gates are unchanged.
+
+
+### Output truncation diagnosed; headroom correction in progress
+
+The MEDIUM/8,192 candidate was deployed and independently verified on both hosts.
+Its one real third-label response ended MAX_TOKENS with incomplete JSON after
+8,177 output/thought tokens. No result or action was published; complete provider
+usage settled and the older unknown liability remained held. Paid extraction was
+closed and ordinary entry restored with independent exact 374-record verification.
+A/B were not attempted; unused predecessor allowance was retired.
+
+A three-specialist-reviewed successor changes only max_output_tokens to 16,384
+and six dependent commitments. MEDIUM, exact prompt, model, schema, source/images,
+prices and finite deadlines remain unchanged. The same 60-file image is reused
+with its original build provenance; external runtime configuration is separately
+bound. Independent installed-ADK propagation, retained refusal controls, full
+historical decode and local container checks pass. Release and actual efficacy
+remain in progress. This is a measured truncation correction, not evidence that
+partial output was semantically correct or permission for automatic further retries.
+
+The original latest owner retains one failed case and three available slots. The
+finite successor and four-row nonmodel workflow preserve original custody by file
+reference, accounting, expiry and dual independent operation reviews. All
+R01–R12/F1–F8 remain intact. No new first-look response, valid Safari recording or
+automatic VoiceOver speech evidence is available; human and AT gates stay open.
+
+
+The headroom runtime is now deployed and independently verified at 100% on both
+hosts. The guarded transition changed 69 declared metadata records and preserved
+305 others; all 374 records retain domain payloads, accounting and expiry. Both
+origins passed independent exact-asset, health/config and anonymous-access checks.
+Actual fresh third/A/B outcomes remain pending; release success is not efficacy.
+
+
+### Actual headroom outcomes and owner-selected hero restoration
+
+Fresh third-label extraction now passes independent service/model and visual
+semantic review: the food name excludes the purpose caption, source restrictions
+agree, and deterministic identity-first comparison yields a historical-Singapore
+NOT_LISTED_IN_CHECKED_NOTICES result. It is a scoped nonmatch, not safety clearance.
+No action was created. The exact canonical request, complete provider response,
+known-usage charge, original ownership and paid closure were independently verified.
+
+Positive A then ended MAX_TOKENS with incomplete JSON at the same 16,384 allowance.
+It published no result or action; exact known usage settled and the older unknown
+liability remains held. B was not attempted. Two actual calls and one retired unused
+allowance are recorded, with all 383 records preserved after ordinary restoration.
+A/B and eligible post-workflow acceptance remain incomplete; further extraction
+requires a cause-driven independently reviewed change, not automatic doubling/retry.
+
+The owner specifically requests restoring the opening hero and description shown
+in the submitted video. PR27 restores only those two exact text nodes, preserving
+DOM/focus/ARIA, safety/scope disclosures and functional corrections. Independent
+backend/UX/operations patch reviews and desktop/390px/320px renders pass; full
+local 1,546 unit, 180 browser, 30 edge and eight emulator checks pass. Hosted and
+new-image release checks are in progress. No live wording restoration is yet claimed.
+This is owner feedback, not an unfamiliar participant's comprehension response.
+All R01–R12/F1–F8 criteria and remaining H/AT/live-unknown/source/protected/Ops
+gates remain unchanged; no accepted Safari recording or automatic speech evidence
+exists.
+
+
+The next MEDIUM/24,576 candidate is prepared after independent review of A's
+measured cutoff. Numeric thinking budgets are not substituted for the supported
+model setting. Sixty-six installed-ADK controls, all 383 persisted history records
+and completed-history container checks pass. The private derivation now uses the
+actual immutable completion receipt/timestamps and production-style normalization,
+preserving the accepted third result instead of applying a failed-only assumption.
+These are offline configuration/history checks; no successor deployment, new owner
+or real-model efficacy is claimed. Fresh third/A/B remain required for that runtime.
