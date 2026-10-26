@@ -83,7 +83,7 @@ async function task(operation,kind='refresh') {
     delete $(op.region).dataset.busy;for(const [id,label] of original){text(id,label);$(id).removeAttribute('aria-busy');}
     state.busy=false;state.operation=null;controls();
     if(!state.expired && op.view===state.viewGeneration && op.selection===state.selection && (!op.incident || op.incident===state.incident)){
-      if(kind==='upload' && succeeded && state.captures.length){reveal('evidence-title');if($('check').getBoundingClientRect().bottom>innerHeight)reveal('label-status');}
+      if(['upload','capture'].includes(kind) && succeeded && state.captures.length){if(!state.capabilities?.workspace?.extraction?.available)reveal('label-status');else if(kind==='upload'){reveal('evidence-title');if($('check').getBoundingClientRect().bottom>innerHeight)reveal('label-status');}}
       if(['extraction','verification','status','action'].includes(kind))reveal('verdict-title');
     }
   }
@@ -169,13 +169,13 @@ function render() {if(state.expired)return;const failure=state.checkFailure?.inc
   captureInstruction(); const action=result?.verdict==='REVIEW_REQUIRED'?'Review follow-up request':'Review stock hold';text('confirm-open',action);$('reverify').hidden=!e?.observation || !!e.current;compare();
   $('correction-field').replaceChildren(...fields().map(f=>{const o=node('option',f.field.replaceAll('_',' '));o.value=f.field;return o;}));correctionValue();
   const history=$('history');history.replaceChildren();for(const x of e?.extraction_history || [])history.append(node('p',`Extraction v${x.revision} · ${x.validation==='INVALID'?'not accepted':'accepted'} · ${x.prompt_version}`));for(const o of e?.observation_history || [])history.append(node('p',`Observation v${o.revision} · extraction v${o.extraction_revision} · ${o.correction_count} correction(s)`));for(const r of e?.result_history || [])history.append(node('p',`Result v${r.revision} · observation v${r.observation_revision} · ${labels[r.verdict]} · ${r.checked_sources.map(s=>s.version).join(', ')}`));for(const f of fields())history.append(node('p',`${f.field}: raw “${f.observation.raw}”; normalized “${f.observation.value ?? 'Unknown'}”; state ${f.observation.state}`)); for(const c of e?.observation?.corrections || [])history.append(node('p',`Correction ${c.field}: “${c.previous.value ?? c.previous.raw}” → “${c.replacement.value ?? c.replacement.raw}”`)); for(const a of state.actions)history.append(node('p',`${a.action.action_type==='SIMULATED_HOLD'?'Stock hold':'Request for further review'} · result v${a.action.result_revision} · ${a.requires_renewed_review?'historical — renewed review required':'current saved action'}`)); controls(); }
-function labelReadyCopy(){return 'Label saved. '+(state.capabilities?.workspace?.extraction?.available?'Next, extract and check its details. No AI check has run for this label.':capabilityHelp());}
+function labelReadyCopy(){return 'Label saved. '+(state.capabilities?.workspace?.extraction?.available?'Next, extract and check its details. Saving a label does not start an AI check.':capabilityHelp());}
 function capabilityHelp(){
   const reason=state.capabilities?.workspace?.extraction?.reason;
   if(state.workspaceBlock)return 'New AI checks in this workspace are paused while an earlier request is resolved. Your saved label and notice remain available. Recheck reads status only; it does not settle the request.';
   if(!state.capabilities)return 'Availability could not be confirmed. Recheck saved status before another operation.';
   if(reason==='ACQUISITION_LIMIT')return 'This case’s extraction allowance is exhausted. Inspect saved evidence or correct a completed extraction when available.';
-  if(reason==='ALLOWANCE_UNAVAILABLE')return 'AI allowance is unavailable. Saved evidence can still be reviewed; no new check has been sent.';
+  if(reason==='ALLOWANCE_UNAVAILABLE')return 'AI allowance is unavailable. Review the saved label and selected notice, or choose Recheck saved status to check availability. Recheck does not start an AI request.';
   if(!state.capabilities.incident.correction.available && state.evidence?.observation)return 'This case has no completed latest extraction. Its earlier comparison is historical; correction and reverification cannot complete that request.';
   return 'Inspect product identity, exact lot, required date and the selected notice before confirming an eligible action.';
 }
@@ -240,8 +240,8 @@ async function upload(files) {
   try {
     const result=await api(`/api/incidents/${incident}/captures`,{method:'POST',operation,body:data});
     if(!result.ready){const e=new Error('The original upload is pending. Reconcile before continuing.');e.unknown=true;throw e;}
-    pending(null);if(state.expired||state.incident!==incident)return;state.captures=result.captures;drawCaptures();text('capture-status','Images retained for this incident. Select Extract and check to process them.');render();
-  } catch(e){if(!e.unknown && !resuming)pending(null);throw e;}
+    if(!selected())return;pending(null);state.captures=result.captures;drawCaptures();render();operationStatus('label-status',labelReadyCopy());operationStatus('capture-status',labelReadyCopy());message(labelReadyCopy());
+  } catch(e){if(selected() && !e.unknown && !resuming)pending(null);throw e;}
 }
 async function startSample() {
   const selection=state.selection;
@@ -250,12 +250,13 @@ async function startSample() {
   const blob=await response.blob();requireSession();if(state.selection!==selection)return;
   const created=await api('/api/incidents',{method:'POST',operation:key()});
   state.queueDirty=true;if(state.selection!==selection)return;await loadOwnedIncident(created.incident_id);
-  if(state.incident!==created.incident_id||state.expired)return;
+  if(state.incident!==created.incident_id||state.expired||state.selection!==selection+1)return;
   if(state.operation)state.operation.incident=created.incident_id;
+  const uploadSelection=state.selection;
   await upload([new File([blob],'synthetic-label.png',{type:'image/png'})]);
-  if(state.incident!==created.incident_id||state.expired)return;
+  if(state.incident!==created.incident_id||state.expired||state.selection!==uploadSelection)return;
   await loadOwnedIncident(created.incident_id);
-  message('Sample label uploaded. Extract and check when ready. No AI request was sent.');
+  message(labelReadyCopy());
 }
 async function acquire() {
   const incident=state.incident,selection=state.selection;

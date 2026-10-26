@@ -773,3 +773,35 @@ panel and broader source/protected/Operations gates remain distinct and pending.
 All section 9 requirements remain authoritative; this is execution planning, not
 a completed release or model-acceptance claim. Private detailed plan and evidence:
 `.local/run-records/name-schema-acceptance-20261026/`.
+
+
+### U43 deployed progress and availability-handoff finding
+
+PR21's bounded response progress is deployed and independently verified at both
+hosts, after full local and exact hosted push/PR/main checks. No new real-model call
+has yet tested its delivery; fresh third/A/B remain R01/R04/R08/F8 requirements.
+One new normally issued owner and two retained A captures are preserved; selected
+unused A passed independent pixel/generation/ownership verification. Issuance is
+fenced and paid extraction closed pending attended model testing.
+
+R02/F1/R05/R09 have a newly reproduced REQUIRED_CONTRACT feedback defect: sample
+and manual upload receipts direct extraction when it is disabled. Correct both
+through the existing capability-aware saved-label explanation and guarded focus;
+preserve unresolved/unknown/exhausted distinctions and read-only recheck semantics.
+Backend/UX/operations plan reviews passed; source correction is not yet deployed.
+R02/F1/F2/F6 actual speech remains incomplete despite reported audible navigation.
+R03/R05/R06/R10/F7 unfamiliar-human evidence retains the user's next-step confusion;
+prior exposure/task completion are unconfirmed. Earlier recordings affected by tab
+switching are excluded. R07/R09/F3/F4 legitimate unresolved-panel dependency and F5
+ownership/expiry guards remain. R11/R12 require independent correction verification
+and exact hosted/image release. No other requirement is waived by this checkpoint.
+
+Independent review also reproduced an existing F5 violation in both upload paths:
+a late response after leaving and reopening the same case could replace current
+capture/status and clear a newer pending key. Four primary success/refusal
+regressions failed before correction and pass afterward. The correction reuses the
+captured selection guard at the response/error boundary and guards sample-flow
+continuation. It preserves the original server operation and does not retry it.
+Independent verification and final full checks govern release of this correction.
+
+Final local validation passes1,506unit/173browser/30edge/eight Firestore emulator tests. Independent UX verification passes89 targeted checks and real-CSS desktop/narrow probes. These are controlled local results; exact hosted and deployed correction checks are still pending, as are actual human and model acceptance.
