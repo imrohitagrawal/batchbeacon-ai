@@ -17,7 +17,7 @@ from batchbeacon.shared_admission import SharedAdmission
 from batchbeacon.uploads import sanitize_images
 from tests.unit.domain_fixtures import context
 from tests.unit.durable_fixtures import wire_response
-from tests.unit.test_extraction_proposal import rig
+from tests.unit.test_extraction_proposal import declare_name_lines, rig
 from tests.unit.test_firestore_store import no_network_or_credentials as no_network_or_credentials  # noqa
 from tests.unit.test_firestore_store import owned, saved
 from tests.unit.test_firestore_store import setup as setup  # noqa
@@ -469,6 +469,7 @@ def test_product_identity_controls_result_even_with_same_lot(coordinator, identi
     name = (c[5][0]['source']['products'][1]['name'] if identity == 'second_affected'
             else 'Meadow Vale Brie')
     c[5][0]['label']['name'] = known(name)
+    declare_name_lines(c[5][0]['label'])
     status = acquire(c)
     assert status.current
     view = c[3][3].read_evidence(c[2], c[1].incident_id)

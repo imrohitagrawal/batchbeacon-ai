@@ -25,7 +25,7 @@ from batchbeacon.shared_admission import SharedAdmission
 from batchbeacon.uploads import sanitize_images
 from tests.unit.domain_fixtures import context
 from tests.unit.durable_fixtures import wire_response
-from tests.unit.test_extraction_proposal import known, rig, unknown
+from tests.unit.test_extraction_proposal import declare_name_lines, known, rig, unknown
 from tests.unit.test_firestore_store import no_network_or_credentials as no_network_or_credentials  # noqa
 from tests.unit.test_firestore_store import owned, saved
 from tests.unit.test_firestore_store import setup as setup  # noqa
@@ -81,6 +81,7 @@ def build_reviewed(setup, env, indices=(2,), *, configure=None, extraction_overr
         verifier_policy=saved(setup, 'environment').verifier_policy)
     server.seed(stores._encode(stores.name('environment'), 'environment', environment))
     proposal['label']['name'] = known(entries[indices[0]].name)
+    declare_name_lines(proposal['label'])
     proposal['label']['best_before'] = known('2026-10-17', kind='DATE', panel=len(indices) - 1)
     calls, output = [], [proposal]
     async def fake(request):
@@ -138,6 +139,7 @@ def test_recognized_image_model_conflict_retained_as_review_without_values(revie
     label = c[5][0]['label']
     if mutation in ('name_a', 'name_b'):
         label['name'] = known(c[5][0]['source']['products'][mutation == 'name_b']['name'])
+        declare_name_lines(label)
     elif mutation == 'pack':
         label['pack'] = known('500 g')
     else:
@@ -159,6 +161,8 @@ def test_recognized_image_model_conflict_retained_as_review_without_values(revie
 def test_incomplete_identity_stays_typed_and_unresolved(reviewed, field, ambiguous):
     c = reviewed
     c[5][0]['label'][field] = unknown(kind='TEXT', ambiguous=ambiguous)
+    if field == 'name':
+        declare_name_lines(c[5][0]['label'])
     status = acquire(c)
     result = view(c)
     assert status.state == 'REVIEW_REQUIRED' and status.current
@@ -243,6 +247,7 @@ def test_catalog_and_effective_configuration_must_agree(reviewed):
 def test_publication_recomputes_identity_even_if_coordinator_gate_is_skipped(reviewed, monkeypatch):
     c = reviewed
     c[5][0]['label']['name'] = known(c[5][0]['source']['products'][0]['name'])
+    declare_name_lines(c[5][0]['label'])
     original = c[7].identity_decision
     calls = [0]
     def omitted_once(*args):
@@ -358,6 +363,7 @@ def test_encoder_variation_preserves_reviewed_identity_boundary(
     c = request.getfixturevalue('reviewed')
     if conflict:
         c[5][0]['label']['name'] = known(c[5][0]['source']['products'][0]['name'])
+        declare_name_lines(c[5][0]['label'])
     status = acquire(c)
     if conflict:
         assert status.state == 'REVIEW_REQUIRED' and not status.current
@@ -386,6 +392,7 @@ def test_other_encoder_retained_capture_cannot_fall_through_to_positive(request,
     monkeypatch.setattr(Image.Image, 'save', different_instances)
     c = request.getfixturevalue('reviewed')
     c[5][0]['label']['name'] = known(c[5][0]['source']['products'][0]['name'])
+    declare_name_lines(c[5][0]['label'])
     status = acquire(c)
     assert status.state == 'REVIEW_REQUIRED' and not status.current
     assert status.diagnostics == ('IDENTITY_INPUT_UNAVAILABLE',)

@@ -668,3 +668,45 @@ continuation. It preserves the original server operation and does not retry it.
 Independent verification and final full checks govern release of this correction.
 
 Final local validation passes1,506unit/173browser/30edge/eight Firestore emulator tests. Independent backend verification passes77 journey/recovery checks; UX verification passes89 targeted checks and real-CSS desktop/narrow probes. These are controlled local results; exact hosted and deployed correction checks are still pending, as are actual human and model acceptance.
+
+
+## U43 availability release and name-line correction
+
+PR22 source45a4e5a/mainc0e4cc4 is deployed as imagef35d2d14 at100% traffic.
+Full local1506unit/173browser/30edge/eight emulator, exact hosted push40355448824,
+PR40355598509 and main40358012019, allowlisted build provenance and independent
+both-host readbacks passed. Availability-aware saved-label handoff and F5 response
+guards are deployed. Ordinary issuance has been restored with paid admission closed;
+full extraction availability is not claimed.
+
+The next actual direct-origin third request returned complete provider504. Independent
+canonical-request/accounting review passed16 checks for reconciled failure, not
+acceptance. One attempt settled at zero model charge under the configured error
+policy; this is not a zero-token assertion. All old owners/history and the older
+unknown reservation are preserved. The saved-status recheck was read-only. No
+nonmatch or fresh A/B followed; current custom-host model delivery remains unverified.
+
+This satisfies the reviewed conditional trigger for changing the proposal representation.
+Backend/AI, UX/accessibility and operations reviewed explicit visible-line observations,
+roles and selected name indices under LOW with unchanged finite deadlines. The new
+live schema requires these fields; a strict validator rejects inconsistent raw/value/
+location linkage and omissions, while identity/source safeguards remain unchanged.
+No label cropping, caption stripping, catalog substitution or extra model call is used.
+New-schema caption-as-name controls still reach identity refusal. Old raw responses
+remain historical; no live legacy-parser fallback exists.
+
+Initial authored contract checks failed17 positive/new-contract cases on the old schema;
+20 rejection controls already passed and are not claimed as before/after corrections.
+Independent candidate review passed322 focused tests and14 additional probes. All352
+retained records decode identically under candidate and deployed parsers. This is
+contract/history evidence, not real-model efficacy. Full release and fresh third/A/B
+acceptance remain pending. The additional request test initially used an incorrect
+SDK JSON key; corrected to the actual sealed request representation, it passes.
+
+Safari capture remains incomplete: no verified recording or automatic pending/terminal
+speech evidence exists. VoiceOver off was verified and Mac control returned to the user.
+Voice Control temporary-change permission was received but not exercised. Earlier
+recordings remain excluded. All R01–R12/F1–F8 and source/gold/protected/Operations gates
+retain their criteria; automated tests do not satisfy human acceptance.
+
+Final local name-line validation passes1,546unit/173browser/30edge/eight emulator. Independent product review passes32 focused browser checks and safe multiline text rendering; HTML/JS/CSS remain identical to the availability release. These are local technical results, not a release or model/human acceptance claim.
