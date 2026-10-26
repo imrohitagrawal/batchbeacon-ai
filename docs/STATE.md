@@ -1,6 +1,87 @@
 # BatchBeacon AI — current execution state
 
-## Unpaid third-label correction — 26 October 2026
+## Supervised acceptance: model defect reproduced, ordinary access recovery
+
+U42 removes monetary stops for supervised end-to-end testing. The reviewed private
+continuation used existing DEVELOPMENT capacity without changing public pool limits
+or releasing the historical unknown liability. A deployment adapter incompatibility
+was diagnosed, the initial fences were restored, and the minimally corrected request
+was validated and independently verified before activation. The same source image
+now serves the reviewed name-boundary prompt candidate; compatible record metadata
+was migrated without changing ownership, expiry, prior attempts or balances.
+
+One fresh real-model third-label check again included the printed sample caption in
+the product name. Exact retained request reconstruction proves the intended candidate
+instruction was sent. Source translation agreed, but identity validation correctly
+refused comparison and action. Usage settled automatically, with no new unknown.
+The failed series is stopped; A/B and deterministic nonmatch remain incomplete.
+Actual label-save and extraction progress, focus, refusal and queue evidence are
+retained. Existing stale upload/status receipts remain advisory ambiguity; actual
+screen-reader output and first-time human observations are not established.
+
+Recovery restores ordinary workspace access on the coherent candidate while keeping
+paid extraction closed. It does not claim full functionality or authorize an inverse
+after reopening. Original expiry and all liabilities remain intact. A changed model
+correction and complete fresh judge acceptance remain necessary. Private timing
+estimates and transfer-cost estimates were explicitly amended after technical review;
+actual request deadlines, ownership, the original overall authority horizon and call
+history remain enforced. No scheduler or background continuation is installed.
+
+The single R01–R12/F1–F8 register remains in the user-journey plan section 9. Current
+private evidence and continuation details: `.local/run-records/supervised-acceptance-20261026/`.
+Earlier checkpoints below are history, not current public extraction availability.
+
+## Approved conditional operation: admission stopped — 26 October 2026
+
+U41 explicitly approves the exact combined packet and conditional recovery within
+its existing limits. Fresh GET-only admission found that the full model commitment
+does not fit available public capacity. Independent backend review confirms the
+shortfall, unchanged older liability, failed runs, service/revision/runtime and
+all previously retained documents. An additional historical refresh record predates
+this operation. No new generation, count, settlement, deployment, migration, guest
+issuance or public-access change occurred. No recovery is needed; the attended
+execution clock never started. The non-model envelope was not admitted either.
+
+Both public hostnames pass cookie-free health/opening-page/application-asset/config
+reads. Existing public configuration remains in place; these checks do not prove a
+new model workflow or guarantee available extraction. All20requirements remain in
+the canonical section9register. Candidate efficacy and A/B remain untested; actual
+AT output, unfamiliar participation and legitimate live-panel evidence remain open.
+No automatic retry, fund transfer or limit increase follows from this stop.
+
+Private exact approval, observed capacity/shortfall and independent review are under
+`.local/run-records/conditional-execution-20261026/execution/` and adjacent review
+directories. Root unrelated changes remain preserved.
+
+## Historical conditional execution/recovery proposal — 26 October 2026
+
+U40 keeps C1 unauthorized. One private packet now consolidates the changed third
+case, conditional A/B, explicit pass/fail/unknown branches and attended restoration.
+It preserves the same inactive prompt candidate, original samples, identity guard,
+cache-aware rollback, older liability and existing pools. No deployment, migration,
+settlement, generation or count is authorized or executed in this preparation.
+
+All-pass may retain the verified candidate and reopen ordinary public capacity.
+Known-stop inverse requires all owners' natural expiry; no ownership shortening or
+reset. Unknown candidate liability forbids inverse and keeps paid admission closed.
+A finite attended recovery window and conservative whole-operation commitment are
+proposed explicitly, never inferred from old approvals or hypothetical balances.
+Current service versions, prices and available commitments must be freshly bound
+before any future operation. There is no scheduler or promised automatic resumption.
+
+The coordinator is an attended private library/runbook, not a new product runtime.
+Focused local/emulator checks and independent review cover exact case binding,
+absolute validation deadline, permanent stops, transaction readback and recovery.
+No public application source changed; prior hosted release evidence is reused,
+not presented as new CI or current cloud verification. The single section9 register
+retains every R01–R12/F1–F8 requirement. AT still needs working real output; an
+unfamiliar participant is still absent. A passing diagnostic alone cannot establish
+full judge reproduction or broader product readiness.
+
+Private packet and handoff: `.local/run-records/conditional-execution-20261026/`.
+Earlier one-case scope below is historical and superseded only as a proposal.
+
+## Historical unpaid third-label correction — 26 October 2026
 
 The retained canonical request was reconstructed exactly against its stored hash.
 Gemini selected the printed subtitle into the product-name field; schema/translation

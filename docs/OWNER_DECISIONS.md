@@ -404,3 +404,73 @@ Prepare exact prompt/sample/model/runtime/deployment changes for any additional
 authority they require before execution. Complete available offline work before
 presenting one bounded changed paid experiment. Protective-refusal parity must
 remain distinct from the stricter successful deterministic-nonmatch requirement.
+
+
+## U40 — consolidated conditional proposal, no execution authority
+
+The owner keeps C1 unauthorized and requests complete offline coordinator
+preparation and independent review of one conditional decision packet: diagnostic
+pass/fail/unknown, safe restoration or public reopening, and remaining A/B
+validation. Specify separate limits, aggregate commitments, fresh prerequisites,
+stop conditions, natural-expiry consequences and attended continuation without a
+scheduler. Do not assume capacity or expand existing pools. No deployment,
+migration, paid call or settlement is authorized by this instruction. AT and
+unfamiliar participant observations remain separate requirements.
+
+
+## U41 — exact conditional packet approved; full admission remains mandatory
+
+The owner explicitly authorizes the exact consolidated private REQUEST.md and its
+defined conditional recovery, with the stated generation/count, financial, timing
+and existing-pool limits. Before any mutation, the entire execution-and-recovery
+commitment must fit current balances, outstanding obligations and applicable
+thresholds; otherwise stop before changing public access and report the shortfall.
+No transfers, limit increases, manual settlement, retries, extra calls or authority
+extension. Establish the attended window before starting; independently verify
+each stage and perform admitted conditional recovery without routine reapproval.
+
+Fresh read-only admission failed the whole-model-commitment gate. Independent
+review confirms the exact private shortfall and preserved liabilities/failed runs.
+The sequence stopped before activation: no public-access change, deployment,
+migration, generation, token count, settlement or workspace issuance. The attended
+execution clock never started and no restoration is needed. Existing public
+configuration remains; GET-only availability is separate from extraction acceptance.
+
+## U42 — remove monetary stops for supervised acceptance testing
+
+The owner explicitly directs completion of end-to-end testing without budget
+thresholds or budget limitations. This supersedes U41's whole-envelope financial
+admission and earlier monetary stops for this supervised acceptance work, including
+its necessary activation, verification and recovery. Actual costs and liabilities
+remain recorded; unknown usage is not zero and no historical obligation is erased.
+
+The scoped implementation uses the existing development testing phase where its
+available capacity covers the complete finite test workload. This is not a transfer
+from public funds, an unlimited public grant, or permission for unbounded retries.
+The previously reviewed third/A/B cases, independent technical verification,
+ownership, source/identity protections, uncertain-outcome handling and compatible
+recovery remain. Public spending configuration and ordinary service controls stay
+unchanged. No new subscription, privilege expansion, fabricated human acceptance,
+manual settlement or notification is implied. A technical failure stops dependent
+actions while independent diagnosis/correction work continues.
+
+The private supervised amendment records effective configuration, authority and
+workload-derived reservation coverage separately from the superseded user budget
+caps. Preparation is not evidence of deployment or model success.
+
+
+## U43 — reviewed correction and continued acceptance execution
+
+The owner directs continued implementation, specialist review, testing and release
+of authorized corrections, retaining R01–R12/F1–F8. This includes a changed
+extraction experiment after diagnosis of the name/caption failure and fresh third-
+label and positive A/B workflows. U42 removes monetary approval thresholds for
+supervised testing; accounting, unknown liabilities, ownership, source trust,
+identity safeguards and finite request timeouts remain. A failed operation requires
+diagnosis and correction, with only the affected unsafe operation stopped.
+
+This is new continuation authority, not replay of a stopped series. Preserve
+existing workspace expiry and unrelated changes. Actual screen-reader output,
+unfamiliar-participant evidence and other unresolved gates remain explicit;
+automated tests do not establish human acceptance. Final material submission
+terms, new privileges/subscriptions and destructive operations retain their gates.
