@@ -53,7 +53,8 @@ export default {
       for (const cookie of setCookies) {
         if (!cookie.startsWith('__Host-bb_guest=') || /;\s*domain\s*=/i.test(cookie) || !/;\s*secure(?:;|$)/i.test(cookie) || !/;\s*httponly(?:;|$)/i.test(cookie) || !/;\s*samesite=strict(?:;|$)/i.test(cookie) || !/;\s*path=\/(?:;|$)/i.test(cookie)) return failure(502);
       }
-      output.set('Cache-Control', 'private, no-store');
+      const noTransform=(output.get('Cache-Control') || '').split(',').some(v=>v.trim()==='no-transform');
+      output.set('Cache-Control', 'private, no-store'+(noTransform?', no-transform':''));
       output.delete('CDN-Cache-Control');
       output.delete('Cloudflare-CDN-Cache-Control');
       for (const name of [...output.keys()]) if (name.startsWith('access-control-')) output.delete(name);

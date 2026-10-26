@@ -24,7 +24,7 @@ pytestmark = pytest.mark.browser
 
 
 @pytest.fixture
-def connected_browser():
+def connected_browser(request):
     with socket.socket() as sock:
         sock.bind(('127.0.0.1', 0))
         port = sock.getsockname()[1]
@@ -40,7 +40,8 @@ def connected_browser():
         stores.enable_retail(RetailProjector(actions, shared.policy, RetailReadPolicy()))
     c = build_reviewed(setup, env, (0,), configure=configure)
     app = create_workbench_test_app(c[0], c[8],
-        RetailRefresh(stores.retail, RefreshPolicy()), ExtractionHTTPPolicy())
+        RetailRefresh(stores.retail, RefreshPolicy()),
+        ExtractionHTTPPolicy(**getattr(request, 'param', {})))
     runner = uvicorn.Server(uvicorn.Config(app, host='127.0.0.1', port=port, log_level='error'))
     thread = threading.Thread(target=runner.run, daemon=True)
     thread.start()
