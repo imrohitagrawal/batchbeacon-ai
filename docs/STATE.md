@@ -1,6 +1,34 @@
 # BatchBeacon AI — current execution state
 
-## Unpaid third-label correction — 26 October 2026
+## Conditional execution/recovery proposal — 26 October 2026
+
+U40 keeps C1 unauthorized. One private packet now consolidates the changed third
+case, conditional A/B, explicit pass/fail/unknown branches and attended restoration.
+It preserves the same inactive prompt candidate, original samples, identity guard,
+cache-aware rollback, older liability and existing pools. No deployment, migration,
+settlement, generation or count is authorized or executed in this preparation.
+
+All-pass may retain the verified candidate and reopen ordinary public capacity.
+Known-stop inverse requires all owners' natural expiry; no ownership shortening or
+reset. Unknown candidate liability forbids inverse and keeps paid admission closed.
+A finite attended recovery window and conservative whole-operation commitment are
+proposed explicitly, never inferred from old approvals or hypothetical balances.
+Current service versions, prices and available commitments must be freshly bound
+before any future operation. There is no scheduler or promised automatic resumption.
+
+The coordinator is an attended private library/runbook, not a new product runtime.
+Focused local/emulator checks and independent review cover exact case binding,
+absolute validation deadline, permanent stops, transaction readback and recovery.
+No public application source changed; prior hosted release evidence is reused,
+not presented as new CI or current cloud verification. The single section9 register
+retains every R01–R12/F1–F8 requirement. AT still needs working real output; an
+unfamiliar participant is still absent. A passing diagnostic alone cannot establish
+full judge reproduction or broader product readiness.
+
+Private packet and handoff: `.local/run-records/conditional-execution-20261026/`.
+Earlier one-case scope below is historical and superseded only as a proposal.
+
+## Historical unpaid third-label correction — 26 October 2026
 
 The retained canonical request was reconstructed exactly against its stored hash.
 Gemini selected the printed subtitle into the product-name field; schema/translation

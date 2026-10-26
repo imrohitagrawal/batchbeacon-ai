@@ -404,3 +404,15 @@ Prepare exact prompt/sample/model/runtime/deployment changes for any additional
 authority they require before execution. Complete available offline work before
 presenting one bounded changed paid experiment. Protective-refusal parity must
 remain distinct from the stricter successful deterministic-nonmatch requirement.
+
+
+## U40 — consolidated conditional proposal, no execution authority
+
+The owner keeps C1 unauthorized and requests complete offline coordinator
+preparation and independent review of one conditional decision packet: diagnostic
+pass/fail/unknown, safe restoration or public reopening, and remaining A/B
+validation. Specify separate limits, aggregate commitments, fresh prerequisites,
+stop conditions, natural-expiry consequences and attended continuation without a
+scheduler. Do not assume capacity or expand existing pools. No deployment,
+migration, paid call or settlement is authorized by this instruction. AT and
+unfamiliar participant observations remain separate requirements.

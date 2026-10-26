@@ -459,3 +459,42 @@ production activation still requires an explicit owner decision and fresh admiss
 Existing call/spending/window limits, zero-active-owner
 rule, unknown-liability stop and deferred rollback remain unchanged. No production
 source or deployment changed; the original budget-only evidence is retained privately.
+
+
+### U40 consolidated conditional operation preparation
+
+The owner kept C1 unauthorized and requested one complete conditional packet, not
+an isolated test ending with routine recovery undecided. The private REQUEST and
+attended RUNBOOK now cover third → A → B, all-pass candidate reopening, known-stop
+natural-expiry inverse/restoration, unknown-liability retention/ordinary-only
+access, and exact partial-setup cleanup. Separate validation and recovery deadlines,
+full conditional commitments, fresh admission, original source/runtime/price/record
+bindings and stop conditions are explicit. No live mutation or provider call occurred.
+
+Independent review reproduced three REQUIRED_CONTRACT preparation issues: a case
+proof could be reused for another case; dispatch could use the later recovery
+window; duplicate transaction-read rows were collapsed. Corrections bind the exact
+pending identity/capture/config/intent, fix an immutable absolute validation deadline
+and reject invalid read sets before Commit. Operations review additionally caught
+an unbounded buffered service response despite a bounded transfer precharge. The
+adapter now streams within configured bounds, precharges final-chunk/overhead
+allowance and retains unusable acknowledgement as uncertain without replay.
+These were private coordinator defects, not deployed application regressions.
+
+The final focused suite passes53 unit/controlled checks. Independent backend review
+also exercises18 targeted negative/branch cases. Six actual anonymous-loopback
+Firestore tests exercise the current transaction adapter, lost-ack readback, fence
+field preservation and rejection of duplicate/missing/unexpected/stale reads. An
+initial no-op fence fixture expected a changed postimage; the failed evidence is
+preserved and the fixture now uses a different fence value. Both owned emulator
+processes were stopped and verified. The retained32 planner/decoder and4 migration
+emulator checks remain separate prior evidence, not recounted as new tests.
+
+The original application, tests/fixtures prompt candidate and public UI are unchanged.
+No new hosted release check, cloud read, deployed verification, real-model result,
+AT speech or novice observation is claimed. Existing hosted/application evidence is
+reused for unchanged source. Actual runtime versions, prices and balances remain
+fresh execution prerequisites, never fabricated from hypothetical postimages.
+All20canonical requirements remain; broader U18 gates and historical Git disclosure
+remain unchanged. Details, exact hashes, initial findings and final specialist
+reviews are under `.local/run-records/conditional-execution-20261026/`.

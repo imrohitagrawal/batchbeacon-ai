@@ -218,7 +218,7 @@ not complete model, assistive-technology or human acceptance.
 | F5 | Late success/error cannot overwrite expiry or another selected case. | Implemented; independently reproduced regressions and current full U/C/B/CI pass. | Controlled race coverage complete for this increment; no claim of live race injection or H/AT acceptance. |
 | F6 | Explicit navigation reveals destination, focus and scroll; reload/back/reopen preserve context. | Implemented; current C/B keyboard/race tests and both-host S navigation focus, mobile, queue and reload pass. | U38 refused-case queue/reopen/reload and mobile context also pass. Actual AT/H remains; agent browser operation is not human usability. |
 | F7 | Clear short purpose, readable queue/status, technical details disclosed on demand. | Implemented advisory clarity work; M9 C/B and both-host S observations. | Lingering upload receipt after extraction is ADVISORY_DEBT: historical upload-specific wording beside truthful refusal, no demonstrated false result/action. Product owner tracks a later small wording/clearing improvement; R05/R06 H comprehension remains mandatory. |
-| F8 | Supported usage/accounting, preserved unknowns, actual successful complete positive and unrelated/wrong-product validation. | PARTIAL. Strict cache-subset parser implemented and independently verified with retained provider bytes, U/C/E; original-rate valuation preserved, newer usage settled under U36 and older unknown held. Earlier no-response timeout remains distinct. | Operation A is owner-authorized and independently verified: newer retained usage settled, older liability held, failed runs/expired ownership preserved. Cache-aware rollback is now mandatory. U38 produced one incorrect-name M response, correctly refused and automatically settled with no new unknown; series stopped before A/B. REQUIRED_CONTRACT model-acceptance gap remains. U39 offline field-selection diagnosis/candidate regression is complete; actual candidate efficacy remains unproved. Exact one-case proposal is prepared privately; new explicit activation/model authority is required. No retries under U37/U38. |
+| F8 | Supported usage/accounting, preserved unknowns, actual successful complete positive and unrelated/wrong-product validation. | PARTIAL. Strict cache-subset parser implemented and independently verified with retained provider bytes, U/C/E; original-rate valuation preserved, newer usage settled under U36 and older unknown held. Earlier no-response timeout remains distinct. | Operation A is owner-authorized and independently verified: newer retained usage settled, older liability held, failed runs/expired ownership preserved. Cache-aware rollback is now mandatory. U38 produced one incorrect-name M response, correctly refused and automatically settled with no new unknown; series stopped before A/B. REQUIRED_CONTRACT model-acceptance gap remains. U39 offline field-selection diagnosis/candidate regression is complete; actual candidate efficacy remains unproved. U40 supersedes the one-case proposal with one conditional third/A/B/recovery packet; new explicit authority and fresh admission are required. No retries under U37/U38. |
 
 ### Classification and independent work
 
@@ -639,3 +639,65 @@ directions. Derived target markers must match the exact typed runtime and source
 binding. Acceptance adds retained-cookie 401 recovery, absent-cookie issuance,
 immutable expired payloads and atomic multi-record stale-state refusal. The earlier
 budget-only preparation is superseded; no new financial or execution authority follows.
+
+
+### Conditional execution and recovery preparation checkpoint
+
+The owner keeps C1 unauthorized and requests one reviewed decision covering the
+changed third-label experiment, conditional positive A/B validation, stopped
+branches and safe restoration/public reopening. This authorizes offline coordinator
+preparation and verification only; no deployment, migration, settlement or paid
+call. The canonical 20-row register above remains authoritative.
+
+Demonstrated constraints: inverse metadata migration requires zero active owners
+and no unknown candidate liability; ordinary ownership lasts eight hours. Keeping
+a fully verified candidate can avoid that inverse. A new unknown cannot be moved
+into the old single-predecessor runtime. These constraints require explicit
+conditional recovery time, financial admission and truthful public availability.
+
+The primary prepares one private typed policy, durable attended step journal,
+conditional service/datastore mutation adapters, per-case evidence gates and
+complete branch runbook. Independent backend, operations and experience reviewers
+verify the plan and offline scenarios before the final proposal. Tests cover
+call ordering, commitment arithmetic, natural expiry, unknown acknowledgements,
+version drift, compatible inverse, public reopening and resumed stopped state.
+The original samples/video, strict identity guard, candidate prompt and runtime
+bindings remain unchanged. Fresh versions, balances, prices, ownership and exact
+mutation images must be bound after any future approval; historical figures are
+not current admission. No scheduler, additional human approver, budget transfer,
+manual settlement, automatic retry or expiry reset is introduced.
+
+Private preparation: `.local/run-records/conditional-execution-20261026/`.
+Screen-reader baseline and unfamiliar participant tasks remain separate. A
+successful diagnostic alone does not close positive workflow, AT, H or broader
+product readiness. Publication is not runtime activation.
+
+
+### U40 offline preparation disposition
+
+The integrated private packet now covers third → A → B, pass/known-stop/unknown,
+partial setup and conditional public reopening. All20criteria remain unchanged.
+R01/R04/R08/F8 still need real correct extraction/nonmatch and both positive
+workflows; filmed protective refusal remains distinct. R02/F1/F2/F6 require actual
+screen-reader output after the globally silent baseline is resolved. R03/R05/R06/
+R10/F7 need the unfamiliar participant. R07/R09/F3/F4 retain the legitimate owned
+live-panel dependency; R09's expired-cookie migration regression remains mandatory.
+F5's controlled protection is retained. R11/R12 now include the reviewed attended
+coordinator and conditional recovery preparation, not live execution evidence.
+
+Private coordinator review reproduced case-proof reuse, an overly broad dispatch
+window and duplicate transaction-read acceptance. These are REQUIRED_CONTRACT
+preparation defects; no proposal was run live. Corrections bind exact pending
+case/owner/capture/config/intent evidence, fix the absolute validation deadline
+separately from recovery, and reject duplicate/missing/unexpected/stale reads before
+Commit. Known-stop restoration waits for natural expiry; all-pass may keep the
+candidate immediately. Unknown holds and incompatible inverse stay blocked.
+Partial setup has exact no-effect/prior-pair/forward-applied/uncertain branches.
+Private durable intents and conservative resource precharges cannot create owner
+authority or guarantee an instantaneous provider invoice cap.
+
+The integrator owns the next operation only after a concrete owner decision and
+fresh runtime/financial/version binding. That decision can cover routine conditional
+restoration within its original finite limits; no repeated human approval or
+scheduler is introduced. AT/novice procedures are already prepared and independent
+of paid authority. No additional model call, settlement, deployment or email occurred.
