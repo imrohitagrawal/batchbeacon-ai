@@ -1,6 +1,38 @@
 # BatchBeacon AI — current execution state
 
-## Acceptance resumption — 26 October 2026
+## Unpaid third-label correction — 26 October 2026
+
+The retained canonical request was reconstructed exactly against its stored hash.
+Gemini selected the printed subtitle into the product-name field; schema/translation
+preserved that text and the identity guard correctly refused it. Layout adjacency
+and underspecified field selection are plausible contributors, not established
+model-internal causes. The filmed protective-refusal behavior is supported; the
+stricter successful deterministic nonmatch remains failed and mandatory.
+
+U39 preparation adds an **inactive test-only prompt candidate** and focused
+regressions. No production prompt, schema, identity guard, original sample/video,
+application source/image, deployment or financial record changed. Independent
+backend, product/accessibility/judge and operations reviews distinguish retained
+real-response replay from authored mock results. Candidate efficacy remains unproved.
+The [canonical register](USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md#9-authoritative-acceptance-checklist-and-continuation-checkpoint)
+and [M9](evidence/M9-user-journey-correction.md) retain all R01–R12/F1–F8 gates.
+
+The exact one-case changed experiment and conditional accounting/configuration
+migration are prepared privately, with no paid or deployment authority. The stopped
+U37/U38 series stays stopped. Migration requires zero active owners; reversal also
+requires no unknown candidate attempt. After any future test, paid admission closes;
+no immediate old-prompt restoration is promised. No expired session is recovered.
+The local unresolved-to-settled-failed fixture now supports human recheck observation;
+controlled checks pass, actual speech and novice observations remain incomplete.
+VoiceOver's general silence remains unlocalized; no system setting was changed.
+
+Private proposal, reviews and handoff:
+`.local/run-records/third-label-correction-20261026/`; current pointer:
+`.local/run-policy.json`. Root changes remain preserved. Fresh successful model
+acceptance, actual AT/H, a legitimate live unresolved case and broader U18 gates
+remain open. Full judge reproduction and full product readiness are not established.
+
+## Historical acceptance resumption — 26 October 2026
 
 Fresh independent reads confirm unchanged deployed source `bc7da038c6`, image,
 runtime/IAM, both public hosts' assets/support and successful PR15/16 checks.

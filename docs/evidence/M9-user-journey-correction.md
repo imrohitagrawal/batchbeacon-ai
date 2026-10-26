@@ -361,3 +361,73 @@ AT/H, unavailable legitimate live-panel evidence and broader U18 limitations. Fu
 changed model evaluation requires a reviewed bounded proposal and new authority;
 remaining slots in the stopped series cannot be used. Private independent final
 proof and screenshots are under `backend/operation-b2/` in the resumption evidence.
+
+
+## Unpaid third-label diagnosis and candidate regression — 26 October 2026
+
+The original label prints “Meadow Vale Brie” immediately above “Invented third
+identity” in the same large type. The complete provider output already contains
+both lines in `label.name.raw` and `value`, with a box enclosing both. The generic
+ProposedValue schema permits this string; schema validity cannot establish semantic
+field correctness. Translation preserves KNOWN raw/value equality, and name
+normalization only case-folds/joins whitespace. The additional words therefore
+fail the exact retained-identity boundary before comparison or action. This is a
+model field-selection failure with correct protective refusal, not a parser-added
+subtitle, encoding mismatch, source substitution or timeout.
+
+The exact effective runtime instruction was v6, not the module's v5 default.
+Reconstruction through the deployed pure request guard and retained image/source,
+schema, settings and ADK suffix produces the stored canonical request digest
+`b20c1a37b0e0b35ba73611a94b0691e6e962a182b41b1927febd939e7f80e24f`.
+This proves canonical semantic request identity, not unavailable original wire
+whitespace/order, headers or separate token-count response bytes. Retained response
+replay independently confirms source agreement and identity disagreement.
+
+Layout adjacency and lack of explicit product-name versus caption instructions
+are plausible contributors. The evidence does not reveal which feature caused
+Gemini's choice. The smallest proposed correction appends general field-selection
+instructions to effective v6: preserve genuine multiline brand/variant text,
+exclude clearly separate demonstration captions, retain selected text verbatim and
+use ambiguity instead of guessing. No expected name/lot/verdict is injected.
+`tests/fixtures/name-field-prompt-candidate.json` is inert, not production config.
+No sample, schema or identity-guard change is proposed. Candidate effectiveness
+requires a separately authorized real-model experiment.
+
+Eleven added unit/controlled cases (61 with existing reviewed-extraction tests)
+exercise the actual installed ADK mock request, prompt/hash propagation, subtitle
+refusal, correct A/B and third-identity controls, genuine multiline names,
+raw/value mismatch, ambiguity and wrong recalled-name substitution. These authored
+responses test boundaries, not Gemini behavior. Independent review reproduced them.
+Full local suites pass 1,475 unit, 133 browser and 29 edge checks. Prior eight
+Firestore product tests remain historical; this phase additionally exercises three
+actual loopback conditional-migration tests and private pure-plan guards. No live
+cloud/provider operation or production activation occurred.
+
+Private migration preparation exposed two defects before any execution: a proposed
+Firestore verify write is unsupported by the actual SDK, and an initial readback
+classifier accepted changed creation metadata. Both are REQUIRED_CONTRACT operation
+preparation defects. The corrected design uses a real transaction reading all exact
+preimages, then one conditional budget-payload write; readback preserves every
+other metadata field and compares aware timestamps. Original failures are retained.
+Zero active owners and fenced/drained writers remain prerequisites; transactional
+version guards alone do not prove complete inventory or prevent phantom creation.
+Only budget policy/grant hashes change; original unknown liability, failed runs,
+expiry, cached receipts and all other documents remain exact. No production
+executor or admission result is inferred from an emulator pass.
+
+Independent product/AT review also verified a labelled in-process fixture in which
+one held mock attempt settles without completing its failed extraction. Normal
+owned saved-status checks show unchanged hold, then failed/resolved status; no
+comparison/action is created. Guestless/foreign/expired access and duplicate
+moderator transitions are guarded. No network, native setting or paid call is
+involved. A human procedure and observation form are prepared; neither actual AT
+speech nor first-time human comprehension has passed.
+
+The video claim and the stricter requirement remain separate: filmed protective
+refusal is recognizable and now actually observed under U38; successful deterministic
+identity-based nonmatch remains a REQUIRED_CONTRACT model-acceptance gap. Fresh A/B
+model validation remains open. Controlled positive flow, sampled-video parity,
+production failure behavior and future human comprehension are distinct evidence.
+The same canonical register retains all 20 requirements and broader U18 limitations.
+Private exact proof, reviews, failures, proposal and cleanup are under
+`.local/run-records/third-label-correction-20261026/`.
