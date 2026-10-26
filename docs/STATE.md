@@ -134,15 +134,18 @@ The owner identified drift in the opening hero and description from the submitte
 video. The exact two filmed text nodes are restored in PR27, with unchanged DOM,
 focus/ARIA attributes, CSS/JS, safeguards and runtime. Independent patch/render
 reviews and local 1,546 unit, 180 browser, 30 edge and eight emulator checks pass.
-PR27 merged after exact hosted push/PR checks. Its new cloud build and packaged
-source verification pass; merged-main CI and deployment are pending. The wording
-restoration is not yet claimed live. This owner correction is not first-use participant evidence.
+PR27 merged after exact hosted push/PR checks; merged-main CI also passes. Its new
+cloud build, packaged source and independent release verification pass. The exact
+filmed wording is live on both hosts at 100% traffic, with ordinary entry open and
+paid extraction closed. All 383 records and the prior runtime are preserved. This owner correction is not first-use participant evidence.
 
-A separately reviewed MEDIUM/24,576 completion-headroom candidate is prepared.
+The separately reviewed MEDIUM/24,576 completion-headroom runtime is deployed.
 It keeps the exact prompt, model, schema, price and finite deadlines. Independent
 ADK checks, complete typed history and Linux-container projection checks preserve
-the accepted third result and original receipt timestamps. No live activation or
-new owner is claimed. It requires fresh third/A/B on normal new custody; the prior
+the accepted third result and original receipt timestamps. Independent release checks confirm 100% traffic on both hosts. The guarded
+transition changed 71 metadata records and preserved all 383 records, ownership,
+completed receipts and accounting. Ordinary entry is restored; paid extraction
+remains closed. No successor model call or new owner was issued. It still requires fresh third/A/B on normal new custody; the prior
 nonmatch cannot be relabelled as acceptance of the changed runtime.
 
 ## Remaining human and product gates

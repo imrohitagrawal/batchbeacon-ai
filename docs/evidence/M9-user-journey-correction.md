@@ -953,8 +953,10 @@ The owner specifically requests restoring the opening hero and description shown
 in the submitted video. PR27 restores only those two exact text nodes, preserving
 DOM/focus/ARIA, safety/scope disclosures and functional corrections. Independent
 backend/UX/operations patch reviews and desktop/390px/320px renders pass; full
-local 1,546 unit, 180 browser, 30 edge and eight emulator checks pass. Hosted and
-new-image release checks are in progress. No live wording restoration is yet claimed.
+local 1,546 unit, 180 browser, 30 edge and eight emulator checks pass. Exact hosted push, pull-request and merged-main checks pass. The new image is
+deployed at 100% traffic; independent checks on both hosts confirm the exact filmed
+hero and description, assets, health/config and anonymous-access protection.
+Ordinary entry is open, paid extraction is closed and all 383 records are preserved.
 This is owner feedback, not an unfamiliar participant's comprehension response.
 All R01–R12/F1–F8 criteria and remaining H/AT/live-unknown/source/protected/Ops
 gates remain unchanged; no accepted Safari recording or automatic speech evidence
@@ -967,5 +969,15 @@ model setting. Sixty-six installed-ADK controls, all 383 persisted history recor
 and completed-history container checks pass. The private derivation now uses the
 actual immutable completion receipt/timestamps and production-style normalization,
 preserving the accepted third result instead of applying a failed-only assumption.
-These are offline configuration/history checks; no successor deployment, new owner
-or real-model efficacy is claimed. Fresh third/A/B remain required for that runtime.
+The successor runtime is now deployed and independently verified at 100% on both
+hosts. Its guarded transition updates 71 metadata records while preserving all
+383 records, original ownership, accepted completion receipts and accounting.
+Ordinary entry is restored; paid extraction remains closed. No successor model
+call or new owner was issued. Fresh efficacy remains unverified. Fresh third/A/B remain required for that runtime.
+
+
+Separate nonpaid recovery and synthetic-feedback helpers are prepared for the
+existing owner's actual accepted and failed cases. Independent helper checks pass;
+no live fallback request or human feedback is claimed. The original attended
+window remains finite; further testing needs confirmed continued availability,
+without a new spending threshold. Human and accessibility evidence remain pending.
