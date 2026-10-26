@@ -218,7 +218,7 @@ not complete model, assistive-technology or human acceptance.
 | F5 | Late success/error cannot overwrite expiry or another selected case. | Implemented; independently reproduced regressions and current full U/C/B/CI pass. | Controlled race coverage complete for this increment; no claim of live race injection or H/AT acceptance. |
 | F6 | Explicit navigation reveals destination, focus and scroll; reload/back/reopen preserve context. | Implemented; current C/B keyboard/race tests and both-host S navigation focus, mobile, queue and reload pass. | U38 refused-case queue/reopen/reload and mobile context also pass. Actual AT/H remains; agent browser operation is not human usability. |
 | F7 | Clear short purpose, readable queue/status, technical details disclosed on demand. | Implemented advisory clarity work; M9 C/B and both-host S observations. | Lingering upload receipt after extraction is ADVISORY_DEBT: historical upload-specific wording beside truthful refusal, no demonstrated false result/action. Product owner tracks a later small wording/clearing improvement; R05/R06 H comprehension remains mandatory. |
-| F8 | Supported usage/accounting, preserved unknowns, actual successful complete positive and unrelated/wrong-product validation. | PARTIAL. Strict cache-subset parser implemented and independently verified with retained provider bytes, U/C/E; original-rate valuation preserved, newer usage settled under U36 and older unknown held. Earlier no-response timeout remains distinct. | Operation A is owner-authorized and independently verified: newer retained usage settled, older liability held, failed runs/expired ownership preserved. Cache-aware rollback is now mandatory. U38 produced one incorrect-name M response, correctly refused and automatically settled with no new unknown; series stopped before A/B. REQUIRED_CONTRACT model-acceptance gap remains. U39 offline field-selection diagnosis/candidate regression is complete; actual candidate efficacy remains unproved. U40 supersedes the one-case proposal with one conditional third/A/B/recovery packet; new explicit authority and fresh admission are required. No retries under U37/U38. |
+| F8 | Supported usage/accounting, preserved unknowns, actual successful complete positive and unrelated/wrong-product validation. | PARTIAL. Strict cache-subset parser implemented and independently verified with retained provider bytes, U/C/E; original-rate valuation preserved, newer usage settled under U36 and older unknown held. Earlier no-response timeout remains distinct. | Operation A is owner-authorized and independently verified: newer retained usage settled, older liability held, failed runs/expired ownership preserved. Cache-aware rollback is now mandatory. U38 produced one incorrect-name M response, correctly refused and automatically settled with no new unknown; series stopped before A/B. REQUIRED_CONTRACT model-acceptance gap remains. U39 offline field-selection diagnosis/candidate regression is complete; actual candidate efficacy remains unproved. U41 approves the conditional packet, but fresh whole-commitment admission failed before activation; no new calls or recovery occurred. No retries under U37/U38. |
 
 ### Classification and independent work
 
@@ -701,3 +701,19 @@ fresh runtime/financial/version binding. That decision can cover routine conditi
 restoration within its original finite limits; no repeated human approval or
 scheduler is introduced. AT/novice procedures are already prepared and independent
 of paid authority. No additional model call, settlement, deployment or email occurred.
+
+
+### U41 approval and pre-activation admission stop
+
+The owner approved the exact combined packet and required the entire commitment
+to fit before any mutation. Fresh typed ledger/configuration reads fail that gate;
+one per-attempt reservation fitting is insufficient. Independent review confirms
+the exact private shortfall and unchanged older liability, failed runs and retained
+document versions. Public configuration and service revision remain unchanged.
+All20rows retain their acceptance criteria: R01/R04/R08/F8 gain no new M evidence;
+R02/F1/F2/F6 still require actual AT, R03/R05/R06/R10/F7 unfamiliar H, and
+R07/R09/F3/F4 the legitimate live-panel dependency. F5 controlled coverage is
+unchanged. R11/R12 now include this independently verified admission stop and
+GET-only public checks, not deployment/model acceptance. The integrator stopped
+before activation; there is no expired operation window, held candidate liability
+or restoration task. No automatic retry or authority expansion is permitted.

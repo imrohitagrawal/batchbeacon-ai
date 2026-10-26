@@ -498,3 +498,29 @@ fresh execution prerequisites, never fabricated from hypothetical postimages.
 All20canonical requirements remain; broader U18 gates and historical Git disclosure
 remain unchanged. Details, exact hashes, initial findings and final specialist
 reviews are under `.local/run-records/conditional-execution-20261026/`.
+
+
+### U41 fresh admission evidence, no activation
+
+The owner approved the exact conditional packet and reiterated full commitment
+admission before any mutation. Ten bounded cloud GETs read the current service,
+revision, IAM and complete fixed-readTime namespace. The typed ledger shows less
+available public model capacity than the approved whole commitment; the exact
+shortfall is private. One attempt reservation fitting does not meet the stronger
+whole-envelope condition. Independent backend verification confirms the stop.
+
+All318previously retained document contents and versions remain exact, including
+22attempts and11failed runs among24runs. The319threcord is an expired historical
+refresh record created before this operation, consistent with earlier B2 owned
+refresh observations; exact caller attribution is not proved. Service, revision
+and typed runtime remain unchanged. No active owner or nonterminal run exists in
+the observed inventory. The original unknown liability is preserved exactly.
+
+Eight separate cookie-free public GETs verify health, opening HTML, application
+JavaScript and config on both hostnames. These are real-service read observations,
+not a new browser journey or actual model acceptance. No guest was issued. No cloud
+write, generation, token count, settlement or access fence was dispatched. The
+execution clock was not started and no rollback is necessary. Outstanding non-model
+obligations were reviewed separately; no full financial admission is claimed.
+Existing AT/novice procedures remain ready, with actual participation/output gaps
+unchanged. Exact receipts and independent reviews accompany the private packet.

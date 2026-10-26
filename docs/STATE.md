@@ -1,6 +1,28 @@
 # BatchBeacon AI — current execution state
 
-## Conditional execution/recovery proposal — 26 October 2026
+## Approved conditional operation: admission stopped — 26 October 2026
+
+U41 explicitly approves the exact combined packet and conditional recovery within
+its existing limits. Fresh GET-only admission found that the full model commitment
+does not fit available public capacity. Independent backend review confirms the
+shortfall, unchanged older liability, failed runs, service/revision/runtime and
+all previously retained documents. An additional historical refresh record predates
+this operation. No new generation, count, settlement, deployment, migration, guest
+issuance or public-access change occurred. No recovery is needed; the attended
+execution clock never started. The non-model envelope was not admitted either.
+
+Both public hostnames pass cookie-free health/opening-page/application-asset/config
+reads. Existing public configuration remains in place; these checks do not prove a
+new model workflow or guarantee available extraction. All20requirements remain in
+the canonical section9register. Candidate efficacy and A/B remain untested; actual
+AT output, unfamiliar participation and legitimate live-panel evidence remain open.
+No automatic retry, fund transfer or limit increase follows from this stop.
+
+Private exact approval, observed capacity/shortfall and independent review are under
+`.local/run-records/conditional-execution-20261026/execution/` and adjacent review
+directories. Root unrelated changes remain preserved.
+
+## Historical conditional execution/recovery proposal — 26 October 2026
 
 U40 keeps C1 unauthorized. One private packet now consolidates the changed third
 case, conditional A/B, explicit pass/fail/unknown branches and attended restoration.

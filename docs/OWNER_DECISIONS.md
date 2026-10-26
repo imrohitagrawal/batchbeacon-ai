@@ -416,3 +416,22 @@ stop conditions, natural-expiry consequences and attended continuation without a
 scheduler. Do not assume capacity or expand existing pools. No deployment,
 migration, paid call or settlement is authorized by this instruction. AT and
 unfamiliar participant observations remain separate requirements.
+
+
+## U41 — exact conditional packet approved; full admission remains mandatory
+
+The owner explicitly authorizes the exact consolidated private REQUEST.md and its
+defined conditional recovery, with the stated generation/count, financial, timing
+and existing-pool limits. Before any mutation, the entire execution-and-recovery
+commitment must fit current balances, outstanding obligations and applicable
+thresholds; otherwise stop before changing public access and report the shortfall.
+No transfers, limit increases, manual settlement, retries, extra calls or authority
+extension. Establish the attended window before starting; independently verify
+each stage and perform admitted conditional recovery without routine reapproval.
+
+Fresh read-only admission failed the whole-model-commitment gate. Independent
+review confirms the exact private shortfall and preserved liabilities/failed runs.
+The sequence stopped before activation: no public-access change, deployment,
+migration, generation, token count, settlement or workspace issuance. The attended
+execution clock never started and no restoration is needed. Existing public
+configuration remains; GET-only availability is separate from extraction acceptance.
