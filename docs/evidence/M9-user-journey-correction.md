@@ -799,3 +799,58 @@ Detailed failures, bounded policies, records and subsequent correction evidence 
 private under the name-line and semantic-role acceptance checkpoints.
 
 Final local receipt-correction checks pass1,546unit/180browser/30edge/eight emulator tests. Hosted and deployment checks remain separate pending gates.
+
+
+## Semantic-role and receipt correction released
+
+PR25 merged normally to `ddc9d94`, containing source `cf19ae1`. Exact hosted push,
+PR-merge and merged-main checks each passed 1,546 unit, 180 browser and 30 edge
+tests; eight local emulator checks also passed. The exact 60-file cloud source
+archive, build steps and resulting image were independently verified. The reviewed
+semantic-role runtime and receipt correction now serve both public hosts.
+
+A full configured drain preceded the independently reviewed metadata transition.
+Its 62 metadata updates preserved all 356 records, original owner payloads/expiry,
+failed-case history, counters, settled charges and prior unknown liability. Fresh
+readback confirmed Ready/100% traffic, exact image/runtime/IAM and both-host assets,
+health/config and anonymous access denial. Ordinary entry was restored with one
+conditional admission-marker change; paid extraction remains closed.
+
+Private normal-API test components have independent bounded transport, custody,
+create/upload closure, capture/request binding and outcome/accounting checks.
+Reproduced proof-parser and stage-binding defects were corrected before live use.
+These are test-harness checks, not new model, browser, human or AT acceptance.
+Fresh third/A/B, actual speech, unfamiliar completion/comprehension, a legitimate
+active unknown panel and broader acceptance gates remain pending. The exact video
+master is unchanged; the narrow receipt change preserves the inspected workflow.
+
+### Current source-membership correction checkpoint
+
+The semantic-role candidate now has actual model evidence: correct food name and
+caption annotation, followed by SOURCE_DISAGREEMENT because the proposal added two
+source restrictions absent from the authority notice. The deterministic server
+refused comparison/action. Complete provider usage settled; the older unknown
+liability remains. Original-key API recovery returned the same terminal outcome
+without changing any of the 363 records. A private caller JSON-validation defect
+was corrected in a versioned helper; 51 regression/independent checks pass and
+historical request/evidence files remain unchanged.
+
+R01/R04/R08/F8 remain incomplete. The next reviewed instruction clarifies variable
+source-predicate membership while retaining genuine use-by restrictions and
+ALL/NOT_SPECIFIED/UNKNOWN distinctions. Three specialist reviews, 124 authored
+semantic controls, 23 installed-ADK propagation checks, full historical decode and
+exact package/cloud-build checks pass. Real-model effectiveness is still pending.
+The candidate is now deployed and independently verified at 100% traffic on both
+hosts. The 65 metadata-only changes preserve all 363 records' ownership, domain
+history and accounting. Ordinary entry restoration passed before the supervised
+series fence. R11/R12 now require exact fresh third/A/B request and outcome checks. No source or
+identity verifier is relaxed and no fixture-specific answer is inserted.
+
+R02/F1 retains the deployed stale-success-receipt correction. Actual automatic
+VoiceOver speech and corrected human completion remain pending. Another unfamiliar
+participant is available but has not supplied the requested first-look observation.
+The earlier first-use confusion is retained; their next test is a returning-user
+retest. Four-row API postmodel testing is planned: the retained failed case plus
+three new cases, without owner/counter resets. API tests cannot close human or AT
+gates. R07/R09/F3/F4 still need a legitimate active unresolved-accounting panel;
+no unknown liability is manufactured. All R01–R12/F1–F8 criteria remain intact.

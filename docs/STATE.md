@@ -25,7 +25,7 @@ checks and packaged-source provenance passed separately.
 PR #21's bounded progress transport and PR #22's availability-aware saved-label
 feedback/stale-response guards remain deployed. The new name-line correction in
 [PR #23](https://github.com/imrohitagrawal/batchbeacon-ai/pull/23), source `dec8f7e`
-(merged main `4b7d63f`), is now serving at 100% traffic as image
+(merged main `4b7d63f`), served at its prior checkpoint as image
 `sha256:076c8f763adc4bd9baccae35e3df4fd9d128614b2bbe870f5e4f32bdbb60551e`.
 Full local checks passed 1,546 unit, 173 browser, 30 edge and eight emulator tests.
 Exact hosted push/PR/main checks, generation-bound packaged-source provenance,
@@ -34,8 +34,9 @@ records preserve their ownership, history and accounting; the declared metadata
 changes do not reset counters or expiry. The live sites are
 [custom host](https://batchbeacon.stackclimb.com) and
 [Cloud Run fallback](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app).
-Ordinary new-workspace admission is restored; independent policy readback passed.
-Paid extraction remains closed; a complete working public AI workflow is not claimed.
+That prior checkpoint restored ordinary entry with independent policy readback.
+Current deployment and availability are recorded below; a complete working public
+AI workflow is not claimed.
 
 Historical LOW proposals included a caption in the name and were correctly refused.
 HIGH produced deadlines and, separately, MAX_TOKENS before a complete proposal.
@@ -62,30 +63,48 @@ retires only superseded successful sample receipts. Pending/error/unknown messag
 original recovery keys and expiry/selection guards remain. Independent review found
 and verified a related navigation-during-save correction; 72 focused browser tests
 and seven independent controlled scenarios pass. Final local checks pass 1,546 unit,
-180 browser, 30 edge and eight emulator tests. Hosted and release checks remain
-pending; this UI correction is not yet deployed.
+180 browser, 30 edge and eight emulator tests. Exact hosted push, PR-merge and
+merged-main checks passed 1,546/180/30. PR25 merged normally; source `cf19ae1` is
+deployed with independently verified package, image, metadata and both-host checks.
 
 Three specialists reviewed a changed semantic-role instruction through the existing
 typed runtime configuration. It distinguishes text describing the food from text
 describing an exercise or specimen, with generic contrasting examples and unchanged
 schema, model, LOW/output limits and finite deadlines. Independent installed-ADK
 mock checks verify propagation; the retained failed response still receives identity
-refusal. All 356 records decode identically. The candidate remains unproven and
-undeployed. Fresh correct third-label nonmatch must precede positive A/B workflows.
+refusal. The deployed candidate completed one fresh API third-label extraction:
+the food name was correct and the caption was classified as annotation, but two
+unsupported source predicates caused the server to refuse comparison. Known usage
+settled; no new unknown liability, result or action was created. An original-key
+GET recovered the same terminal response with all 363 records unchanged. This is
+service recovery evidence, not browser or human recovery acceptance.
+
+Three independent specialists reviewed a generic source-predicate membership
+clarification. It preserves the notice, label images, schema, model, deadlines and
+all deterministic safeguards. Its new package passed local/container and actual
+cloud build checks, independent metadata migration, promotion and both-host checks.
+Image `sha256:53c95b917d329dbf837b99f810524d59f70dfc7ee2f4fabacfebb7709b601d45`
+is ready at 100% traffic with the already hosted-tested application source. All
+363 records retain domain history and accounting. Ordinary entry restoration was
+verified, then temporarily fenced for the supervised sequence; paid extraction is
+closed pending exact request review. Fresh correct third-label nonmatch must
+precede positive A/B workflows.
 
 Private checkpoints: `.local/run-records/name-line-acceptance-20261026/` and
 `.local/run-records/semantic-role-acceptance-20261027/`. Earlier failures remain in
 their original records. The root checkout's unrelated edits remain untouched. One
 isolated integrator owns source, shared contracts and deployment. No support message
-was sent. The separate API-only fallback was reviewed but not used; any future API
-results must remain distinct from browser, human and assistive-technology evidence.
+was sent. The API workflow has now been used for one known failed case and original-key
+recovery. These results remain distinct from browser, human and assistive-technology
+evidence. The next series preserves that owner, failed case, counters and expiry.
 
 ## Remaining human and product gates
 
 The operator reports audible VoiceOver navigation, but exact automatic pending and
 terminal announcements remain unverified. Earlier recordings are excluded because
 the user reported tab switching. Concurrent speech input is a possible interference
-source, not an established cause. VoiceOver was turned off as requested. The
+source, not an established cause. VoiceOver was previously verified off; its current setting is not independently
+verified. No Safari recording is accepted as evidence. The
 participant reported uncertainty about the next step after upload; that finding is
 retained. First-use failure evidence is established; corrected uncoached completion
 and broader purpose comprehension remain unverified. Automated checks cannot
