@@ -13,6 +13,24 @@ owns all acceptance criteria. [M9](evidence/M9-user-journey-correction.md) retai
 technical outcomes and failures. Historical checkpoints do not establish current
 availability, human comprehension or actual assistive-technology acceptance.
 
+## Current latency correction
+
+[Stage measurement/loading correction](evidence/M12-latency-correction.md) is
+released through PR33, source `02c40f1`, merged main `4626782`. Exact local checks
+passed1,551unit/230browser/30edge/eight emulator; push/PR/merged-main workflows
+and independent image/accounting/both-host readbacks passed. Runtime remains901,
+MEDIUM/24,576, min0 and180/210/230/240second bounds. All445release-baseline records
+were preserved. Both-host1440/390 guestless renders are pixel-identical to the
+pre-edit baseline; the submitted video is unchanged. This establishes technical
+release continuity, not new real-model latency, human or VoiceOver acceptance.
+
+[Compact-input view](evidence/M13-source-input-view.md) is a separate candidate.
+It retains immutable original citations and legacy serialized hashes. Activation,
+representative real-model timing/correctness and conditional compatibility gates
+remain separate; no measured speed/SLA claim is made. The private finite benchmark
+and failed harness evidence are preserved without replaying consumed packets.
+All R01–R12/F1–F8 and previously open human/source/quality/Operations gates remain.
+
 ## Current evidence-reference correction
 
 U47 directs implementation of readable evidence references after the expanded audit

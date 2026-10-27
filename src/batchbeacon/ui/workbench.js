@@ -10,8 +10,8 @@ const admissionMessages = {demo_guest_capacity_unavailable:'Guest access is curr
 function requireSession() { if(!state.csrf || state.expired)throw new Error(state.sessionError || (state.expired?'Your guest session expired. Reload to request a new evaluation workspace.':'Your evaluation workspace is still opening. Please wait.')); }
 function safeError(e) { return e.message || 'The operation could not be confirmed. Reopen saved evidence before trying again.'; }
 function pending(value) { if(value)value={...value,session_expires_at:state.expiresAt}; state.pending=value;state.pendingOwnershipUnknown=false; if(value)sessionStorage.setItem('bb_pending',JSON.stringify(value)); else sessionStorage.removeItem('bb_pending'); $('recover').hidden=!value; $('learning-recover').hidden=!value || value.kind!=='learning'; }
-// v2 has three ordered public phases and one terminal. The 64KiB/64-line
-// protocol ceilings bound malicious/truncated responses, including blank heartbeats.
+// v2 has three ordered public phases and one terminal. The 64KiB/64-data-frame
+// protocol ceilings bound data frames and total bytes, including blank heartbeats.
 // They are versioned wire resource invariants, not cadence or timeout policy.
 async function acquisitionStream(response,path,assertActive) {
   if(!response.ok || !response.body)throw new Error('Invalid progress response');
@@ -21,8 +21,9 @@ async function acquisitionStream(response,path,assertActive) {
   let buffer='',bytes=0,lines=0,sequence=0,last=-1,terminal=null;
   const op=state.operation,incident=path.split('/')[3],selection=state.selection;
   function line(value) {
-    if(++lines>64 || terminal)throw new Error('Invalid progress sequence');
+    if(terminal)throw new Error('Invalid progress sequence');
     if(!value.trim())return;
+    if(++lines>64)throw new Error('Invalid progress sequence');
     const frame=JSON.parse(value);
     if(!frame || frame.protocol!=='acquisition-stages-v2' || frame.sequence!==sequence++)throw new Error('Invalid progress sequence');
     if(frame.type==='terminal'){

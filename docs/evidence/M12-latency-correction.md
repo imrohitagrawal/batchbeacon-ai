@@ -18,9 +18,11 @@ Opt-in `acquisition-stages-v2` sends ordered preparing/model/saving frames and o
 terminal envelope. Old v1 and ordinary JSON remain supported. The worker retains
 its capacity/accounting ownership after disconnect. Progress grants no authority
 and never exposes partial model output. The v2 resource invariant is at most
-64KiB and64 lines, including heartbeats: the finite status schema and three phases
+64KiB and64 nonempty data frames: the finite status schema and three phases
 need only a small fraction of that space; excess input is rejected before use.
-This versioned defensive ceiling is independent of deployment cadence/timeouts.
+The total byte bound includes whitespace heartbeats. The nonempty-frame count
+allows independently configured heartbeat cadence; M13 records the reproduced
+original line-count defect and its correction.
 
 The existing adjacent live status announces actual phase changes. Heartbeats do
 not change its text or focus. No new timer animation, percentages or ETA are added.
