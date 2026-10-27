@@ -13,16 +13,18 @@ owns all acceptance criteria. [M9](evidence/M9-user-journey-correction.md) retai
 technical outcomes and failures. Historical checkpoints do not establish current
 availability, human comprehension or actual assistive-technology acceptance.
 
-## Current user-journey correction
+## Current evidence-reference correction
 
-U46 addresses the owner’s later screenshots and the gap between working operations
-and an understandable complete journey. [M10](evidence/M10-journey-completion.md)
-records the implemented progress, readable evidence/history, saved-action next
-steps, direct links and ownership-preserving renewal/navigation corrections.
-Its exact release status is tracked with the correction pull request and private
-`.local/run-records/journey-completion-20261027/` checkpoint. Earlier deployed
-model and workflow evidence below remains scoped to its recorded release; it is
-not a human usability pass or proof of a later image’s deployment.
+U47 directs implementation of readable evidence references after the expanded audit
+panel still showed an unexplained raw dump. [M11](evidence/M11-evidence-audit.md)
+records plain explanations, exact evidence links, grouped audit records and explicit
+copy feedback. Current release status belongs to the correction PR and ignored
+`.local/run-records/evidence-audit-20261027/` checkpoint.
+
+The preceding [M10](evidence/M10-journey-completion.md) corrections are deployed
+through PR31. Seven saved-review browser stages and fresh-workspace recovery passed
+within their recorded scope; Back crossed natural expiry and remained incomplete.
+Those technical observations do not establish human or actual VoiceOver acceptance.
 
 ## Implemented, deployed and verified
 

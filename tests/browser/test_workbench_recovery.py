@@ -71,6 +71,7 @@ def test_expiry_removes_prior_current_verdict_and_counts(page):
 
 def test_comparison_retains_operator_and_reference_for_review(page):
     result = page.evaluate("""()=>{
+      state.incident='owned-incident';
       state.evidence={result:{candidates:[{product_id:'synthetic-product',
       eligible_jurisdiction:true,
       

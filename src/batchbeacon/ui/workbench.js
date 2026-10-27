@@ -155,19 +155,76 @@ function compare() { text('field-detail','');text('field-provenance','Select an 
   if(state.loading)box.append(node('p','Refreshing saved evidence. Displayed comparison is the previous reading.','context-line'));
   if(acquisitionProblem())box.append(node('p','Previously saved comparison · historical evidence','context-line'));
   for(const candidate of result.candidates){const section=node('section');section.append(node('h3',`${candidate.identity.source_values.join(' / ') || candidate.product_id} · ${candidate.eligible_jurisdiction?'within selected jurisdiction':'outside selected jurisdiction'}`));const table=node('div',undefined,'comparison-table');table.setAttribute('role','table');table.setAttribute('aria-label',`Evidence for ${candidate.product_id}`);const header=node('div',undefined,'comparison-row table-heading');header.setAttribute('role','row');for(const title of ['Field','Your label','Recall notice','Result']){const cell=node('span',title);cell.setAttribute('role','columnheader');header.append(cell);}table.append(header);
-    for(const r of [candidate.identity,...candidate.predicates]){const row=node('div',undefined,'comparison-row');row.setAttribute('role','row');const head=node('strong');head.setAttribute('role','rowheader');const button=node('button',r.field.replaceAll('_',' '),'field-pick');button.type='button';button.setAttribute('aria-pressed','false');head.append(button);const source=r.source_values.length?r.source_values.join(' / '):r.source_date_range?`${r.source_date_range.lower_inclusive?"[":"("}${r.source_date_range.lower} – ${r.source_date_range.upper}${r.source_date_range.upper_inclusive?"]":")"}`:r.source_operator || 'Not specified';const outcome=r.outcome==='NOT_APPLICABLE'?'Not used':r.outcome.toLowerCase();button.addEventListener('click',()=>{for(const b of box.querySelectorAll('button'))b.setAttribute('aria-pressed','false');button.setAttribute('aria-pressed','true');for(const selected of box.querySelectorAll('.field-selected'))selected.classList.remove('field-selected');row.classList.add('field-selected');text('field-detail',`${fieldLabel(r.field)}: label ${r.observed ?? 'Unknown'}; notice ${source}; ${outcome}. ${r.reason.replaceAll('_',' ').toLowerCase()}.`);fieldProvenance(r,source,outcome);});row.append(head);for(const value of [r.observed ?? 'Unknown',source,outcome]){const c=node('span',value);c.setAttribute('role','cell');row.append(c);}table.append(row);}section.append(table);box.append(section); }
+    for(const r of [candidate.identity,...candidate.predicates]){const row=node('div',undefined,'comparison-row');row.setAttribute('role','row');const head=node('strong');head.setAttribute('role','rowheader');const button=node('button',r.field.replaceAll('_',' '),'field-pick');button.type='button';button.setAttribute('aria-pressed','false');head.append(button);const source=r.source_values.length?r.source_values.join(' / '):r.source_date_range?`${r.source_date_range.lower_inclusive?"[":"("}${r.source_date_range.lower} – ${r.source_date_range.upper}${r.source_date_range.upper_inclusive?"]":")"}`:r.source_operator || 'Not specified';const outcome=r.outcome==='NOT_APPLICABLE'?'Not used':r.outcome.toLowerCase();button.addEventListener('click',()=>{for(const b of box.querySelectorAll('button'))b.setAttribute('aria-pressed','false');button.setAttribute('aria-pressed','true');for(const selected of box.querySelectorAll('.field-selected'))selected.classList.remove('field-selected');row.classList.add('field-selected');text('field-detail',`${fieldLabel(r.field)}: label ${r.observed ?? 'Unknown'}; notice ${source}; ${outcome}. ${r.reason.replaceAll('_',' ').toLowerCase()}.`);fieldProvenance(r,source,outcome,candidate.source);});row.append(head);for(const value of [r.observed ?? 'Unknown',source,outcome]){const c=node('span',value);c.setAttribute('role','cell');row.append(c);}table.append(row);}section.append(table);box.append(section); }
 }
 function fieldLabel(value) {return ({IDENTITY:'Product identity',PRODUCT_NAME:'Product name',PACK:'Pack size',LOT:'Lot number',BEST_BEFORE:'Best-before date',USE_BY:'Use-by date'})[value] || value.replaceAll('_',' ').toLowerCase();}
 function facts(rows) {const dl=node('dl',undefined,'evidence-facts');for(const [label,value] of rows)dl.append(node('dt',label),node('dd',String(value)));return dl;}
 function technicalDetails(title,id,content) {const detail=node('details',undefined,'technical');detail.append(node('summary',title));const body=node('div');body.id=id;body.append(...content);detail.append(body);return detail;}
-function fieldProvenance(r,source,outcome) {
+function auditValue(label,value,context,current) {
+  const row=node('div',undefined,'audit-value');
+  const heading=node('dt',label), detail=node('dd');
+  const exact=String(value), display=node('code',exact);
+  const copy=node('button','Copy','button secondary');copy.type='button';copy.setAttribute('aria-label',`Copy ${context} ${label.toLowerCase()}`);
+  const status=node('span',undefined,'copy-status');status.setAttribute('role','status');
+  const fallback=node('textarea');fallback.readOnly=true;fallback.rows=2;fallback.value=exact;fallback.hidden=true;fallback.setAttribute('aria-label',`${context} ${label.toLowerCase()} — select and copy`);
+  copy.addEventListener('click',async()=>{
+    if(!current() || !row.isConnected)return;
+    status.textContent='';fallback.hidden=true;
+    try {
+      if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(exact);
+      if(current() && row.isConnected)status.textContent=`${label} copied.`;
+    } catch {
+      if(!current() || !row.isConnected)return;
+      fallback.hidden=false;fallback.focus();fallback.select();
+      status.textContent='Could not copy automatically. The exact value is selected; use Copy on your device.';
+    }
+  });
+  detail.append(display,copy,status,fallback);row.append(heading,detail);return row;
+}
+function evidenceAudit(r,dependency,current) {
+  const content=[node('p','These records let you trace this field back to saved evidence. File fingerprints identify saved content; they do not prove that extraction or comparison is correct.')];
+  content.push(facts([['Comparison rule',r.source_operator ?? 'Product identity (no field restriction operator)'],['Rule applies to this product',r.source_applies===null || r.source_applies===undefined?'Not recorded':r.source_applies?'Yes':'No']]));
+  if(dependency)content.push(facts([['Notice family',dependency.family],['Notice version',dependency.version],['Source epoch',dependency.epoch],['Review revision',dependency.review_revision]]));
+  for(const [title,refs] of [['Source',r.source_evidence],['Label',r.observation_evidence]]) {
+    const section=node('section',undefined,'audit-group');section.append(node('h4',`${title} references (${refs.length})`));
+    if(!refs.length)section.append(node('p',`No ${title.toLowerCase()} references were recorded for this field.`));
+    refs.forEach((ref,index)=>{
+      const context=`${title.toLowerCase()} reference ${index+1}`;
+      const record=node('section',undefined,'audit-reference');record.append(node('h5',`${title} reference ${index+1}`));
+      const data=node('dl',undefined,'audit-record');data.append(auditValue('Record ID',ref.artifact_id,context,current),auditValue('File fingerprint (SHA256)',ref.sha256,context,current));
+      record.append(data,facts([['Evidence type',ref.kind]]));
+      const location=node('details',undefined,'audit-location');location.append(node('summary',title==='Label'?'View exact image coordinates or text location':'View exact source location'));
+      const loc=node('div',undefined,'audit-locations');loc.append(node('p',ref.locator.startsWith('normalized_box:')?'These saved image coordinates locate the extracted text. They are not a confidence score.':'This saved location identifies the evidence within its record.'));
+      const value=node('dl',undefined,'audit-record');value.append(auditValue('Saved location',ref.locator,context,current));loc.append(value);location.append(loc);record.append(location);section.append(record);
+    });
+    content.push(section);
+  }
+  return technicalDetails('Audit details','field-audit',content);
+}
+function fieldProvenance(r,source,outcome,dependency) {
   const box=$('field-provenance');box.replaceChildren();
+  if(state.expired || !state.incident)return;
+  const selection=state.selection,generation=state.sessionGeneration,incident=state.incident;
+  const content=node('div');box.append(content);
+  const current=()=>!state.expired && state.selection===selection && state.sessionGeneration===generation && state.incident===incident && box.contains(content);
   const rule=r.source_operator?({EXACT:'Must match exactly, including case and leading zeros.',ALL:'The notice covers all values for this field.',NOT_SPECIFIED:'The notice does not specify a restriction for this field.',UNKNOWN:'The notice condition is unknown; it cannot establish a match.'})[r.source_operator] || r.source_operator.replaceAll('_',' ').toLowerCase():'Product identity is checked before the lot and date.';
-  box.append(facts([['Field',fieldLabel(r.field)],['Your label',r.observed ?? 'Unknown — not established from the label'],['Recall notice',source],['Comparison',outcome.replaceAll('_',' ')],['Rule',rule],['Why',r.reason.replaceAll('_',' ').toLowerCase()]]));
-  const linked=new Set();for(const ref of r.observation_evidence){if(linked.has(ref.artifact_id))continue;linked.add(ref.artifact_id);const panel=state.captures.findIndex(c=>c.id===ref.artifact_id);if(panel>=0){const a=node('a',`Open label panel ${panel+1} (new tab)`);a.href=`/api/incidents/${state.incident}/captures/${state.captures[panel].id}`;a.target='_blank';a.rel='noopener noreferrer';box.append(a,node('br'));}}
-  const selected=state.config?.sources?.find(x=>x.selection===$('source-choice').value);
-  if(selected)box.append(node('p',`Selected notice: ${selected.notice.authority}, published ${selected.notice.published_at}. The exact notice link is above.`));
-  box.append(technicalDetails('Technical references','field-audit',[node('p',`Operator: ${r.source_operator || 'identity'}; applies: ${r.source_applies ?? 'not specified'}. Source evidence: ${r.source_evidence.map(e=>`${e.artifact_id} · ${e.locator} · SHA256 ${e.sha256}`).join('; ') || 'none'}. Label evidence: ${r.observation_evidence.map(e=>`${e.artifact_id} · ${e.locator} · SHA256 ${e.sha256}`).join('; ') || 'none'}.`)]));
+  content.append(node('p','Evidence references explain where this comparison came from. Inspect the label and notice, then use the field values and comparison below to understand the result.'));
+  const notice=state.config?.sources?.find(x=>dependency && ['family','version','content_hash','epoch','review_revision'].every(k=>x.notice.dependency[k]===dependency[k]))?.notice;
+  const sourceMatches=ref=>notice && ref.kind==='SOURCE' && ref.artifact_id===notice.dependency.version && ref.sha256===notice.dependency.content_hash;
+  const matchedSource=r.source_evidence.filter(sourceMatches);
+  content.append(facts([['Official notice',matchedSource.length?`${notice.authority} · published ${notice.published_at} · ${notice.jurisdictions.join(', ')}`:'The saved notice cannot be opened from the sources available here. Its exact references remain in Audit details.'],['Label evidence',`${r.observation_evidence.length} recorded reference${r.observation_evidence.length===1?'':'s'} for this field. Each reference identifies text or a location in the saved evidence.`]]));
+  const links=node('div',undefined,'evidence-links');const panels=new Set();let unavailable=0;
+  for(const ref of r.observation_evidence){
+    const panel=ref.kind==='CAPTURE'?state.captures.findIndex(c=>c.id===ref.artifact_id && c.sha256===ref.sha256):-1;
+    if(panel<0){unavailable++;continue;}if(panels.has(panel))continue;panels.add(panel);
+    const a=node('a',`Open label panel ${panel+1} (new tab)`);a.href=`/api/incidents/${incident}/captures/${state.captures[panel].id}`;a.target='_blank';a.rel='noopener noreferrer';links.append(a);
+  }
+  if(matchedSource.length){const a=node('a','Open official notice (new tab)');a.href=notice.final_url;a.target='_blank';a.rel='noopener noreferrer';links.append(a);}
+  if(links.childElementCount)content.append(links);
+  if(unavailable)content.append(node('p',`${unavailable} label reference${unavailable===1?' cannot':'s cannot'} be opened from the retained images available here. The recorded details are preserved below.`));
+  if(matchedSource.length<r.source_evidence.length)content.append(node('p','Some source references could not be linked to the exact saved notice. Inspect their recorded details below.'));
+  content.append(facts([['Field',fieldLabel(r.field)],['Your label',r.observed ?? 'Unknown — not established from the label'],['Recall notice',source],['Comparison',outcome.replaceAll('_',' ')],['Rule',rule],['Why',r.reason.replaceAll('_',' ').toLowerCase()]]),evidenceAudit(r,dependency,current));
 }
 function reviewHistory(e) {
   const box=$('history');box.replaceChildren();
