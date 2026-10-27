@@ -12,7 +12,7 @@ from typing import Annotated, Self
 
 from google.genai import types
 from PIL import Image
-from pydantic import Field, model_validator
+from pydantic import Field, model_serializer, model_validator
 
 from batchbeacon.contracts import AuthorityNotice, Record
 from batchbeacon.extraction_proposal import (
@@ -23,6 +23,7 @@ from batchbeacon.extraction_proposal import (
 )
 from batchbeacon.extraction_records import InputManifest
 from batchbeacon.guest_service import Capture
+from batchbeacon.source_view import SourceViewPolicy, derive_source
 from batchbeacon.uploads import UploadPolicy
 
 Positive = Annotated[int, Field(gt=0)]
@@ -38,6 +39,14 @@ class PreparationPolicy(Record):
     upload: UploadPolicy = UploadPolicy()
     max_prompt_bytes: Positive = 16384
     max_schema_bytes: Positive = 65536
+    source_view: SourceViewPolicy | None = None
+
+    @model_serializer(mode='wrap')
+    def original_compatible(self, handler):
+        value = handler(self)
+        if self.source_view is None:
+            value.pop('source_view', None)
+        return value
 
     @model_validator(mode="after")
     def coherent(self) -> Self:
@@ -73,20 +82,35 @@ class PreparedInput:
                                                 strict=True)):
             raise InputInvalid("prepared_binding_changed")
 
+    def model_source(self) -> str:
+        self._check_binding()
+        if self.policy.source_view is None:
+            if self.manifest.source_view is not None:
+                raise InputInvalid('prepared_source_view_changed')
+            return self.source_bytes.decode()
+        try:
+            view = derive_source(self.source_bytes, self.policy.source_view)
+            if view.binding != self.manifest.source_view:
+                raise InputInvalid('prepared_source_view_changed')
+            return view.text
+        except ValueError:
+            raise InputInvalid('prepared_source_view_changed') from None
+
     def user_content(self) -> types.Content:
         self._check_binding()
         # No reviewed rules, expected result, ownership or review marker is sent.
-        return types.Content(role="user", parts=[types.Part(text=self.source_bytes.decode())] + [
+        return types.Content(role="user", parts=[types.Part(text=self.model_source())] + [
             types.Part.from_bytes(data=data, mime_type=capture.mime_type)
             for capture, data in zip(self.manifest.captures, self.image_bytes, strict=True)])
 
     def translate(self, raw: bytes, notice: AuthorityNotice) -> TranslationReport:
-        self._check_binding()
+        self.model_source()
         if notice.digest() != self.manifest.notice_digest:
             raise InputInvalid("prepared_notice_changed")
         return translate_proposal(raw, source_bytes=self.source_bytes, notice=notice,
             captures=tuple(c.evidence() for c in self.manifest.captures),
-            policy=self.policy.proposal)
+            policy=self.policy.proposal, source_view=(derive_source(self.source_bytes,
+                self.policy.source_view) if self.policy.source_view is not None else None))
 
 
 def prepare_input(*, source_bytes: bytes, notice: AuthorityNotice,
@@ -95,7 +119,8 @@ def prepare_input(*, source_bytes: bytes, notice: AuthorityNotice,
     """Preserve original bytes and validate a bounded selection without I/O.
 
     Image structure/hash checks do not prove ownership, retention or sanitization
-    history. No truncation, HTML extraction or image re-encoding is performed.
+    history. A configured reviewed raw-span view is separately bound; original bytes remain intact.
+    No HTML normalization or image re-encoding is performed.
     """
     try:
         if type(source_bytes) is not bytes or not source_bytes \
@@ -139,10 +164,14 @@ def prepare_input(*, source_bytes: bytes, notice: AuthorityNotice,
         for data in images:
             with Image.open(BytesIO(data), formats=("PNG",)) as image:
                 image.load()  # Verify actual pixel decoding after all dimension bounds.
-        manifest = InputManifest(source=notice.dependency, notice_digest=notice.digest(),
+        view = (derive_source(source_bytes, policy.source_view)
+                if policy.source_view is not None else None)
+        manifest = InputManifest(version="derived-input-1" if view else "original-input-1",
+            source=notice.dependency, notice_digest=notice.digest(),
             source_bytes=len(source_bytes), source_characters=len(text), captures=tuple(metadata),
             prompt_version=prompt_version, prompt_hash=sha256(instruction.encode()).hexdigest(),
-            schema_hash=sha256(schema).hexdigest(), policy_hash=policy.digest())
+            schema_hash=sha256(schema).hexdigest(), policy_hash=policy.digest(),
+            source_view=view.binding if view else None)
         return PreparedInput(manifest=manifest, policy=policy, source_bytes=source_bytes,
                              image_bytes=tuple(images), instruction=instruction)
     except InputInvalid:

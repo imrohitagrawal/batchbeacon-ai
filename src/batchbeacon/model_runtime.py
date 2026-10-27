@@ -281,7 +281,7 @@ class _Guard(httpx.AsyncBaseTransport):
         self.prepared._check_binding()
         return {
             'contents': [{'role': 'user', 'parts': [
-                {'text': self.prepared.source_bytes.decode()}] + [
+                {'text': self.prepared.model_source()}] + [
                 {'inlineData': {'mime_type': c.mime_type,
                                'data': base64.urlsafe_b64encode(b).decode()}}
                 for c, b in zip(self.prepared.manifest.captures,

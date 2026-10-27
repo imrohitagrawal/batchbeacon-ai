@@ -1,0 +1,16 @@
+{
+  "version": "raw-source-spans-1",
+  "original_hash": "b9cdc646e2ea8a38235c6287cbfcfaee35bc4c806bcc47ba1190afb643e91d88",
+  "derived_hash": "297a3eb2caecb0412866f0955a9f36dd26ce1d05e04e0c9ee76bac51e79116b3",
+  "spans": [
+    {
+      "start": 0,
+      "end": 6592
+    },
+    {
+      "start": 93684,
+      "end": 109033
+    }
+  ],
+  "max_spans": 2
+}

@@ -250,10 +250,19 @@ def _bounded(value, policy):
             pending.extend((child, depth + 1) for child in item)
 
 
-def _source_ref(location, text, notice, policy):
+def _source_ref(location, text, notice, policy, source_view=None):
     if not location.quote.strip() or len(location.quote.encode()) > policy.max_quote_bytes \
             or location.occurrence > policy.max_quote_occurrence:
         raise ProposalInvalid("source_location_limit")
+    if source_view is not None:
+        try:
+            start, end = source_view.original_range(location.quote, location.occurrence)
+            if text[start:end] != location.quote:
+                raise ValueError('source_mapping_changed')
+        except ValueError:
+            raise ProposalInvalid('source_quote_unavailable') from None
+        return EvidenceRef(kind=EvidenceKind.SOURCE, artifact_id=notice.dependency.version,
+            sha256=notice.dependency.content_hash, locator=f"characters:{start}:{end}")
     start = -1
     for _ in range(location.occurrence + 1):
         start = text.find(location.quote, start + 1)
@@ -321,13 +330,13 @@ def _signature(name, pack, codes, predicates):
 
 def translate_proposal(
     raw: bytes, *, source_bytes: bytes, notice: AuthorityNotice,
-    captures: tuple[EvidenceRef, ...], policy: ProposalPolicy,
+    captures: tuple[EvidenceRef, ...], policy: ProposalPolicy, source_view=None,
 ) -> TranslationReport:
     """Validate exact source bytes and report agreement; perform no I/O or publishing.
 
     Source bytes must be the exact UTF-8 representation identified by the notice
-    content hash. Extracted/normalized source text needs separately established
-    lineage and cannot be substituted here. Capture ownership/bytes are NOT proven.
+    content hash. A separately validated raw-span view can resolve quotes back to original
+    coordinates; normalized text cannot be substituted here. Capture ownership/bytes are NOT proven.
     """
     try:
         if type(raw) is not bytes or not raw or len(raw) > policy.max_proposal_bytes:
@@ -341,6 +350,11 @@ def translate_proposal(
                 or len({r.artifact_id for r in captures}) != len(captures):
             raise ProposalInvalid("capture_selection_invalid")
         text = source_bytes.decode("utf-8", errors="strict")
+        if source_view is not None:
+            from batchbeacon.source_view import SourceView, derive_source
+            if not isinstance(source_view, SourceView) or source_view != derive_source(
+                    source_bytes, source_view.binding.policy):
+                raise ProposalInvalid('source_derivation_unavailable')
         parsed = json.loads(raw, object_pairs_hook=_unique)
         _bounded(parsed, policy)
         proposal = ExtractionProposal.model_validate_json(raw)
@@ -364,7 +378,7 @@ def translate_proposal(
         source, locations, proposed = proposal.source, [], []
 
         def resolve(items):
-            refs = tuple(_source_ref(item, text, notice, policy) for item in items)
+            refs = tuple(_source_ref(item, text, notice, policy, source_view) for item in items)
             locations.extend(refs)
             return refs
 
