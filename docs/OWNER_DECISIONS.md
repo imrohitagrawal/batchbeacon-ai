@@ -486,3 +486,24 @@ staff and managers identify affected stock and record a reviewed response.”
 Preserve the implemented functional, focus/accessibility, ownership, source-trust
 and safety corrections. This authorizes their reviewed restoration/release without
 routine repeat approval; it does not establish unfamiliar-user or actual AT acceptance.
+
+
+## U45 — restore the complete public judging workflow
+
+The owner renews execution and directs that the application be up and working end
+to end for judging. A reachable page with disabled AI extraction does not satisfy
+this request. Continue reviewed correction, actual service/model/browser testing,
+release and ordinary anonymous judging availability without routine repeat approval.
+U42 still removes monetary stops for supervised tests; accounting, unknown
+liabilities, ownership, source trust, identity safeguards and finite timeouts remain.
+
+The existing U09 protected judging reserve may be activated through a finite,
+server-controlled phase as already specified in OPERATIONS. This uses the existing
+allocation and does not reset counters, increase a grant, transfer pools or erase
+unknown charges. It is available through normal anonymous access and is not
+exclusive to judges. No always-success guarantee for external services is implied.
+
+The owner also reports that the review checklist's label/notice links merely move
+focus without opening the evidence. Correct these direct interactions and verify
+the actual result, preserving the filmed hero and description under U44. Actual
+human and screen-reader evidence remain separate from automated acceptance.
