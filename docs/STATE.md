@@ -25,7 +25,7 @@ checks and packaged-source provenance passed separately.
 PR #21's bounded progress transport and PR #22's availability-aware saved-label
 feedback/stale-response guards remain deployed. The new name-line correction in
 [PR #23](https://github.com/imrohitagrawal/batchbeacon-ai/pull/23), source `dec8f7e`
-(merged main `4b7d63f`), is now serving at 100% traffic as image
+(merged main `4b7d63f`), served at its prior checkpoint as image
 `sha256:076c8f763adc4bd9baccae35e3df4fd9d128614b2bbe870f5e4f32bdbb60551e`.
 Full local checks passed 1,546 unit, 173 browser, 30 edge and eight emulator tests.
 Exact hosted push/PR/main checks, generation-bound packaged-source provenance,
@@ -34,8 +34,9 @@ records preserve their ownership, history and accounting; the declared metadata
 changes do not reset counters or expiry. The live sites are
 [custom host](https://batchbeacon.stackclimb.com) and
 [Cloud Run fallback](https://batchbeacon-ai-xotgrrfbcq-el.a.run.app).
-Ordinary new-workspace admission is restored; independent policy readback passed.
-Paid extraction remains closed; a complete working public AI workflow is not claimed.
+That prior checkpoint restored ordinary entry with independent policy readback.
+Current deployment and availability are recorded below; a complete working public
+AI workflow is not claimed.
 
 Historical LOW proposals included a caption in the name and were correctly refused.
 HIGH produced deadlines and, separately, MAX_TOKENS before a complete proposal.
@@ -62,30 +63,98 @@ retires only superseded successful sample receipts. Pending/error/unknown messag
 original recovery keys and expiry/selection guards remain. Independent review found
 and verified a related navigation-during-save correction; 72 focused browser tests
 and seven independent controlled scenarios pass. Final local checks pass 1,546 unit,
-180 browser, 30 edge and eight emulator tests. Hosted and release checks remain
-pending; this UI correction is not yet deployed.
+180 browser, 30 edge and eight emulator tests. Exact hosted push, PR-merge and
+merged-main checks passed 1,546/180/30. PR25 merged normally; source `cf19ae1` is
+deployed with independently verified package, image, metadata and both-host checks.
 
 Three specialists reviewed a changed semantic-role instruction through the existing
 typed runtime configuration. It distinguishes text describing the food from text
 describing an exercise or specimen, with generic contrasting examples and unchanged
 schema, model, LOW/output limits and finite deadlines. Independent installed-ADK
 mock checks verify propagation; the retained failed response still receives identity
-refusal. All 356 records decode identically. The candidate remains unproven and
-undeployed. Fresh correct third-label nonmatch must precede positive A/B workflows.
+refusal. The deployed candidate completed one fresh API third-label extraction:
+the food name was correct and the caption was classified as annotation, but two
+unsupported source predicates caused the server to refuse comparison. Known usage
+settled; no new unknown liability, result or action was created. An original-key
+GET recovered the same terminal response with all 363 records unchanged. This is
+service recovery evidence, not browser or human recovery acceptance.
+
+Three independent specialists reviewed a generic source-predicate membership
+clarification. It preserves the notice, label images, schema, model, deadlines and
+all deterministic safeguards. Its new package passed local/container and actual
+cloud build checks, independent metadata migration, promotion and both-host checks.
+Image `sha256:53c95b917d329dbf837b99f810524d59f70dfc7ee2f4fabacfebb7709b601d45`
+is ready at 100% traffic with the already hosted-tested application source. All
+367 retained records preserve domain history and accounting after one new
+supervised third-label attempt. This response correctly interpreted the source but
+again included the sample caption in the food name. Identity protection refused
+comparison and action. Complete usage settled, the older unknown liability stayed
+held, and no A/B request followed. Ordinary entry restoration was independently
+verified at that failed-experiment closeout; paid extraction is closed. The
+alternating source/name failures require a changed,
+reviewed model or representation experiment. No unchanged retry or counter reset
+is admitted. Fresh correct third-label nonmatch still precedes positive A/B.
+
+The separately reviewed MEDIUM/8,192-output configuration was deployed using the
+same verified image, with independent metadata, promotion and both-host checks.
+Its single fresh third-label request exhausted the output allowance and returned
+incomplete JSON. The server published no extraction, comparison or action. Exact
+known usage settled; the older unknown liability remains held. All 374 records
+were reconciled, ordinary entry restored and paid extraction closed independently.
+A/B were not attempted; the two unused attempts were retired.
+
+Three specialists reviewed a cause-driven output-headroom correction to 16,384,
+keeping MEDIUM, the exact prompt/model/schema, source/images, prices and finite
+deadlines. The typed candidate has exactly seven configuration/commitment changes.
+Independent checks pass 58 installed-ADK controls, 175 semantic controls, ten
+metadata tests and all-history decode; local build and five offline container
+checks pass. These are configuration and safeguard evidence, not real-model
+success. The candidate is deployed and independently verified at 100% on both hosts,
+with all 374 records preserved through 69 metadata updates. The fresh third→A→B
+sequence produced an independently accepted third-label scoped nonmatch. The
+name excludes the sample caption, source restrictions agree, and no action was
+created. Positive A then exhausted the output allowance and returned incomplete
+JSON; known usage settled and no comparison/action was published. B was not
+attempted, and the remaining allowance was retired. Paid extraction is closed
+and ordinary entry independently restored with all 383 records preserved.
+Positive A/B, eligible actions and post-workflow acceptance remain incomplete.
+Original ownership, history, counters and expiry remain unchanged.
 
 Private checkpoints: `.local/run-records/name-line-acceptance-20261026/` and
 `.local/run-records/semantic-role-acceptance-20261027/`. Earlier failures remain in
 their original records. The root checkout's unrelated edits remain untouched. One
 isolated integrator owns source, shared contracts and deployment. No support message
-was sent. The separate API-only fallback was reviewed but not used; any future API
-results must remain distinct from browser, human and assistive-technology evidence.
+was sent. API testing retains failed and accepted cases plus an original-key
+recovery. These results remain distinct from browser, human and assistive-technology
+evidence. The latest series reused the normally issued owner by original credential-file
+reference, preserving its earlier failed case, counters and expiry. Further model
+work requires a separately reviewed cause-driven plan; no automatic retry follows.
+
+The owner identified drift in the opening hero and description from the submitted
+video. The exact two filmed text nodes are restored in PR27, with unchanged DOM,
+focus/ARIA attributes, CSS/JS, safeguards and runtime. Independent patch/render
+reviews and local 1,546 unit, 180 browser, 30 edge and eight emulator checks pass.
+PR27 merged after exact hosted push/PR checks; merged-main CI also passes. Its new
+cloud build, packaged source and independent release verification pass. The exact
+filmed wording is live on both hosts at 100% traffic, with ordinary entry open and
+paid extraction closed. All 383 records and the prior runtime are preserved. This owner correction is not first-use participant evidence.
+
+The separately reviewed MEDIUM/24,576 completion-headroom runtime is deployed.
+It keeps the exact prompt, model, schema, price and finite deadlines. Independent
+ADK checks, complete typed history and Linux-container projection checks preserve
+the accepted third result and original receipt timestamps. Independent release checks confirm 100% traffic on both hosts. The guarded
+transition changed 71 metadata records and preserved all 383 records, ownership,
+completed receipts and accounting. Ordinary entry is restored; paid extraction
+remains closed. No successor model call or new owner was issued. It still requires fresh third/A/B on normal new custody; the prior
+nonmatch cannot be relabelled as acceptance of the changed runtime.
 
 ## Remaining human and product gates
 
 The operator reports audible VoiceOver navigation, but exact automatic pending and
 terminal announcements remain unverified. Earlier recordings are excluded because
 the user reported tab switching. Concurrent speech input is a possible interference
-source, not an established cause. VoiceOver was turned off as requested. The
+source, not an established cause. VoiceOver was previously verified off; its current setting is not independently
+verified. No Safari recording is accepted as evidence. The
 participant reported uncertainty about the next step after upload; that finding is
 retained. First-use failure evidence is established; corrected uncoached completion
 and broader purpose comprehension remain unverified. Automated checks cannot
