@@ -1,4 +1,4 @@
-# Deterministic source-input view — separate candidate
+# Deterministic source-input view — implemented, not selected for latency
 
 This candidate follows U48 and [M12](M12-latency-correction.md). It preserves the
 model, MEDIUM reasoning, completion headroom, min0, original immutable source,
@@ -53,9 +53,17 @@ Independent pure review compared445retained historical rows across12kinds,
 original parser: all bytes/digests matched. Controlled tests cover exact count/
 generation identity, Unicode/CRLF/entities, duplicate quotes, forged bindings,
 source mutations, cut crossings, omitted quotes and strict configuration. Those
-are local/fake observations; required full suites, exact hosted/build/release,
-explicit activation, actual representative model/cost/latency observations and
-post-deployment verification remain separate gates.
+are local/fake observations. Exact application checks subsequently passed1,568unit/
+231browser/30edge/eight emulator, required hosted push/PR/merged-main workflows and
+cloud archive/build gates. Compatible-reader deployment and conditional activation
+passed independent source/history/accounting/ownership and both-host visual checks.
+
+[M14](M14-latency-observations.md) records all four actual compact attempts, including
+the429failure and the slower successful B canary. The three accepted responses used
+61.9% fewer input tokens, but the predefined repeatable-speed criterion failed. The
+view remains optional and is not selected for latency enablement. Returning to original
+input uses the same derived-capable reader, preserving all new records and receipts;
+this is not a return to an incompatible image. Human/protected evidence remains open.
 
 Source reuse/provider caching, model and concurrency alternatives remain deferred
 until compact-input evidence warrants them. No warm-instance or reasoning downgrade

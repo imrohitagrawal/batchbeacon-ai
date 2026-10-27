@@ -1,8 +1,8 @@
-# Latency correction — instrumentation candidate
+# Latency correction — released instrumentation
 
 U48 preserves MEDIUM reasoning, model/completion headroom, min0 and the filmed
 visual identity, alongside all subsequent shipped fixes. All R01–R12/F1–F8 remain.
-The current candidate measures latency; it makes no speed, p95 or SLA claim.
+The released instrumentation measures latency; it makes no speed, p95 or SLA claim.
 
 ## Implemented boundary
 
@@ -50,15 +50,15 @@ separately; implementation alone is not release acceptance.
 
 ## Separately gated efficiency work
 
-Independent inspection recommends a source-hash-bound raw-span view retaining
-complete head metadata, the complete SFA main notice and the complete footer/update
-context. This is an evaluated proposal, not a deployed input change. It still
-requires exact original-citation mapping, historical digest compatibility,
-independent implementation review and representative actual model/latency results.
-Source reuse, provider caching, model and concurrency alternatives remain deferred
-until measurement supports their costs and changed trust contracts. No warm-instance
-or reasoning downgrade workaround is permitted.
+The optional source-hash-bound raw-span view is implemented and its actual experiment
+is recorded in [M14](M14-latency-observations.md). It reduced input tokens but failed the
+predetermined consistent-speed criterion; it is not selected for latency enablement.
+Original-input behavior returns on the compatible reader, with all derived records and
+failed evidence preserved. Source reuse, caching and model/concurrency options remain
+separate evidence-backed deferrals. No reasoning downgrade or warming is introduced.
 
-Human unfamiliar/returning-user, actual VoiceOver automatic announcements/recovery,
-source/gold/protected-quality, legitimate live unknown-panel and wider Operations/
-video acceptance remain open. Historical source/model observations are not new passes.
+M14 supplies the narrow legitimate current-owned unresolved-panel/recheck technical
+observation. Broader live F4 cross-case/no-run coverage, human unfamiliar/returning-user,
+actual VoiceOver announcements/recovery, source/gold/protected quality and wider
+Operations/video acceptance remain open. Historical model observations are not new
+human passes.
