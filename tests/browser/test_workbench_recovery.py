@@ -114,7 +114,7 @@ def test_comparison_retains_operator_and_reference_for_review(page):
     details = page.locator('#field-provenance').locator('..')
     assert details.evaluate('(el)=>el.tagName') == 'DETAILS'
     assert not details.evaluate('(el)=>el.open')
-    details.locator('summary').click()
+    details.locator(':scope > summary').click()
     assert details.evaluate('(el)=>el.open')
 
 

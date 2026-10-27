@@ -507,3 +507,15 @@ The owner also reports that the review checklist's label/notice links merely mov
 focus without opening the evidence. Correct these direct interactions and verify
 the actual result, preserving the filmed hero and description under U44. Actual
 human and screen-reader evidence remain separate from automated acceptance.
+
+## U46 — correct the complete user journey after screenshot review
+
+The owner identifies duplicated progress numbering, unreadable evidence/history,
+unavailable evidence after guest renewal, missing post-save next actions and a
+misleading combined evidence link. The owner requires testing what users see and
+what each control actually does across the full affected journey. This continues
+U43's implementation, independent review, validation and release authority; no
+routine repeat approval is required. Preserve the filmed hero/description,
+backend ownership/expiry, source/identity rules, accounting and all R01–R12/F1–F8.
+Automated and agent-operated checks are technical evidence, not human usability
+or actual VoiceOver acceptance. See the [correction record](evidence/M10-journey-completion.md).

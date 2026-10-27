@@ -85,5 +85,21 @@ button:disabled { cursor: not-allowed; }
 #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary { scroll-margin-top: 150px; }
 #operator-help, .review-checklist, #check-explanation { margin-block: 12px; }
 #case-reference { width: 100%; box-sizing: border-box; }
-.journey-steps li[aria-current="step"] { font-weight: 700; text-decoration: underline; text-underline-offset: .25em; }
+/* A progress list, not a second navigation bar. Numbers are rendered once. */
+.journey-steps { list-style: none; gap: 8px; padding: 12px 0; border-block: 1px solid var(--line); }
+.journey-steps li { padding: 8px; line-height: 1.5; }
+.journey-steps li[aria-current="step"] { font-weight: 700; text-decoration: none; background: var(--evidence-surface); border-radius: 6px; }
+.step-number { display: inline-block; margin-right: 4px; font-variant-numeric: tabular-nums; }
+.saved-evidence-links, .completion-actions, .recovery-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-block: 16px; }
+.saved-evidence-links a { display: block; min-height: 44px; padding-block: 10px; }
+.completion-actions { flex-direction: column; }
+.evidence-facts { margin-block: 16px; line-height: 1.6; }
+.evidence-facts dt { font-weight: 650; margin-top: 12px; }
+.evidence-facts dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+#history h4 { margin-block: 16px 8px; font-size: .875rem; }
+#history ol { padding-left: 20px; }
+#history li { margin-block: 12px; line-height: 1.5; }
+#history, #field-provenance { font-size: .875rem; line-height: 1.6; }
+#history-audit, #field-audit { font-size: .75rem; overflow-wrap: anywhere; white-space: pre-wrap; }
+#sample-choice { scroll-margin-top: 150px; }
 @media (max-width:760px) { #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary { scroll-margin-top: 110px; } }
