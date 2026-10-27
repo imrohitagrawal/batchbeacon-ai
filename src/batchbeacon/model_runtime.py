@@ -28,6 +28,7 @@ from google.adk.telemetry.context import ContentCapturingMode, TelemetryConfig
 from google.genai import types
 from pydantic import Field, model_validator
 
+from batchbeacon.acquisition_timing import bind, stage
 from batchbeacon.attempt_evidence import AttemptEvidenceLimits, _depth, _unique, candidate_text
 from batchbeacon.cloud_policy import ProjectId
 from batchbeacon.contracts import Digest, Nonempty, Record
@@ -310,6 +311,7 @@ class _Guard(httpx.AsyncBaseTransport):
         finally:
             try:
                 if generation:
+                    stage("response_storage")
                     self.shared.record_response(self.attempt_id, self.request_hash,
                         b''.join(chunks), status_code=response.status_code, complete=complete,
                         observed_bytes=observed)
@@ -365,6 +367,8 @@ class _Guard(httpx.AsyncBaseTransport):
         self.semantic = expected
         original = (request.method, str(request.url), request.content)
         self.request_hash = digest({'method': original[0], 'endpoint': original[1], 'body': body})
+        bind(self.run.id, self.request_hash, c.digest())
+        stage("count")
         count = await self.client.aio.models.count_tokens(model=c.model_id,
             contents=body['contents'], config=types.CountTokensConfig(http_options=c.http_options(),
                 system_instruction=body['systemInstruction'],
@@ -374,6 +378,7 @@ class _Guard(httpx.AsyncBaseTransport):
                 or self.count_body.get('cachedContentTokenCount') or count.total_tokens != total:
             raise ModelFailure('count_invalid_or_excessive')
         self.fresh()
+        stage("admission")
         self.shared.reserve(self.key, self.run.id, self.attempt_id, self.request_hash,
                             operation_key=self.run.binding.logical_operation)
         self.fresh()
@@ -385,8 +390,12 @@ class _Guard(httpx.AsyncBaseTransport):
         request = self._sealed(request)
         self._timeout(request)
         self.fresh()
-        response = await self.transport.handle_async_request(request)
-        raw = await self._read(response, c.evidence_limits.max_response_bytes, generation=True)
+        stage("provider")
+        try:
+            response = await self.transport.handle_async_request(request)
+            raw = await self._read(response, c.evidence_limits.max_response_bytes, generation=True)
+        finally:
+            stage("model_cleanup")
         self.fresh()
         if response.status_code != 200:
             raise ModelFailure('provider_status_rejected')
@@ -434,6 +443,7 @@ async def _execute_model(config, shared, key, run, prepared, *, transport, crede
     if monotonic_deadline is not None and (type(monotonic_deadline) not in (int, float)
                                           or not math.isfinite(monotonic_deadline)):
         raise ModelFailure('invalid_execution_deadline')
+    stage("model_setup")
     telemetry = config.telemetry()
     if run.binding.manifest != prepared.manifest \
             or run.binding.application_configuration_hash != config.digest() \
@@ -481,11 +491,13 @@ async def _execute_model(config, shared, key, run, prepared, *, transport, crede
                         http_options=config.http_options())):
                     pass
                 guard.fresh()
+                stage("model_cleanup")
     except asyncio.CancelledError:
         # Durable raw/usage may still be reconciled by an operator; never redispatch.
         raise
     except Exception as caught:
         error = str(caught) if isinstance(caught, ModelFailure) else 'model_execution_failed'
+    stage("accounting")
     # Accounting uses only stored bytes, including when SDK parsing failed.
     if guard is not None and guard.request_hash is not None:
         try:

@@ -10,25 +10,62 @@ const admissionMessages = {demo_guest_capacity_unavailable:'Guest access is curr
 function requireSession() { if(!state.csrf || state.expired)throw new Error(state.sessionError || (state.expired?'Your guest session expired. Reload to request a new evaluation workspace.':'Your evaluation workspace is still opening. Please wait.')); }
 function safeError(e) { return e.message || 'The operation could not be confirmed. Reopen saved evidence before trying again.'; }
 function pending(value) { if(value)value={...value,session_expires_at:state.expiresAt}; state.pending=value;state.pendingOwnershipUnknown=false; if(value)sessionStorage.setItem('bb_pending',JSON.stringify(value)); else sessionStorage.removeItem('bb_pending'); $('recover').hidden=!value; $('learning-recover').hidden=!value || value.kind!=='learning'; }
+// v2 has three ordered public phases and one terminal. The 64KiB/64-line
+// protocol ceilings bound malicious/truncated responses, including blank heartbeats.
+// They are versioned wire resource invariants, not cadence or timeout policy.
+async function acquisitionStream(response,path,assertActive) {
+  if(!response.ok || !response.body)throw new Error('Invalid progress response');
+  const reader=response.body.getReader(),decoder=new TextDecoder('utf-8',{fatal:true});
+  const phases=['preparing','model','saving'];
+  const copy={preparing:'Preparing the label and checking availability… No result is confirmed yet.',model:'AI extraction is in progress… No result is confirmed yet.',saving:'Checking and saving the response… No result is confirmed yet.'};
+  let buffer='',bytes=0,lines=0,sequence=0,last=-1,terminal=null;
+  const op=state.operation,incident=path.split('/')[3],selection=state.selection;
+  function line(value) {
+    if(++lines>64 || terminal)throw new Error('Invalid progress sequence');
+    if(!value.trim())return;
+    const frame=JSON.parse(value);
+    if(!frame || frame.protocol!=='acquisition-stages-v2' || frame.sequence!==sequence++)throw new Error('Invalid progress sequence');
+    if(frame.type==='terminal'){
+      if(Object.keys(frame).sort().join(',')!=='body,protocol,sequence,status,type')throw new Error('Invalid terminal');
+      terminal={protocol:frame.protocol,status:frame.status,body:frame.body};return;
+    }
+    const rank=phases.indexOf(frame.stage);
+    if(frame.type!=='stage' || Object.keys(frame).sort().join(',')!=='protocol,sequence,stage,type' || rank<=last)throw new Error('Invalid progress stage');
+    last=rank;
+    assertActive();
+    if(state.operation===op && op?.kind==='extraction' && selection===state.selection && incident===state.incident)operationStatus(op.region,copy[frame.stage]);
+  }
+  try {
+    while(true){
+      const {value,done}=await reader.read();assertActive();
+      if(done){buffer+=decoder.decode();if(buffer)line(buffer);break;}
+      bytes+=value.byteLength;if(bytes>65536)throw new Error('Progress response too large');
+      buffer+=decoder.decode(value,{stream:true});
+      let at;while((at=buffer.indexOf('\n'))>=0){line(buffer.slice(0,at));buffer=buffer.slice(at+1);}
+    }
+    if(!terminal)throw new Error('Missing terminal');
+    return terminal;
+  } finally {await reader.cancel().catch(()=>{});reader.releaseLock();}
+}
 async function api(path, {method='GET', body, operation}={}) {
   const generation=state.sessionGeneration;
   const assertActive=()=>{if(state.expired || generation!==state.sessionGeneration){const e=new Error('Stale response');e.stale=true;throw e;}};
   const headers={}; if(method!=='GET')headers['X-CSRF-Token']=state.csrf || '';
   const progress=method==='POST' && /^\/api\/incidents\/[a-f0-9]{32}\/acquisitions$/.test(path);
-  if(progress)headers['X-BatchBeacon-Progress']='acquisition-progress-v1';
+  if(progress)headers['X-BatchBeacon-Progress']='acquisition-stages-v2';
   if(operation)headers['Idempotency-Key']=operation;
   if(body && !(body instanceof FormData)){headers['Content-Type']='application/json';body=JSON.stringify(body);}
   let response; try { response=await fetch(path,{method,body,headers,credentials:'same-origin',cache:'no-store'}); }
   catch { const e=new Error('Connection interrupted. The outcome is unknown; reconcile before retrying.'); e.unknown=true; throw e; }
   assertActive();
-  let data; try { data=await response.json(); } catch { const reason=response.status===429 ? 'Service capacity is temporarily unavailable (429).' : `The server response could not be confirmed (${response.status}).`; const e=new Error(`${reason} Reconcile the original operation before retrying.`); e.status=response.status;e.unknown=true; throw e; }
+  let data; try { data=response.headers.get('Content-Type')?.split(';')[0]==='application/vnd.batchbeacon.acquisition+ndjson' ? await acquisitionStream(response,path,assertActive) : await response.json(); } catch { const reason=response.status===429 ? 'Service capacity is temporarily unavailable (429).' : `The server response could not be confirmed (${response.status}).`; const e=new Error(`${reason} Reconcile the original operation before retrying.`); e.status=response.status;e.unknown=true; throw e; }
   assertActive();
   let status=response.status;
-  if(response.headers.get('Content-Type')?.split(';')[0]==='application/vnd.batchbeacon.acquisition+json'){
+  if(response.headers.get('Content-Type')?.split(';')[0]==='application/vnd.batchbeacon.acquisition+json' || response.headers.get('Content-Type')?.split(';')[0]==='application/vnd.batchbeacon.acquisition+ndjson'){
     const object=v=>v!==null && typeof v==='object' && !Array.isArray(v);
     const body=data?.body;
     const success=object(body) && /^[a-f0-9]{32}$/.test(body.run_id) && body.incident_id===path.split('/')[3] && ['COMPLETE','REVIEW_REQUIRED','FAILED','TIMED_OUT','INCOMPLETE','SUPERSEDED','STALE'].includes(body.state) && typeof body.current==='boolean' && typeof body.reconciliation_required==='boolean';
-    if(!progress || !response.ok || !object(data) || Object.keys(data).sort().join(',')!=='body,protocol,status' || data.protocol!=='acquisition-progress-v1' || !Number.isInteger(data.status) || !(data.status===200?success:data.status>=400 && data.status<=599 && object(body) && typeof body.error==='string' && body.error.length>0)){
+    if(!progress || !response.ok || !object(data) || Object.keys(data).sort().join(',')!=='body,protocol,status' || !['acquisition-progress-v1','acquisition-stages-v2'].includes(data.protocol) || !Number.isInteger(data.status) || !(data.status===200?success:data.status>=400 && data.status<=599 && object(body) && typeof body.error==='string' && body.error.length>0)){
       const e=new Error('The final server response could not be confirmed. Reconcile the original operation before retrying.');e.unknown=true;throw e;
     }
     status=data.status;data=body;
@@ -57,7 +94,7 @@ function controls() {
 const operations={
   upload:{region:'sample-status',buttons:['start-sample'],label:'Saving label…',pending:'Saving this label image… No AI request has been sent.'},
   capture:{region:'capture-status',buttons:['upload'],label:'Uploading images…',pending:'Uploading the selected label images…'},
-  extraction:{region:'label-status',buttons:['check'],label:'Extracting and checking…',pending:'Requesting label extraction and waiting for the AI response…'},
+  extraction:{region:'label-status',buttons:['check'],label:'Extracting and checking…',pending:'Requesting extraction and checking availability… No result is confirmed yet.'},
   status:{region:'decision-status',buttons:['refresh-acquisition','decision-recheck'],label:'Checking saved status…',pending:'Reading saved status… No new AI request is being sent.'},
   verification:{region:'decision-status',buttons:['reverify'],label:'Verifying evidence…',pending:'Comparing corrected evidence using fixed rules… No AI request is being sent.'},
   action:{region:'decision-status',buttons:['hold-confirm'],label:'Saving action…',pending:'Saving your confirmed workspace action…'},
@@ -282,7 +319,7 @@ function render() {if(state.expired)return;const failure=state.checkFailure?.inc
   $('completed-actions').hidden=!recorded || !!problem || state.loading;
   $('confirm-open').hidden=!result || (!!recorded && !problem);
   $('check').classList.toggle('primary',!recorded);$('check').classList.toggle('secondary',!!recorded);
-  if(!result && state.captures.length && !problem)operationStatus('label-status',labelReadyCopy());
+  if(!result && state.captures.length && !problem && state.operation?.kind!=='extraction')operationStatus('label-status',labelReadyCopy());
   text('check-explanation-copy',problem?problem.copy:result?'Gemini proposed the label details. Fixed rules compared accepted identity first, then lot, required date and notice scope. Review each field below; unknown or missing evidence is not a match.':'No accepted AI check is available for this label. Uploading only saves the image.');
   text('capability-help',!state.incident?'Choose a label to begin.':recorded&&!problem?'No further confirmation is needed for this saved action.':capabilityHelp());$('operator-help').hidden=!state.workspaceBlock;syncEvidenceLinks();$('case-reference').value=state.incident || '';
   captureInstruction(); const action=result?.verdict==='REVIEW_REQUIRED'?'Review follow-up request':'Review stock hold';text('confirm-open',action);$('reverify').hidden=!e?.observation || !!e.current;compare();
@@ -398,32 +435,50 @@ async function startSample() {
   await loadOwnedIncident(created.incident_id);
   message(labelReadyCopy());
 }
+function measureWait(name,start) {performance.clearMeasures(name);performance.measure(name,{start,end:performance.now()});}
 async function acquire() {
-  const incident=state.incident,selection=state.selection;
+  const started=performance.now();let outcome='unknown',reloadStarted=null;
+  const incident=state.incident,ownerOperation=state.operation;let selection=state.selection;
   const selected=()=>!state.expired&&state.incident===incident&&state.selection===selection;
   if(state.operation)state.operation.incident=incident;
   state.checkFailure=null;state.queueDirty=true;const operation=key();
   pending({kind:'acquisition',incident,operation});
   try {
     const result=await api(`/api/incidents/${incident}/acquisitions`,{method:'POST',operation,body:{source_selection:$('source-choice').value,capture_ids:state.captures.map(c=>c.id),expected_observation_revision:state.evidence.latest_observation_revision}});
+    measureWait('batchbeacon.acquisition-response',started);
     if(result.state==='INCOMPLETE'){
+      outcome='incomplete';
       if(selected()){state.acquisition=result;render();message('The request is incomplete. Recheck saved status; no new AI request will be sent.');}
       return;
     }
     pending(null);if(!selected())return;
-    await loadOwnedIncident(incident,result);
+    operationStatus('label-status','Loading saved evidence… No result is confirmed until the saved records are displayed.');
+    reloadStarted=performance.now();
+    let loaded;
+    const beforeReload=state.selection;
+    try {loaded=await loadOwnedIncident(incident,result);}
+    finally {if(state.incident===incident && state.selection===beforeReload+1 && (!ownerOperation || state.operation===ownerOperation))selection=state.selection;}
+    if(loaded!==true || state.incident!==incident || state.expired){outcome='reload_unavailable';return;}
+    measureWait('batchbeacon.saved-evidence',reloadStarted);
+    reloadStarted=null;
     if(state.incident!==incident||state.expired)return;
-    const problem=acquisitionProblem();const value=problem?problem.copy:'Extraction and comparison completed. Review identity, lot, required date and source scope.';
+    const problem=acquisitionProblem();
+    const usable=!problem && state.evidence?.current && state.acquisition?.current && !state.acquisitionUnknown;
+    outcome=usable?'usable':'review_or_refusal';
+    if(usable)measureWait('batchbeacon.usable-result',started);
+    const value=problem?problem.copy:'Extraction and comparison completed. Review identity, lot, required date and source scope.';
     message(value,problem?'error':'success');operationStatus('decision-status',value,problem?'error':'success');
   } catch(e) {
+    outcome=reloadStarted!==null?'reload_failed':e.unknown?'unknown':'refused';
+    if(reloadStarted!==null)measureWait('batchbeacon.saved-evidence-failed',reloadStarted);
     if(!e.unknown)pending(null);
     if(!selected())return;
     try {await loadOwnedIncident(incident);}catch(readError){if(readError.stale||state.expired)return;}
     if(state.incident!==incident||state.expired)return;
     if(e.unknown)state.acquisitionUnknown=true;
     state.checkFailure={incident,title:'Check could not start',copy:`The check could not finish: ${safeError(e)}. Saved evidence remains available. No product conclusion follows from this failure.`};
-    render();operationStatus('decision-status',safeError(e),'error');throw e;
-  }
+    render();operationStatus('label-status',`Saved evidence could not be confirmed. ${safeError(e)} Recheck saved status before another request.`,'error');operationStatus('decision-status',safeError(e),'error');throw e;
+  } finally {measureWait(`batchbeacon.acquisition.${outcome}`,started);}
 }
 async function prepare() {const incident=state.incident,selection=state.selection;if(state.operation)state.operation.incident=incident;const kind=state.evidence.result.verdict==='MATCHED_HOLD_FOR_REVIEW'?'SIMULATED_HOLD':'SIMULATED_REVIEW_REQUEST';const data=await api(`/api/incidents/${state.incident}/actions/prepare?action_type=${kind}`);if(state.expired||state.incident!==incident||state.selection!==selection)return;if(data.target.observation_revision!==state.evidence.observation.revision || data.target.result_revision!==state.evidence.result.revision){await loadOwnedIncident(state.incident);throw new Error('Evidence changed before confirmation. Review the newly loaded values, then prepare the action again.');}state.target=data.target;text('confirm-title',kind==='SIMULATED_HOLD'?'Review this stock hold':'Review this follow-up request');text('confirm-product',`${state.evidence.observation.identity.name.value || 'Unresolved identity'} · ${state.evidence.observation.identity.pack.value || 'Unknown pack'} · ${state.evidence.observation.fields.map(f=>`${f.field}: ${f.observation.value ?? 'Unknown'}`).join(' · ')} · observation v${data.target.observation_revision} · result v${data.target.result_revision} · sources ${state.evidence.result.checked_sources.map(s=>`${s.version} (epoch ${s.epoch})`).join(', ')}`);text('hold-confirm',kind==='SIMULATED_HOLD'?'Confirm stock hold':'Confirm review request');$('hold-consent').checked=false;text('confirm-status','');$('confirm-dialog').showModal();setStage(3);controls();}
 async function confirm() {
@@ -485,7 +540,8 @@ async function recover() {
   else if(p.kind==='acquisition'){
     const result=await api(`/api/incidents/${p.incident}/acquisitions/reconcile`,{operation:p.operation});
     if(!selected())return;
-    if(result.state==='INCOMPLETE'){message('The original acquisition is still unresolved. No new request was started.');return;}
+    if(result.state==='INCOMPLETE'){
+      message('The original acquisition is still unresolved. No new request was started.');return;}
   } else {
     const result=await api(`/api/incidents/${p.incident}/actions/reconcile?result_revision=${p.target.result_revision}&action_type=${p.target.action_type}`);
     if(!selected())return;

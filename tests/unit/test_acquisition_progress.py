@@ -207,3 +207,95 @@ def test_raw_asgi_heartbeat_and_disconnect_keep_worker_owned(api, monkeypatch, s
         asyncio.run(scenario())
     finally:
         released.set()
+
+
+def test_v2_stages_are_bounded_ordered_and_terminal_is_unique(api):
+    from batchbeacon.extraction_api import STAGE_MEDIA_TYPE, STAGE_PROTOCOL
+    response = call(api, application(api), **{'X-BatchBeacon-Progress': STAGE_PROTOCOL})
+    assert response.headers['content-type'] == STAGE_MEDIA_TYPE
+    frames = [json.loads(line) for line in response.content.splitlines() if line.strip()]
+    assert [f['sequence'] for f in frames] == list(range(len(frames)))
+    assert [f['stage'] for f in frames[:-1]] == ['preparing', 'model', 'saving']
+    assert frames[-1]['type'] == 'terminal' and frames[-1]['status'] == 200
+    assert frames[-1]['body']['state'] == 'COMPLETE'
+    assert len(response.content) < 65536
+    # Reconciliation/replay carries no new provider dispatch.
+    replay = call(api, application(api), **{'X-BatchBeacon-Progress': STAGE_PROTOCOL})
+    assert replay.status_code == 200
+    assert len(api[4][4]) == 2
+
+
+def test_v2_failure_never_claims_model_dispatch(api, monkeypatch):
+    from batchbeacon.extraction_api import STAGE_PROTOCOL
+    async def fail(*args):
+        raise GuestDenied(429, 'acquisition_capacity_unavailable')
+    monkeypatch.setattr(api[4][0], 'acquire', fail)
+    response = call(api, application(api), **{'X-BatchBeacon-Progress': STAGE_PROTOCOL})
+    frames = [json.loads(line) for line in response.content.splitlines() if line.strip()]
+    assert all(f.get('stage') != 'model' for f in frames)
+    assert frames[-1]['status'] == 429 and not api[4][4]
+
+
+def test_timing_spans_are_nonoverlapping_private_and_failures_retained(monkeypatch):
+    import batchbeacon.acquisition_timing as module
+    from batchbeacon.acquisition_timing import AcquisitionTiming, observe, stage
+    async def check():
+        clock = iter([0., 1., 3., 6., 10.])
+        monkeypatch.setattr(module, 'monotonic', lambda: next(clock))
+        trace = AcquisitionTiming('a' * 64)
+        with observe(trace):
+            stage('ownership')
+            stage('preparation')
+            stage('provider')
+        logged = []
+        monkeypatch.setattr(module._logger, 'info', logged.append)
+        result = trace.finish('unknown')
+        assert result['seconds'] == 10
+        assert [s['seconds'] for s in result['spans']] == [2., 3., 4.]
+        assert trace.progress() == ('preparing', 'model')
+        assert trace.finish('COMPLETE') is None
+        assert json.loads(logged[-1])['outcome'] == 'unknown'
+    asyncio.run(check())
+
+
+def test_timing_sink_survives_exact_uvicorn_logging_config():
+    import os
+    import subprocess
+    import sys
+
+    code = """
+import asyncio, logging.config
+import uvicorn.config
+logging.config.dictConfig(uvicorn.config.LOGGING_CONFIG)
+from batchbeacon.acquisition_timing import AcquisitionTiming
+async def main():
+    trace = AcquisitionTiming('a'*64)
+    trace.begin('ownership')
+    trace.finish('refused')
+asyncio.run(main())
+"""
+    result = subprocess.run([sys.executable, '-c', code], capture_output=True,
+                            text=True, timeout=10, env=os.environ | {'PYTHONPATH': 'src'})
+    assert result.returncode == 0
+    record = json.loads(result.stderr.strip())
+    assert record['event'] == 'acquisition_timing_v1' and record['outcome'] == 'refused'
+
+
+def test_plain_response_expiry_is_refused_in_timing_not_complete(api, monkeypatch):
+    from batchbeacon.acquisition_timing import AcquisitionTiming
+    records = []
+    finish = AcquisitionTiming.finish
+    def capture(self, outcome):
+        result = finish(self, outcome)
+        records.append(result)
+        return result
+    monkeypatch.setattr(AcquisitionTiming, 'finish', capture)
+    c = api[4]
+    async def late(*args):
+        c[3][5][0] = c[6].scope.expires_at + timedelta(seconds=1)
+        return AcquisitionStatus(run_id='a'*32, incident_id=c[1].incident_id,
+                                 state='COMPLETE', current=True)
+    monkeypatch.setattr(c[0], 'acquire', late)
+    result = call(api, api[5])
+    assert result.status_code == 401
+    assert records[-1]['outcome'] == 'refused'

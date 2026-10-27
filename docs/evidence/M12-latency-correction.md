@@ -1,0 +1,62 @@
+# Latency correction — instrumentation candidate
+
+U48 preserves MEDIUM reasoning, model/completion headroom, min0 and the filmed
+visual identity, alongside all subsequent shipped fixes. All R01–R12/F1–F8 remain.
+The current candidate measures latency; it makes no speed, p95 or SLA claim.
+
+## Implemented boundary
+
+A content-free request trace uses one process monotonic clock, bounded allowlisted
+stages and a private correlation/request binding. Provider transport/body reading
+ends before retained-response storage; counting, admission, accounting, translation,
+persistence and owned status reads have separate spans. Failed/refused/unknown
+and disconnected paths retain observations. ASGI acceptance of a terminal body
+is not a client acknowledgement. Existing private operational-log access/retention
+applies; no raw label/source, credentials or reasoning text enters these records.
+
+Opt-in `acquisition-stages-v2` sends ordered preparing/model/saving frames and one
+terminal envelope. Old v1 and ordinary JSON remain supported. The worker retains
+its capacity/accounting ownership after disconnect. Progress grants no authority
+and never exposes partial model output. The v2 resource invariant is at most
+64KiB and64 lines, including heartbeats: the finite status schema and three phases
+need only a small fraction of that space; excess input is rejected before use.
+This versioned defensive ceiling is independent of deployment cadence/timeouts.
+
+The existing adjacent live status announces actual phase changes. Heartbeats do
+not change its text or focus. No new timer animation, percentages or ETA are added.
+The saved-record reload remains visibly pending until it finishes. Browser User
+Timing entries separately record acquisition response, saved reads, failed reads,
+fixed terminal outcome and first usable current owned rendered evidence; entries
+of the same name replace previous measurements. Server/browser clocks are never
+subtracted. No hero, HTML, CSS, image, typography or layout asset changes occur.
+
+## Verification and disposition
+
+Independent backend and UX review reproduced logging, expiry-outcome and failed-read
+measurement/status defects. Their corrections have independent controls; original
+failed evidence is retained privately. Controlled parser/recovery tests include
+malformed/reordered/oversized/truncated streams, duplicate terminals, disconnect,
+expiry, original-key reconciliation, slow saved reads and failed reloads. These
+are automated technical observations, not actual screen-reader speech or human
+comprehension evidence. Current-release byte and desktop/phone/video baselines
+were independently captured before edits without guest/model writes.
+
+Detailed actual commands, review bindings, accounting snapshots and release gates
+are retained in the ignored `.local/run-records/latency-implementation-20261028/`.
+Candidate local/hosted/build/deployed and real-model results must be recorded
+separately; implementation alone is not release acceptance.
+
+## Separately gated efficiency work
+
+Independent inspection recommends a source-hash-bound raw-span view retaining
+complete head metadata, the complete SFA main notice and the complete footer/update
+context. This is an evaluated proposal, not a deployed input change. It still
+requires exact original-citation mapping, historical digest compatibility,
+independent implementation review and representative actual model/latency results.
+Source reuse, provider caching, model and concurrency alternatives remain deferred
+until measurement supports their costs and changed trust contracts. No warm-instance
+or reasoning downgrade workaround is permitted.
+
+Human unfamiliar/returning-user, actual VoiceOver automatic announcements/recovery,
+source/gold/protected-quality, legitimate live unknown-panel and wider Operations/
+video acceptance remain open. Historical source/model observations are not new passes.

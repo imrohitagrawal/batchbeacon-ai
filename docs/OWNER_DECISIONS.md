@@ -531,3 +531,16 @@ original hero, ownership and all R01–R12/F1–F8. Copying is an explicit local
 action with honest success/failure feedback. No model, runtime, source corpus,
 accounting or backend mutation is required. See
 [M11](evidence/M11-evidence-audit.md); human and actual VoiceOver gates remain open.
+
+
+## U48 — measured latency correction with visual continuity
+
+The owner directs implementation of the reviewed latency plan, including stage
+measurement, truthful loading and independently verified source efficiency. Keep
+MEDIUM reasoning, completion headroom and min0; no warm-instance or keepalive
+workaround. Preserve the filmed hero, diagrams/images, branding and layout and
+all subsequently shipped functional/accessibility fixes. U42 continues for reviewed
+supervised tests without routine monetary reapproval; finite technical admission,
+accounting, unknown liabilities, ownership, source/identity protections and all
+R01–R12/F1–F8 remain. Human/VoiceOver and unfamiliar-user evidence stay separate.
+Independent reviews, hosted parity and exact deployed verification precede release.
