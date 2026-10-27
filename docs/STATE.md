@@ -15,21 +15,29 @@ availability, human comprehension or actual assistive-technology acceptance.
 
 ## Current latency correction
 
-[Stage measurement/loading correction](evidence/M12-latency-correction.md) is
-released through PR33, source `02c40f1`, merged main `4626782`. Exact local checks
-passed1,551unit/230browser/30edge/eight emulator; push/PR/merged-main workflows
-and independent image/accounting/both-host readbacks passed. Runtime remains901,
-MEDIUM/24,576, min0 and180/210/230/240second bounds. All445release-baseline records
-were preserved. Both-host1440/390 guestless renders are pixel-identical to the
-pre-edit baseline; the submitted video is unchanged. This establishes technical
-release continuity, not new real-model latency, human or VoiceOver acceptance.
+[Stage measurement/loading](evidence/M12-latency-correction.md) and the compatible
+reader/cadence correction are released through PR33/34, source `02c40f1`/`623d377`.
+Exact application checks passed 1,568 unit / 231 browser / 30 edge / eight emulator,
+required hosted push/PR/merged-main and cloud build/provenance gates. Both-host
+1440/390 renders preserve the filmed UI and all shipped fixes; the video is unchanged.
 
-[Compact-input view](evidence/M13-source-input-view.md) is a separate candidate.
-It retains immutable original citations and legacy serialized hashes. Activation,
-representative real-model timing/correctness and conditional compatibility gates
-remain separate; no measured speed/SLA claim is made. The private finite benchmark
-and failed harness evidence are preserved without replaying consumed packets.
-All R01–R12/F1–F8 and previously open human/source/quality/Operations gates remain.
+[The measured compact-input experiment and decision](evidence/M14-latency-observations.md)
+retain three accepted compact results and one genuine provider 429 failure. Accepted
+input fell 36,296→13,843 tokens (61.9%), but B's first-usable observation was 129.4 s
+versus 48.8 s originally. The predetermined consistent-speed criterion failed;
+unused replication was stopped. The input view is not selected for latency enablement.
+Original input is restored at 100% on the same derived-capable reader, runtime 901.
+Final both-host/owned-read/accounting checks preserve all 491 records, original admission,
+MEDIUM/24,576, min0, model, history/expiry/source epochs and all protections. Successful
+and financially reconciled failed derived records remain readable; no old parser returned.
+
+The 429 request received a genuine bound nonbillable receipt under the existing domain
+reconciliation path; token usage was not invented and its failed model result stays
+failed. The older public unknown liability remains held. A naturally occurring current
+owned unresolved panel and keyboard read-only recheck passed technical review before
+reconciliation, with zero data/owner/liability changes. This is separate from human
+comprehension and actual VoiceOver speech. All R01–R12/F1–F8 and open human/source/
+quality/Operations/video gates remain; detailed private evidence stays ignored.
 
 ## Current evidence-reference correction
 
@@ -109,9 +117,9 @@ verified. No Safari recording is accepted as evidence. The
 participant reported uncertainty about the next step after upload; that finding is
 retained. First-use failure evidence is established; corrected uncoached completion
 and broader purpose comprehension remain unverified. Automated checks cannot
-establish either human gate. A legitimate active workspace with unknown
-accounting remains needed for the unresolved panel; never manufacture one or restore
-expired custody.
+establish either human gate. M14 records a genuine current-owned selected unresolved panel and read-only recheck
+before financial reconciliation. Broader live F4 no-run/cross-case coverage remains
+unverified; never manufacture uncertainty or restore expired custody.
 
 Human source/gold review, protected final-case custody, complete development and
 protected quality evaluation, live-source refresh/update, full deployed journeys,
