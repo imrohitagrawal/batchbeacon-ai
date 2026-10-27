@@ -519,3 +519,15 @@ routine repeat approval is required. Preserve the filmed hero/description,
 backend ownership/expiry, source/identity rules, accounting and all R01–R12/F1–F8.
 Automated and agent-operated checks are technical evidence, not human usability
 or actual VoiceOver acceptance. See the [correction record](evidence/M10-journey-completion.md).
+
+## U47 — implement readable evidence references in the application
+
+The owner identifies the expanded technical references as an unexplained raw
+record dump and explicitly directs implementation of the proposed readable
+evidence explanation, direct links and structured audit controls. This authorizes
+the scoped UI correction, independent review, testing and normal release under
+U43/U46. Preserve exact saved references, fingerprints, locators, rule distinctions,
+original hero, ownership and all R01–R12/F1–F8. Copying is an explicit local user
+action with honest success/failure feedback. No model, runtime, source corpus,
+accounting or backend mutation is required. See
+[M11](evidence/M11-evidence-audit.md); human and actual VoiceOver gates remain open.

@@ -100,6 +100,24 @@ button:disabled { cursor: not-allowed; }
 #history ol { padding-left: 20px; }
 #history li { margin-block: 12px; line-height: 1.5; }
 #history, #field-provenance { font-size: .875rem; line-height: 1.6; }
-#history-audit, #field-audit { font-size: .75rem; overflow-wrap: anywhere; white-space: pre-wrap; }
+#history-audit { font-size: .75rem; overflow-wrap: anywhere; white-space: pre-wrap; }
 #sample-choice { scroll-margin-top: 150px; }
 @media (max-width:760px) { #app-status, #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary { scroll-margin-top: 110px; } }
+
+/* Audit records remain readable when expanded, with exact values on demand. */
+#field-audit { font-size: .875rem; line-height: 1.6; }
+#field-audit h4 { margin-block: 24px 8px; font-size: 1rem; }
+#field-audit h5 { margin-block: 12px; font-size: .875rem; }
+.audit-reference { border-top: 1px solid var(--line); padding-block: 12px; }
+.audit-record { margin-block: 12px; }
+.audit-value { margin-block: 12px; }
+.audit-value dt { font-weight: 650; }
+.audit-value dd { margin: 4px 0 0; display: flex; flex-wrap: wrap; align-items: start; gap: 8px 12px; min-width: 0; }
+.audit-value code { font-size: .8125rem; overflow-wrap: anywhere; white-space: pre-wrap; flex: 1 1 220px; min-width: 0; padding-block: 8px; }
+.audit-value button { flex: 0 0 auto; }
+.copy-status { display: block; flex-basis: 100%; }
+.audit-value textarea { width: 100%; min-height: 64px; font: inherit; overflow-wrap: anywhere; }
+.audit-location summary { cursor: pointer; min-height: 44px; padding-block: 10px; color: var(--brand-navy); }
+.audit-locations { padding-block: 8px; }
+.evidence-links { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-block: 16px; }
+.evidence-links a { display: inline-block; min-height: 44px; padding-block: 10px; }
