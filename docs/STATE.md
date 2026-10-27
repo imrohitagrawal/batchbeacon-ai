@@ -13,6 +13,17 @@ owns all acceptance criteria. [M9](evidence/M9-user-journey-correction.md) retai
 technical outcomes and failures. Historical checkpoints do not establish current
 availability, human comprehension or actual assistive-technology acceptance.
 
+## Current user-journey correction
+
+U46 addresses the owner’s later screenshots and the gap between working operations
+and an understandable complete journey. [M10](evidence/M10-journey-completion.md)
+records the implemented progress, readable evidence/history, saved-action next
+steps, direct links and ownership-preserving renewal/navigation corrections.
+Its exact release status is tracked with the correction pull request and private
+`.local/run-records/journey-completion-20261027/` checkpoint. Earlier deployed
+model and workflow evidence below remains scoped to its recorded release; it is
+not a human usability pass or proof of a later image’s deployment.
+
 ## Implemented, deployed and verified
 
 The generic semantic-role/name/source correction and bounded progress transport
