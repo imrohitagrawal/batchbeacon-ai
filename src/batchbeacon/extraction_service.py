@@ -12,6 +12,7 @@ from typing import Annotated, Literal
 
 from pydantic import Field
 
+from batchbeacon.acquisition_timing import stage
 from batchbeacon.contracts import AuthorityNotice, Record, SourceAgreement, Verdict
 from batchbeacon.evidence_service import EvidenceService, ExtractionEnvelope
 from batchbeacon.extraction_input import prepare_input
@@ -232,6 +233,7 @@ class ExtractionService:
             if not self._same_command(prior, command):
                 raise GuestDenied(409, 'acquisition_request_conflict')
             return self.status(capability, prior.id)
+        stage("preparation")
         bundle = self.sources.get(command.source_selection)
         if bundle is None:
             raise GuestDenied(422, 'source_selection_unavailable')
@@ -263,6 +265,7 @@ class ExtractionService:
             output = await execute_model(self.config, self.shared, key, run, prepared,
                 transport=transport, credentials=credentials, monotonic_deadline=loop_deadline)
             fresh()
+            stage("validation")
             values, codes, source_status, agreement = None, (), None, None
             try:
                 report = prepared.translate(output.candidate, bundle.notice)
@@ -297,6 +300,7 @@ class ExtractionService:
                 started_at=run.started_at, completed_at=self.shared._now(),
                 source_agreement=agreement)
             extraction_key, verification_key = 'extract_' + run.id, 'verify_' + run.id
+            stage("persistence")
             self.evidence.record_extraction(capability, command.incident_id, extraction_key,
                 command.expected_observation_revision, envelope, run_id=run.id)
             fresh()
@@ -332,6 +336,7 @@ class ExtractionService:
             raise GuestDenied(409, 'acquisition_deadline_elapsed')
         if unknown:
             raise GuestDenied(503, 'acquisition_outcome_unknown')
+        stage("saved_status")
         result = self.status(capability, run.id)
         fresh()
         if self.shared._now() >= run.deadline:

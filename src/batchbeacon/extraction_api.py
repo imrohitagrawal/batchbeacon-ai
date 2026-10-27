@@ -13,6 +13,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import Field, TypeAdapter, ValidationError, model_validator
 from starlette.concurrency import run_in_threadpool
 
+from batchbeacon.acquisition_timing import AcquisitionTiming, observe
 from batchbeacon.action_service import ActionService
 from batchbeacon.contracts import Record
 from batchbeacon.extraction_service import AcquisitionCommand, ExtractionService, owned_boundary
@@ -41,6 +42,8 @@ class ExtractionHTTPPolicy(IncidentHTTPPolicy):
 
 PROGRESS_PROTOCOL = 'acquisition-progress-v1'
 PROGRESS_MEDIA_TYPE = 'application/vnd.batchbeacon.acquisition+json'
+STAGE_PROTOCOL = 'acquisition-stages-v2'
+STAGE_MEDIA_TYPE = 'application/vnd.batchbeacon.acquisition+ndjson'
 
 
 class _OwnedProgressResponse(StreamingResponse):
@@ -141,13 +144,14 @@ def _create_extraction_app(extraction, actions, policy):
             raise GuestDenied(422, 'request_key_required')
         return identifier(values[0], RequestKey, 'request_key_required')
 
-    def execute(token, command):
+    def execute(token, command, timing):
         # The worker owns its slot through actual completion, including when the
         # HTTP client disappears. Cancellation cannot terminate a Python thread.
         if not capacity.acquire(blocking=False):
             raise GuestDenied(429, 'acquisition_capacity_unavailable')
         try:
-            return asyncio.run(extraction.acquire(token, command))
+            with observe(timing):
+                return asyncio.run(extraction.acquire(token, command))
         finally:
             capacity.release()
 
@@ -161,28 +165,66 @@ def _create_extraction_app(extraction, actions, policy):
 
     @app.post('/api/incidents/{incident_id}/acquisitions')
     async def acquire(incident_id: str, request: Request):
-        token, session = await run_in_threadpool(owned, request, incident_id, mutation=True)
-        key = request_key(request)
-        _queries(request, set())
-        body = await _command(request, AcquisitionStart, policy)
-        command = AcquisitionCommand(incident_id=incident_id, request_key=key, **body.model_dump())
-        progress = request.headers.getlist('x-batchbeacon-progress')
-        if progress and progress != [PROGRESS_PROTOCOL]:
-            raise GuestDenied(406, 'unsupported_acquisition_progress')
+        timing = AcquisitionTiming(policy.digest())
+        timing.begin('ownership')
+        try:
+            token, session = await run_in_threadpool(owned, request, incident_id, mutation=True)
+        except Exception:
+            timing.finish('refused')
+            raise
+        try:
+            key = request_key(request)
+            _queries(request, set())
+            body = await _command(request, AcquisitionStart, policy)
+            command = AcquisitionCommand(incident_id=incident_id, request_key=key,
+                                         **body.model_dump())
+            progress = request.headers.getlist('x-batchbeacon-progress')
+            if progress and progress not in ([PROGRESS_PROTOCOL], [STAGE_PROTOCOL]):
+                raise GuestDenied(406, 'unsupported_acquisition_progress')
+        except Exception:
+            timing.finish('refused')
+            raise
         if progress and policy.progress_response_enabled:
+            staged = progress == [STAGE_PROTOCOL]
+
             async def stream():
                 # This is the same finite worker as the ordinary response. The
                 # iterator and response both join it, even after a disconnect.
-                worker = asyncio.create_task(run_in_threadpool(execute, token, command))
+                worker = asyncio.create_task(run_in_threadpool(execute, token, command, timing))
                 deadline = monotonic() + policy.progress_timeout_seconds
+                cursor = 0
+                outcome = "disconnected"
+                def updates():
+                    nonlocal cursor
+                    stages = timing.progress()
+                    frames = [json.dumps({'protocol': STAGE_PROTOCOL, 'type': 'stage',
+                        'sequence': index, 'stage': stages[index]}, separators=(',', ':')).encode()
+                        + b'\n' for index in range(cursor, len(stages))]
+                    cursor = len(stages)
+                    return frames
                 try:
-                    yield b'\n'
+                    if staged:
+                        for frame in updates():
+                            yield frame
+                    else:
+                        yield b'\n'
                     while not worker.done():
                         remaining = deadline - monotonic()
                         if remaining <= 0:
                             break
-                        done, _ = await asyncio.wait(
-                            {worker}, timeout=min(policy.progress_interval_seconds, remaining))
+                        timing.changed.clear()
+                        changed = asyncio.create_task(timing.changed.wait())
+                        try:
+                            done, _ = await asyncio.wait({worker, changed},
+                                timeout=min(policy.progress_interval_seconds, remaining),
+                                return_when=asyncio.FIRST_COMPLETED)
+                        finally:
+                            changed.cancel()
+                            with suppress(asyncio.CancelledError):
+                                await changed
+                        if staged:
+                            for frame in updates():
+                                yield frame
                         if not done and monotonic() < deadline:
                             yield b'\n'
                     try:
@@ -198,20 +240,45 @@ def _create_extraction_app(extraction, actions, policy):
                         payload = {'error': 'acquisition_response_unavailable',
                                    'outcome': 'unknown', 'recovery': 'original_request_key'}
                         status = 503
-                    yield json.dumps({'protocol': PROGRESS_PROTOCOL, 'status': status,
-                                      'body': payload}, separators=(',', ':')).encode()
+                    if worker.done():
+                        timing.begin('response')
+                    if staged:
+                        for frame in updates():
+                            yield frame
+                    terminal = {'protocol': STAGE_PROTOCOL if staged else PROGRESS_PROTOCOL,
+                                'status': status, 'body': payload}
+                    if staged:
+                        terminal.update(type='terminal', sequence=cursor)
+                    terminal_outcome = payload.get('state', 'refused') if status == 200 else (
+                        'unknown' if payload.get('outcome') == 'unknown' else 'refused')
+                    yield json.dumps(terminal, separators=(',', ':')).encode() + (
+                        b'\n' if staged else b'')
+                    # This means ASGI accepted the final body, not client acknowledgement.
+                    outcome = terminal_outcome
                 finally:
                     # A stopped stream does not cancel a model call, release its
                     # capacity early, or imply a refund. The bounded worker owns
                     # accounting through actual completion, as on the JSON path.
                     with anyio.CancelScope(shield=True), suppress(Exception):
                         await asyncio.shield(worker)
+                    timing.finish(outcome)
 
-            return _OwnedProgressResponse(stream(), media_type=PROGRESS_MEDIA_TYPE,
+            return _OwnedProgressResponse(stream(), media_type=(
+                STAGE_MEDIA_TYPE if staged else PROGRESS_MEDIA_TYPE),
                 headers={'Cache-Control': 'private, no-store, no-transform',
                          'X-Accel-Buffering': 'no'})
-        result = await run_in_threadpool(execute, token, command)
-        return response(result, token, session)
+        outcome = "unknown"
+        try:
+            result = await run_in_threadpool(execute, token, command, timing)
+            timing.begin('response')
+            payload = response(result, token, session)
+            outcome = result.state
+            return payload
+        except GuestDenied as error:
+            outcome = 'unknown' if error.status >= 500 else 'refused'
+            raise
+        finally:
+            timing.finish(outcome)
 
     # Literal key-recovery path precedes opaque run IDs.
     @app.get('/api/incidents/{incident_id}/acquisitions/reconcile')
