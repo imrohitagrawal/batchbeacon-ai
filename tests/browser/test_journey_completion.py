@@ -134,10 +134,26 @@ def test_pending_restore_checks_membership_not_just_expiry(connected_browser, ow
     page.evaluate("pending({kind:'acquisition',incident:state.incident,operation:'original-operation'})")
     if not owned:
         context.clear_cookies()
+    else:
+        # Reproduce hosted latency: a visible recovery control is not completed restoration.
+        page.add_init_script("""(() => {
+          const originalFetch = window.fetch;
+          window.fetch = async (url, options = {}) => {
+            if (url === '/api/incidents' && (options.method || 'GET') === 'GET') {
+              await new Promise(resolve => { window.releaseMembership = resolve; });
+            }
+            return originalFetch(url, options);
+          };
+        })();""")
     page.reload()
     if owned:
         expect(page.locator('#recover')).to_be_visible()
+        expect(page.locator('#recover')).to_be_disabled()
+        assert page.evaluate('state.incident') is None
         assert page.evaluate('state.pending.operation') == 'original-operation'
+        page.evaluate('window.releaseMembership()')
+        expect(page.locator('#recover')).to_be_enabled()
+        expect(page.locator('#capture-images img')).to_have_count(1)
         assert page.evaluate('state.incident') == incident
         expect(page.locator('#start-sample')).to_be_disabled()
     else:
