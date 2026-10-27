@@ -470,7 +470,7 @@ async function acquire() {
     message(value,problem?'error':'success');operationStatus('decision-status',value,problem?'error':'success');
   } catch(e) {
     outcome=reloadStarted!==null?'reload_failed':e.unknown?'unknown':'refused';
-    if(reloadStarted!==null)measureWait('batchbeacon.saved-evidence-failed',reloadStarted);
+    if(reloadStarted!==null){measureWait('batchbeacon.saved-evidence-failed',reloadStarted);e.message='The response arrived, but saved evidence could not be loaded. Recheck saved status before another AI request.';}
     if(!e.unknown)pending(null);
     if(!selected())return;
     try {await loadOwnedIncident(incident);}catch(readError){if(readError.stale||state.expired)return;}
