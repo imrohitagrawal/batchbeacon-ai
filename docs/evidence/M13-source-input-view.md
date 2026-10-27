@@ -61,3 +61,15 @@ Source reuse/provider caching, model and concurrency alternatives remain deferre
 until compact-input evidence warrants them. No warm-instance or reasoning downgrade
 workaround is authorized. Human VoiceOver/unfamiliar-user/source-gold/protected
 quality and broader Operations/video requirements remain open as recorded in STATE.
+
+## Progress-cadence compatibility correction
+
+Independent testing reproduced a valid488byte stream with70blank heartbeats being
+refused by the earlier64line client ceiling. A configurable1second cadence with
+a230second envelope could legitimately exceed that line count; production15second
+cadence was unaffected. The reader now counts only nonempty data frames toward
+the64frame ceiling while retaining the64KiB total byte bound, ordered stages,
+unique terminal and strict EOF. Heartbeats after a terminal remain invalid.
+No heartbeat changes status text, focus or model/accounting state. Independent
+regressions retain the original failure and require valid longer-heartbeat streams
+to finish without redispatch; oversized whitespace is still rejected.

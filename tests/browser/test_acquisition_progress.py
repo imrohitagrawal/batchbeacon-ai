@@ -100,7 +100,8 @@ def test_browser_requires_valid_final_envelope_and_preserves_recovery(page, kind
             assert result['acquisition'] is None
 
 
-@pytest.mark.parametrize('kind', ['valid', 'split_utf8', 'duplicate', 'backward', 'unknown_stage',
+@pytest.mark.parametrize('kind', ['valid', 'valid_heartbeats', 'split_utf8', 'duplicate',
+    'backward', 'unknown_stage',
     'wrong_sequence', 'extra_terminal', 'extra_line', 'no_terminal', 'wrong_incident',
     'oversized', 'too_many_heartbeats', 'truncated', 'terminal_error', 'disconnect'])
 def test_v2_parser_rejects_unconfirmed_stream_without_redispatch(page, kind):
@@ -124,7 +125,8 @@ def test_v2_parser_rejects_unconfirmed_stream_without_redispatch(page, kind):
       let raw=frames.map(f=>JSON.stringify(f)+'\\n').join('');
       if(kind==='extra_line')raw+='\\n';
       if(kind==='oversized')raw=' '.repeat(65537)+raw;
-      if(kind==='too_many_heartbeats')raw='\\n'.repeat(65)+raw;
+      if(kind==='too_many_heartbeats')raw='\\n'.repeat(65537)+raw;
+      if(kind==='valid_heartbeats')raw='\\n'.repeat(70)+raw;
       if(kind==='truncated')raw=raw.slice(0,-4);
       // Split a multibyte unknown-field value across every byte; strict keys reject it.
       if(kind==='split_utf8')raw=raw.replace('"preparing"','"préparing"');
@@ -143,7 +145,7 @@ def test_v2_parser_rejects_unconfirmed_stream_without_redispatch(page, kind):
         title:$('verdict-title').textContent};
     }''', kind)
     assert result['posts'] == 1 and result['pending']['operation']
-    if kind == 'valid':
+    if kind in ('valid', 'valid_heartbeats'):
         assert result['acquisition']['state'] == 'INCOMPLETE'
     else:
         assert result['acquisition'] is None
