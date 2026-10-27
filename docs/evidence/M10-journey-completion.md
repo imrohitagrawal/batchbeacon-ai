@@ -54,6 +54,18 @@ status and deployed verification are recorded in the correction's pull request
 and private checkpoint. No additional paid model call is needed for these UI-only
 changes. Public judging availability remains governed by its existing finite phase.
 
+## Recovery arrival refinement
+
+A later no-scroll viewport check found that a stale evidence fragment could leave
+an otherwise correct recovery message off-screen. The successful first image
+build was retained as an unreleased candidate. Recovery now deliberately focuses
+the visible message, with the chooser and queue actions immediately below it;
+late queue-loading completion cannot override that destination. Four regressions
+cover desktop/phone foreign-link navigation and renewed-workspace reload, including
+keyboard continuation without manual scrolling. Fresh source/release evidence is
+tracked in `.local/run-records/journey-completion-focus-20261027/`; earlier failed
+and passing artifacts remain in the original increment record.
+
 ## Open acceptance
 
 All [R01–R12/F1–F8](../USER_JOURNEY_AUDIT_AND_CORRECTION_PLAN.md#9-authoritative-acceptance-checklist-and-continuation-checkpoint)

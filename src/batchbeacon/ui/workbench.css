@@ -82,7 +82,7 @@ button:disabled { cursor: not-allowed; }
 @keyframes operation-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .operation-status[data-busy="true"]::before { animation: none; } }
 .preview-toolbar .operation-status { flex-basis: 100%; }
-#evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary { scroll-margin-top: 150px; }
+#app-status, #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary { scroll-margin-top: 150px; }
 #operator-help, .review-checklist, #check-explanation { margin-block: 12px; }
 #case-reference { width: 100%; box-sizing: border-box; }
 /* A progress list, not a second navigation bar. Numbers are rendered once. */
@@ -102,4 +102,4 @@ button:disabled { cursor: not-allowed; }
 #history, #field-provenance { font-size: .875rem; line-height: 1.6; }
 #history-audit, #field-audit { font-size: .75rem; overflow-wrap: anywhere; white-space: pre-wrap; }
 #sample-choice { scroll-margin-top: 150px; }
-@media (max-width:760px) { #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary { scroll-margin-top: 110px; } }
+@media (max-width:760px) { #app-status, #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary { scroll-margin-top: 110px; } }
