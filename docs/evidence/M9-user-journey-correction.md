@@ -981,3 +981,94 @@ existing owner's actual accepted and failed cases. Independent helper checks pas
 no live fallback request or human feedback is claimed. The original attended
 window remains finite; further testing needs confirmed continued availability,
 without a new spending threshold. Human and accessibility evidence remain pending.
+
+
+### Renewed judging workflow verification
+
+The owner identified that ordinary entry had been restored while AI admission
+remained closed. That did not establish a functioning judging workflow. A renewed
+finite continuation retains the prior stopped-window evidence and all liabilities.
+
+On the deployed MEDIUM/24,576 configuration, a normally issued new workspace now
+passes fresh third-label, positive A and positive B service/model checks. Independent
+backend, visual-semantic and operations reviews verify exact original images,
+canonical requests, complete responses, source agreement, identity-first comparison,
+known-usage settlement and paid closure. The third result is a scoped historical
+nonmatch; A and B are eligible for explicit simulated-hold review. Extraction
+created no action. No browser, human or assistive-technology acceptance follows
+from these three service checks.
+
+The screenshot-reported checklist defect was reproduced at desktop and phone
+widths. PR28 changes only the two UI assets plus targeted regression coverage:
+retained images and the selected official notice open directly in a new tab, with
+visible new-tab wording; case changes and expiry remove stale image links. The
+filmed hero and description are unchanged. Local 1,546 unit, 183 browser, 30 edge
+and eight emulator checks pass, as do independent rendered/keyboard/selection
+checks and exact hosted push, PR-merge and merged-main CI. The new image build and
+archive verification pass. Independent live readback confirms the corrected image
+at 100% traffic, unchanged runtime/IAM/data and exact assets on both hosts.
+
+All19 reviewed nonmodel requests are now independently reconciled against actual
+responses and persisted state. A and B each have one explicitly confirmed simulated
+hold; a fresh-key repeat of A confirmation returns its original action. The owned
+queue/list contain exactly three cases; reopening and history preserve both holds
+and the third nonmatch with no action. One explicitly agent-generated synthetic
+feedback record is saved and returned on refresh. No guidance candidate, evaluation
+or wording activation was performed. All accounting equals the closed three-case
+baseline, with the older unknown liability intact.
+
+An initial queue response verifier incorrectly froze two server clock reads to
+one instant. The observed timestamp difference and derived hashes were reproduced;
+a versioned verifier replays both actual bounded clocks and rejects altered clocks,
+hashes, counts and foreign incidents. Both reviewers reverified the full actual
+response without another live request. Failed verifier evidence remains retained.
+
+Browser acceptance and protected judging admission remain in execution. Human
+source/gold review, protected quality evaluation, actual VoiceOver and unfamiliar
+participant evidence retain their previous limitations.
+
+
+Ordinary entry is restored and the existing U09 protected judging phase is active
+through its finite configured horizon. Exact conditional readbacks preserve all
+balances, grants, counters and owners; no new unknown charge arose. Public access
+is ordinary anonymous access, without exclusive judge identity or a funding reset.
+
+The fresh browser attempt exposed two private test-harness defects, not failed AI
+extraction: selecting the intentionally hidden single-source control, and a browser
+inspection API returning an empty body after the application consumed the correct
+PNG Blob. Same-profile recovery preserved the original owner and all data. The
+second defect was reproduced with the page receiving the exact original PNG while
+the inspection API returned zero bytes. A scoped observer now hashes the actual
+immutable Blob and returns that same object to the unchanged application; no
+network response is substituted. Independent controlled and negative checks pass.
+Actual final browser acceptance remains pending; instrumented browser evidence is
+separate from unfamiliar-user and actual assistive-technology evidence.
+
+
+The instrumented live browser now preserves its original owner, creates and saves
+one original A label, and verifies exact retained pixels and the canonical intended
+model request. The saved-label handoff shows the enabled extraction action. Actual
+keyboard activation of both corrected checklist links opens the owned full-size
+PNG and exact official SFA HTML document. Narrow layout has no horizontal overflow;
+the original hero/description remain. The external notice check intentionally
+suppressed its notice subresources, so it verifies live document/content opening,
+not an unrestricted external-site render. The subsequent browser extraction completed successfully with source agreement,
+correct genuine multiline identity/lot/date and a deterministic positive result.
+Complete provider usage settled, with no new unknown liability and the older hold
+preserved. No action was created during extraction.
+
+The final 13-stage browser chain completed: open/upload, both direct links, one
+extraction, cancel, explicit confirmation, queue, reopen, reload, recheck assessment,
+guidance, synthetic feedback and refresh. It recorded one model request and no page
+errors. Cancel had no mutation; explicit confirmation created one logical simulated
+hold/event, with exact offline domain replay and actual response/state verification.
+Queue and reload retain the same owner, evidence and action. Synthetic feedback is
+saved and read back without candidate creation, evaluation or wording activation.
+Recheck is truthfully not applicable for this healthy completed case; no hidden
+control was forced and no unknown outcome was manufactured.
+
+Independent visual review inspected actual pending/terminal, desktop/narrow,
+image/source popup, action, queue/reload and feedback screenshots. The retained
+instrumentation/external-notice-render limits above apply. These results complete the
+scoped technical workflow observations, not the mandatory unfamiliar-user, actual
+VoiceOver, source/gold, protected-quality or broader Operations acceptance gates.
