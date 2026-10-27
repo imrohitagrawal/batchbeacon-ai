@@ -184,3 +184,34 @@ def test_pending_membership_failure_rechecks_without_replaying(connected_browser
     expect(page.locator('#recover')).to_have_text('Reconcile pending operation')
     assert not any(method == 'POST' for method, _ in sent)
     assert not c[4] and not errors
+
+
+@pytest.mark.parametrize('width', [1440, 390])
+@pytest.mark.parametrize('mode', ['fragment_navigation', 'reload_after_custody_loss'])
+def test_unavailable_fragment_arrives_at_visible_recovery(connected_browser, width, mode):
+    page, c, context, errors = connected_browser
+    page.set_viewport_size({'width': width, 'height': 844})
+    page.locator('#start-sample').click()
+    expect(page.locator('#check')).to_be_enabled()
+    old_url = page.url.split('#')[0]
+    context.clear_cookies()
+    if mode == 'fragment_navigation':
+        # First change document; a hash-only goto would not rerun initialization.
+        page.goto(old_url.split('?')[0])
+        expect(page.locator('#start-sample')).to_be_enabled()
+        page.goto(old_url + '#evidence-title')
+    else:
+        page.evaluate("history.replaceState(null,'',location.pathname+"
+                      "location.search+'#evidence-title')")
+        page.reload()
+    expect(page.locator('#review-recovery')).to_be_visible()
+    expect(page.locator('#start-sample')).to_be_enabled()
+    expect(page.locator('#app-status')).to_be_focused()
+    for selector in ['#app-status', '#review-recovery']:
+        box = page.locator(selector).bounding_box()
+        assert box['y'] >= 0 and box['y'] + box['height'] <= page.viewport_size['height']
+    page.keyboard.press('Tab')
+    expect(page.locator('#recovery-choose')).to_be_focused()
+    page.keyboard.press('Enter')
+    expect(page.locator('#sample-choice')).to_be_focused()
+    assert not c[4] and not errors
