@@ -56,3 +56,33 @@ acquisition publication and guidance races. Local, emulator, real service, actua
 source fetch, hosted, build, deployed and rollback evidence are separate gates.
 The immutable UK receipt and runtime implementation do not constitute human source
 approval, genuine UK matching acceptance, protected evaluation or submission.
+
+## Observed technical release
+
+[PR40](https://github.com/imrohitagrawal/batchbeacon-ai/pull/40) publishes source
+`125b9f0` through main `516c741`. The serving revision is
+`batchbeacon-ai-source-on-125b9f0`, image `bfe716d8`, runtime `640dc0fc`.
+Only optional source-runtime admission changed in the effective configuration;
+model/input settings, resources and IAM match the previous configuration.
+
+| Evidence layer | Observed result | Scope |
+| --- | --- | --- |
+| Local and exact hosted push/PR/main | 1,678 unit, 255 browser and 30 edge checks pass | Controlled regression evidence; ten emulator checks are separate |
+| Real Firestore | Forward-only selection, logical deduplication, ownership/expiry and refresh journal/CAS checks pass | Refresh responses and clock advances were controlled |
+| Deployed metadata journey | Genuine UK original/update, added geography, alias deduplication, backward refusal, foreign denial and 390px queue/reload pass | One owned UK case; second workspace proves fallback access and isolation |
+| Compatible rollout | Final reader at 100% plus drain preceded new source records; replay-disabled same-image rollback and restoration pass | Catalog admission and saved update/v2 remain bound to the same owners |
+| Build and readers | Generation-bound 70-file source archive; 540 actual retained/new payloads decode identically with the current and existing local packaged reader | Three configuration digests match; actual cloud reads are separate evidence |
+| Final records/accounting | 521 main records; 508 legacy records byte-identical and one lawful two-workspace admission change | Paid usage, older liabilities and protected allowances unchanged |
+| Operations | Two expired images live-absent but retained as soft-deleted objects; bucket policy, absent TTL configuration and corrected dashboard unchanged | GET-only observations; physical cleanup and invoice totals remain unproved |
+
+The deployed journey is composite: an interrupted check, separately reviewed
+same-owner recovery and a terminal queue-read supplement. Failed checks and their
+corrections remain private evidence. The HTTP ledger carries an explicit
+uncertainty reserve for the interrupted prefix; its exact count is not claimed.
+The final restore counted every guarded request exactly once.
+
+This increment made no new model call or authority-source fetch. UK source and
+parent/company-PDF interpretation, human development gold, protected final-case
+custody/evaluation, observed VoiceOver speech, returning-owner acceptance and
+unfamiliar-user comprehension remain separate open gates. Full AC-13–15 and P0
+acceptance are incomplete. The submitted video and principal assets are unchanged.
