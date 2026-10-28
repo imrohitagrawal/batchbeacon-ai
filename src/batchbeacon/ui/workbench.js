@@ -1,7 +1,7 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const labels = {MATCHED_HOLD_FOR_REVIEW:'Matches this recall', NOT_LISTED_IN_CHECKED_NOTICES:'Not listed in checked notices', REVIEW_REQUIRED:'Review required', NEEDS_RENEWED_REVIEW:'Needs renewed review', SIMULATED_ACTION_RECORDED:'Workspace action recorded', IN_PROGRESS:'In progress', NEEDS_EVIDENCE:'Needs evidence', NEEDS_HUMAN_REVIEW:'Needs human review'};
-const state = {config:null, csrf:null, incident:null, evidence:null, captures:[], actions:[], target:null, busy:false, pending:null, pendingOwnershipUnknown:false, queue:null, queueDirty:true, queueReadAt:0, acquisition:null, acquisitionUnknown:false, expired:false, capabilities:null, workspaceBlock:null, selection:0, sessionGeneration:0, viewGeneration:0, view:"workbench", operation:null, checkFailure:null, loading:false};
+const state = {config:null, csrf:null, incident:null, evidence:null, captures:[], actions:[], target:null, busy:false, pending:null, pendingOwnershipUnknown:false, queue:null, queueDirty:true, queueReadAt:0, acquisition:null, acquisitionUnknown:false, expired:false, capabilities:null, workspaceBlock:null, selection:0, sessionGeneration:0, viewGeneration:0, view:"workbench", operation:null, checkFailure:null, loading:false, sourceContext:null, sourceCurrent:null, sourcePending:null, sourceOwnershipUnknown:false, sourceRetry:false};
 const key = () => crypto.randomUUID();
 const text = (id, value) => { $(id).textContent = value; };
 const node = (tag, value, className) => { const e=document.createElement(tag); if(value!==undefined)e.textContent=value; if(className)e.className=className; return e; };
@@ -74,7 +74,7 @@ async function api(path, {method='GET', body, operation}={}) {
   if(status<200 || status>=300){const e=new Error(admissionMessages[data.error] || (data.error || 'Request unavailable').replaceAll('_',' '));e.status=status;e.code=data.error;e.unknown=data.outcome==='unknown' || status>=500;if(status===401)expire();throw e;}
   return data;
 }
-function expire() { state.sessionGeneration++;state.selection++;state.capabilities=null;state.workspaceBlock=null;state.loading=false;state.operation=null;for(const el of document.querySelectorAll('.operation-status')){el.textContent='Guest access expired.';delete el.dataset.busy;}pending(null); state.expired=true; state.csrf=null; state.evidence=null; state.target=null; state.captures=[]; state.actions=[]; drawCaptures(); $('comparisons').replaceChildren(); $('queue-rows').replaceChildren(); $('history').replaceChildren(); $('confirm-dialog').close(); text('session-state','Guest access expired'); text('verdict-title','Guest access expired'); text('verdict-copy','Evidence is no longer available in this session.'); text('decision-copy','Start a new evaluation workspace to continue.'); text('queue-count','Guest access expired; counts unavailable.'); $('queue-counts').replaceChildren(); text('queue-capability','Guest access expired; availability unknown.'); text('confirm-product',''); text('field-detail','');text('field-provenance',''); state.queue=null;state.queueDirty=true;state.acquisition=null;state.acquisitionUnknown=false;state.learning=null;state.learningTarget=null;document.querySelector('.verdict').className='verdict neutral';text('active-wording','Guest access expired; wording unavailable.');text('proposed-wording','Guest access expired; proposal unavailable.');for(const step of $('guidance-steps').children)step.removeAttribute('aria-current');$('learning-dialog').close();$('owned-guidance').replaceChildren();$('learning-report').replaceChildren();$('learning-history').replaceChildren();text('learning-counts','Guest access expired; counts unavailable.'); $('completed-actions').hidden=true;$('confirm-open').hidden=false;$('review-recovery').hidden=false;$('renew-workspace').hidden=false;$('recovery-choose').hidden=true;$('recovery-queue').hidden=true;message('Your guest session expired. Open a new workspace to continue. Reviews from the expired workspace cannot be reopened or transferred.'); controls(); }
+function expire() { sourcePending(null);state.sourceContext=null;state.sourceCurrent=null;state.sessionGeneration++;state.selection++;state.capabilities=null;state.workspaceBlock=null;state.loading=false;state.operation=null;for(const el of document.querySelectorAll('.operation-status')){el.textContent='Guest access expired.';delete el.dataset.busy;}pending(null); state.expired=true; state.csrf=null; state.evidence=null; state.target=null; state.captures=[]; state.actions=[]; drawCaptures(); $('comparisons').replaceChildren(); $('queue-rows').replaceChildren(); $('history').replaceChildren(); $('confirm-dialog').close(); text('session-state','Guest access expired'); text('verdict-title','Guest access expired'); text('verdict-copy','Evidence is no longer available in this session.'); text('decision-copy','Start a new evaluation workspace to continue.'); text('queue-count','Guest access expired; counts unavailable.'); $('queue-counts').replaceChildren(); text('queue-capability','Guest access expired; availability unknown.'); text('confirm-product',''); text('field-detail','');text('field-provenance',''); state.queue=null;state.queueDirty=true;state.acquisition=null;state.acquisitionUnknown=false;state.learning=null;state.learningTarget=null;document.querySelector('.verdict').className='verdict neutral';text('active-wording','Guest access expired; wording unavailable.');text('proposed-wording','Guest access expired; proposal unavailable.');for(const step of $('guidance-steps').children)step.removeAttribute('aria-current');$('learning-dialog').close();$('owned-guidance').replaceChildren();$('learning-report').replaceChildren();$('learning-history').replaceChildren();text('learning-counts','Guest access expired; counts unavailable.'); $('completed-actions').hidden=true;$('confirm-open').hidden=false;$('review-recovery').hidden=false;$('renew-workspace').hidden=false;$('recovery-choose').hidden=true;$('recovery-queue').hidden=true;message('Your guest session expired. Open a new workspace to continue. Reviews from the expired workspace cannot be reopened or transferred.'); controls(); }
 function controls() {
   const off=state.busy || !state.csrf || state.expired;
   $('refresh-queue').disabled=off; $('queue-filter').disabled=off; for(const id of ['start-sample','new-review','completed-next','recovery-choose','upload','save-correction','reverify','source-choice','sample-choice'])$(id).disabled=off || !!state.pending;
@@ -90,9 +90,10 @@ function controls() {
   const recorded=state.actions.some(a=>a.current && !a.requires_renewed_review);
   $('confirm-open').disabled=off || !eligible || recorded || !!state.pending;
   $('hold-confirm').disabled=off || !$('hold-consent').checked || !state.target;
-  $('recover').disabled=off;text('recover',state.pendingOwnershipUnknown?'Check pending access':'Reconcile pending operation'); for(const radio of document.querySelectorAll('#example-cards input'))radio.disabled=off || !!state.pending; text('action-help',state.expired?'Guest access expired. Reload to open a new evaluation workspace.':state.busy?'Saving or checking evidence. Please wait.':state.pending?'The previous outcome needs reconciliation before another operation.':state.workspaceBlock?capabilityHelp():state.acquisitionUnknown?'Saved check status is unavailable. Recheck before another operation.':!state.csrf?'Opening your evaluation workspace. If access is unavailable, the notice above explains why.':!state.incident?'Choose an example, then select Use this label.':!state.captures.length?'Add a readable sample label image before extraction.':!state.capabilities?.workspace?.extraction?.available?capabilityHelp():recorded?'Workspace action saved. Open Retail queue to find this investigation.':'Extract and check uses the available bounded model allowance. The server explains any unavailable capacity; no action is automatic.'); learningControls(off); if(state.operation){const op=state.operation;for(const id of op.buttons || []){text(id,op.label);$(id).setAttribute('aria-busy','true');}}
+  $('recover').disabled=off;text('recover',state.pendingOwnershipUnknown?'Check pending access':'Reconcile pending operation'); for(const radio of document.querySelectorAll('#example-cards input'))radio.disabled=off || !!state.pending; text('action-help',state.expired?'Guest access expired. Reload to open a new evaluation workspace.':state.busy?'Saving or checking evidence. Please wait.':state.pending?'The previous outcome needs reconciliation before another operation.':state.workspaceBlock?capabilityHelp():state.acquisitionUnknown?'Saved check status is unavailable. Recheck before another operation.':!state.csrf?'Opening your evaluation workspace. If access is unavailable, the notice above explains why.':!state.incident?'Choose an example, then select Use this label.':!state.captures.length?'Add a readable sample label image before extraction.':!state.capabilities?.workspace?.extraction?.available?capabilityHelp():recorded?'Workspace action saved. Open Retail queue to find this investigation.':'Extract and check uses the available bounded model allowance. The server explains any unavailable capacity; no action is automatic.'); learningControls(off); sourceControls(off); if(state.operation){const op=state.operation;for(const id of op.buttons || []){text(id,op.label);$(id).setAttribute('aria-busy','true');}}
 }
 const operations={
+  source:{region:'source-status',buttons:[],label:'Reading source…',pending:'Checking the saved source operation… No AI request or authority fetch is being sent.'},
   upload:{region:'sample-status',buttons:['start-sample'],label:'Saving label…',pending:'Saving this label image… No AI request has been sent.'},
   capture:{region:'capture-status',buttons:['upload'],label:'Uploading images…',pending:'Uploading the selected label images…'},
   extraction:{region:'label-status',buttons:['check'],label:'Extracting and checking…',pending:'Requesting extraction and checking availability… No result is confirmed yet.'},
@@ -126,6 +127,7 @@ async function task(operation,kind='refresh') {
     if(current && op.view===state.viewGeneration){
       if(['upload','capture'].includes(kind) && succeeded && state.captures.length){if(!state.capabilities?.workspace?.extraction?.available)reveal('label-status');else if(kind==='upload'){reveal('evidence-title');if($('check').getBoundingClientRect().bottom>innerHeight)reveal('label-status');}}
       if(['extraction','verification','status','action'].includes(kind))reveal('verdict-title');
+      if(kind==='source')reveal('source-status');
     }
   }
 }
@@ -190,6 +192,7 @@ function ownedSourceView() {
   box.append(node('p',freshness[source.refresh_outcome || source.live_status] || 'Source status unavailable. Renewed review is required.'));
   for(const n of notices){
     box.append(node('strong',`${n.authority} · ${n.jurisdictions.join(', ')}`),node('p',`Published ${n.published_at} · ${source.mode==='LIVE'?'saved':'historical'} version ${n.dependency.version}`));
+    if(n.retrieved_at===null)box.append(node('p','Original retrieval time was not recorded. This retained historical capture is review-only.'));
     if(n.review_only)box.append(node('p','Review-only: source interpretation has not been approved.'));
     const link=node('a','Open exact source notice');link.href=n.final_url;link.target='_blank';link.rel='noopener noreferrer';box.append(link);
   }
@@ -404,15 +407,15 @@ async function loadIncident(id,knownAcquisition=null) {
   const selection=++state.selection,session=state.sessionGeneration;
   const valid=()=>!state.expired && session===state.sessionGeneration && selection===state.selection;
   const changed=state.incident!==id;
-  state.incident=id;state.learningStale=true;state.capabilities=null;state.loading=true;state.target=null;
+  state.incident=id;state.learningStale=true;state.capabilities=null;state.loading=true;state.target=null;state.sourceCurrent=null;
   if(changed){operationStatus('label-status','');operationStatus('decision-status','');state.checkFailure=null;state.evidence=null;state.actions=[];state.captures=[];state.acquisition=knownAcquisition;state.acquisitionUnknown=false;}
   else if(knownAcquisition)state.acquisition=knownAcquisition;
   drawCaptures();render();$('capture-panel').hidden=true;$('correction-panel').hidden=true;$('capture-file').value='';text('capture-status','');
   const url=new URL(location.href);url.searchParams.set('incident',id);history.replaceState(null,'',url);
   try {
-    const [e,c,a,cap]=await Promise.all([api(`/api/incidents/${id}/evidence`),api(`/api/incidents/${id}/captures`),api(`/api/incidents/${id}/actions`),api(`/api/incidents/${id}/capabilities`).catch(error=>{if(error.stale||state.expired)throw error;return null;})]);
+    const [e,c,a,cap,source]=await Promise.all([api(`/api/incidents/${id}/evidence`),api(`/api/incidents/${id}/captures`),api(`/api/incidents/${id}/actions`),api(`/api/incidents/${id}/capabilities`).catch(error=>{if(error.stale||state.expired)throw error;return null;}),state.config.source_review?api(`/api/incidents/${id}/source`).catch(error=>{if(error.stale||state.expired)throw error;return null;}):null]);
     if(!valid())return;
-    state.evidence=e;state.captures=c.batches.filter(b=>b.ready).at(-1)?.captures || [];state.actions=a.actions;
+    state.sourceCurrent=source;state.evidence=e;state.captures=c.batches.filter(b=>b.ready).at(-1)?.captures || [];state.actions=a.actions;
     state.capabilities=cap?.workspace?.extraction && cap?.incident?cap:null;
     if(state.capabilities)state.workspaceBlock=['UNRESOLVED_ATTEMPT','ACTIVE_REQUEST'].includes(cap.workspace.extraction.reason)?cap.workspace.extraction.reason:null;
     state.acquisition=knownAcquisition;state.acquisitionUnknown=false;
@@ -625,7 +628,7 @@ async function restorePending(session) {
     message('The previous operation is unavailable in this workspace. Its records and accounting have not been changed.');
   }
 }
-async function init() {state.config=await api('/api/workbench/config');renderSupport();if(state.config.mode==='REAL_VERTEX_EXTRACTION'){text('runtime-title','BatchBeacon AI');text('runtime-detail','Real AI analysis · Non-production data');text('result-disclosure','Server result · Gemini extraction');}else{text('runtime-title','Local integration');text('runtime-detail','Test extraction · Non-production data · Test storage');text('result-disclosure','Server result · test extraction');}for(const row of state.config.samples){const option=node('option',row.name);option.value=row.id;$('sample-choice').append(option);}for(const row of state.config.sources){const option=node('option',`${row.notice.authority} · ${row.notice.dependency.version}`);option.value=row.selection;$('source-choice').append(option);}exampleCards();sourceView();if(state.config.guidance==='OWNED_LIFECYCLE_CONNECTED'){$('learning-controls').hidden=false;text('guidance-state-title','Your workspace’s capture guidance');text('guidance-state-copy','Saved requests, feedback and evaluated wording changes belong to this evaluation workspace only.');}else{text('guidance-state-copy','Capture guidance is unavailable in this configuration.');}let session;try{session=await api('/api/guest',{method:'POST'});}catch(e){state.sessionError=safeError(e);text('session-state',state.expired?'Guest access expired':'Guest access unavailable');text('queue-count','Guest access unavailable; counts unknown.');text('learning-counts','Guest access unavailable; counts unknown.');throw e;}state.csrf=session.csrf_token;state.expiresAt=session.expires_at;text('session-state',`Workspace access expires ${new Date(session.expires_at).toLocaleString(undefined,{year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'})}`);const ttl=Date.parse(session.expires_at)-Date.parse(state.config.server_time);if(ttl>0)setTimeout(expire,ttl);await restorePending(session);const id=state.pending?.incident||new URLSearchParams(location.search).get('incident');if(id)await loadOwnedIncident(id);show(['retail','guidance'].includes(location.hash.slice(1))?location.hash.slice(1):'workbench',{navigate:false,focus:false});{const view=document.querySelector('nav [aria-current=page]')?.dataset.view;if(view==='retail')await refresh();if(view==='guidance'&&state.config.guidance==='OWNED_LIFECYCLE_CONNECTED')await loadLearning();}render();}
+async function init() {state.config=await api('/api/workbench/config');renderSupport();if(state.config.mode==='REAL_VERTEX_EXTRACTION'){text('runtime-title','BatchBeacon AI');text('runtime-detail','Real AI analysis · Non-production data');text('result-disclosure','Server result · Gemini extraction');}else{text('runtime-title','Local integration');text('runtime-detail','Test extraction · Non-production data · Test storage');text('result-disclosure','Server result · test extraction');}for(const row of state.config.samples){const option=node('option',row.name);option.value=row.id;$('sample-choice').append(option);}for(const row of state.config.sources){const option=node('option',`${row.notice.authority} · ${row.notice.dependency.version}`);option.value=row.selection;$('source-choice').append(option);}exampleCards();sourceView();if(state.config.guidance==='OWNED_LIFECYCLE_CONNECTED'){$('learning-controls').hidden=false;text('guidance-state-title','Your workspace’s capture guidance');text('guidance-state-copy','Saved requests, feedback and evaluated wording changes belong to this evaluation workspace only.');}else{text('guidance-state-copy','Capture guidance is unavailable in this configuration.');}let session;try{session=await api('/api/guest',{method:'POST'});}catch(e){state.sessionError=safeError(e);text('session-state',state.expired?'Guest access expired':'Guest access unavailable');text('queue-count','Guest access unavailable; counts unknown.');text('learning-counts','Guest access unavailable; counts unknown.');throw e;}state.csrf=session.csrf_token;state.expiresAt=session.expires_at;text('session-state',`Workspace access expires ${new Date(session.expires_at).toLocaleString(undefined,{year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'})}`);const ttl=Date.parse(session.expires_at)-Date.parse(state.config.server_time);if(ttl>0)setTimeout(expire,ttl);await restorePending(session);await restoreSourcePending();const id=state.pending?.incident||new URLSearchParams(location.search).get('incident');if(id)await loadOwnedIncident(id);show(['retail','guidance'].includes(location.hash.slice(1))?location.hash.slice(1):'workbench',{navigate:false,focus:false});{const view=document.querySelector('nav [aria-current=page]')?.dataset.view;if(view==='retail')await refresh();if(view==='guidance'&&state.config.guidance==='OWNED_LIFECYCLE_CONNECTED')await loadLearning();}render();}
 task(init);
 
 function learningSelection() {
@@ -746,3 +749,100 @@ $('tour-back').addEventListener('click',()=>{if(tourStep>0){tourStep--;renderTou
 $('tour-next').addEventListener('click',()=>{if(tourStep===tourItems().length-1)$('tour-dialog').close();else{tourStep++;renderTour();}});
 $('tour-skip').addEventListener('click',()=>$('tour-dialog').close());
 $('tour-dialog').addEventListener('close',()=>$('tour-open').focus());
+
+
+// Source replay has its own typed recovery record. Older compatible readers
+// ignore this key and cannot accidentally interpret it as an inventory action.
+function sourcePending(value) {
+  if(value)value={...value,session_expires_at:state.expiresAt};
+  state.sourcePending=value;state.sourceOwnershipUnknown=false;state.sourceRetry=false;
+  if(value)sessionStorage.setItem('bb_source_pending',JSON.stringify(value));
+  else sessionStorage.removeItem('bb_source_pending');
+}
+const territoryNames={'GB-ENG':'England','GB-NIR':'Northern Ireland','GB-WLS':'Wales','GB-SCT':'Scotland'};
+const scopeNames=values=>values.map(v=>territoryNames[v] || v).join(', ');
+function sourceControls(off) {
+  const ctx=state.sourceContext,current=state.sourceCurrent,p=state.sourcePending;
+  $('source-review').hidden=!state.config?.source_review;
+  if(!state.config?.source_review)return;
+  if(ctx){
+    text('source-pair',`UK FSA · ${ctx.original.version} · ${ctx.original.published_at} · ${scopeNames(ctx.original.jurisdictions)} → ${ctx.update.version} · ${ctx.update.published_at} · ${scopeNames(ctx.update.jurisdictions)}. Historical captures; ${ctx.retrieval_times_recorded?'':'original retrieval times were not recorded; '}interpretation requires review.`);
+    text('source-availability',!ctx.replay_enabled?'Source selection is temporarily unavailable. Saved source and evidence reads remain available; keep any original request for recovery when selection returns.':!ctx.can_start?'This workspace has reached its investigation limit. Reopen a saved investigation; a separate new review is unavailable.':'');
+    text('source-transition',current?`This investigation: ${current.selected_choice} · source selection v${current.selection_revision}. The newer notice adds ${scopeNames(ctx.added_jurisdictions)}.`:'Start UK source review to inspect the original notice in a separate investigation.');
+  }
+  $('source-start').disabled=off || !!p || !!state.pending || !ctx?.can_start;
+  $('source-apply').disabled=off || !!p || !!state.pending || !current?.can_replay || current.incident_id!==state.incident;
+  $('source-recheck').hidden=!p && !current;
+  $('source-recheck').disabled=off;
+  $('source-continue').hidden=!p || !state.sourceRetry || state.sourceOwnershipUnknown;
+  $('source-continue').disabled=off || !!state.pending || !ctx?.replay_enabled;
+}
+function validSourcePending(p) {
+  const digest=v=>typeof v==='string' && /^[a-f0-9]{64}$/.test(v);
+  if(!p || !['start','select'].includes(p.kind) || typeof p.operation!=='string' || !/^[A-Za-z0-9_-]{1,80}$/.test(p.operation) || !digest(p.session_reference) || !digest(p.body?.catalog_hash) || typeof p.session_expires_at!=='string')return false;
+  const keys=Object.keys(p).sort().join(',');
+  if(p.kind==='start')return keys==='body,kind,operation,session_expires_at,session_reference' && Object.keys(p.body).sort().join(',')==='catalog_hash,session_reference' && p.body.session_reference===p.session_reference;
+  return keys==='body,incident,kind,operation,session_expires_at,session_reference' && /^[a-f0-9]{32}$/.test(p.incident) && Object.keys(p.body).sort().join(',')==='catalog_hash,choice,expected_revision' && typeof p.body.choice==='string' && /^[a-zA-Z0-9_-]{1,80}$/.test(p.body.choice) && Number.isInteger(p.body.expected_revision) && p.body.expected_revision>=0;
+}
+async function sourceContext() {
+  const ctx=await api('/api/source-reviews/context');state.sourceContext=ctx;return ctx;
+}
+async function restoreSourcePending() {
+  if(!state.config.source_review)return;
+  let saved;try {saved=JSON.parse(sessionStorage.getItem('bb_source_pending') || 'null');}catch {sessionStorage.removeItem('bb_source_pending');}
+  if(saved && validSourcePending(saved)){state.sourcePending=saved;state.sourceOwnershipUnknown=true;$('source-review').open=true;}
+  else if(saved){sourcePending(null);}
+  try {
+    const ctx=await sourceContext();
+    if(saved && validSourcePending(saved) && saved.session_expires_at===state.expiresAt && saved.session_reference===ctx.session_reference && saved.body.catalog_hash===ctx.catalog_hash){state.sourcePending=saved;state.sourceOwnershipUnknown=false;operationStatus('source-status','A source request needs reconciliation. Check saved source status before completing the original request.');$('source-review').open=true;}
+    else if(saved){sourcePending(null);operationStatus('source-status','The saved source request is unavailable in this workspace. It was not transferred or repeated.');}
+  }catch(error){if(error.stale||state.expired)throw error;operationStatus('source-status',`Source review is unavailable. ${safeError(error)} ${state.sourcePending?'Check saved source status to verify access before continuing the original request.':''}`,'error');}
+}
+async function sourceRequest(p,origin={selection:state.selection,view:state.viewGeneration}) {
+  requireSession();if(!p)throw new Error('No source request is pending. Read saved source status.');
+  const ctx=await sourceContext();
+  if(p.session_reference!==ctx.session_reference || p.body.catalog_hash!==ctx.catalog_hash){sourcePending(null);throw new Error('The source request belongs to a different workspace or source catalogue. It was not repeated.');}
+  if(!ctx.replay_enabled)throw new Error('Source selection is temporarily unavailable. Keep the original request and check saved source status.');
+  const {selection,view}=origin;
+  state.sourceRetry=false;
+  operationStatus('source-status',p.kind==='start'?'Creating the separate UK source investigation and selecting its original notice… No AI check or hold is being created.':'Selecting the newer UK notice… Earlier source-dependent results will require renewed review.');
+  let value;
+  try {value=await api(p.kind==='start'?'/api/source-reviews':`/api/incidents/${p.incident}/source`,{method:'POST',operation:p.operation,body:p.body});}
+  catch(error){if(error.code==='source_replay_inactive'){state.sourceContext={...ctx,replay_enabled:false,can_start:false};state.sourceRetry=false;}else if(!error.unknown && !error.stale && !state.expired){sourcePending(null);}if(!state.expired && !error.stale){error.message=`${error.unknown?'The source request outcome is unknown. ':''}${safeError(error)} ${state.sourcePending?'Check saved source status; keep the original request.':'Read the selected source again before another request.'}`;operationStatus('source-status',error.message,'error');}throw error;}
+  if(state.sourcePending?.operation===p.operation)sourcePending(null);
+  state.queueDirty=true;state.learningStale=true;
+  const mayOpen=selection===state.selection && view===state.viewGeneration && (p.kind==='start' || p.incident===state.incident);
+  const reopened=mayOpen && await loadOwnedIncident(value.incident_id)===true;
+  if(state.expired)return;
+  await sourceContext();
+  operationStatus('source-status',`${value.selected_choice===ctx.update_choice?'Newer notice selected':'Original UK notice selected'} · source selection v${value.selection_revision}. Source interpretation still requires review. No AI check or stock hold was created.${reopened?'':' Find the saved investigation in Retail queue.'}`);
+}
+async function startSourceReview() {
+  requireSession();const origin={selection:state.selection,view:state.viewGeneration};const ctx=await sourceContext();if(!ctx.can_start)throw new Error('A new source review is unavailable in this workspace.');
+  const p={kind:'start',operation:key(),session_reference:ctx.session_reference,body:{catalog_hash:ctx.catalog_hash,session_reference:ctx.session_reference}};sourcePending(p);await sourceRequest(state.sourcePending,origin);
+}
+async function applySourceUpdate() {
+  requireSession();const origin={selection:state.selection,view:state.viewGeneration},current=state.sourceCurrent;const ctx=await sourceContext();
+  if(!current?.can_replay || current.incident_id!==state.incident)throw new Error('Reopen the original UK source investigation before selecting the newer notice.');
+  const p={kind:'select',operation:key(),incident:current.incident_id,session_reference:ctx.session_reference,body:{catalog_hash:ctx.catalog_hash,choice:ctx.update_choice,expected_revision:current.selection_revision}};sourcePending(p);await sourceRequest(state.sourcePending,origin);
+}
+async function checkSourceStatus() {
+  requireSession();const selection=state.selection,view=state.viewGeneration,p=state.sourcePending;const ctx=await sourceContext();
+  if(p && (p.session_reference!==ctx.session_reference || p.session_expires_at!==state.expiresAt || p.body.catalog_hash!==ctx.catalog_hash)){sourcePending(null);throw new Error('The earlier source request is unavailable in this workspace. It was not transferred.');}
+  state.sourceOwnershipUnknown=false;
+  let value;
+  if(p){
+    try {value=await api(p.kind==='start'?'/api/source-reviews/reconcile':`/api/incidents/${p.incident}/source/reconcile`,{operation:p.operation});}
+    catch(error){if(error.status===404 && !error.unknown){state.sourceRetry=true;operationStatus('source-status','The original source operation is not recorded. Complete original source request to continue with the same key.');return;}throw error;}
+    if(value.start_state==='INVESTIGATION_CREATED'){state.sourceRetry=true;operationStatus('source-status','The empty investigation was created; its original notice selection is not confirmed. Complete original source request to finish that selection with the same keys.');return;}
+    if(state.sourcePending?.operation===p.operation)sourcePending(null);
+  }else if(state.incident)value=await api(`/api/incidents/${state.incident}/source`);
+  const mayOpen=!!value && selection===state.selection && view===state.viewGeneration;
+  const reopened=mayOpen && await loadOwnedIncident(value.incident_id)===true;
+  state.queueDirty=true;state.learningStale=true;
+  operationStatus('source-status',value?`Saved source confirmed: ${value.selected_choice} · selection v${value.selection_revision}. ${reopened?'Saved evidence and action eligibility were read again.':'Reopen that investigation from Retail queue to read its evidence and actions.'} No AI or authority fetch was requested.`:'Choose an investigation to read its saved source.');
+}
+$('source-start').addEventListener('click',()=>task(startSourceReview,'source'));
+$('source-apply').addEventListener('click',()=>task(applySourceUpdate,'source'));
+$('source-recheck').addEventListener('click',()=>task(checkSourceStatus,'source'));
+$('source-continue').addEventListener('click',()=>task(()=>sourceRequest(state.sourcePending),'source'));
