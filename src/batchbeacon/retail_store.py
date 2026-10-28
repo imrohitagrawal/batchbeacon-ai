@@ -125,7 +125,10 @@ class RetailPersistence:
                         if created is None or updated is None:
                             raise unavailable()
                         proof = StoredCompletion(receipt, created, updated)
-                snapshot = ActionSnapshot(guest, evidence, environment, actions, usage, proof)
+                selected_environment = s.source_environment(
+                    tx, environment, evidence.source_selection, finalize=True)
+                snapshot = ActionSnapshot(guest, evidence, selected_environment, actions,
+                                          usage, proof)
                 previous = tx.reads[rn]
                 if incident in prior_incidents:
                     old = self._check(previous, old_guest, old_usage, incident)
@@ -193,9 +196,12 @@ class RetailPersistence:
                 # This private seam follows namespace/owner/config/usage checks
                 # against exclusively server-written summary documents.
                 prepared.append(p._seal(row))
-            return guest, usage, tuple(prepared), environment
+            environments = {row.incident_id: s.source_environment(
+                tx, environment, row.source_selection) for row in rows}
+            environment = s.source_environment(tx, environment, None)
+            return guest, usage, tuple(prepared), environment, environments
 
-        guest, usage, prepared, environment = p.guest._storage(
+        guest, usage, prepared, environment, environments = p.guest._storage(
             lambda: s.run(read, not_after=not_after))
         # Recheck expiry and time-derived currentness after commit acknowledgement.
         now = p.guest._now()
@@ -207,4 +213,4 @@ class RetailPersistence:
             valid_until=now + timedelta(seconds=p.policy.capability_validity_seconds))
         return p.view(key, guest, usage, prepared, environment,
                       selected_filter=selected_filter, saved_evidence=saved,
-                      new_verification=new_verification)
+                      new_verification=new_verification, environments=environments)

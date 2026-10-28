@@ -17,7 +17,6 @@ from pydantic import Field, model_validator
 
 from batchbeacon.acquisition import AcquisitionCompletion, StoredCompletion
 from batchbeacon.contracts import (
-    AuthorityNotice,
     Correction,
     Digest,
     EvidenceRef,
@@ -30,9 +29,7 @@ from batchbeacon.contracts import (
     Record,
     SourceAgreement,
     SourceDependency,
-    VerificationContext,
     VerificationResult,
-    VerifierPolicy,
 )
 from batchbeacon.domain.verifier import is_current, is_current_evidence, verify
 from batchbeacon.guest_service import GuestDenied, GuestService, GuestSession, OpaqueId, RequestKey
@@ -44,6 +41,7 @@ from batchbeacon.identity_resolution import (
     identity_receipt,
 )
 from batchbeacon.shared_admission import SessionUsage
+from batchbeacon.source_state import EvidenceEnvironment, SourceSelection
 
 
 def replace(record, **updates):
@@ -195,6 +193,8 @@ class EvidenceState(Record):
     results: tuple[VerificationResult, ...] = ()
     receipts: tuple[EvidenceReceipt, ...] = ()
     active_result: Annotated[int, Field(ge=1)] | None = None
+    source_selection: SourceSelection | None = Field(
+        default=None, exclude_if=lambda value: value is None)
 
     @model_validator(mode="after")
     def coherent(self) -> Self:
@@ -234,16 +234,6 @@ class EvidenceState(Record):
         if any(r.revision > lengths[r.kind] for r in self.receipts):
             raise ValueError("receipt points outside history")
         return self
-
-
-class EvidenceEnvironment(Record):
-    """Server-owned catalog/context snapshot; never supplied by the browser/model."""
-    context: VerificationContext
-    notices: tuple[AuthorityNotice, ...]
-    verifier_policy: VerifierPolicy
-
-    def at(self, now: datetime, result_revision: int) -> VerificationContext:
-        return replace(self.context, computed_at=now, result_revision=result_revision)
 
 
 @dataclass(frozen=True)

@@ -43,6 +43,7 @@ from batchbeacon.retail_contracts import (
 )
 from batchbeacon.shared_admission import SharedPolicy
 from batchbeacon.source_context import ContextFact, ContextManifest, RelatedDocuments
+from batchbeacon.source_state import SourceSelection
 
 Positive = Annotated[int, Field(gt=0)]
 
@@ -238,6 +239,8 @@ def material_state_hash(snapshot):
             else None,
             "result": state.results[-1].digest() if state.results else None,
             "active_result": state.active_result,
+            **({"source_selection": state.source_selection.digest()}
+               if state.source_selection is not None else {}),
             "action": snapshot.actions.actions[-1].digest() if snapshot.actions.actions else None,
             "acquisitions": counter.acquisitions,
             "verifications_used": len(counter.verifications),
@@ -276,6 +279,8 @@ class IncidentProjection(Record):
     latest_action: ActionRecord | None
     action_original_result_hash: Digest | None
     material: MaterialUpdate
+    source_selection: SourceSelection | None = Field(
+        default=None, exclude_if=lambda value: value is None)
 
     @model_validator(mode="after")
     def projection_shape(self) -> Self:
@@ -498,6 +503,7 @@ class RetailProjector:
             incident_id=state.incident_id,
             policy_hash=self.configuration_hash,
             evidence_hash=state.digest(),
+            source_selection=state.source_selection,
             action_state_hash=action_state.digest(),
             usage_basis_hash=usage_basis(usage, state.incident_id),
             observation=replace(obs, corrections=()) if obs else None,
@@ -756,6 +762,7 @@ class RetailProjector:
         selected_filter=QueueFilter.ALL,
         saved_evidence=None,
         new_verification=None,
+        environments=None,
     ):
         """Derive a bounded shop snapshot; callers must supply an atomic read basis."""
         guest = self.guest._live(guest, key)
@@ -803,9 +810,14 @@ class RetailProjector:
                 or not guest.scope.issued_at <= p.material.changed_at <= now
             ):
                 raise GuestDenied(503, "retail_snapshot_unavailable")
+        if environments is not None and set(environments) != ids:
+            raise GuestDenied(503, "retail_source_state_unavailable")
+        def source_for(incident):
+            return environment if environments is None else environments[incident]
         rows = tuple(
             sorted(
-                (self._row(p, guest, environment, now, capability) for p in projections),
+                (self._row(p, guest, source_for(p.incident_id), now, capability)
+                 for p in projections),
                 key=lambda row: (-row.last_material_update.timestamp(), row.incident_id),
             )
         )
@@ -815,6 +827,8 @@ class RetailProjector:
                     p.digest() for p in sorted(projections, key=lambda p: p.incident_id)
                 ],
                 "environment": environment.digest(),
+                **({"incident_environments": {k: v.digest() for k, v in environments.items()}}
+                   if environments is not None else {}),
                 "policy": self.configuration_hash,
                 "evaluated_at": now.isoformat(),
                 "new_verification": capability.model_dump(mode="json"),
@@ -860,7 +874,7 @@ class RetailProjector:
             snapshot=snapshot,
             filter=selected_filter,
             visible_incident_ids=tuple(r.incident_id for r in rows if visible(r)),
-            contexts=tuple(self._context(row, environment) for row in rows),
+            contexts=tuple(self._context(row, source_for(row.incident_id)) for row in rows),
             saved_evidence=capability_view(
                 saved_evidence, now, self.policy, guest.scope.session_id, "SAVED_EVIDENCE"
             ),

@@ -39,6 +39,7 @@ from batchbeacon.shared_admission import (
     SharedGrant,
     SharedPolicy,
 )
+from batchbeacon.source_state import SourceRuntimeAdmission
 from batchbeacon.storage_objects import StorageObjects, StoragePolicy
 from batchbeacon.workbench import create_workbench_app
 
@@ -65,6 +66,8 @@ class RuntimeAssets(Record):
         return self
 
 
+
+
 class RuntimeConfig(Record):
     version: Literal["production-runtime-1"] = "production-runtime-1"
     guest: GuestPolicy
@@ -84,6 +87,9 @@ class RuntimeConfig(Record):
     learning: LearningPolicy
     evaluation: EvaluationPolicy
     assets: RuntimeAssets
+    source_runtime: SourceRuntimeAdmission | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
     nonbillable_policy: NonbillablePolicy | None = Field(
         default=None, exclude_if=lambda value: value is None
     )
@@ -275,6 +281,7 @@ def build_app(config: RuntimeConfig, asset_root: Path):
             config.evidence,
             config.action,
             guest_admission=config.guest_admission,
+            source_runtime=config.source_runtime,
             predecessor_liabilities=config.predecessor_liabilities,
         )
         objects = StorageObjects(objects_client, config.storage)
