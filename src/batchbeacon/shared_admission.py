@@ -15,6 +15,7 @@ from uuid import uuid4
 
 from pydantic import AwareDatetime, Field, TypeAdapter, model_validator
 
+from batchbeacon.admission_events import emit
 from batchbeacon.attempt_evidence import (
     AttemptEvidenceLimits,
     CompleteUsage,
@@ -406,6 +407,10 @@ class SharedDenied(ValueError):
     pass
 
 
+class _AllowanceExhausted(SharedDenied):
+    """An authenticated reservation exceeded the actual committed allowance."""
+
+
 class SharedAdmission:
     def __init__(
         self,
@@ -667,7 +672,7 @@ class SharedAdmission:
                 or sum(b.committed for b in budget.balances) + amount
                 > self.grant.root_ceiling_nanos
             ):
-                raise SharedDenied("insufficient uncommitted model allowance")
+                raise _AllowanceExhausted("insufficient uncommitted model allowance")
             attempt = Attempt(
                 id=attempt_id,
                 session_id=guest.scope.session_id,
@@ -719,7 +724,11 @@ class SharedAdmission:
                 budget, usage, attempt, not_after=min(run.deadline, guest.scope.expires_at)
             )
 
-        result = self.store.transact(address, change)
+        try:
+            result = self.store.transact(address, change)
+        except _AllowanceExhausted:
+            emit('allowance_exhausted', self.policy.digest(), self.grant.digest())
+            raise
         self._authority()
         if self._now() >= result.not_after:
             raise SharedDenied("reservation expired after commit; reservation retained")
@@ -1125,6 +1134,7 @@ class SharedAdmission:
         address = Address(attempt_id=attempt_id, liability_operation="reconcile")
         result = self.store.transact(address, change)
         if result.denial == "usage_circuit_committed":
+            emit('cost_circuit_open', self.policy.digest(), self.grant.digest())
             result = self.store.transact(address, change)
         if result.denial:
             raise SharedDenied(result.denial)

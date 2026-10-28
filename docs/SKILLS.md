@@ -1,5 +1,13 @@
 # Selected skill admission
 
+Current continuation: [M15 lifecycle and validation](evidence/M15-lifecycle-continuation.md)
+records newly applied narrow testing/review and project-local design guidance.
+Exact stage-to-method artifacts, hashes and actual verification are in the private
+`remaining-execution-20261028/lifecycle-method-ledger.json`. Historical stages below
+remain scoped observations; their old pending wording does not reopen completed
+U02 approval or establish current whole-product acceptance. Installed, discovered,
+loaded, applied and tested remain separate states; historical unknown use stays unknown.
+
 Actual client: Codex CLI 0.163.0. Initial mode: **REFERENCE-GUIDANCE**;
 the rejected first treatment used the two adapted subsets below.
 Following the owner's explicit request, the original pinned Impeccable skill and
