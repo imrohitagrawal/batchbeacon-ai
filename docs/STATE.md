@@ -1,5 +1,31 @@
 # BatchBeacon AI — current execution state
 
+## Lifecycle continuation checkpoint
+
+PR36/main `4336b6a` publishes application source `03906c9`. The independently
+reviewed admission-alert and guidance cancellation-focus corrections serve at100%
+on image `38cd6a258f49ec252d53f273e5d76ce7cec7be08e2e782ecaf8ef11711045a6d`.
+Original-input runtime `901483b4`, MEDIUM/24,576, min0 and existing controls remain.
+Local and exact hosted push/PR/main checks pass1,574 unit/232 browser/30 edge;
+eight emulator checks pass separately. Both-host assets/security/configuration and
+rollback-reader compatibility passed. Native200% zoom and controlled full keyboard
+journeys passed; actual speech/human acceptance remains separate.
+
+The exact submitted video and five principal image/mark assets were independently
+reconciled; a separately published revision is not the submitted artifact.
+One subsequent real SFA A acquisition passed independent source/capture/model/
+accounting review. Its current owner and accepted result are retained. The explicit
+hold/dedup/queue/reload/feedback continuation was declined before intent because its
+complete window no longer fit; no action or feedback was created. Do not repeat AI.
+
+The71-row completion register, lifecycle method ledger, failed evidence and exact
+next task are private in `.local/run-records/remaining-execution-20261028/`.
+The finite session is closing; no background continuation is implied. Source-update
+implementation, wider Operations/physical retention, source/gold/protected custody
+and quality, owner/VoiceOver/unfamiliar acceptance remain open. See
+[M15](evidence/M15-lifecycle-continuation.md); historical checkpoints below retain
+their scope and do not override this observed release.
+
 ## Acceptance remains incomplete
 
 U42–U45 authorize continued reviewed correction, supervised testing and release

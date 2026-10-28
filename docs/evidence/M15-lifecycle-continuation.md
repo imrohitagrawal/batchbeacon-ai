@@ -1,5 +1,30 @@
 # Requirements and controlled validation continuation
 
+Release closeout: PR36/main4336b6a, application03906c9 and image38cd6a258f49ec252d53f273e5d76ce7cec7be08e2e782ecaf8ef11711045a6d
+are independently verified at100% on both hosts, with unchanged runtime901483b4.
+Exact hosted push/PR/main and local checks passed1,574 unit/232 browser/30 edge;
+eight emulator checks passed separately. All64 build-archive files match the
+reviewed manifest and all nine packaged checks passed. Candidate and retained
+rollback source decode the original500 records identically; no metadata migration
+was needed. Rollback was not executed.
+
+The exact submitted video is the original `IpY2_GeR4Ic` artifact, SHA-256
+`f9ec73a82eeab9139dc943f1df2b8dbf40edce11090fc3c90101a7dd7cb8b930`.
+The separately published continuous revision does not replace its submission
+receipt. Sampled comparison preserves the principal filmed application and all
+five image/mark assets byte-for-byte; film-only cards remain film compositions.
+Native200% browser zoom/reflow was observed separately from CSS text enlargement.
+
+After release, one fresh current-owner SFA A real acquisition passed independent
+provider/source/capture/accounting review. Its optional browser wire capture failed
+after saving the visible result; immutable provider bytes and outcome were retained.
+Earlier upload readiness timed out in the helper before extraction; original-key
+GET recovery confirmed that same upload saved, without another owner/upload.
+The accepted result remains available to its unchanged owner. The separate
+nonmodel explicit-action/dedup/queue/feedback packet was declined before intent
+for insufficient full-window headroom. It is unexecuted, not passed. A fresh finite
+nonmodel continuation is the next task; no new model call is needed.
+
 This increment reconciles main after the latency release. Original input remains
 selected; source compaction remains inactive. The submitted video, application
 assets, hero, layout and current model/reasoning/headroom are unchanged.
