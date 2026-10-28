@@ -14,13 +14,17 @@ journeys passed; actual speech/human acceptance remains separate.
 The exact submitted video and five principal image/mark assets were independently
 reconciled; a separately published revision is not the submitted artifact.
 One subsequent real SFA A acquisition passed independent source/capture/model/
-accounting review. Its current owner and accepted result are retained. The explicit
-hold/dedup/queue/reload/feedback continuation was declined before intent because its
-complete window no longer fit; no action or feedback was created. Do not repeat AI.
+accounting review. The earlier nonmodel packet was declined before intent for insufficient horizon.
+A fresh reviewed continuation reused that original owner/result without another AI
+call: cancel/focus, explicit synthetic hold, different-key logical dedup, one action/event,
+owned queue/reopen, phone reload and one agent-synthetic test feedback passed independent
+verification and validation. Original expiry, source epochs, usage and all accounting
+remained unchanged; older unknown liabilities remain held. This is technical evidence,
+with owner, actual VoiceOver and unfamiliar-user acceptance still separate.
 
 The71-row completion register, lifecycle method ledger, failed evidence and exact
 next task are private in `.local/run-records/remaining-execution-20261028/`.
-The finite session is closing; no background continuation is implied. Source-update
+No background continuation is implied. Source-update
 implementation, wider Operations/physical retention, source/gold/protected custody
 and quality, owner/VoiceOver/unfamiliar acceptance remain open. See
 [M15](evidence/M15-lifecycle-continuation.md); historical checkpoints below retain

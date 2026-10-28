@@ -20,10 +20,10 @@ provider/source/capture/accounting review. Its optional browser wire capture fai
 after saving the visible result; immutable provider bytes and outcome were retained.
 Earlier upload readiness timed out in the helper before extraction; original-key
 GET recovery confirmed that same upload saved, without another owner/upload.
-The accepted result remains available to its unchanged owner. The separate
+The accepted result was retained under its unchanged owner. The separate
 nonmodel explicit-action/dedup/queue/feedback packet was declined before intent
-for insufficient full-window headroom. It is unexecuted, not passed. A fresh finite
-nonmodel continuation is the next task; no new model call is needed.
+for insufficient full-window headroom. It is unexecuted, not passed. That historical decline was preserved. A separately admitted fresh nonmodel continuation
+subsequently completed without another model call, as recorded below.
 
 This increment reconciles main after the latency release. Original input remains
 selected; source compaction remains inactive. The submitted video, application
@@ -92,6 +92,30 @@ in this scope; the detailed matrix retains untested states and fixture failures.
 Rohit's returning-owner acceptance, actual observed VoiceOver speech and unfamiliar
 participant comprehension remain distinct. Agents cannot supply those observations.
 
+## Fresh same-owner nonmodel continuation
+
+A separately reviewed finite packet reused the legitimate accepted result and original
+owner without renewal, transfer, reupload or another model call. Actual server reads
+confirmed ownership, currentness, hold eligibility and empty prior action/feedback.
+The live browser canceled unchecked confirmation with no action and focus return,
+reopened and explicitly confirmed a synthetic hold, then sent the separately labelled
+different-key logical-dedup check. Independent persistence review found exactly one
+action, one creation event and two request receipts for that same action.
+
+The owned queue, reopening, 390px layout and reload retained the action. One explicitly
+agent-synthetic disputed-value functional-test feedback record persisted; it is not a
+human report or an asserted extraction defect. All guest, original expiry, evidence,
+source epochs, attempts, usage and budget records were unchanged. The existing older
+unknown liability remains held. The initial unkeyed learning GET failed its request
+contract and was preserved; the corrected keyed read passed before workflow intent.
+
+The fresh helper canary and live desktop/phone captures passed independent review.
+A blank historical phone-helper image prompted a render wait and meaningful capture;
+its failed evidence remains. The phone capture uses explicit scrolling, so these are
+technical layout/effect checks, not unaided discoverability, human acceptance or actual
+VoiceOver speech. They do not complete all six deployed journeys or the full guidance
+activation/rollback lifecycle. No application code or deployment changed in this packet.
+
 ## Open implementation and evidence
 
 - Genuine UK original/update replay and allowlisted live refresh are not completed
@@ -104,8 +128,8 @@ participant comprehension remain distinct. Agents cannot supply those observatio
   no setup or notification was repeated. Broader dashboard provenance and physical
   retention remain open. Immediate expiry denial is separate from deletion.
 - Fresh both-host guestless GET checks and deployed configuration discovery do
-  not close the unfinished current-owner confirmation/queue/feedback rerun or
-  broader live workspace-uncertainty coverage. Expired custody is never restored.
+  not close broader live workspace-uncertainty coverage. The fresh same-owner
+  confirmation/queue/feedback subset is separately verified above. Expired custody is never restored.
 
 ## Methods and limits
 
