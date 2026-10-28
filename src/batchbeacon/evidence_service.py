@@ -17,7 +17,6 @@ from pydantic import Field, model_validator
 
 from batchbeacon.acquisition import AcquisitionCompletion, StoredCompletion
 from batchbeacon.contracts import (
-    AuthorityNotice,
     Correction,
     Digest,
     EvidenceRef,
@@ -30,9 +29,7 @@ from batchbeacon.contracts import (
     Record,
     SourceAgreement,
     SourceDependency,
-    VerificationContext,
     VerificationResult,
-    VerifierPolicy,
 )
 from batchbeacon.domain.verifier import is_current, is_current_evidence, verify
 from batchbeacon.guest_service import GuestDenied, GuestService, GuestSession, OpaqueId, RequestKey
@@ -44,6 +41,7 @@ from batchbeacon.identity_resolution import (
     identity_receipt,
 )
 from batchbeacon.shared_admission import SessionUsage
+from batchbeacon.source_state import EvidenceEnvironment, SourceSelection
 
 
 def replace(record, **updates):
@@ -195,6 +193,8 @@ class EvidenceState(Record):
     results: tuple[VerificationResult, ...] = ()
     receipts: tuple[EvidenceReceipt, ...] = ()
     active_result: Annotated[int, Field(ge=1)] | None = None
+    source_selection: SourceSelection | None = Field(
+        default=None, exclude_if=lambda value: value is None)
 
     @model_validator(mode="after")
     def coherent(self) -> Self:
@@ -236,16 +236,6 @@ class EvidenceState(Record):
         return self
 
 
-class EvidenceEnvironment(Record):
-    """Server-owned catalog/context snapshot; never supplied by the browser/model."""
-    context: VerificationContext
-    notices: tuple[AuthorityNotice, ...]
-    verifier_policy: VerifierPolicy
-
-    def at(self, now: datetime, result_revision: int) -> VerificationContext:
-        return replace(self.context, computed_at=now, result_revision=result_revision)
-
-
 @dataclass(frozen=True)
 class EvidenceSnapshot:
     guest: GuestSession | None
@@ -284,6 +274,8 @@ class EvidenceView:
     hold_eligible: bool
     latest_run_id: str | None = None
     acquisition_complete: bool = False
+    source_environment: EvidenceEnvironment | None = None
+    evaluated_at: datetime | None = None
 
 
 class EvidenceService:
@@ -824,10 +816,11 @@ class EvidenceService:
         value = views[0]
         # The final repository acknowledgment can itself cross a source freshness
         # boundary. Recompute time-derived eligibility after all storage work.
+        evaluated_at = self.guest._now()
         current = bool(value.current and is_current_evidence(value.result,
             value.observation, environments[0].notices,
-            environments[0].at(self.guest._now(), len(value.state.results)),
+            environments[0].at(evaluated_at, len(value.state.results)),
             environments[0].verifier_policy))
         return EvidenceView(value.state, value.observation, value.result, current,
                             bool(current and value.result.hold_eligible), value.latest_run_id,
-                            value.acquisition_complete)
+                            value.acquisition_complete, environments[0], evaluated_at)

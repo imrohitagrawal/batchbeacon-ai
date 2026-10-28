@@ -28,7 +28,7 @@ from pydantic import Field, TypeAdapter, model_validator
 from batchbeacon.acquisition import AcquisitionCompletion, StoredCompletion
 from batchbeacon.action_service import ActionPolicy, ActionSnapshot, ActionState
 from batchbeacon.cloud_policy import ProjectId
-from batchbeacon.contracts import Digest, Record
+from batchbeacon.contracts import Digest, LiveStatus, Record
 from batchbeacon.evidence_service import (
     EvidenceEnvironment,
     EvidencePolicy,
@@ -46,6 +46,7 @@ from batchbeacon.shared_admission import (
     Snapshot,
     settlement_lineage_matches,
 )
+from batchbeacon.source_state import SourceRefreshIntent, SourceRegistry, SourceRuntimeAdmission
 
 Segment = Annotated[str, Field(pattern=r"^[a-z][a-z0-9_-]{0,63}$")]
 PositiveSeconds = Annotated[float, Field(gt=0, allow_inf_nan=False)]
@@ -165,14 +166,16 @@ class _Transaction:
 _MODELS = {"guest": GuestSession, "usage": SessionUsage, "evidence": EvidenceState,
            "actions": ActionState, "environment": EvidenceEnvironment,
            "budget": Budget, "attempt": Attempt, "completion": AcquisitionCompletion,
-           "guest_admission": GuestAdmissionState}
+           "guest_admission": GuestAdmissionState, "source_registry": SourceRegistry,
+           "source_refresh": SourceRefreshIntent}
 
 
 class FirestoreStores:
     def __init__(self, client: FirestoreClient, policy: FirestorePolicy,
                  guest_policy: GuestPolicy, evidence_policy: EvidencePolicy,
                  action_policy: ActionPolicy, *, clock=lambda: datetime.now(UTC),
-                 monotonic=time.monotonic, guest_admission=None, predecessor_liabilities=None):
+                 monotonic=time.monotonic, guest_admission=None, predecessor_liabilities=None,
+                 source_runtime: SourceRuntimeAdmission | None = None):
         if not isinstance(client, FirestoreClient) or client.api_endpoint != policy.api_endpoint:
             raise ValueError("explicit generated client and matching endpoint required")
         self.client, self.policy = client, policy
@@ -180,6 +183,7 @@ class FirestoreStores:
             guest_policy, evidence_policy, action_policy)
         self.clock, self.monotonic = clock, monotonic
         self.guest_admission = guest_admission
+        self.source_runtime = source_runtime
         if predecessor_liabilities is not None:
             predecessor_liabilities.validate_storage(policy)
         self.predecessor_liabilities = predecessor_liabilities
@@ -208,6 +212,8 @@ class FirestoreStores:
             raise ValueError("unknown persistence kind")
         if kind in {"guest", "usage", "evidence", "actions", "retail", "refresh", "learning"}:
             TypeAdapter(Digest).validate_python(key)
+        elif kind == "source_refresh":
+            TypeAdapter(Digest).validate_python(key)
         elif kind in {"attempt", "completion"}:
             TypeAdapter(OpaqueId).validate_python(key)
         elif kind == "environment":
@@ -218,6 +224,34 @@ class FirestoreStores:
             raise ValueError("unexpected incident address")
         suffix = kind + ("-" + key if key else "") + ("-" + incident if incident else "")
         return f"{self.policy.database}/documents/{self.policy.namespace}/{suffix}"
+
+    def source_registry(self, tx, *, finalize=False):
+        if self.source_runtime is None:
+            return None
+        name = self.name("source_registry")
+        records = tx._read_originals({name: "source_registry"}) if finalize else tx.read(
+            {name: "source_registry"})
+        registry = tx.staged[name][1] if name in tx.staged else records[name]
+        if registry is None or registry.catalog.digest() != self.source_runtime.catalog_hash:
+            raise _unavailable()
+        return registry
+
+    def source_environment(self, tx, base, selection, *, finalize=False):
+        registry = self.source_registry(tx, finalize=finalize)
+        if registry is None:
+            if selection is not None:
+                raise _unavailable()
+            return base
+        try:
+            if registry.catalog.environment(None) != base:
+                raise ValueError("default_source_environment_changed")
+            environment = registry.resolve(selection, self.clock())
+            if environment.source_valid_until is not None and (
+                    environment.context.live_status != LiveStatus.EXPIRED):
+                tx.limit_to(environment.source_valid_until)
+            return environment
+        except ValueError:
+            raise _unavailable() from None
 
     def _size(self, document):
         # Conservative Firestore stored-size accounting for this fixed envelope:
@@ -553,6 +587,7 @@ class _Evidence:
         environment = records[s.name("environment")]
         if environment is None:
             raise _unavailable()
+        environment = s.source_environment(tx, environment, state.source_selection)
         latest = next((r for r in reversed(usage.runs) if r.incident_id == incident), None)
         proof = None
         if latest is not None:

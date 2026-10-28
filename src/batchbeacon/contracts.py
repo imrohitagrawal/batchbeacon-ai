@@ -225,10 +225,12 @@ class AuthorityNotice(Record):
     interpretation_complete: bool
     source_available: bool
     source_proposal_agrees: bool
-    products: tuple[AffectedProductRule, ...] = Field(min_length=1)
+    products: tuple[AffectedProductRule, ...] = ()
 
     @model_validator(mode="after")
     def bound_source_support(self) -> Self:
+        if not self.products and (self.review is not None or self.interpretation_complete):
+            raise ValueError("empty_notice_must_remain_unreviewed_and_incomplete")
         if self.retrieved_at.tzinfo is None:
             raise ValueError("retrieval time requires timezone")
         if self.review and self.review.revision != self.dependency.review_revision:
