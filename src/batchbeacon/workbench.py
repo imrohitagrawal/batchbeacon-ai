@@ -48,20 +48,20 @@ class SupportContact(Record):
 
 
 def create_workbench_test_app(extraction, actions, refresh, policy: ExtractionHTTPPolicy,
-                              *, learning=None, support: SupportContact | None = None):
+                              *, learning=None, support: SupportContact | None = None, source=None):
     """Compose existing owned adapters. This factory cannot activate a paid provider."""
     return _create_workbench(extraction, actions, refresh, policy, real=False,
-                             learning=learning, support=support)
+                             learning=learning, support=support, source=source)
 
 
 def create_workbench_app(extraction, actions, refresh, policy: ExtractionHTTPPolicy,
-                         *, learning=None, support: SupportContact | None = None):
+                         *, learning=None, support: SupportContact | None = None, source=None):
     """Compose an explicitly admitted graph; never initialize or replenish its budget."""
     return _create_workbench(extraction, actions, refresh, policy, real=True,
-                             learning=learning, support=support)
+                             learning=learning, support=support, source=source)
 
 
-def _create_workbench(extraction, actions, refresh, policy, *, real, learning, support):
+def _create_workbench(extraction, actions, refresh, policy, *, real, learning, support, source):
     support = SupportContact() if support is None else SupportContact.model_validate(support)
     guest, evidence = extraction.evidence.guest, extraction.evidence
     if refresh.guest is not guest or refresh.retail.projector.actions is not actions:
@@ -74,6 +74,11 @@ def _create_workbench(extraction, actions, refresh, policy, *, real, learning, s
         if learning.guest is not guest or learning.evidence is not evidence:
             raise ValueError('learning requires the same owned workbench graph')
         mount_learning_api(app, learning, policy)
+    if source is not None:
+        from batchbeacon.source_api import mount_source_api
+        if source.guest is not guest or source.evidence is not evidence:
+            raise ValueError("source requires the same owned workbench graph")
+        mount_source_api(app, source, policy)
     app.state.support_configuration_hash = support.digest()
     app.title = 'BatchBeacon AI' if real else 'BatchBeacon AI — connected local integration'
     prior_denied = app.exception_handlers[GuestDenied]
@@ -130,6 +135,7 @@ def _create_workbench(extraction, actions, refresh, policy, *, real, learning, s
             'max_images': guest.policy.uploads.max_images,
             'max_image_bytes': guest.policy.uploads.max_image_bytes,
             'refresh_interval_seconds': refresh.policy.minimum_interval_seconds,
+            'source_review': source is not None,
             'guidance': 'OWNED_LIFECYCLE_CONNECTED' if learning else
                 'OWNED_LIFECYCLE_NOT_CONNECTED',
             'guidance_policies': {key: value.model_dump(mode='json')

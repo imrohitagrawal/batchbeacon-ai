@@ -308,8 +308,12 @@ def build_app(config: RuntimeConfig, asset_root: Path):
             evidence, shared, config.extraction, {config.source_selection: reviewed.bundle}
         )
         refresh = RetailRefresh(stores.retail, config.refresh)
+        from batchbeacon.source_service import SourceService
+
+        source = SourceService(evidence, stores) if config.source_runtime is not None else None
         app = create_workbench_app(
-            extraction, actions, refresh, config.http, learning=stores.learning, support=support
+            extraction, actions, refresh, config.http, learning=stores.learning,
+            support=support, source=source
         )
         app.state.runtime_configuration_hash = config.digest()
 

@@ -1,14 +1,15 @@
 # BatchBeacon AI — current execution state
 
-## Source-state reader increment
+## Source runtime increment
 
-The compatible-reader increment prepares owned selection and trusted refresh
-schemas, shared currentness snapshots and per-incident retail resolution, with no
-source writer, fetch or promotion. See [M17](evidence/M17-source-runtime-reader.md).
+The new runtime adds owned selection and trusted refresh; see
+[M18](evidence/M18-source-runtime.md). Unknown UK retrieval requires the final
+nullable-compatible image at 100% plus drain before any new cloud source record.
 Publication/deployment and exact checks are tracked in the private continuation
 handoff; source-runtime activation and AC-13–15 remain incomplete. The 509-record
 legacy corpus retains identical canonical values. UK remains review-only; no new
 model call, ownership renewal or accounting reset is part of this increment.
+Rollback must retain that image and catalog-bound read-only admission.
 
 ## Lifecycle continuation checkpoint
 

@@ -141,7 +141,7 @@ def _evidence_view(view):
             "blocked": blocked or context.live_status.value in {"FAILED", "EXPIRED"}
                 or context.mode.value == "LIVE" and context.live_status.value != "VALIDATED",
             "notices": [n.model_dump(mode="json", include={"authority", "dependency",
-                "published_at", "jurisdictions", "final_url"}) | {
+                "published_at", "jurisdictions", "final_url", "retrieved_at"}) | {
                 "review_only": n.review is None or not n.interpretation_complete}
                 for n in environment.notices],
         }

@@ -219,7 +219,7 @@ class AuthorityNotice(Record):
     original_url: Nonempty
     final_url: Nonempty
     published_at: date
-    retrieved_at: datetime
+    retrieved_at: datetime | None
     jurisdictions: tuple[Nonempty, ...] = Field(min_length=1)
     review: HumanReview | None
     interpretation_complete: bool
@@ -231,7 +231,10 @@ class AuthorityNotice(Record):
     def bound_source_support(self) -> Self:
         if not self.products and (self.review is not None or self.interpretation_complete):
             raise ValueError("empty_notice_must_remain_unreviewed_and_incomplete")
-        if self.retrieved_at.tzinfo is None:
+        if self.retrieved_at is None:
+            if self.review is not None or self.interpretation_complete:
+                raise ValueError("reviewed_notice_requires_known_retrieval_time")
+        elif self.retrieved_at.tzinfo is None:
             raise ValueError("retrieval time requires timezone")
         if self.review and self.review.revision != self.dependency.review_revision:
             raise ValueError("review revision must match dependency")
