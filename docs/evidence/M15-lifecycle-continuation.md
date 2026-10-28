@@ -34,6 +34,25 @@ execution, failure after circuit commit, schema rejection and failed log sinks.
 Full-suite, hosted and deployed evidence must be checked separately before release;
 this document does not assert the emitter is deployed or a live alert fired.
 
+## Guidance cancellation correction
+
+The full keyboard walkthrough reproduced a REQUIRED_CONTRACT focus failure:
+Escape from guidance activation returned focus to BODY on desktop and phone.
+The asynchronous preparation task had disabled the opener before the native
+dialog could remember it. DESIGN requires confirmation cancellation to return
+focus to its invoking action (R02/R09 and audit-F6).
+
+| Before | After | Why |
+| --- | --- | --- |
+| Canceling guidance confirmation loses keyboard location. | Canceled activation/rollback returns to its enabled invoking control. | Preserve keyboard continuity without changing wording or layout. |
+| Native restoration relies on the temporarily disabled opener. | Bind restoration to the original investigation/selection and guidance view. | Expiry, case changes and navigation must not receive stale focus. |
+
+The accepted-confirmation path suppresses this cancellation restoration. It keeps
+the existing explicit consent, server revision checks, transition cardinality and
+completion feedback. Desktop/phone regression repeats Escape, reopens, confirms,
+activates, observes subsequent guidance, rolls back and reloads. No visual direction,
+text, image, palette, typography or geometry change is introduced.
+
 ## User-angle validation
 
 An independent expert exercised the current native frontend with controlled
