@@ -81,8 +81,12 @@ def learning_browser():
             assert not thread.is_alive()
 
 
-def test_owned_guidance_browser_evaluation_activation_effect_rollback_and_reload(learning_browser):
+@pytest.mark.parametrize('width', [1440, 390])
+def test_owned_guidance_browser_evaluation_activation_effect_rollback_and_reload(
+    learning_browser, width,
+):
     page, c, learning, errors = learning_browser
+    page.set_viewport_size({'width': width, 'height': 1000})
     page.get_by_role("link", name="Capture guidance", exact=True).click()
     expect(page.locator("#guidance-policy-state")).to_contain_text("revision 1")
     if capture_dir := os.environ.get("BATCHBEACON_CAPTURE_DIR"):
@@ -100,7 +104,14 @@ def test_owned_guidance_browser_evaluation_activation_effect_rollback_and_reload
     expect(page.locator("#candidate-state")).to_contain_text("CANDIDATE READY")
     page.locator("#candidate-evaluate").click()
     expect(page.locator("#candidate-state")).to_contain_text("Attempt 1: PASSED")
-    page.locator("#learning-activate").click()
+    page.locator("#learning-activate").focus()
+    page.locator("#learning-activate").press('Enter')
+    expect(page.locator("#learning-dialog")).to_be_visible()
+    page.keyboard.press('Escape')
+    expect(page.locator("#learning-dialog")).not_to_be_visible()
+    expect(page.locator("#learning-activate")).to_be_focused()
+    assert len(learning.read(c[2]).transitions) == 0
+    page.locator("#learning-activate").press('Enter')
     expect(page.locator("#learning-dialog")).to_be_visible()
     expect(page.locator("#learning-confirm")).to_be_disabled()
     expect(page.locator("#learning-preview")).to_contain_text("avoid glare")
@@ -109,7 +120,15 @@ def test_owned_guidance_browser_evaluation_activation_effect_rollback_and_reload
     expect(page.locator("#guidance-policy-state")).to_contain_text("revision 2")
     page.locator("#guidance-request").click()
     expect(page.locator("#owned-guidance")).to_contain_text("avoid glare")
-    page.locator("#learning-rollback").click()
+    page.locator("#learning-rollback").focus()
+    page.locator("#learning-rollback").press('Enter')
+    expect(page.locator("#learning-dialog")).to_be_visible()
+    page.keyboard.press('Escape')
+    expect(page.locator("#learning-dialog")).not_to_be_visible()
+    expect(page.locator("#learning-rollback")).to_be_focused()
+    assert len(learning.read(c[2]).transitions) == 1
+    page.locator("#learning-rollback").press('Enter')
+    expect(page.locator("#learning-dialog")).to_be_visible()
     expect(page.locator("#learning-confirm")).to_be_disabled()
     page.locator("#learning-consent").check()
     page.locator("#learning-confirm").click()

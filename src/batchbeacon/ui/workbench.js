@@ -668,7 +668,7 @@ async function prepareLearning(kind) {
   const evaluation=learningSelection().evaluation;
   const target=await api(kind==='activate'?`/api/learning/activation/prepare?evaluation=${evaluation.id}`:'/api/learning/rollback/prepare');
   if(state.expired||state.selection!==selection||state.incident!==incident)return;
-  state.learningTarget={kind,target};$('learning-consent').checked=false;
+  state.learningTarget={kind,target,selection,incident,confirmed:false};$('learning-consent').checked=false;
   text('learning-confirm-title',kind==='activate'?'Review evaluated capture wording':'Review guidance rollback');
   const box=$('learning-preview');box.replaceChildren();
   for(const id of ['GUIDANCE_V1','GUIDANCE_V2']){box.append(node('h3',id.replaceAll('_',' ')));for(const item of state.config.guidance_policies[id].instructions)box.append(node('p',item.text));}
@@ -686,8 +686,14 @@ $('candidate-evaluate').addEventListener('click',()=>task(()=>learningMutation(`
 $('learning-activate').addEventListener('click',()=>task(()=>prepareLearning('activate')));
 $('learning-rollback').addEventListener('click',()=>task(()=>prepareLearning('rollback')));
 $('learning-consent').addEventListener('change',controls);
-$('learning-confirm').addEventListener('click',()=>task(async()=>{const {kind,target}=state.learningTarget;const body=kind==='activate'?{basis:target,explicit_confirmation:true}:{...target,explicit_confirmation:true};$('learning-dialog').close();await learningMutation(`/api/learning/${kind==='activate'?'activation':'rollback'}`,body);message('Wording transition saved for this evaluation workspace. Request fresh guidance to see its effect.');}));
-$('learning-dialog').addEventListener('close',()=>{state.learningTarget=null;$('learning-consent').checked=false;controls();});
+$('learning-confirm').addEventListener('click',()=>task(async()=>{const {kind,target}=state.learningTarget;const body=kind==='activate'?{basis:target,explicit_confirmation:true}:{...target,explicit_confirmation:true};state.learningTarget.confirmed=true;$('learning-dialog').close();await learningMutation(`/api/learning/${kind==='activate'?'activation':'rollback'}`,body);message('Wording transition saved for this evaluation workspace. Request fresh guidance to see its effect.');}));
+$('learning-dialog').addEventListener('close',()=>{
+  const closed=state.learningTarget;
+  state.learningTarget=null;$('learning-consent').checked=false;controls();
+  if(!closed||closed.confirmed||state.expired||state.view!=='guidance'||closed.selection!==state.selection||closed.incident!==state.incident)return;
+  const opener=$(closed.kind==='activate'?'learning-activate':'learning-rollback');
+  if(!opener.disabled&&!opener.hidden)opener.focus();
+});
 
 // Optional explanatory overlay; shared copy, no API or workflow side effects.
 let tourStep=0;
