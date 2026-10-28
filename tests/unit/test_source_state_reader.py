@@ -231,3 +231,26 @@ def test_metadata_only_unreviewed_notice_can_never_authorize_or_clear(setup):
         replace(metadata, review=base.notices[0].review)
     with pytest.raises(ValidationError):
         replace(metadata, interpretation_complete=True)
+
+
+def test_refresh_pending_retains_last_known_hash_and_unique_operation_owner():
+    state = FamilyRefresh(family="synthetic-family", epoch=2, status="CHANGED",
+        observed_hash="a" * 64, last_known_hash="a" * 64, checked_at=NOW,
+        valid_until=NOW + timedelta(seconds=60))
+    pending = replace(state, status="UNAVAILABLE", observed_hash=None, pending_refresh="b" * 64)
+    assert pending.last_known_hash == state.observed_hash and pending.epoch == 2
+    assert replace(pending, pending_refresh=None).last_known_hash == state.observed_hash
+    with pytest.raises(ValidationError):
+        replace(pending, last_known_hash=None)
+    with pytest.raises(ValidationError):
+        replace(state, pending_refresh="b" * 64)
+    with pytest.raises(ValidationError):
+        replace(state, last_known_hash="c" * 64)
+
+
+def test_source_representation_is_explicit_and_does_not_promote_rendered_text(setup):
+    original = registry_for(setup).catalog.choices[0]
+    assert original.capture_kind == "UNVERIFIED"
+    assert replace(original, capture_kind="RETAINED_RENDERED_TEXT").capture_kind != "RAW_HTTP_BODY"
+    with pytest.raises(ValidationError):
+        replace(original, capture_kind="MODEL_ASSERTED_RAW")

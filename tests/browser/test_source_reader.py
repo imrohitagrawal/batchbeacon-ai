@@ -26,15 +26,23 @@ pytestmark = pytest.mark.browser
 
 
 @pytest.mark.parametrize("width", [1440, 390])
-@pytest.mark.parametrize("completed", [True, False])
+@pytest.mark.parametrize("completed", [True, False, None])
 def test_reader_reopens_owned_metadata_source_without_default_source_or_ai(
         connected_browser, width, completed):
     page, c, context, errors = connected_browser
     if completed:
         check_sample(page)
-    else:
+    elif completed is False:
         page.get_by_role("button", name="Use this label", exact=True).click()
         expect(page.locator("#capture-images img")).to_have_count(1)
+    else:
+        origin = page.url.rstrip("/")
+        response = page.request.post(origin + "/api/incidents", headers={
+            "Origin": origin, "X-CSRF-Token": page.evaluate("state.csrf"),
+            "Idempotency-Key": "empty-source-reader"})
+        assert response.ok
+        page.goto(origin + "/?incident=" + response.json()["incident_id"])
+        expect(page.locator("#incident-id")).to_contain_text("Incident")
     stores, server, guest, evidence, actions, now = c[3]
     token = next(row["value"] for row in context.cookies()
                  if row["name"] == guest.policy.cookie_name)
@@ -73,7 +81,10 @@ def test_reader_reopens_owned_metadata_source_without_default_source_or_ai(
     assert page.locator("#inspect-source-notice").get_attribute("href") == metadata.final_url
     assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
     if not completed:
-        expect(page.locator("#label-status")).to_contain_text("Source interpretation needs review")
+        expect(page.locator("#verdict-copy")).to_contain_text("Source interpretation needs review")
+        if completed is False:
+            expect(page.locator("#label-status")).to_contain_text(
+                "Source interpretation needs review")
         expect(page.locator("#decision-title")).to_have_text("Source review is required")
         expect(page.locator("#capability-help")).to_contain_text("No AI check or stock hold")
     assert not errors

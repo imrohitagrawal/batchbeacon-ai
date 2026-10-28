@@ -74,6 +74,7 @@ class SourceSelection(Record):
 
 class SourceChoice(Record):
     key: Nonempty
+    capture_kind: Literal["UNVERIFIED", "RAW_HTTP_BODY", "RETAINED_RENDERED_TEXT"] = "UNVERIFIED"
     environment: EvidenceEnvironment
 
 
@@ -150,13 +151,34 @@ class FamilyRefresh(Record):
     epoch: Revision
     status: Literal["NEVER_REQUESTED", "UNCHANGED", "CHANGED", "UNAVAILABLE"]
     observed_hash: Digest | None = None
+    last_known_hash: Digest | None = Field(default=None, exclude_if=lambda value: value is None)
+    pending_refresh: Digest | None = Field(default=None, exclude_if=lambda value: value is None)
     checked_at: AwareDatetime | None = None
     valid_until: AwareDatetime | None = None
 
     @model_validator(mode="after")
     def coherent(self) -> Self:
+        if self.pending_refresh is not None and (
+            self.status != "UNAVAILABLE" or self.last_known_hash is None
+        ):
+            raise ValueError("pending_refresh_requires_unavailable_retained_baseline")
+        if (
+            self.observed_hash is not None
+            and self.last_known_hash is not None
+            and (self.observed_hash != self.last_known_hash)
+        ):
+            raise ValueError("observed_source_hash_must_be_retained")
         if self.status == "NEVER_REQUESTED":
-            if any(v is not None for v in (self.observed_hash, self.checked_at, self.valid_until)):
+            if any(
+                v is not None
+                for v in (
+                    self.observed_hash,
+                    self.checked_at,
+                    self.valid_until,
+                    self.last_known_hash,
+                    self.pending_refresh,
+                )
+            ):
                 raise ValueError("unrequested_refresh_has_no_observation")
         elif (
             self.checked_at is None

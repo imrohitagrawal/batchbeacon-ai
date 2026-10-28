@@ -39,6 +39,13 @@ checks and current live results. Loading or failed reads hide notice targets unt
 the owned selection is known. Independent controlled reproductions found and
 verified these corrections; they share the source-presentation root cause.
 
+The reader schema also distinguishes raw HTTP bodies from retained rendered text.
+SFA's reviewed capture is raw HTML; UK captures are rendered main text and cannot be
+compared directly to freshly fetched HTML. A future writer must retain the last
+known byte hash across unavailable/expired states and bind each pending family to
+its unique journal key. This prevents overlapping or recovered requests from
+advancing an epoch twice for the same bytes.
+
 The new strict refresh journal schema binds operation chronology and an epoch step;
 no writer exists in this increment. A future trusted operator refresh is separate
 from guest replay and cannot promote source interpretation.
