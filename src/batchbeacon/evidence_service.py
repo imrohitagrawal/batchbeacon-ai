@@ -274,6 +274,8 @@ class EvidenceView:
     hold_eligible: bool
     latest_run_id: str | None = None
     acquisition_complete: bool = False
+    source_environment: EvidenceEnvironment | None = None
+    evaluated_at: datetime | None = None
 
 
 class EvidenceService:
@@ -814,10 +816,11 @@ class EvidenceService:
         value = views[0]
         # The final repository acknowledgment can itself cross a source freshness
         # boundary. Recompute time-derived eligibility after all storage work.
+        evaluated_at = self.guest._now()
         current = bool(value.current and is_current_evidence(value.result,
             value.observation, environments[0].notices,
-            environments[0].at(self.guest._now(), len(value.state.results)),
+            environments[0].at(evaluated_at, len(value.state.results)),
             environments[0].verifier_policy))
         return EvidenceView(value.state, value.observation, value.result, current,
                             bool(current and value.result.hold_eligible), value.latest_run_id,
-                            value.acquisition_complete)
+                            value.acquisition_complete, environments[0], evaluated_at)

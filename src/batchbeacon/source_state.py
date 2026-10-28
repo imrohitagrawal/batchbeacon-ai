@@ -32,6 +32,9 @@ class EvidenceEnvironment(Record):
     context: VerificationContext
     notices: tuple[AuthorityNotice, ...]
     verifier_policy: VerifierPolicy
+    source_refresh_outcome: Literal["UNCHANGED", "CHANGED", "UNAVAILABLE", "EXPIRED"] | None = (
+        Field(default=None, exclude_if=lambda value: value is None)
+    )
     source_valid_until: AwareDatetime | None = Field(
         default=None, exclude_if=lambda value: value is None
     )
@@ -88,7 +91,7 @@ class SourceCatalog(Record):
         if len(choices) != len(self.choices) or self.default_choice not in choices:
             raise ValueError("invalid_source_catalog_choices")
         for env in choices.values():
-            if env.source_valid_until is not None:
+            if env.source_valid_until is not None or env.source_refresh_outcome is not None:
                 raise ValueError("catalog_cannot_supply_refresh_validity")
             if (
                 not env.notices
@@ -220,8 +223,24 @@ class SourceRegistry(Record):
                 else LiveStatus.VALIDATED,
                 live_validated_at=min(s.checked_at for s in attempted),
             )
+        outcome = None
+        if attempted:
+            if expired:
+                outcome = "EXPIRED"
+            elif any(
+                s.status == "CHANGED"
+                or s.status == "UNCHANGED"
+                and s.observed_hash != n.dependency.content_hash
+                for n in env.notices
+                for s in attempted
+                if s.family == n.dependency.family
+            ):
+                outcome = "CHANGED"
+            else:
+                outcome = "UNAVAILABLE" if failed else "UNCHANGED"
         return changed(
             env,
+            source_refresh_outcome=outcome,
             context=context,
             notices=tuple(notices),
             source_valid_until=min(s.valid_until for s in attempted) if attempted else None,

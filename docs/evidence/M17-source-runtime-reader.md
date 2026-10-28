@@ -24,6 +24,21 @@ review-required, never a negative or hold. UK original/update metadata must matc
 the genuine byte-bound preparation receipt, including subnational scope. U17's
 parent/company-PDF interpretation and context gates remain unresolved.
 
+The compatible reader also returns the effective owned source metadata to the
+workbench. Reopening a selected review-only notice shows its actual authority,
+version and subnational scope, rather than the default SFA source. Extraction is
+disabled for an unreviewed, unavailable or expired source. Existing historical
+SFA wording and principal assets remain unchanged. Controlled desktop/phone
+regressions fail on the earlier reader and pass with this rendering; fake-model
+call counts do not increase during reopen. The first private test selected the
+fixture owner's case instead of the browser owner's; corrected ownership tests
+and both earlier failures are retained separately.
+
+Source-specific help covers a saved label without a result, failed/expired live
+checks and current live results. Loading or failed reads hide notice targets until
+the owned selection is known. Independent controlled reproductions found and
+verified these corrections; they share the source-presentation root cause.
+
 The new strict refresh journal schema binds operation chronology and an epoch step;
 no writer exists in this increment. A future trusted operator refresh is separate
 from guest replay and cannot promote source interpretation.

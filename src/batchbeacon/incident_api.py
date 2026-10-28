@@ -120,7 +120,33 @@ def _evidence_view(view):
     # Raw values, corrections and selected original revisions are reviewable.
     # Provider response bodies/configuration stay in the internal evidence store;
     # this retail surface does not expose diagnostic traces or bearer identities.
+    environment = view.source_environment
+    source = None
+    if environment is not None:
+        context = environment.at(view.evaluated_at, max(1, len(state.results)))
+        current = {d.family: d for d in context.current_sources}
+        blocked = any(n.review is None or not n.interpretation_complete or not n.source_available
+                      or current.get(n.dependency.family) != n.dependency
+                      for n in environment.notices)
+        source = {
+            "selection": state.source_selection.model_dump(mode="json", exclude={"receipts"})
+                if state.source_selection else None,
+            "mode": context.mode.value, "live_status": context.live_status.value,
+            "refresh_outcome": "EXPIRED" if context.live_status.value == "EXPIRED"
+                else environment.source_refresh_outcome,
+            "checked_at": context.live_validated_at.isoformat()
+                if context.live_validated_at else None,
+            "valid_until": environment.source_valid_until.isoformat()
+                if environment.source_valid_until else None,
+            "blocked": blocked or context.live_status.value in {"FAILED", "EXPIRED"}
+                or context.mode.value == "LIVE" and context.live_status.value != "VALIDATED",
+            "notices": [n.model_dump(mode="json", include={"authority", "dependency",
+                "published_at", "jurisdictions", "final_url"}) | {
+                "review_only": n.review is None or not n.interpretation_complete}
+                for n in environment.notices],
+        }
     return {
+        "source": source,
         "observation": view.observation.model_dump(mode="json", exclude={"session_id"})
         if view.observation else None,
         "result": view.result.model_dump(mode="json", exclude={"session_id"})
