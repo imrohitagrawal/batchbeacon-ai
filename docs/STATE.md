@@ -2,19 +2,29 @@
 
 ## Source runtime increment
 
-The new runtime adds owned selection and trusted refresh; see
-[M18](evidence/M18-source-runtime.md). Unknown UK retrieval requires the final
-nullable-compatible image at 100% plus drain before any new cloud source record.
-Publication/deployment and exact checks are tracked in the private continuation
-handoff; source-runtime activation and AC-13–15 remain incomplete. The 509-record
-legacy corpus retains identical canonical values. UK remains review-only; no new
-model call, ownership renewal or accounting reset is part of this increment.
-Rollback must retain that image and catalog-bound read-only admission.
+PR40/main `516c741` publishes application source `125b9f0`, now serving on image
+`bfe716d8` with runtime `640dc0fc`; see [M18](evidence/M18-source-runtime.md).
+The nullable-compatible reader served at 100% and completed its request drain
+before new cloud source records. Same-image, catalog-bound replay-disabled
+rollback and restoration passed with the same owners and saved update/v2.
 
-## Lifecycle continuation checkpoint
+Local and exact hosted push/PR/main checks pass 1,678 unit/255 browser/30 edge;
+ten emulator checks are separate. Real Firestore refresh checks used controlled
+source responses and clocks. The genuine UK metadata journey, two-owner
+isolation, 390px reload, final accounting and 540-payload reader checks passed
+independent technical review. Of 509 legacy records, 508 remain byte-identical;
+the remaining change is the lawful admission of two new synthetic workspaces.
+Paid usage, older unknown liabilities and protected allowances are unchanged.
+
+UK interpretation and matching remain review-only; AC-13–15 and overall human
+acceptance are incomplete. No new model or authority-source fetch occurred.
+MEDIUM/24,576, original input, min0 and the bounded ADK workflow are preserved.
+Private failures, recovery evidence and an HTTP uncertainty reserve remain held.
+
+## Previous lifecycle continuation checkpoint
 
 PR36/main `4336b6a` publishes application source `03906c9`. The independently
-reviewed admission-alert and guidance cancellation-focus corrections serve at100%
+reviewed admission-alert and guidance cancellation-focus corrections served at100%
 on image `38cd6a258f49ec252d53f273e5d76ce7cec7be08e2e782ecaf8ef11711045a6d`.
 Original-input runtime `901483b4`, MEDIUM/24,576, min0 and existing controls remain.
 Local and exact hosted push/PR/main checks pass1,574 unit/232 browser/30 edge;
@@ -36,7 +46,7 @@ with owner, actual VoiceOver and unfamiliar-user acceptance still separate.
 The71-row completion register, lifecycle method ledger, failed evidence and exact
 next task are private in `.local/run-records/remaining-execution-20261028/`.
 No background continuation is implied. Source-update
-implementation, wider Operations/physical retention, source/gold/protected custody
+interpretation, physical retention, source/gold/protected custody
 and quality, owner/VoiceOver/unfamiliar acceptance remain open. See
 [M15](evidence/M15-lifecycle-continuation.md); historical checkpoints below retain
 their scope and do not override this observed release.
