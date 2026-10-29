@@ -82,7 +82,7 @@ button:disabled { cursor: not-allowed; }
 @keyframes operation-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .operation-status[data-busy="true"]::before { animation: none; } }
 .preview-toolbar .operation-status { flex-basis: 100%; }
-#app-status, #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary, #source-status, #decision-status, #capture-file, #correction-field { scroll-margin-top: 150px; }
+#label-status, #comparison-title, #decision-title, #app-status, #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary, #source-status, #decision-status, #capture-file, #correction-field { scroll-margin-top: 150px; }
 #operator-help, .review-checklist, #source-review, #check-explanation { margin-block: 12px; }
 #case-reference { width: 100%; box-sizing: border-box; }
 /* A progress list, not a second navigation bar. Numbers are rendered once. */
@@ -102,7 +102,7 @@ button:disabled { cursor: not-allowed; }
 #history, #field-provenance { font-size: .875rem; line-height: 1.6; }
 #history-audit { font-size: .75rem; overflow-wrap: anywhere; white-space: pre-wrap; }
 #sample-choice { scroll-margin-top: 150px; }
-@media (max-width:760px) { #app-status, #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary, #source-status, #decision-status, #capture-file, #correction-field { scroll-margin-top: 110px; } }
+@media (max-width:760px) { #label-status, #comparison-title, #decision-title, #app-status, #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary, #source-status, #decision-status, #capture-file, #correction-field { scroll-margin-top: 110px; } }
 
 /* Audit records remain readable when expanded, with exact values on demand. */
 #field-audit { font-size: .875rem; line-height: 1.6; }
@@ -129,3 +129,5 @@ button:disabled { cursor: not-allowed; }
   animation: label-ready-cue var(--ready-cue-duration) step-end; }
 /* Identical endpoints keep keyboard and reduced-motion feedback instant and still. */
 @keyframes label-ready-cue { from, to { opacity: 1; } }
+
+#review-evidence { margin-bottom: 16px; }
