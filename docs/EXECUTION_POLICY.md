@@ -76,3 +76,42 @@ After two unchanged failures, diagnose. Use a changed bounded experiment or docu
 Stop the affected operation at a dependency, authority, integrity or budget boundary. Stop the overall goal when its allowed tasks are done, all remaining tasks are blocked, its private expiry arrives or host/client/auth/quota prevents continuation. At fixed feature freeze, stop feature work; only an already-admitted review/critical-correction/packaging queue may continue within its still-valid expiry and allowance. Ordinary local authority does not extend a run.
 
 Compaction continues the same authorized objective after state reconciliation. A terminated CLI requires an actual supported restart/resume. Markdown cannot restart a process. No custom watchdog, recursive hook, scheduled resurrection, hosted executor or automatic purchase of coding capacity is part of this plan. Use [the bounded goal prompt](../prompts/overnight-goal.md) only after the real admission checks pass.
+
+## 7. Completion and successor contract
+
+U49 makes end-to-end completion the execution objective. After bounded discovery,
+select a concrete remaining outcome from the acceptance register and carry it
+through implementation, integration, meaningful checks, independent verification,
+and any already-authorized release or operational steps whose prerequisites pass.
+Planning, preflight, documentation or a small code increment is sufficient only
+when that is the complete requested outcome; it is not a reason to stop a larger
+authorized task. After an outcome passes, continue the next dependency-ready work
+without asking for routine permission or a new session.
+
+Checkpoint durable state during execution and keep working. Before handing off,
+inspect the remaining queue and state the actual stopping condition: all authorized
+acceptance complete; every remaining path depends on a specific unavailable human
+input, authority, resource or external-state change; an applicable finite limit; or
+a necessary client/session boundary. One blocked path does not block independent
+work. Ask for indispensable human input early while progressing independent tasks.
+Do not invent a timebox, repeat an unchanged declined experiment, or reopen passed
+work merely to create another preparation packet.
+
+Every handoff and copy-paste successor prompt must include the following contract,
+plus a concrete first outcome, its prerequisites, allowed actions, acceptance
+checks, and any independent work available if that outcome is blocked:
+
+Successor instructions must direct the next agent to carry authorized work through
+implementation, integration, meaningful verification and permitted release in the
+current context. Checkpoints preserve continuity without completing an engineering
+task. After a successful increment, start the next task whose dependencies are met.
+End only after verified completion, a specific unavailable input, an enforced
+authority, resource or technical limit, or a necessary session boundary. Include
+this policy and named tasks, prerequisites and acceptance checks in every successor.
+The owner's private notes retain the full owner completion contract.
+
+This changes persistence and completion discipline, not authority or evidence.
+Preserve finite ceilings, unknown liabilities, ownership/expiry, independent review,
+human source/custody/AT gates and release requirements. Never manufacture a human
+pass, weaken a gate or promise that a future session will finish an externally
+blocked requirement. Report complete, incomplete, blocked and not-run separately.

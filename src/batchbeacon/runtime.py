@@ -8,6 +8,7 @@ from typing import Annotated, Literal
 
 from pydantic import Field, model_validator
 
+from batchbeacon import provenance_events
 from batchbeacon.action_service import ActionPolicy, ActionService
 from batchbeacon.attempt_evidence import NonbillablePolicy
 from batchbeacon.contracts import Record
@@ -91,6 +92,9 @@ class RuntimeConfig(Record):
         default=None, exclude_if=lambda value: value is None
     )
     nonbillable_policy: NonbillablePolicy | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
+    provenance: provenance_events.ProvenancePolicy | None = Field(
         default=None, exclude_if=lambda value: value is None
     )
     predecessor_liabilities: PredecessorLiabilities | None = Field(
@@ -238,7 +242,7 @@ class ObservedCapacity:
         )
 
 
-def build_app(config: RuntimeConfig, asset_root: Path):
+def build_app(config: RuntimeConfig, asset_root: Path, *, deployment_revision=None):
     from batchbeacon.workbench import SupportContact
 
     support = SupportContact(email=os.environ.get("BATCHBEACON_SUPPORT_EMAIL"))
@@ -249,6 +253,8 @@ def build_app(config: RuntimeConfig, asset_root: Path):
         or os.environ.get("STORAGE_EMULATOR_HOST")
     ):
         raise ValueError("production environment is not explicitly admitted")
+    provenance = (provenance_events.context(config.provenance, config.digest(), deployment_revision)
+                  if config.provenance is not None else None)
     reviewed, suite = load_assets(asset_root, config)
     if (
         config.evidence.identity_admission != reviewed.identities.admission
@@ -304,8 +310,10 @@ def build_app(config: RuntimeConfig, asset_root: Path):
             config.learning,
             capability=ObservedCapacity(shared, config.retail_read),
         )
+        stores.learning.provenance = provenance
         extraction = ExtractionService(
-            evidence, shared, config.extraction, {config.source_selection: reviewed.bundle}
+            evidence, shared, config.extraction, {config.source_selection: reviewed.bundle},
+            provenance=provenance
         )
         refresh = RetailRefresh(stores.retail, config.refresh)
         from batchbeacon.source_service import SourceService
@@ -355,4 +363,5 @@ def create_app():
         raise ValueError("exactly one explicit runtime configuration required")
     raw = Path(path).read_bytes() if path else inline
     config = RuntimeConfig.model_validate_json(raw)
-    return build_app(config, Path(__file__).resolve().parents[2])
+    return build_app(config, Path(__file__).resolve().parents[2],
+                     deployment_revision=os.environ.get("K_REVISION"))

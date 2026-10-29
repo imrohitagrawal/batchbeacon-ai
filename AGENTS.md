@@ -45,6 +45,8 @@ The unchanged originals are `HACKATHON_BRIEF.md` and
 - One integrator writes contracts, locks, state and deployment. Read-only independent
   reviewers are authorized. Extra writer requires capacity + isolated worktree.
 - Continue dependency-ready tasks; a blocked path does not block unrelated work.
+- Complete authorized outcomes through integration and verification in the same context.
+  Every successor inherits the completion contract in `docs/EXECUTION_POLICY.md` §7.
 - Native goal requires finite private policy and useful continuation/recovery canary.
   No custom supervisor, recursive hooks or claim that a document starts a process.
 - Exact run timing, account hints, session/process IDs and private logs belong only

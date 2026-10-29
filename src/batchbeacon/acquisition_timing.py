@@ -14,6 +14,8 @@ from threading import Lock
 from time import monotonic
 from uuid import uuid4
 
+from batchbeacon import provenance_events
+
 STAGES = ('ownership', 'preparation', 'model_setup', 'count', 'admission', 'provider',
           'response_storage', 'model_cleanup', 'accounting', 'validation', 'persistence',
           'saved_status', 'response')
@@ -33,8 +35,15 @@ if not _logger.handlers:
 
 
 class AcquisitionTiming:
-    def __init__(self, policy_hash):
+    def __init__(self, policy_hash, *, provenance=None):
         self.policy_hash = policy_hash
+        self.provenance = self.lineage = None
+        try:
+            if provenance is not None:
+                self.provenance = provenance_events.ProvenanceContext.model_validate(provenance)
+                self.lineage = provenance_events.initial(self.provenance)
+        except Exception:
+            pass
         self.correlation = uuid4().hex
         self._lock = Lock()
         self._started = self._since = monotonic()
@@ -90,6 +99,13 @@ class AcquisitionTiming:
             _logger.info(json.dumps(record, separators=(',', ':')))
         except Exception:
             pass
+        if self.lineage is not None:
+            try:
+                value = provenance_events.Lineage.model_validate(self.lineage.model_dump() | {
+                    "outcome": outcome})
+                provenance_events.emit(self.provenance, value)
+            except Exception:
+                pass
         return record
 
 
@@ -112,3 +128,18 @@ def bind(run_id, request_hash, configuration_hash):
     timing = _current.get()
     if timing is not None:
         timing.bind(run_id, request_hash, configuration_hash)
+
+
+def lineage(binding, **updates):
+    timing = _current.get()
+    if timing is None or binding is None:
+        return
+    try:
+        with timing._lock:
+            if timing._finished:
+                return
+            value = timing.lineage or provenance_events.initial(binding)
+            timing.lineage = provenance_events.Lineage.model_validate(value.model_dump() | updates)
+            timing.provenance = binding
+    except Exception:
+        pass

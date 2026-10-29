@@ -544,3 +544,18 @@ supervised tests without routine monetary reapproval; finite technical admission
 accounting, unknown liabilities, ownership, source/identity protections and all
 R01–R12/F1–F8 remain. Human/VoiceOver and unfamiliar-user evidence stay separate.
 Independent reviews, hosted parity and exact deployed verification precede release.
+
+## U49 — end-to-end completion and successor persistence
+
+The owner requires each session to perform concrete authorized work through its
+end-to-end acceptance, rather than start and prematurely hand off. Continue
+dependency-ready implementation, integration, verification and permitted release
+in the current context. Checkpointing does not require ending the session. Each
+successor prompt must carry the same rule and specify concrete work, prerequisites
+and acceptance checks so it does not repeat a start-and-handoff cycle.
+
+Use the completion and successor contract in EXECUTION_POLICY §7, resume and handoff
+prompts. A genuine unavailable human input, enforced limit or necessary session
+boundary remains a valid stopping condition after independent work is exhausted.
+This does not replenish closed ceilings, grant new external operations or replace
+actual human/source/custody/AT evidence. Complete only when acceptance is verified.
