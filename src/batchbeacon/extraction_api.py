@@ -165,7 +165,7 @@ def _create_extraction_app(extraction, actions, policy):
 
     @app.post('/api/incidents/{incident_id}/acquisitions')
     async def acquire(incident_id: str, request: Request):
-        timing = AcquisitionTiming(policy.digest())
+        timing = AcquisitionTiming(policy.digest(), provenance=extraction.provenance)
         timing.begin('ownership')
         try:
             token, session = await run_in_threadpool(owned, request, incident_id, mutation=True)

@@ -12,7 +12,8 @@ from typing import Annotated, Literal
 
 from pydantic import Field
 
-from batchbeacon.acquisition_timing import stage
+from batchbeacon import provenance_events
+from batchbeacon.acquisition_timing import lineage, stage
 from batchbeacon.contracts import AuthorityNotice, Record, SourceAgreement, Verdict
 from batchbeacon.evidence_service import EvidenceService, ExtractionEnvelope
 from batchbeacon.extraction_input import prepare_input
@@ -112,7 +113,7 @@ class SourceBundle:
 class ExtractionService:
     def __init__(self, evidence: EvidenceService, shared: SharedAdmission,
                  config: ExtractionConfig, sources: dict[str, SourceBundle], *,
-                 transport_factory=None, credentials_factory=None):
+                 transport_factory=None, credentials_factory=None, provenance=None):
         config.validate_consumer(shared)
         if not sources or any(not isinstance(v, SourceBundle) for v in sources.values()):
             raise ValueError('explicit_source_catalog_required')
@@ -131,6 +132,7 @@ class ExtractionService:
         if config.identity_normalization_hash != (evidence.identities.derivation_hash
                                                   if evidence.identities else None):
             raise ValueError('identity_normalization_configuration_mismatch')
+        self.provenance = provenance
         self.evidence, self.shared, self.config = evidence, shared, config
         self.sources = MappingProxyType(dict(sources))
         self.transport_factory, self.credentials_factory = transport_factory, credentials_factory
@@ -220,6 +222,9 @@ class ExtractionService:
     @owned_boundary
     async def acquire(self, capability, command: AcquisitionCommand):
         # One absolute cap includes owned reads, original-input preparation and admission.
+        lineage(self.provenance,
+                request_hash=provenance_events.identifier_hash(command.request_key),
+                model_configuration_hash=self.config.digest())
         started = self.shared._now()
         deadline = started + timedelta(seconds=self.config.run_seconds)
         loop = asyncio.get_running_loop()
@@ -230,6 +235,8 @@ class ExtractionService:
         key = self.evidence.guest._key(capability)
         prior = self.shared.find_run(key, command.incident_id, command.request_key)
         if prior is not None:
+            lineage(self.provenance, run_hash=provenance_events.identifier_hash(prior.id),
+                    reconciliation_only=True)
             if not self._same_command(prior, command):
                 raise GuestDenied(409, 'acquisition_request_conflict')
             return self.status(capability, prior.id)
@@ -243,6 +250,11 @@ class ExtractionService:
             captures=tuple((c, self.evidence.guest.image(capability, command.incident_id, c.id))
                            for c in captures), instruction=self.config.instruction,
             prompt_version=self.config.prompt_version, policy=self.config.preparation)
+        lineage(self.provenance, sources=provenance_events.sources((prepared.manifest.source,)),
+                input_manifest_hash=prepared.manifest.digest(),
+                prompt_hash=prepared.manifest.prompt_hash,
+                schema_hash=prepared.manifest.schema_hash,
+                preparation_hash=prepared.manifest.policy_hash)
         fresh()
         binding = RunBinding(manifest=prepared.manifest,
             expected_observation_revision=command.expected_observation_revision,
@@ -251,6 +263,8 @@ class ExtractionService:
         admitted = self.shared.admit_run(key, command.incident_id, command.request_key,
                                         binding, not_after=deadline)
         run = admitted.run
+        lineage(self.provenance, run_hash=provenance_events.identifier_hash(run.id),
+                reconciliation_only=not admitted.fresh)
         if not admitted.fresh:
             return self.status(capability, run.id)
         complete, unknown = False, False
@@ -264,6 +278,7 @@ class ExtractionService:
             transport = self.transport_factory() if self.transport_factory else None
             output = await execute_model(self.config, self.shared, key, run, prepared,
                 transport=transport, credentials=credentials, monotonic_deadline=loop_deadline)
+            lineage(self.provenance, generation="RESULT_RETURNED")
             fresh()
             stage("validation")
             values, codes, source_status, agreement = None, (), None, None
@@ -299,10 +314,12 @@ class ExtractionService:
                 captures=tuple(c.evidence() for c in prepared.manifest.captures),
                 started_at=run.started_at, completed_at=self.shared._now(),
                 source_agreement=agreement)
+            lineage(self.provenance, validation=envelope.validation)
             extraction_key, verification_key = 'extract_' + run.id, 'verify_' + run.id
             stage("persistence")
             self.evidence.record_extraction(capability, command.incident_id, extraction_key,
                 command.expected_observation_revision, envelope, run_id=run.id)
+            lineage(self.provenance, extraction_persistence="ACKNOWLEDGED")
             fresh()
             if values is not None:
                 verification = self.evidence.verification_binding(capability, command.incident_id,
@@ -310,11 +327,18 @@ class ExtractionService:
                 self.shared.reserve_verification(key, command.incident_id, verification_key,
                                                  verification)
                 fresh()
-                self.evidence.publish_verification(capability, command.incident_id,
+                verifier_receipt = self.evidence.publish_verification(
+                    capability, command.incident_id,
                     verification_key, verification, run_id=run.id)
+                lineage(self.provenance, verifier_publication="ACKNOWLEDGED",
+                        verifier_receipt_hash=verifier_receipt.digest())
                 fresh()
                 view = self.evidence.complete_acquisition(capability, command.incident_id,
                     run.id, extraction_key, verification_key)
+                if view.result is not None:
+                    lineage(self.provenance, result_hash=view.result.digest(),
+                            verifier_policy_hash=view.result.policy_hash,
+                            verifier_version_hash=provenance_events.identifier_hash(view.result.verifier_version))
                 complete = view.current
         except asyncio.CancelledError:
             self._finish(key, run.id, failed=True)

@@ -1,5 +1,14 @@
 # BatchBeacon AI — current execution state
 
+## Private lineage instrumentation candidate
+
+Optional acquisition and acknowledged-guidance lineage is implemented and locally
+verified with 1,699 unit, 255 browser and 30 edge checks plus independent reviews.
+It records bounded hash-only references and explicit missing or unknown stages;
+HTTP delivery, model validation and acknowledged persistence remain distinct.
+The option is absent from inherited configurations and has not been activated or
+deployed. Existing serving provenance and human acceptance remain separate.
+
 ## Source runtime increment
 
 PR40/main `516c741` publishes application source `125b9f0`, now serving on image

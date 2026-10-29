@@ -1,5 +1,14 @@
 # Resume BatchBeacon from actual state
 
+Apply U49 and EXECUTION_POLICY §7. Resume execution toward a concrete end-to-end
+acceptance outcome; do not turn discovery or one small increment into another
+handoff while dependency-ready authorized work remains. Carry implementation
+through integration, meaningful checks, independent verification and any permitted
+release whose gates pass, then continue the next ready outcome in this context.
+Checkpoint during work. A handoff requires an actual stated stopping condition and
+must propagate the complete successor contract from the owner's private notes,
+plus concrete work and checks.
+
 Read actual applicable AGENTS, docs/INDEX.md, EXECUTION_POLICY, OWNER_DECISIONS and bounded docs/STATE.md; inspect current DECISIONS/SKILLS and the private .local/run-policy.json if present. The included .local/owner-inputs.json carries owner-reported hints only; keep it ignored/untracked and never publish its contents. A new coding client must verify instruction loading/imports, permissions and selected-skill discovery. If the originals/canonical package were never read, use prompts/01-codex-kickoff.md first. Otherwise read only the active requirements/tasks and relevant evidence. No originating chat is required.
 
 Reconcile cwd/repository, branch/commit/tree/untracked changes, actual remotes/CI if accessible, client/tool versions, secure auth status, deployment/resources and last verified source/model/prompt/verifier/dataset/guidance/config. STATE may be stale. Verify the prior writer has stopped before taking ownership; preserve unfinished changes and reconcile unknown external outcomes. Never dump credentials or private run details into public artifacts.

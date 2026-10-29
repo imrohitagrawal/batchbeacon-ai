@@ -6,6 +6,7 @@ from uuid import uuid4
 
 from pydantic import AwareDatetime, Field, TypeAdapter, model_validator
 
+from batchbeacon import provenance_events
 from batchbeacon.contracts import Digest, Record
 from batchbeacon.evidence_service import canonical
 from batchbeacon.guest_service import GuestDenied, OpaqueId, RequestKey
@@ -216,6 +217,7 @@ class LearningService:
         self.shared_policy, self.evaluator, self.policy = shared_policy, evaluator, policy
         # An absent observed capability never becomes AVAILABLE.
         self.capability = capability
+        self.provenance = None
         self.configuration_hash = canonical(
             {
                 "learning": policy.digest(),
@@ -671,7 +673,9 @@ class LearningService:
             )
             return self._append(state, key, "guidance", payload, "requests", request), request
 
-        return self._operate(capability, operation)
+        request = self._operate(capability, operation)
+        provenance_events.guidance(self.provenance, request)
+        return request
 
     def feedback(self, capability, incident, key, detail: FeedbackDetail, request_id=None):
         TypeAdapter(FeedbackDetail).validate_python(detail)

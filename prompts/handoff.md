@@ -1,5 +1,17 @@
 # Checkpoint and hand off BatchBeacon
 
+Apply U49 and EXECUTION_POLICY §7 before deciding to end the session. Checkpointing
+does not require handing off: continue any dependency-ready authorized work through
+end-to-end acceptance first. State why execution must stop and which independent
+paths were completed or remain genuinely blocked. A finished plan or small code
+increment is not completion of a larger requested outcome.
+
+Every copy-paste next-session prompt must include the full owner completion contract
+from the owner's private notes and the policy in EXECUTION_POLICY §7, a concrete
+first outcome, prerequisites, allowed actions, acceptance checks and independent alternatives if blocked. Require that
+successor to carry the same contract forward. Preserve the mandatory durable
+handoff/completion-register/full-prompt rule; it does not itself trigger a stop.
+
 Inspect actual AGENTS/STATE, EXECUTION_POLICY, OWNER_DECISIONS, SKILLS and private run policy; reconcile Git/tree, active task/evidence, resources/deployment and authorized remote status. This checkpoint preserves unfinished work; it does not manufacture completion or require merging every branch.
 
 Record in bounded public STATE and a dated sanitized handoff:
