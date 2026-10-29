@@ -119,6 +119,7 @@ def test_result_guides_evidence_review_then_returns_to_explicit_action(
     expect(page.locator('#confirm-dialog')).not_to_be_visible()
     page.locator('#comparison-continue').click()
     expect(page.locator('#decision-title')).to_be_focused()
+    inside_viewport(page, '#decision-title')
     inside_viewport(page, '#confirm-open')
     expect(page.locator('#confirm-open')).to_be_enabled()
     assert len(c[3][1].calls) == before and len(c[4]) == 2
@@ -280,6 +281,80 @@ def test_saved_read_keeps_evidence_navigation_space_but_disables_it(connected_br
         expect(page.locator(selector)).to_be_visible()
         expect(page.locator(selector)).to_be_disabled()
     expect(page.locator('#comparison-next')).to_be_visible()
+    expect(page.locator('#review-evidence')).to_have_class('button primary')
+    expect(page.locator('#check')).to_have_class('button secondary')
     page.evaluate('state.loading=false;state.capabilities=savedCapabilities;render()')
     expect(page.locator('#review-evidence')).to_be_enabled()
     assert len(c[3][1].calls) == before and len(c[4]) == 2 and not errors
+
+
+@pytest.mark.parametrize('width', [1440, 390])
+@pytest.mark.parametrize('operation', ['action', 'capture'])
+def test_unknown_request_guides_reconciliation_before_any_new_confirmation(
+        connected_browser, width, operation):
+    """Red if a real aborted action/upload leaves a confirmation promise or wrong primary."""
+    page, c, _, errors = connected_browser
+    page.set_viewport_size({'width': width, 'height': 800})
+    checked(page, c)
+    expect(page.locator('#confirm-open')).to_be_enabled()
+    endpoint = '**/actions' if operation == 'action' else '**/captures'
+
+    def interrupt(route):
+        if route.request.method == 'POST':
+            route.abort('failed')
+        else:
+            route.continue_()
+
+    page.route(endpoint, interrupt)
+    if operation == 'action':
+        page.locator('#confirm-open').click()
+        page.locator('#hold-consent').check()
+        page.locator('#hold-confirm').click()
+    else:
+        sample = page.locator('#sample-choice').input_value()
+        response = page.request.get(page.url.split('?')[0] + f'samples/{sample}.png')
+        assert response.ok
+        raw = response.body()
+        page.locator('#capture').click()
+        page.locator('#capture-file').set_input_files(
+            {'name': 'another.png', 'mimeType': 'image/png', 'buffer': raw})
+        page.locator('#upload').click()
+    expect(page.locator('#app-status')).to_contain_text('Connection interrupted')
+    expect(page.locator('#recover')).to_be_enabled()
+    assert page.evaluate('!!state.pending && state.capabilities.incident.action.available')
+    before = len(c[3][1].calls)
+    assert before > 0
+    page.locator('#review-evidence').click()
+    page.locator('#comparison-continue').click()
+    expect(page.locator('#decision-title')).to_be_focused()
+    expect(page.locator('#decision-title')).to_have_text('Reconcile pending operation')
+    inside_viewport(page, '#decision-title')
+    inside_viewport(page, '#recover')
+    expect(page.locator('#review-evidence')).to_have_class('button secondary')
+    expect(page.locator('#check')).to_have_class('button secondary')
+    expect(page.locator('#recover')).to_have_class('button primary')
+    expect(page.locator('#confirm-open')).to_be_disabled()
+    expect(page.locator('#confirm-dialog')).not_to_be_visible()
+    page.evaluate('state.pendingOwnershipUnknown=true;controls()')
+    expect(page.locator('#decision-title')).to_have_text('Check pending access')
+    expect(page.locator('#recover')).to_have_text('Check pending access')
+    expect(page.locator('#confirm-open')).to_be_disabled()
+    page.evaluate('state.pendingOwnershipUnknown=false;controls()')
+    expect(page.locator('#decision-title')).to_have_text('Reconcile pending operation')
+    assert len(c[3][1].calls) == before and len(c[4]) == 2
+    if operation == 'action':
+        assert page.evaluate('state.actions.length') == 0
+        page.unroute(endpoint)
+        page.locator('#recover').click()
+        expect(page.locator('#confirm-open')).to_be_enabled()
+        expect(page.locator('#decision-title')).to_have_text('Your confirmation comes next')
+        assert page.evaluate('state.actions.length') == 0
+        assert not page.evaluate('state.pending')
+        page.locator('#confirm-open').click()
+        expect(page.locator('#hold-confirm')).to_be_disabled()
+        page.locator('#hold-consent').check()
+        page.locator('#hold-confirm').click()
+        expect(page.locator('#verdict-title')).to_have_text('Workspace action recorded')
+        expect(page.locator('#decision-title')).to_have_text('Saved workspace action')
+        assert page.evaluate('state.actions.length') == 1
+    assert len(c[4]) == 2 and not errors
