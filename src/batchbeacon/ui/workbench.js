@@ -74,7 +74,7 @@ async function api(path, {method='GET', body, operation}={}) {
   if(status<200 || status>=300){const e=new Error(admissionMessages[data.error] || (data.error || 'Request unavailable').replaceAll('_',' '));e.status=status;e.code=data.error;e.unknown=data.outcome==='unknown' || status>=500;if(status===401)expire();throw e;}
   return data;
 }
-function expire() { clearReadyCues();sourcePending(null);state.sourceContext=null;state.sourceCurrent=null;state.sessionGeneration++;state.selection++;state.capabilities=null;state.workspaceBlock=null;state.loading=false;state.operation=null;for(const el of document.querySelectorAll('.operation-status')){el.textContent='Guest access expired.';delete el.dataset.busy;}pending(null); state.expired=true; state.csrf=null; state.evidence=null; state.target=null; state.captures=[]; state.actions=[]; drawCaptures(); $('comparisons').replaceChildren(); $('queue-rows').replaceChildren(); $('history').replaceChildren(); $('confirm-dialog').close(); text('session-state','Guest access expired'); text('verdict-title','Guest access expired'); text('verdict-copy','Evidence is no longer available in this session.'); text('decision-copy','Start a new evaluation workspace to continue.'); text('queue-count','Guest access expired; counts unavailable.'); $('queue-counts').replaceChildren(); text('queue-capability','Guest access expired; availability unknown.'); text('confirm-product',''); text('field-detail','');text('field-provenance',''); state.queue=null;state.queueDirty=true;state.acquisition=null;state.acquisitionUnknown=false;state.learning=null;state.learningTarget=null;document.querySelector('.verdict').className='verdict neutral';text('active-wording','Guest access expired; wording unavailable.');text('proposed-wording','Guest access expired; proposal unavailable.');for(const step of $('guidance-steps').children)step.removeAttribute('aria-current');$('learning-dialog').close();$('owned-guidance').replaceChildren();$('learning-report').replaceChildren();$('learning-history').replaceChildren();text('learning-counts','Guest access expired; counts unavailable.'); $('review-evidence').hidden=true;$('comparison-next').hidden=true;$('comparison-continue').hidden=true;$('completed-actions').hidden=true;$('confirm-open').hidden=false;$('review-recovery').hidden=false;$('renew-workspace').hidden=false;$('recovery-choose').hidden=true;$('recovery-queue').hidden=true;message('Your guest session expired. Open a new workspace to continue. Reviews from the expired workspace cannot be reopened or transferred.'); controls(); }
+function expire() { clearReadyCues();sourcePending(null);state.sourceContext=null;state.sourceCurrent=null;state.sessionGeneration++;state.selection++;state.capabilities=null;state.workspaceBlock=null;state.loading=false;state.operation=null;for(const el of document.querySelectorAll('.operation-status')){el.textContent='Guest access expired.';delete el.dataset.busy;}pending(null); state.expired=true; state.csrf=null; state.evidence=null; state.target=null; state.captures=[]; state.actions=[]; drawCaptures(); $('comparisons').replaceChildren(); $('queue-rows').replaceChildren(); $('history').replaceChildren(); $('confirm-dialog').close(); text('session-state','Guest access expired'); text('verdict-title','Guest access expired'); text('verdict-copy','Evidence is no longer available in this session.'); text('decision-title','Guest access expired');text('decision-copy','Start a new evaluation workspace to continue.'); text('queue-count','Guest access expired; counts unavailable.'); $('queue-counts').replaceChildren(); text('queue-capability','Guest access expired; availability unknown.'); text('confirm-product',''); text('field-detail','');text('field-provenance',''); state.queue=null;state.queueDirty=true;state.acquisition=null;state.acquisitionUnknown=false;state.learning=null;state.learningTarget=null;document.querySelector('.verdict').className='verdict neutral';text('active-wording','Guest access expired; wording unavailable.');text('proposed-wording','Guest access expired; proposal unavailable.');for(const step of $('guidance-steps').children)step.removeAttribute('aria-current');$('learning-dialog').close();$('owned-guidance').replaceChildren();$('learning-report').replaceChildren();$('learning-history').replaceChildren();text('learning-counts','Guest access expired; counts unavailable.'); $('review-evidence').hidden=true;$('comparison-next').hidden=true;$('comparison-continue').hidden=true;$('completed-actions').hidden=true;$('confirm-open').hidden=false;$('review-recovery').hidden=false;$('renew-workspace').hidden=false;$('recovery-choose').hidden=true;$('recovery-queue').hidden=true;message('Your guest session expired. Open a new workspace to continue. Reviews from the expired workspace cannot be reopened or transferred.'); controls(); }
 function controls() {
   const off=state.busy || !state.csrf || state.expired;
   $('refresh-queue').disabled=off; $('queue-filter').disabled=off; for(const id of ['start-sample','new-review','completed-next','recovery-choose','upload','save-correction','reverify','source-choice','sample-choice'])$(id).disabled=off || !!state.pending;
@@ -89,7 +89,7 @@ function controls() {
   const eligible=state.capabilities?.incident?.action?.available;
   const recorded=state.actions.some(a=>a.current && !a.requires_renewed_review);
   $('confirm-open').disabled=off || !eligible || recorded || !!state.pending;
-  for(const id of ['review-evidence','comparison-continue'])$(id).disabled=off || !state.evidence?.result;
+  for(const id of ['review-evidence','comparison-continue'])$(id).disabled=off || state.loading || !state.evidence?.result;
   $('hold-confirm').disabled=off || !$('hold-consent').checked || !state.target;
   $('recover').disabled=off;text('recover',state.pendingOwnershipUnknown?'Check pending access':'Reconcile pending operation'); for(const radio of document.querySelectorAll('#example-cards input'))radio.disabled=off || !!state.pending; text('action-help',state.expired?'Guest access expired. Reload to open a new evaluation workspace.':state.busy?'Saving or checking evidence. Please wait.':state.pending?'The previous outcome needs reconciliation before another operation.':state.workspaceBlock?capabilityHelp():state.acquisitionUnknown?'Saved check status is unavailable. Recheck before another operation.':!state.csrf?'Opening your evaluation workspace. If access is unavailable, the notice above explains why.':!state.incident?'Choose an example, then select Use this label.':!state.captures.length?'Add a readable sample label image before extraction.':!state.capabilities?.workspace?.extraction?.available?capabilityHelp():recorded?'Workspace action saved. Open Retail queue to find this investigation.':'Extract and check uses the available bounded model allowance. The server explains any unavailable capacity; no action is automatic.'); learningControls(off); sourceControls(off); if(state.operation){const op=state.operation;for(const id of op.buttons || []){text(id,op.label);$(id).setAttribute('aria-busy','true');}}
 }
@@ -108,7 +108,7 @@ const operations={
 };
 function operationStatus(id,value,kind='info') {const el=$(id);delete el.dataset.completedLabelSave;el.textContent=value;el.hidden=!value;el.dataset.kind=kind;}
 function clearCompletedSampleReceipt() {if($('sample-status').dataset.completedLabelSave)operationStatus('sample-status','');}
-function clearReadyCues() {document.querySelectorAll('.label-ready-cue,.result-ready-cue,.editor-ready-cue').forEach(el=>el.remove());}
+function clearReadyCues() {cancelOrientationScroll();document.querySelectorAll('.label-ready-cue,.result-ready-cue,.editor-ready-cue').forEach(el=>el.remove());}
 function highlightPanel(panel,kind) {
   clearReadyCues();
   const cue=node('span',undefined,kind);
@@ -117,7 +117,25 @@ function highlightPanel(panel,kind) {
   panel.append(cue);
 }
 function highlightLabelEvidence() {highlightPanel($('evidence-title').closest('.evidence-panel'),'label-ready-cue');}
-function reveal(id,{smooth=false}={}) {const el=$(id);el.focus({preventScroll:true});el.scrollIntoView({block:'start',behavior:smooth && !matchMedia('(prefers-reduced-motion: reduce)').matches?'smooth':'instant'});}
+let orientationScroll=null;
+function cancelOrientationScroll() {
+  if(!orientationScroll)return;
+  orientationScroll.abort();orientationScroll=null;
+  window.scrollTo({top:scrollY,left:scrollX,behavior:'instant'});
+}
+function reveal(id,{smooth=false}={}) {
+  cancelOrientationScroll();
+  const el=$(id),animate=smooth && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(animate){
+    const controller=new AbortController();orientationScroll=controller;
+    // Interrupt only the browser's current scroll; never prevent the user's input.
+    for(const event of ['wheel','touchstart','keydown','pointerdown'])window.addEventListener(event,cancelOrientationScroll,{capture:true,passive:true,signal:controller.signal});
+    window.addEventListener('scrollend',event=>{
+      if(event.target===document){controller.abort();if(orientationScroll===controller)orientationScroll=null;}
+    },{signal:controller.signal});
+  }
+  el.focus({preventScroll:true});el.scrollIntoView({block:'start',behavior:animate?'smooth':'instant'});
+}
 function toggleEditor(id) {
   const panel=$(id+'-panel');panel.hidden=!panel.hidden;
   $(id).setAttribute('aria-expanded',String(!panel.hidden));clearReadyCues();
@@ -246,6 +264,10 @@ function drawCaptures() {
       const image=node('img');image.width=c.width;image.height=c.height;image.src=href;image.alt=`Retained sample label, panel ${i+1}`;
       link.append(image,node('span',`Open full-size label panel ${i+1} (new tab)`));box.append(link);
     });
+  }
+  else for(const image of box.querySelectorAll('img')){
+    // A saved read may retry a failed image; healthy decoded captures stay untouched.
+    if(image.complete && !image.naturalWidth)image.src=image.getAttribute('src');
   }
   inspect.href=`/api/incidents/${state.incident}/captures/${state.captures[0].id}`;
   inspect.hidden=false;$('retained-label-help').hidden=true;
@@ -378,13 +400,13 @@ function render() {if(state.expired)return;if(state.config)sourceView();const fa
   document.querySelector('.verdict').className='verdict'+(problem?' neutral':recorded?' completed':(!result || result.verdict==='NOT_LISTED_IN_CHECKED_NOTICES')?' neutral':'');
   text('verdict-title',problem?problem.title:failure&&!e?.current?failure.title:recorded?'Workspace action recorded':e?.observation&&!e.current?'Evidence needs renewed review':result?labels[result.verdict]:state.loading?'Loading saved evidence':failed?'Extraction needs review':sourceBlockHelp()?'Source review is required':state.captures.length?'Label ready':'Ready for evidence');
   text('verdict-copy',failure&&!problem&&!e?.current?failure.copy:problem?`${problem.copy}${result?' Previous saved comparison is historical; it cannot authorize a new action.':''}`:recorded?(recorded.action.action_type==='SIMULATED_HOLD'?'A stock hold was recorded in this workspace. No live inventory was changed.':'A request for further review was saved in this workspace. Uncertainty remains unresolved.'):result?`Checked ${result.checked_sources.length} selected notice version(s). ${e.current?(result.mode==='LIVE'?'Current for the saved live source check.':'Current for the saved historical source selection.'):'Historical result; no new action is available.'}`:failed?'The extraction was not accepted. Review the retained evidence; no comparison or action was created.':state.loading?'Reading this investigation’s saved records.':sourceBlockHelp()?sourceBlockHelp():state.captures.length?labelReadyCopy():'Choose an example and use its label, then select Extract and check.');
-  text('decision-title',problem?'Resolve the check before an action':recorded?'Saved workspace action':!state.incident?'Begin with a label':!result?(sourceBlockHelp()?'Source review is required':'Next, check the label'):'Your confirmation comes next');
+  text('decision-title',problem?'Resolve the check before an action':recorded?'Saved workspace action':!state.incident?'Begin with a label':!result?(sourceBlockHelp()?'Source review is required':'Next, check the label'):!e.current?'Evidence needs renewed review':result.verdict==='NOT_LISTED_IN_CHECKED_NOTICES'?'No stock hold is supported':state.loading?'Reading saved evidence':typeof state.capabilities?.incident?.action?.available!=='boolean'?'Action availability is unknown':!state.capabilities.incident.action.available?'No new action is available':'Your confirmation comes next');
   text('decision-copy',problem?'No new action is available from this check. Retained evidence and earlier actions remain in the review history.':!state.incident?'Choose an example, then select Use this label. You will review the extracted evidence before any action.':!result&&sourceBlockHelp()?sourceBlockHelp():!result?'Saving a label does not check it. When available, select Extract and check to compare its details with the selected notice.':result?.verdict==='NOT_LISTED_IN_CHECKED_NOTICES'?'No hold is supported by these checked notices. This is not safety, clearance or permission to sell.':recorded?'This review is saved. Find it in your retail queue, or choose another label to begin a separate check. Your saved review remains available until this workspace expires.':'A result never places stock on hold automatically.');
   setStage(recorded&&!problem?4:result?2:state.captures.length?1:0);
   $('completed-actions').hidden=!recorded || !!problem || state.loading;
   $('confirm-open').hidden=!result || (!!recorded && !problem);
   const evidenceNext=!!result && !!e.current && !problem && !state.acquisitionUnknown && !recorded && !state.loading;
-  $('review-evidence').hidden=!result || !!recorded || state.loading;
+  $('review-evidence').hidden=!result || !!recorded;
   $('comparison-next').hidden=$('review-evidence').hidden;$('comparison-continue').hidden=$('review-evidence').hidden;
   $('review-evidence').className='button '+(evidenceNext?'primary':'secondary');
   $('check').classList.toggle('primary',!recorded && !evidenceNext);$('check').classList.toggle('secondary',!!recorded || evidenceNext);
