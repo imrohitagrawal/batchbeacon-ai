@@ -31,6 +31,7 @@ def binding(**overrides):
 
 
 def test_actual_success_lineage_and_reconciliation_preserve_calls(coordinator, monkeypatch):
+    """Red if acquisition stages lose their bindings or a replay claims new execution."""
     c = coordinator
     c[0].provenance = binding()
     logged = []
@@ -71,6 +72,7 @@ def test_actual_success_lineage_and_reconciliation_preserve_calls(coordinator, m
 
 @pytest.mark.parametrize('failure', ['invalid', 'unavailable', 'lost_verifier_ack'])
 def test_actual_failure_stages_not_promoted_to_success(coordinator, monkeypatch, failure):
+    """Red if failed or unacknowledged work claims acknowledged publication."""
     c = coordinator
     c[0].provenance = binding()
     if failure == 'invalid':
@@ -111,6 +113,7 @@ def test_actual_failure_stages_not_promoted_to_success(coordinator, monkeypatch,
 
 
 def test_sink_failure_does_not_change_acquisition(coordinator, monkeypatch):
+    """Red if a logging failure escapes and changes acquisition completion."""
     c = coordinator
     c[0].provenance = binding()
     monkeypatch.setattr(events._logger, 'info', lambda raw: (_ for _ in ()).throw(OSError()))
@@ -126,6 +129,7 @@ def test_sink_failure_does_not_change_acquisition(coordinator, monkeypatch):
 
 
 def test_guidance_actual_post_ack_receipt_and_repeat(learning, monkeypatch):
+    """Red if guidance emits before acknowledgement or adds database calls."""
     c, service = learning
     server = c[3][1]
     before = len(server.calls)
@@ -161,22 +165,26 @@ def test_guidance_actual_post_ack_receipt_and_repeat(learning, monkeypatch):
 @pytest.mark.parametrize('field', ['max_sources', 'max_event_bytes'])
 @pytest.mark.parametrize('value', [0, -1, True, '1', float('inf')])
 def test_policy_invalid(field, value):
+    """Red if strict positive bounds accept malformed configuration values."""
     with pytest.raises(ValidationError):
         events.ProvenancePolicy(**{field: value})
 
 
 def test_limits_and_missing_revision_reach_sink(monkeypatch):
+    """Red if byte caps are ignored, valid logs disappear or missing revisions look known."""
     logged = []
     monkeypatch.setattr(events._logger, 'info', logged.append)
     b = events.context(events.ProvenancePolicy(max_event_bytes=1), 'a' * 64)
     assert events.emit(b, events.initial(b)) is None and not logged
     b = events.context(events.ProvenancePolicy(), 'a' * 64)
     assert events.emit(b, events.initial(b)).deployment_evidence == 'UNKNOWN'
+    assert len(logged) == 1
     with pytest.raises(ValidationError):
         events.context(b.policy, b.runtime_hash, 'private/path@example')
 
 
 def test_context_isolation_refusal_and_disconnect(monkeypatch):
+    """Red if requests share identifiers or a completed timer emits twice."""
     logged = []
     monkeypatch.setattr(events._logger, 'info', lambda raw: logged.append(json.loads(raw)))
 
@@ -200,6 +208,7 @@ def test_context_isolation_refusal_and_disconnect(monkeypatch):
 
 def test_inherited_runtime_digests_unchanged_without_policy(runtime):
     # Existing checked-in local fixture has the same absent optional field behavior.
+    """Red if an absent optional policy changes serialized runtime configuration."""
     config, _, _ = runtime
     assert 'provenance' not in config.model_dump()
     raw = json.loads(config.model_dump_json())
@@ -208,6 +217,7 @@ def test_inherited_runtime_digests_unchanged_without_policy(runtime):
 
 
 def test_invalid_revision_refused_before_credentials(runtime, monkeypatch):
+    """Red if an invalid deployment revision reaches startup without validation."""
     from pathlib import Path
 
     import google.auth
@@ -224,6 +234,7 @@ def test_invalid_revision_refused_before_credentials(runtime, monkeypatch):
 
 
 def test_source_cap_and_fact_validation_fail_closed(coordinator, monkeypatch):
+    """Red if source limits or contradictory stage facts stop being rejected."""
     logged = []
     monkeypatch.setattr(events._logger, 'info', logged.append)
     dep = coordinator[0].sources['first'].notice.dependency
