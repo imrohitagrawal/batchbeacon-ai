@@ -82,7 +82,7 @@ button:disabled { cursor: not-allowed; }
 @keyframes operation-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .operation-status[data-busy="true"]::before { animation: none; } }
 .preview-toolbar .operation-status { flex-basis: 100%; }
-#app-status, #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary, #source-status { scroll-margin-top: 150px; }
+#app-status, #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary, #source-status, #decision-status, #capture-file, #correction-field { scroll-margin-top: 150px; }
 #operator-help, .review-checklist, #source-review, #check-explanation { margin-block: 12px; }
 #case-reference { width: 100%; box-sizing: border-box; }
 /* A progress list, not a second navigation bar. Numbers are rendered once. */
@@ -102,7 +102,7 @@ button:disabled { cursor: not-allowed; }
 #history, #field-provenance { font-size: .875rem; line-height: 1.6; }
 #history-audit { font-size: .75rem; overflow-wrap: anywhere; white-space: pre-wrap; }
 #sample-choice { scroll-margin-top: 150px; }
-@media (max-width:760px) { #app-status, #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary, #source-status { scroll-margin-top: 110px; } }
+@media (max-width:760px) { #app-status, #evidence-title, #verdict-title, #retail-title, #guidance-title, #workbench-title, #source-summary, #source-status, #decision-status, #capture-file, #correction-field { scroll-margin-top: 110px; } }
 
 /* Audit records remain readable when expanded, with exact values on demand. */
 #field-audit { font-size: .875rem; line-height: 1.6; }
@@ -123,9 +123,9 @@ button:disabled { cursor: not-allowed; }
 .evidence-links a { display: inline-block; min-height: 44px; padding-block: 10px; }
 
 /* Fixed presentation token: a static cue, never a loading or decision signal. */
-.evidence-panel { position: relative; --label-ready-cue-duration: 1200ms; }
-.label-ready-cue { position: absolute; inset: 0; box-sizing: border-box;
+.evidence-panel, .decision, #capture-panel, #correction-panel { position: relative; --ready-cue-duration: 1200ms; }
+.label-ready-cue, .result-ready-cue, .editor-ready-cue { position: absolute; inset: 0; box-sizing: border-box;
   border: 2px solid var(--brand-navy); border-radius: inherit; pointer-events: none;
-  animation: label-ready-cue var(--label-ready-cue-duration) step-end; }
+  animation: label-ready-cue var(--ready-cue-duration) step-end; }
 /* Identical endpoints keep keyboard and reduced-motion feedback instant and still. */
 @keyframes label-ready-cue { from, to { opacity: 1; } }
