@@ -74,7 +74,7 @@ async function api(path, {method='GET', body, operation}={}) {
   if(status<200 || status>=300){const e=new Error(admissionMessages[data.error] || (data.error || 'Request unavailable').replaceAll('_',' '));e.status=status;e.code=data.error;e.unknown=data.outcome==='unknown' || status>=500;if(status===401)expire();throw e;}
   return data;
 }
-function expire() { sourcePending(null);state.sourceContext=null;state.sourceCurrent=null;state.sessionGeneration++;state.selection++;state.capabilities=null;state.workspaceBlock=null;state.loading=false;state.operation=null;for(const el of document.querySelectorAll('.operation-status')){el.textContent='Guest access expired.';delete el.dataset.busy;}pending(null); state.expired=true; state.csrf=null; state.evidence=null; state.target=null; state.captures=[]; state.actions=[]; drawCaptures(); $('comparisons').replaceChildren(); $('queue-rows').replaceChildren(); $('history').replaceChildren(); $('confirm-dialog').close(); text('session-state','Guest access expired'); text('verdict-title','Guest access expired'); text('verdict-copy','Evidence is no longer available in this session.'); text('decision-copy','Start a new evaluation workspace to continue.'); text('queue-count','Guest access expired; counts unavailable.'); $('queue-counts').replaceChildren(); text('queue-capability','Guest access expired; availability unknown.'); text('confirm-product',''); text('field-detail','');text('field-provenance',''); state.queue=null;state.queueDirty=true;state.acquisition=null;state.acquisitionUnknown=false;state.learning=null;state.learningTarget=null;document.querySelector('.verdict').className='verdict neutral';text('active-wording','Guest access expired; wording unavailable.');text('proposed-wording','Guest access expired; proposal unavailable.');for(const step of $('guidance-steps').children)step.removeAttribute('aria-current');$('learning-dialog').close();$('owned-guidance').replaceChildren();$('learning-report').replaceChildren();$('learning-history').replaceChildren();text('learning-counts','Guest access expired; counts unavailable.'); $('completed-actions').hidden=true;$('confirm-open').hidden=false;$('review-recovery').hidden=false;$('renew-workspace').hidden=false;$('recovery-choose').hidden=true;$('recovery-queue').hidden=true;message('Your guest session expired. Open a new workspace to continue. Reviews from the expired workspace cannot be reopened or transferred.'); controls(); }
+function expire() { clearLabelReadyCue();sourcePending(null);state.sourceContext=null;state.sourceCurrent=null;state.sessionGeneration++;state.selection++;state.capabilities=null;state.workspaceBlock=null;state.loading=false;state.operation=null;for(const el of document.querySelectorAll('.operation-status')){el.textContent='Guest access expired.';delete el.dataset.busy;}pending(null); state.expired=true; state.csrf=null; state.evidence=null; state.target=null; state.captures=[]; state.actions=[]; drawCaptures(); $('comparisons').replaceChildren(); $('queue-rows').replaceChildren(); $('history').replaceChildren(); $('confirm-dialog').close(); text('session-state','Guest access expired'); text('verdict-title','Guest access expired'); text('verdict-copy','Evidence is no longer available in this session.'); text('decision-copy','Start a new evaluation workspace to continue.'); text('queue-count','Guest access expired; counts unavailable.'); $('queue-counts').replaceChildren(); text('queue-capability','Guest access expired; availability unknown.'); text('confirm-product',''); text('field-detail','');text('field-provenance',''); state.queue=null;state.queueDirty=true;state.acquisition=null;state.acquisitionUnknown=false;state.learning=null;state.learningTarget=null;document.querySelector('.verdict').className='verdict neutral';text('active-wording','Guest access expired; wording unavailable.');text('proposed-wording','Guest access expired; proposal unavailable.');for(const step of $('guidance-steps').children)step.removeAttribute('aria-current');$('learning-dialog').close();$('owned-guidance').replaceChildren();$('learning-report').replaceChildren();$('learning-history').replaceChildren();text('learning-counts','Guest access expired; counts unavailable.'); $('completed-actions').hidden=true;$('confirm-open').hidden=false;$('review-recovery').hidden=false;$('renew-workspace').hidden=false;$('recovery-choose').hidden=true;$('recovery-queue').hidden=true;message('Your guest session expired. Open a new workspace to continue. Reviews from the expired workspace cannot be reopened or transferred.'); controls(); }
 function controls() {
   const off=state.busy || !state.csrf || state.expired;
   $('refresh-queue').disabled=off; $('queue-filter').disabled=off; for(const id of ['start-sample','new-review','completed-next','recovery-choose','upload','save-correction','reverify','source-choice','sample-choice'])$(id).disabled=off || !!state.pending;
@@ -107,9 +107,18 @@ const operations={
 };
 function operationStatus(id,value,kind='info') {const el=$(id);delete el.dataset.completedLabelSave;el.textContent=value;el.hidden=!value;el.dataset.kind=kind;}
 function clearCompletedSampleReceipt() {if($('sample-status').dataset.completedLabelSave)operationStatus('sample-status','');}
+function clearLabelReadyCue() {document.querySelector('.label-ready-cue')?.remove();}
+function highlightLabelEvidence() {
+  clearLabelReadyCue();
+  const cue=node('span',undefined,'label-ready-cue');
+  cue.setAttribute('aria-hidden','true');
+  cue.addEventListener('animationend',()=>cue.remove(),{once:true});
+  $('evidence-title').closest('.evidence-panel').append(cue);
+}
 function reveal(id) {const el=$(id);el.focus({preventScroll:true});el.scrollIntoView({block:'start',behavior:'instant'});}
 async function task(operation,kind='refresh') {
   if(state.busy)return;
+  clearLabelReadyCue();
   const op={...operations[kind],kind,view:state.viewGeneration,selection:state.selection};
   const original=(op.buttons || []).map(id=>[id,$(id).textContent]);
   state.busy=true;state.operation=op;message('');operationStatus(op.region,op.pending);
@@ -125,7 +134,7 @@ async function task(operation,kind='refresh') {
     const current=!state.expired && op.selection===state.selection && (!op.incident || op.incident===state.incident);
     if(current && kind==='upload' && succeeded && state.captures.length && !state.pending && $('sample-status').textContent)$('sample-status').dataset.completedLabelSave='true';
     if(current && op.view===state.viewGeneration){
-      if(['upload','capture'].includes(kind) && succeeded && state.captures.length){if(!state.capabilities?.workspace?.extraction?.available)reveal('label-status');else if(kind==='upload'){reveal('evidence-title');if($('check').getBoundingClientRect().bottom>innerHeight)reveal('label-status');}}
+      if(['upload','capture'].includes(kind) && succeeded && state.captures.length){highlightLabelEvidence();if(!state.capabilities?.workspace?.extraction?.available)reveal('label-status');else if(kind==='upload'){reveal('evidence-title');if($('check').getBoundingClientRect().bottom>innerHeight)reveal('label-status');}}
       if(['extraction','verification','status','action'].includes(kind))reveal('verdict-title');
       if(kind==='source')reveal('source-status');
     }
@@ -133,6 +142,7 @@ async function task(operation,kind='refresh') {
 }
 function show(view,{navigate=true,focus=true}={}) {
   if(!['workbench','retail','guidance'].includes(view))view='workbench';
+  clearLabelReadyCue();
   state.view=view;state.viewGeneration++;
   for(const el of document.querySelectorAll('.view'))el.hidden=el.id!==view;
   for(const a of document.querySelectorAll('[data-view]')){if(a.dataset.view===view)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');}
@@ -382,6 +392,7 @@ function capabilityHelp(){
   return 'Inspect product identity, exact lot, required date and the selected notice before confirming an eligible action.';
 }
 function clearReview({navigate=false,resetRoute=true}={}) {
+  clearLabelReadyCue();
   state.selection++;state.incident=null;state.evidence=null;state.captures=[];state.actions=[];state.target=null;state.capabilities=null;state.acquisition=null;state.acquisitionUnknown=false;state.checkFailure=null;state.loading=false;state.learning=null;state.learningTarget=null;state.learningStale=true;
   $('confirm-dialog').close();$('capture-panel').hidden=true;$('correction-panel').hidden=true;$('capture-file').value='';
   $('capture').setAttribute('aria-expanded','false');$('correction').setAttribute('aria-expanded','false');
@@ -403,6 +414,7 @@ function unavailableReview() {
 }
 async function loadIncident(id,knownAcquisition=null) {
   if(state.expired)return;
+  clearLabelReadyCue();
   clearCompletedSampleReceipt();$('review-recovery').hidden=true;
   const selection=++state.selection,session=state.sessionGeneration;
   const valid=()=>!state.expired && session===state.sessionGeneration && selection===state.selection;
