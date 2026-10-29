@@ -121,3 +121,11 @@ button:disabled { cursor: not-allowed; }
 .audit-locations { padding-block: 8px; }
 .evidence-links { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-block: 16px; }
 .evidence-links a { display: inline-block; min-height: 44px; padding-block: 10px; }
+
+/* Fixed presentation token: a static cue, never a loading or decision signal. */
+.evidence-panel { position: relative; --label-ready-cue-duration: 1200ms; }
+.label-ready-cue { position: absolute; inset: 0; box-sizing: border-box;
+  border: 2px solid var(--brand-navy); border-radius: inherit; pointer-events: none;
+  animation: label-ready-cue var(--label-ready-cue-duration) step-end; }
+/* Identical endpoints keep keyboard and reduced-motion feedback instant and still. */
+@keyframes label-ready-cue { from, to { opacity: 1; } }
