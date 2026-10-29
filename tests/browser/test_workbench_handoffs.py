@@ -56,6 +56,8 @@ def test_confirmed_result_reveals_outcome_and_available_next_action(
     outcome = 'Review required' if review else 'Matches this recall'
     expect(page.locator('#decision-status')).to_contain_text(outcome)
     expect(page.locator('#decision-status')).to_contain_text(action)
+    receipt = page.locator('#decision-status').text_content()
+    expect(page.get_by_text(receipt, exact=True)).to_have_count(1)
     expect(page.locator('#confirm-open')).to_have_text(action)
     expect(page.locator('#confirm-open')).to_be_enabled()
     assert page.evaluate('document.activeElement.id') == 'decision-status'
@@ -97,6 +99,7 @@ def test_open_editor_reveals_and_focuses_first_input_without_saving(
     expect(page.locator('#' + field)).to_have_count(1)
     rpc_before = len(c[3][1].calls)
     assert rpc_before > 0
+    button.evaluate("el=>el.scrollIntoView({block:'end',behavior:'instant'})")
     if activation == 'keyboard':
         button.focus()
         button.press('Enter')
@@ -190,7 +193,8 @@ def test_refused_review_retires_hint_and_requires_status_read(connected_browser,
     expect(page.locator('#app-status')).to_contain_text(
         'Connection interrupted' if outcome == 'transport' else 'review refused')
     assert len(requests) == 1
-    expect(page.locator('#decision-status')).not_to_contain_text('Review stock hold')
+    for region in ['decision-status', 'label-status', 'app-status']:
+        expect(page.locator('#' + region)).not_to_contain_text('then select Review stock hold')
     expect(page.locator('#confirm-open')).to_be_disabled()
     expect(page.locator('#decision-recheck')).to_be_visible()
     expect(page.locator('#confirm-dialog')).not_to_be_visible()
@@ -200,6 +204,44 @@ def test_refused_review_retires_hint_and_requires_status_read(connected_browser,
     page.locator('#confirm-open').click()
     expect(page.locator('#confirm-dialog')).to_be_visible()
     expect(page.locator('#hold-confirm')).to_be_disabled()
+    assert len(c[4]) == 2 and not errors
+
+
+def test_unusable_saved_result_is_not_styled_as_completed(connected_browser):
+    """Red if an interleaved noncurrent evidence read gets a success-style receipt."""
+    page, c, _, errors = connected_browser
+    page.locator('#start-sample').click()
+    expect(page.locator('#check')).to_be_enabled()
+
+    def stale_read(route):
+        response = route.fetch()
+        data = response.json()
+        data['current'] = False
+        route.fulfill(response=response, json=data)
+
+    page.route('**/evidence', stale_read)
+    page.locator('#check').click()
+    expect(page.locator('#decision-status')).to_contain_text('needs further review')
+    expect(page.locator('#decision-status')).to_have_attribute('data-kind', 'info')
+    expect(page.locator('#app-status')).to_have_attribute('data-kind', 'info')
+    expect(page.locator('.result-ready-cue')).to_have_count(0)
+    expect(page.locator('#verdict-title')).to_have_text('Evidence needs renewed review')
+    assert len(c[4]) == 2 and not errors
+
+
+def test_recorded_action_retires_all_completed_review_instructions(connected_browser):
+    """Red if the action receipt survives confirmation and reload in any status region."""
+    page, c, _, errors = connected_browser
+    checked(page, c)
+    page.locator('#confirm-open').click()
+    expect(page.locator('#hold-confirm')).to_be_disabled()
+    page.locator('#hold-consent').check()
+    page.locator('#hold-confirm').click()
+    expect(page.locator('#verdict-title')).to_have_text('Workspace action recorded')
+    page.evaluate('loadOwnedIncident(state.incident)')
+    expect(page.locator('#completed-actions')).to_be_visible()
+    for region in ['decision-status', 'label-status', 'app-status']:
+        expect(page.locator('#' + region)).not_to_contain_text('then select Review stock hold')
     assert len(c[4]) == 2 and not errors
 
 
@@ -225,9 +267,11 @@ def test_next_task_clears_completed_action_hint_before_navigation(connected_brow
     result = page.evaluate('''async kind=>{
       let release;
       const running=task(()=>new Promise(r=>release=r),kind);
-      const during=$('decision-status').textContent;
+      const statuses=()=>['decision-status','label-status','app-status']
+        .map(id=>$(id).textContent).join(' | ');
+      const during=statuses();
       show('retail');release();await running;
-      return {during,after:$('decision-status').textContent,focus:document.activeElement.id};
+      return {during,after:statuses(),focus:document.activeElement.id};
     }''', kind)
     assert 'Review stock hold' not in result['during']
     assert 'Review stock hold' not in result['after']
