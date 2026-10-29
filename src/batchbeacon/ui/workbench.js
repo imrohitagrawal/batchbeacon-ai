@@ -386,6 +386,7 @@ function completedCheckCopy(){
   const verdict=state.evidence.result.verdict;
   const prefix=`Extraction and comparison completed. ${labels[verdict]}. `;
   if(verdict==='NOT_LISTED_IN_CHECKED_NOTICES')return prefix+'No hold is supported by these checked notices. Review the evidence; this is not safety, clearance or permission to sell.';
+  if(!state.capabilities)return prefix+'Availability could not be confirmed. Select Recheck saved status before reviewing an action.';
   const eligible=state.capabilities?.incident?.action?.available && !state.actions.some(a=>a.current&&!a.requires_renewed_review);
   if(eligible && ['MATCHED_HOLD_FOR_REVIEW','REVIEW_REQUIRED'].includes(verdict)){
     const action=verdict==='REVIEW_REQUIRED'?'Review follow-up request':'Review stock hold';

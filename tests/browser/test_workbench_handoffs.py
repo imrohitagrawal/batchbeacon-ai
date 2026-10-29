@@ -151,6 +151,25 @@ def test_correction_invalidates_previous_available_action_handoff(connected_brow
     assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
 
 
+def test_completed_unknown_capability_names_recheck(connected_browser):
+    """Red if a failed capability read reports definite unavailability or omits recheck."""
+    page, c, _, errors = connected_browser
+    page.locator('#start-sample').click()
+    expect(page.locator('#check')).to_be_enabled()
+    page.route('**/capabilities', lambda route: route.fulfill(
+        status=503, json={'error': 'availability_unconfirmed'}))
+    page.locator('#check').click()
+    expect(page.locator('#verdict-title')).to_have_text('Matches this recall')
+    expect(page.locator('#decision-status')).to_contain_text('Availability could not be confirmed')
+    expect(page.locator('#decision-status')).to_contain_text('Recheck saved status')
+    expect(page.locator('#confirm-open')).to_be_disabled()
+    expect(page.locator('#decision-recheck')).to_be_visible()
+    page.unroute('**/capabilities')
+    page.locator('#decision-recheck').click()
+    expect(page.locator('#confirm-open')).to_be_enabled()
+    assert len(c[4]) == 2 and not errors
+
+
 @pytest.mark.parametrize('outcome', [409, 503, 'transport'])
 def test_refused_review_retires_hint_and_requires_status_read(connected_browser, outcome):
     """Red if refusal retains an action hint/eligibility, or recheck cannot restore it."""
