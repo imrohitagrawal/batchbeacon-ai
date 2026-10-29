@@ -131,7 +131,8 @@ def test_open_editor_reveals_and_focuses_first_input_without_saving(
     assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
 
 
-def test_correction_invalidates_previous_available_action_handoff(connected_browser):
+@pytest.mark.parametrize('dispatch', ['button', 'record-reload'])
+def test_correction_invalidates_previous_available_action_handoff(connected_browser, dispatch):
     """Red if a saved correction leaves the old completion/action instruction visible."""
     page, c, _, errors = connected_browser
     checked(page, c)
@@ -139,12 +140,97 @@ def test_correction_invalidates_previous_available_action_handoff(connected_brow
     page.locator('#correction').click()
     page.locator('#correction-field').select_option('LOT')
     page.locator('#correction-value').fill('000Different')
-    page.locator('#save-correction').click()
+    if dispatch == 'button':
+        page.locator('#save-correction').click()
+    else:
+        page.evaluate('saveCorrection()')
     expect(page.locator('#verdict-title')).to_have_text('Evidence needs renewed review')
     expect(page.locator('#confirm-open')).to_be_disabled()
     expect(page.locator('#decision-status')).not_to_contain_text('Review stock hold')
     assert len(c[4]) == 2 and not errors
     assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
+
+
+@pytest.mark.parametrize('outcome', [409, 503, 'transport'])
+def test_refused_review_retires_hint_and_requires_status_read(connected_browser, outcome):
+    """Red if refusal retains an action hint/eligibility, or recheck cannot restore it."""
+    page, c, _, errors = connected_browser
+    checked(page, c)
+    expect(page.locator('#decision-status')).to_contain_text('Review stock hold')
+    requests = []
+
+    def refuse(route):
+        requests.append(route.request.url)
+        if outcome == 'transport':
+            route.abort('failed')
+        else:
+            route.fulfill(status=outcome, json={'error': 'review_refused'})
+
+    page.route('**/actions/prepare**', refuse)
+    page.locator('#confirm-open').click()
+    expect(page.locator('#app-status')).to_contain_text(
+        'Connection interrupted' if outcome == 'transport' else 'review refused')
+    assert len(requests) == 1
+    expect(page.locator('#decision-status')).not_to_contain_text('Review stock hold')
+    expect(page.locator('#confirm-open')).to_be_disabled()
+    expect(page.locator('#decision-recheck')).to_be_visible()
+    expect(page.locator('#confirm-dialog')).not_to_be_visible()
+    page.unroute('**/actions/prepare**')
+    page.locator('#decision-recheck').click()
+    expect(page.locator('#confirm-open')).to_be_enabled()
+    page.locator('#confirm-open').click()
+    expect(page.locator('#confirm-dialog')).to_be_visible()
+    expect(page.locator('#hold-confirm')).to_be_disabled()
+    assert len(c[4]) == 2 and not errors
+
+
+@pytest.mark.parametrize('editor', ['capture', 'correction'])
+def test_record_read_closes_editor_and_resets_expanded_state(connected_browser, editor):
+    """Red if a record reload hides an editor but leaves its button expanded."""
+    page, c, _, errors = connected_browser
+    checked(page, c)
+    page.locator('#' + editor).click()
+    expect(page.locator('#' + editor)).to_have_attribute('aria-expanded', 'true')
+    page.evaluate('loadOwnedIncident(state.incident)')
+    expect(page.locator('#' + editor + '-panel')).to_be_hidden()
+    expect(page.locator('#' + editor)).to_have_attribute('aria-expanded', 'false')
+    assert len(c[4]) == 2 and not errors
+
+
+@pytest.mark.parametrize('kind', ['source', 'refresh'])
+def test_next_task_clears_completed_action_hint_before_navigation(connected_browser, kind):
+    """Red if a pending next operation leaves the old available-action instruction."""
+    page, c, _, errors = connected_browser
+    checked(page, c)
+    expect(page.locator('#decision-status')).to_contain_text('Review stock hold')
+    result = page.evaluate('''async kind=>{
+      let release;
+      const running=task(()=>new Promise(r=>release=r),kind);
+      const during=$('decision-status').textContent;
+      show('retail');release();await running;
+      return {during,after:$('decision-status').textContent,focus:document.activeElement.id};
+    }''', kind)
+    assert 'Review stock hold' not in result['during']
+    assert 'Review stock hold' not in result['after']
+    assert result['focus'] == 'retail-title'
+    assert len(c[4]) == 2 and not errors
+
+
+@pytest.mark.parametrize('reason', ['source-review', 'workspace-block'])
+def test_review_request_hint_uses_server_action_capability(connected_browser, reason):
+    """Red if unrelated AI/source restrictions hide a server-permitted review request."""
+    page, c, _, errors = connected_browser
+    checked(page, c, review=True)
+    observed = page.evaluate('''reason=>{
+      if(reason==='source-review')state.evidence.source={blocked:true,mode:'LIVE',live_status:'NEVER_REQUESTED'};
+      else state.workspaceBlock='UNRESOLVED_ATTEMPT';
+      controls();
+      return {available:state.capabilities.incident.action.available,
+        enabled:!$('confirm-open').disabled,copy:completedCheckCopy()};
+    }''', reason)
+    assert observed['available'] and observed['enabled']
+    assert 'Review follow-up request' in observed['copy']
+    assert len(c[4]) == 2 and not errors
 
 
 @pytest.mark.parametrize('transition', ['navigation', 'selection', 'expiry', 'new-task'])

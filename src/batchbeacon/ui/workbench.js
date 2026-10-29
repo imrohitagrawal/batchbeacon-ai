@@ -125,12 +125,13 @@ function toggleEditor(id) {
 async function task(operation,kind='refresh') {
   if(state.busy)return;
   clearReadyCues();
+  operationStatus('decision-status','');
   const op={...operations[kind],kind,view:state.viewGeneration,selection:state.selection};
   const original=(op.buttons || []).map(id=>[id,$(id).textContent]);
   state.busy=true;state.operation=op;message('');operationStatus(op.region,op.pending);
   // Keep live status eligible for immediate announcement; busy belongs to buttons.
   $(op.region).dataset.busy='true';controls();
-  if(kind==='extraction'){clearCompletedSampleReceipt();operationStatus('decision-status','');text('verdict-title','Checking label');text('verdict-copy','Waiting for accepted extraction and comparison. No result is confirmed yet.');setStage(1);}
+  if(kind==='extraction'){clearCompletedSampleReceipt();text('verdict-title','Checking label');text('verdict-copy','Waiting for accepted extraction and comparison. No result is confirmed yet.');setStage(1);}
   let succeeded=false;
   try {await operation();succeeded=true;if($(op.region).textContent===op.pending)operationStatus(op.region,'');}
   catch(e){if(!state.expired && !e.stale && op.selection===state.selection)message(safeError(e),'error');}
@@ -385,7 +386,7 @@ function completedCheckCopy(){
   const verdict=state.evidence.result.verdict;
   const prefix=`Extraction and comparison completed. ${labels[verdict]}. `;
   if(verdict==='NOT_LISTED_IN_CHECKED_NOTICES')return prefix+'No hold is supported by these checked notices. Review the evidence; this is not safety, clearance or permission to sell.';
-  const eligible=state.capabilities?.incident?.action?.available && !state.workspaceBlock && !sourceBlockHelp() && !state.actions.some(a=>a.current&&!a.requires_renewed_review);
+  const eligible=state.capabilities?.incident?.action?.available && !state.actions.some(a=>a.current&&!a.requires_renewed_review);
   if(eligible && ['MATCHED_HOLD_FOR_REVIEW','REVIEW_REQUIRED'].includes(verdict)){
     const action=verdict==='REVIEW_REQUIRED'?'Review follow-up request':'Review stock hold';
     return prefix+`Review the evidence, then select ${action}. No action is recorded until you confirm.`;
@@ -442,6 +443,7 @@ async function loadIncident(id,knownAcquisition=null) {
   if(changed){operationStatus('label-status','');operationStatus('decision-status','');state.checkFailure=null;state.evidence=null;state.actions=[];state.captures=[];state.acquisition=knownAcquisition;state.acquisitionUnknown=false;}
   else if(knownAcquisition)state.acquisition=knownAcquisition;
   drawCaptures();render();$('capture-panel').hidden=true;$('correction-panel').hidden=true;$('capture-file').value='';text('capture-status','');
+  $('capture').setAttribute('aria-expanded','false');$('correction').setAttribute('aria-expanded','false');
   const url=new URL(location.href);url.searchParams.set('incident',id);history.replaceState(null,'',url);
   try {
     const [e,c,a,cap,source]=await Promise.all([api(`/api/incidents/${id}/evidence`),api(`/api/incidents/${id}/captures`),api(`/api/incidents/${id}/actions`),api(`/api/incidents/${id}/capabilities`).catch(error=>{if(error.stale||state.expired)throw error;return null;}),state.config.source_review?api(`/api/incidents/${id}/source`).catch(error=>{if(error.stale||state.expired)throw error;return null;}):null]);
@@ -558,7 +560,23 @@ async function acquire() {
     render();operationStatus('label-status',`Saved evidence could not be confirmed. ${safeError(e)} Recheck saved status before another request.`,'error');operationStatus('decision-status',safeError(e),'error');throw e;
   } finally {measureWait(`batchbeacon.acquisition.${outcome}`,started);}
 }
-async function prepare() {const incident=state.incident,selection=state.selection;if(state.operation)state.operation.incident=incident;const kind=state.evidence.result.verdict==='MATCHED_HOLD_FOR_REVIEW'?'SIMULATED_HOLD':'SIMULATED_REVIEW_REQUEST';const data=await api(`/api/incidents/${state.incident}/actions/prepare?action_type=${kind}`);if(state.expired||state.incident!==incident||state.selection!==selection)return;if(data.target.observation_revision!==state.evidence.observation.revision || data.target.result_revision!==state.evidence.result.revision){await loadOwnedIncident(state.incident);throw new Error('Evidence changed before confirmation. Review the newly loaded values, then prepare the action again.');}state.target=data.target;text('confirm-title',kind==='SIMULATED_HOLD'?'Review this stock hold':'Review this follow-up request');text('confirm-product',`${state.evidence.observation.identity.name.value || 'Unresolved identity'} · ${state.evidence.observation.identity.pack.value || 'Unknown pack'} · ${state.evidence.observation.fields.map(f=>`${f.field}: ${f.observation.value ?? 'Unknown'}`).join(' · ')} · observation v${data.target.observation_revision} · result v${data.target.result_revision} · sources ${state.evidence.result.checked_sources.map(s=>`${s.version} (epoch ${s.epoch})`).join(', ')}`);text('hold-confirm',kind==='SIMULATED_HOLD'?'Confirm stock hold':'Confirm review request');$('hold-consent').checked=false;text('confirm-status','');$('confirm-dialog').showModal();setStage(3);controls();}
+async function prepare() {
+  const incident=state.incident,selection=state.selection;
+  if(state.operation)state.operation.incident=incident;
+  const kind=state.evidence.result.verdict==='MATCHED_HOLD_FOR_REVIEW'?'SIMULATED_HOLD':'SIMULATED_REVIEW_REQUEST';
+  let data;
+  try {data=await api(`/api/incidents/${incident}/actions/prepare?action_type=${kind}`);}
+  catch(error){
+    if(!error.stale && !state.expired && state.incident===incident && state.selection===selection){
+      state.target=null;state.capabilities=null;controls();text('capability-help',capabilityHelp());
+      operationStatus('decision-status','The action could not be prepared. Recheck saved status before trying again.','error');
+    }
+    throw error;
+  }
+  if(state.expired||state.incident!==incident||state.selection!==selection)return;
+  if(data.target.observation_revision!==state.evidence.observation.revision || data.target.result_revision!==state.evidence.result.revision){await loadOwnedIncident(incident);throw new Error('Evidence changed before confirmation. Review the newly loaded values, then prepare the action again.');}
+  state.target=data.target;text('confirm-title',kind==='SIMULATED_HOLD'?'Review this stock hold':'Review this follow-up request');text('confirm-product',`${state.evidence.observation.identity.name.value || 'Unresolved identity'} · ${state.evidence.observation.identity.pack.value || 'Unknown pack'} · ${state.evidence.observation.fields.map(f=>`${f.field}: ${f.observation.value ?? 'Unknown'}`).join(' · ')} · observation v${data.target.observation_revision} · result v${data.target.result_revision} · sources ${state.evidence.result.checked_sources.map(s=>`${s.version} (epoch ${s.epoch})`).join(', ')}`);text('hold-confirm',kind==='SIMULATED_HOLD'?'Confirm stock hold':'Confirm review request');$('hold-consent').checked=false;text('confirm-status','');$('confirm-dialog').showModal();setStage(3);controls();
+}
 async function confirm() {
   const incident=state.incident,selection=state.selection,target=state.target;
   if(state.operation)state.operation.incident=incident;
