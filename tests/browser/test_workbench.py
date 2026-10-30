@@ -44,26 +44,36 @@ def connected_browser(request):
         ExtractionHTTPPolicy(**getattr(request, 'param', {})))
     runner = uvicorn.Server(uvicorn.Config(app, host='127.0.0.1', port=port, log_level='error'))
     thread = threading.Thread(target=runner.run, daemon=True)
-    thread.start()
-    deadline = time.monotonic() + 10
-    while not runner.started and time.monotonic() < deadline:
-        time.sleep(.02)
-    assert runner.started
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(
-            channel=os.environ.get('BATCHBEACON_TEST_BROWSER_CHANNEL') or None)
-        context = browser.new_context(viewport={'width':1440, 'height':1000})
-        page = context.new_page()
-        errors = []
-        page.on('pageerror', lambda e: errors.append(str(e)))
-        try:
-            page.goto(origin)
-            expect(page.locator('#start-sample')).to_be_enabled()
-            yield page, c, context, errors
-        finally:
-            context.close()
-            browser.close()
-            runner.should_exit = True
+    started = False
+    try:
+        thread.start()
+        started = True
+        deadline = time.monotonic() + 10
+        while not runner.started and time.monotonic() < deadline:
+            time.sleep(.02)
+        assert runner.started
+        with sync_playwright() as playwright:
+            browser = context = None
+            try:
+                browser = playwright.chromium.launch(
+                    channel=os.environ.get('BATCHBEACON_TEST_BROWSER_CHANNEL') or None)
+                context = browser.new_context(viewport={'width':1440, 'height':1000})
+                page = context.new_page()
+                errors = []
+                page.on('pageerror', lambda e: errors.append(str(e)))
+                page.goto(origin)
+                expect(page.locator('#start-sample')).to_be_enabled()
+                yield page, c, context, errors
+            finally:
+                try:
+                    if context is not None:
+                        context.close()
+                finally:
+                    if browser is not None:
+                        browser.close()
+    finally:
+        runner.should_exit = True
+        if started:
             thread.join(timeout=5)
             assert not thread.is_alive()
 

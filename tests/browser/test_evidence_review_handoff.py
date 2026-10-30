@@ -133,9 +133,9 @@ def test_decision_navigation_updates_the_visible_journey_without_consent(connect
 @pytest.mark.parametrize('width,height', [(1440, 698), (390, 800)])
 @pytest.mark.parametrize('motion', ['no-preference', 'reduce'])
 @pytest.mark.parametrize('activation', ['pointer', 'keyboard'])
-def test_saved_label_heading_and_extract_arrive_together(
+def test_saved_label_heading_precedes_image_and_reachable_extract(
         connected_browser, width, height, motion, activation):
-    """Red if save targets the receipt, hides Extract, or loses/revives its arrival outline."""
+    """Red if save misses the label, Extract precedes its image, or its outline revives."""
     page, c, _, errors = connected_browser
     page.set_viewport_size({'width': width, 'height': height})
     page.emulate_media(reduced_motion=motion)
@@ -149,15 +149,20 @@ def test_saved_label_heading_and_extract_arrive_together(
     expect(page.locator('#evidence-title')).to_be_focused()
     page.wait_for_function('''()=>{
       const h=document.querySelector('#evidence-title').getBoundingClientRect();
-      const b=document.querySelector('#check').getBoundingClientRect();
-      return h.top>=100 && b.bottom<=innerHeight;
+      return h.top>=100 && h.bottom<=innerHeight;
     }''')
     inside_viewport(page, '#evidence-title')
-    inside_viewport(page, '#check')
     region = page.locator('.evidence-panel')
     assert outlined(region)
     assert outlined(page.locator('#check'))
-    expect(page.locator('#capture-images img')).to_have_count(1)
+    image = page.locator('#capture-images img')
+    expect(image).to_have_count(1)
+    assert image.evaluate('async img=>{await img.decode();return img.naturalWidth;}') > 0
+    assert image.evaluate("""img=>img.getBoundingClientRect().bottom<=
+      document.querySelector('#check').getBoundingClientRect().top""")
+    # The full label comes first; short viewports can reach the next control by scrolling.
+    page.locator('#check').scroll_into_view_if_needed()
+    inside_viewport(page, '#check')
     expect(page.locator('.label-ready-cue')).to_have_count(1)
     expect(page.locator('.label-ready-cue')).to_have_count(0, timeout=5000)
     assert outlined(region)  # Still apparent after the temporary cue ends.
@@ -330,11 +335,13 @@ def test_label_save_has_one_visible_handoff_with_native_motion_preference(
         {'id': 'evidence-title', 'block': 'start', 'behavior': behavior}]
     page.wait_for_function('''()=>{
       const r=document.querySelector('#label-status').getBoundingClientRect();
-      const c=document.querySelector('#check').getBoundingClientRect();
-      return r.y>=100 && c.bottom<=innerHeight;
+      return r.y>=100 && r.bottom<=innerHeight;
     }''')
     inside_viewport(page, '#label-status')
-    inside_viewport(page, '#check')
+    expect(page.locator('#capture-images img')).to_have_count(1)
+    assert page.locator('#capture-images img').evaluate("""img=>
+      !!(img.compareDocumentPosition(document.querySelector('#check')) &
+      Node.DOCUMENT_POSITION_FOLLOWING)""")
     capture(page, f'label-handoff-{width}-{motion}-{activation}')
     # A real user navigation immediately after save must not be stolen by a later callback.
     page.locator('[data-view=retail]').first.click()

@@ -58,8 +58,9 @@ def test_completed_review_offers_working_next_actions_and_direct_evidence(connec
     assert page.locator('#saved-notice-link').get_attribute('href') == (
         page.locator('#source-summary a').get_attribute('href'))
     page.locator('#completed-queue').click()
-    expect(page.locator('#retail-title')).to_be_focused()
     expect(page.locator('#queue-rows [role=listitem]')).to_have_count(1)
+    expect(page.locator('#queue-rows a')).to_have_text('View detail')
+    expect(page.locator('#queue-rows a')).to_be_focused()
     page.locator('#queue-rows a').click()
     expect(page.locator('#completed-next')).to_be_visible()
     page.locator('#completed-next').click()
