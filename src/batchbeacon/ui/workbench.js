@@ -1,7 +1,7 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const labels = {MATCHED_HOLD_FOR_REVIEW:'Matches this recall', NOT_LISTED_IN_CHECKED_NOTICES:'Not listed in checked notices', REVIEW_REQUIRED:'Review required', NEEDS_RENEWED_REVIEW:'Needs renewed review', SIMULATED_ACTION_RECORDED:'Workspace action recorded', IN_PROGRESS:'In progress', NEEDS_EVIDENCE:'Needs evidence', NEEDS_HUMAN_REVIEW:'Needs human review'};
-const state = {config:null, csrf:null, incident:null, evidence:null, captures:[], actions:[], target:null, busy:false, pending:null, pendingOwnershipUnknown:false, queue:null, queueDirty:true, queueReadAt:0, acquisition:null, acquisitionUnknown:false, expired:false, capabilities:null, workspaceBlock:null, selection:0, sessionGeneration:0, viewGeneration:0, view:"workbench", operation:null, checkFailure:null, loading:false, sourceContext:null, sourceCurrent:null, sourcePending:null, sourceOwnershipUnknown:false, sourceRetry:false};
+const state = {config:null, csrf:null, incident:null, evidence:null, captures:[], actions:[], target:null, busy:false, pending:null, pendingOwnershipUnknown:false, queue:null, queueDirty:true, queueReadAt:0, acquisition:null, acquisitionUnknown:false, expired:false, capabilities:null, workspaceBlock:null, selection:0, sessionGeneration:0, viewGeneration:0, view:"workbench", reviewAt:"comparison", operation:null, checkFailure:null, loading:false, sourceContext:null, sourceCurrent:null, sourcePending:null, sourceOwnershipUnknown:false, sourceRetry:false};
 const key = () => crypto.randomUUID();
 const text = (id, value) => { $(id).textContent = value; };
 const node = (tag, value, className) => { const e=document.createElement(tag); if(value!==undefined)e.textContent=value; if(className)e.className=className; return e; };
@@ -74,7 +74,7 @@ async function api(path, {method='GET', body, operation}={}) {
   if(status<200 || status>=300){const e=new Error(admissionMessages[data.error] || (data.error || 'Request unavailable').replaceAll('_',' '));e.status=status;e.code=data.error;e.unknown=data.outcome==='unknown' || status>=500;if(status===401)expire();throw e;}
   return data;
 }
-function expire() { clearReadyCues();sourcePending(null);state.sourceContext=null;state.sourceCurrent=null;state.sessionGeneration++;state.selection++;state.capabilities=null;state.workspaceBlock=null;state.loading=false;state.operation=null;for(const el of document.querySelectorAll('.operation-status')){el.textContent='Guest access expired.';delete el.dataset.busy;}pending(null); state.expired=true; state.csrf=null; state.evidence=null; state.target=null; state.captures=[]; state.actions=[]; drawCaptures(); $('comparisons').replaceChildren(); $('queue-rows').replaceChildren(); $('history').replaceChildren(); $('confirm-dialog').close(); text('session-state','Guest access expired'); text('verdict-title','Guest access expired'); text('verdict-copy','Evidence is no longer available in this session.'); text('decision-title','Guest access expired');text('decision-copy','Start a new evaluation workspace to continue.'); text('queue-count','Guest access expired; counts unavailable.'); $('queue-counts').replaceChildren(); text('queue-capability','Guest access expired; availability unknown.'); text('confirm-product',''); text('field-detail','');text('field-provenance',''); state.queue=null;state.queueDirty=true;state.acquisition=null;state.acquisitionUnknown=false;state.learning=null;state.learningTarget=null;document.querySelector('.verdict').className='verdict neutral';text('active-wording','Guest access expired; wording unavailable.');text('proposed-wording','Guest access expired; proposal unavailable.');for(const step of $('guidance-steps').children)step.removeAttribute('aria-current');$('learning-dialog').close();$('owned-guidance').replaceChildren();$('learning-report').replaceChildren();$('learning-history').replaceChildren();text('learning-counts','Guest access expired; counts unavailable.'); $('review-evidence').hidden=true;$('comparison-next').hidden=true;$('comparison-continue').hidden=true;$('completed-actions').hidden=true;$('confirm-open').hidden=false;$('review-recovery').hidden=false;$('renew-workspace').hidden=false;$('recovery-choose').hidden=true;$('recovery-queue').hidden=true;message('Your guest session expired. Open a new workspace to continue. Reviews from the expired workspace cannot be reopened or transferred.'); controls(); }
+function expire() { clearReadyCues();state.reviewAt='comparison';sourcePending(null);state.sourceContext=null;state.sourceCurrent=null;state.sessionGeneration++;state.selection++;state.capabilities=null;state.workspaceBlock=null;state.loading=false;state.operation=null;for(const el of document.querySelectorAll('.operation-status')){el.textContent='Guest access expired.';delete el.dataset.busy;}pending(null); state.expired=true; state.csrf=null; state.evidence=null; state.target=null; state.captures=[]; state.actions=[]; drawCaptures(); $('comparisons').replaceChildren(); $('queue-rows').replaceChildren(); $('history').replaceChildren(); $('confirm-dialog').close(); text('session-state','Guest access expired'); text('verdict-title','Guest access expired'); text('verdict-copy','Evidence is no longer available in this session.'); text('decision-title','Guest access expired');text('decision-copy','Start a new evaluation workspace to continue.'); text('queue-count','Guest access expired; counts unavailable.'); $('queue-counts').replaceChildren(); text('queue-capability','Guest access expired; availability unknown.'); text('confirm-product',''); text('field-detail','');text('field-provenance',''); state.queue=null;state.queueDirty=true;state.acquisition=null;state.acquisitionUnknown=false;state.learning=null;state.learningTarget=null;document.querySelector('.verdict').className='verdict neutral';text('active-wording','Guest access expired; wording unavailable.');text('proposed-wording','Guest access expired; proposal unavailable.');for(const step of $('guidance-steps').children)step.removeAttribute('aria-current');$('learning-dialog').close();$('owned-guidance').replaceChildren();$('learning-report').replaceChildren();$('learning-history').replaceChildren();text('learning-counts','Guest access expired; counts unavailable.'); $('review-evidence').hidden=true;$('comparison-next').hidden=true;$('comparison-continue').hidden=true;$('completed-actions').hidden=true;$('confirm-open').hidden=false;$('review-recovery').hidden=false;$('renew-workspace').hidden=false;$('recovery-choose').hidden=true;$('recovery-queue').hidden=true;message('Your guest session expired. Open a new workspace to continue. Reviews from the expired workspace cannot be reopened or transferred.'); controls(); }
 function pendingRecoveryLabel() {return state.pendingOwnershipUnknown?'Check pending access':'Reconcile pending operation';}
 function syncDecisionHandoff() {
   const e=state.evidence,result=e?.result,problem=acquisitionProblem();
@@ -120,7 +120,8 @@ const operations={
 };
 function operationStatus(id,value,kind='info') {const el=$(id);delete el.dataset.completedLabelSave;el.textContent=value;el.hidden=!value;el.dataset.kind=kind;}
 function clearCompletedSampleReceipt() {if($('sample-status').dataset.completedLabelSave)operationStatus('sample-status','');}
-function clearReadyCues() {cancelOrientationScroll();document.querySelectorAll('.label-ready-cue,.result-ready-cue,.editor-ready-cue').forEach(el=>el.remove());}
+const readyCueSelector='.label-ready-cue,.result-ready-cue,.editor-ready-cue,.review-ready-cue';
+function clearReadyCues() {cancelOrientationScroll();document.querySelectorAll(readyCueSelector).forEach(el=>el.remove());document.querySelectorAll('.section-arrival').forEach(el=>el.classList.remove('section-arrival'));}
 function highlightPanel(panel,kind) {
   clearReadyCues();
   const cue=node('span',undefined,kind);
@@ -129,6 +130,13 @@ function highlightPanel(panel,kind) {
   panel.append(cue);
 }
 function highlightLabelEvidence() {highlightPanel($('evidence-title').closest('.evidence-panel'),'label-ready-cue');}
+document.addEventListener('focusout',event=>{
+  const panel=event.target.closest('.section-arrival');
+  if(panel && !panel.contains(event.relatedTarget)){
+    cancelOrientationScroll();panel.classList.remove('section-arrival');
+    panel.querySelectorAll(readyCueSelector).forEach(el=>el.remove());
+  }
+});
 let orientationScroll=null;
 function cancelOrientationScroll() {
   if(!orientationScroll)return;
@@ -146,7 +154,10 @@ function reveal(id,{smooth=false}={}) {
       if(event.target===document){controller.abort();if(orientationScroll===controller)orientationScroll=null;}
     },{signal:controller.signal});
   }
-  el.focus({preventScroll:true});el.scrollIntoView({block:'start',behavior:animate?'smooth':'instant'});
+  el.focus({preventScroll:true});
+  const panel=el.closest('.evidence-panel,.comparison-panel,.decision,#capture-panel,#correction-panel');
+  if(panel && panel.contains(document.activeElement) && panel.querySelector(readyCueSelector))panel.classList.add('section-arrival');
+  el.scrollIntoView({block:'start',behavior:animate?'smooth':'instant'});
 }
 function toggleEditor(id) {
   const panel=$(id+'-panel');panel.hidden=!panel.hidden;
@@ -156,6 +167,7 @@ function toggleEditor(id) {
 async function task(operation,kind='refresh',{pointer=false}={}) {
   if(state.busy)return;
   clearReadyCues();
+  if(['upload','capture','extraction','verification','correction','source'].includes(kind))state.reviewAt='comparison';
   operationStatus('decision-status','');
   const op={...operations[kind],kind,pointer,view:state.viewGeneration,selection:state.selection};
   const original=(op.buttons || []).map(id=>[id,$(id).textContent]);
@@ -172,7 +184,7 @@ async function task(operation,kind='refresh',{pointer=false}={}) {
     const current=!state.expired && op.selection===state.selection && (!op.incident || op.incident===state.incident);
     if(current && kind==='upload' && succeeded && state.captures.length && !state.pending && $('sample-status').textContent)$('sample-status').dataset.completedLabelSave='true';
     if(current && op.view===state.viewGeneration){
-      if(['upload','capture'].includes(kind) && succeeded && state.captures.length){highlightLabelEvidence();if(kind==='upload' || !state.capabilities?.workspace?.extraction?.available)reveal('label-status',{smooth:kind==='upload' && op.pointer});}
+      if(['upload','capture'].includes(kind) && succeeded && state.captures.length){highlightLabelEvidence();if(kind==='upload' || !state.capabilities?.workspace?.extraction?.available)reveal('evidence-title',{smooth:kind==='upload' && op.pointer});}
       if(kind==='extraction' && succeeded && op.resultReady){highlightPanel($('decision-status').closest('.decision'),'result-ready-cue');reveal('decision-status');}
       else if(['extraction','verification','status','action'].includes(kind))reveal('verdict-title');
       if(kind==='source')reveal('source-status');
@@ -196,6 +208,10 @@ async function routeView(view,options={}) {
 }
 window.addEventListener('popstate',async()=>{const url=location.href,id=new URLSearchParams(location.search).get('incident');try{if(id&&id!==state.incident)await loadIncident(id);else if(!id&&state.incident)clearReview({resetRoute:false});if(location.href===url)await routeView(location.hash.slice(1)||'workbench',{navigate:false});}catch(e){if(!e.stale&&!state.expired)message(safeError(e),'error');}});
 function setStage(index){for(const [i,step] of [...$('journey-stages').children].entries()){if(i===index)step.setAttribute('aria-current','step');else step.removeAttribute('aria-current');}}
+function syncJourneyStage() {
+  const result=state.evidence?.result,recorded=state.actions.some(a=>a.current&&!a.requires_renewed_review);
+  setStage(recorded&&!acquisitionProblem()?4:result?(state.reviewAt==='decision'?3:2):state.captures.length?1:0);
+}
 const exampleExplanations = {
   'sfa-a': 'French product name: Camembert cheese made with raw milk. “Superieur” is part of the recorded name, not a quality assessment by BatchBeacon.',
   'sfa-b': 'Bertrand Pere & Fils is the producer name. “Camembert au lait cru” means Camembert cheese made with raw milk.',
@@ -413,7 +429,7 @@ function render() {if(state.expired)return;if(state.config)sourceView();const fa
   text('verdict-title',problem?problem.title:failure&&!e?.current?failure.title:recorded?'Workspace action recorded':e?.observation&&!e.current?'Evidence needs renewed review':result?labels[result.verdict]:state.loading?'Loading saved evidence':failed?'Extraction needs review':sourceBlockHelp()?'Source review is required':state.captures.length?'Label ready':'Ready for evidence');
   text('verdict-copy',failure&&!problem&&!e?.current?failure.copy:problem?`${problem.copy}${result?' Previous saved comparison is historical; it cannot authorize a new action.':''}`:recorded?(recorded.action.action_type==='SIMULATED_HOLD'?'A stock hold was recorded in this workspace. No live inventory was changed.':'A request for further review was saved in this workspace. Uncertainty remains unresolved.'):result?`Checked ${result.checked_sources.length} selected notice version(s). ${e.current?(result.mode==='LIVE'?'Current for the saved live source check.':'Current for the saved historical source selection.'):'Historical result; no new action is available.'}`:failed?'The extraction was not accepted. Review the retained evidence; no comparison or action was created.':state.loading?'Reading this investigation’s saved records.':sourceBlockHelp()?sourceBlockHelp():state.captures.length?labelReadyCopy():'Choose an example and use its label, then select Extract and check.');
   text('decision-copy',problem?'No new action is available from this check. Retained evidence and earlier actions remain in the review history.':!state.incident?'Choose an example, then select Use this label. You will review the extracted evidence before any action.':!result&&sourceBlockHelp()?sourceBlockHelp():!result?'Saving a label does not check it. When available, select Extract and check to compare its details with the selected notice.':result?.verdict==='NOT_LISTED_IN_CHECKED_NOTICES'?'No hold is supported by these checked notices. This is not safety, clearance or permission to sell.':recorded?'This review is saved. Find it in your retail queue, or choose another label to begin a separate check. Your saved review remains available until this workspace expires.':'A result never places stock on hold automatically.');
-  setStage(recorded&&!problem?4:result?2:state.captures.length?1:0);
+  syncJourneyStage();
   $('completed-actions').hidden=!recorded || !!problem || state.loading;
   $('confirm-open').hidden=!result || (!!recorded && !problem);
   $('review-evidence').hidden=!result || !!recorded;
@@ -455,7 +471,7 @@ function capabilityHelp(){
   return 'Inspect product identity, exact lot, required date and the selected notice before confirming an eligible action.';
 }
 function clearReview({navigate=false,resetRoute=true}={}) {
-  clearReadyCues();
+  clearReadyCues();state.reviewAt='comparison';
   state.selection++;state.incident=null;state.evidence=null;state.captures=[];state.actions=[];state.target=null;state.capabilities=null;state.acquisition=null;state.acquisitionUnknown=false;state.checkFailure=null;state.loading=false;state.learning=null;state.learningTarget=null;state.learningStale=true;
   $('confirm-dialog').close();$('capture-panel').hidden=true;$('correction-panel').hidden=true;$('capture-file').value='';
   $('capture').setAttribute('aria-expanded','false');$('correction').setAttribute('aria-expanded','false');
@@ -484,7 +500,7 @@ async function loadIncident(id,knownAcquisition=null) {
   const valid=()=>!state.expired && session===state.sessionGeneration && selection===state.selection;
   const changed=state.incident!==id;
   state.incident=id;state.learningStale=true;state.capabilities=null;state.loading=true;state.target=null;state.sourceCurrent=null;
-  if(changed){operationStatus('label-status','');operationStatus('decision-status','');state.checkFailure=null;state.evidence=null;state.actions=[];state.captures=[];state.acquisition=knownAcquisition;state.acquisitionUnknown=false;}
+  if(changed){state.reviewAt='comparison';operationStatus('label-status','');operationStatus('decision-status','');state.checkFailure=null;state.evidence=null;state.actions=[];state.captures=[];state.acquisition=knownAcquisition;state.acquisitionUnknown=false;}
   else if(knownAcquisition)state.acquisition=knownAcquisition;
   drawCaptures();render();$('capture-panel').hidden=true;$('correction-panel').hidden=true;$('capture-file').value='';text('capture-status','');
   $('capture').setAttribute('aria-expanded','false');$('correction').setAttribute('aria-expanded','false');
@@ -621,7 +637,7 @@ async function prepare() {
   }
   if(state.expired||state.incident!==incident||state.selection!==selection)return;
   if(data.target.observation_revision!==state.evidence.observation.revision || data.target.result_revision!==state.evidence.result.revision){await loadOwnedIncident(incident);throw new Error('Evidence changed before confirmation. Review the newly loaded values, then prepare the action again.');}
-  state.target=data.target;text('confirm-title',kind==='SIMULATED_HOLD'?'Review this stock hold':'Review this follow-up request');text('confirm-product',`${state.evidence.observation.identity.name.value || 'Unresolved identity'} · ${state.evidence.observation.identity.pack.value || 'Unknown pack'} · ${state.evidence.observation.fields.map(f=>`${f.field}: ${f.observation.value ?? 'Unknown'}`).join(' · ')} · observation v${data.target.observation_revision} · result v${data.target.result_revision} · sources ${state.evidence.result.checked_sources.map(s=>`${s.version} (epoch ${s.epoch})`).join(', ')}`);text('hold-confirm',kind==='SIMULATED_HOLD'?'Confirm stock hold':'Confirm review request');$('hold-consent').checked=false;text('confirm-status','');$('confirm-dialog').showModal();setStage(3);controls();
+  state.target=data.target;text('confirm-title',kind==='SIMULATED_HOLD'?'Review this stock hold':'Review this follow-up request');text('confirm-product',`${state.evidence.observation.identity.name.value || 'Unresolved identity'} · ${state.evidence.observation.identity.pack.value || 'Unknown pack'} · ${state.evidence.observation.fields.map(f=>`${f.field}: ${f.observation.value ?? 'Unknown'}`).join(' · ')} · observation v${data.target.observation_revision} · result v${data.target.result_revision} · sources ${state.evidence.result.checked_sources.map(s=>`${s.version} (epoch ${s.epoch})`).join(', ')}`);text('hold-confirm',kind==='SIMULATED_HOLD'?'Confirm stock hold':'Confirm review request');$('hold-consent').checked=false;text('confirm-status','');$('confirm-dialog').showModal();state.reviewAt='decision';setStage(3);controls();
 }
 async function confirm() {
   const incident=state.incident,selection=state.selection,target=state.target;
@@ -699,12 +715,13 @@ $('source-choice').addEventListener('change',sourceView);$('correction-field').a
 $('start-sample').addEventListener('click',event=>task(startSample,'upload',{pointer:event.detail>0}));$('check').addEventListener('click',()=>task(acquire,'extraction'));$('upload').addEventListener('click',()=>task(()=>upload([...$('capture-file').files]),'capture'));
 function reviewNavigation(id) {
   if(state.expired || state.busy || state.view!=='workbench' || !state.evidence?.result)return;
-  clearReadyCues();reveal(id);
+  state.reviewAt=id==='comparison-title'?'comparison':'decision';syncJourneyStage();
+  highlightPanel($(id).closest('.comparison-panel,.decision'),'review-ready-cue');reveal(id);
 }
 $('review-evidence').addEventListener('click',()=>reviewNavigation('comparison-title'));
 $('comparison-continue').addEventListener('click',()=>reviewNavigation('decision-title'));
 $('confirm-open').addEventListener('click',()=>task(prepare));$('hold-consent').addEventListener('change',controls);$('hold-confirm').addEventListener('click',()=>task(confirm,'action'));$('recover').addEventListener('click',()=>task(recover));
-$('confirm-dialog').addEventListener('close',()=>{state.target=null;$('hold-consent').checked=false;controls();setStage(state.actions.some(a=>a.current&&!a.requires_renewed_review)?4:state.evidence?.result?2:0);if(!$('confirm-open').hidden)$('confirm-open').focus();});
+$('confirm-dialog').addEventListener('close',()=>{state.target=null;$('hold-consent').checked=false;controls();syncJourneyStage();if(!$('confirm-open').hidden)$('confirm-open').focus();});
 $('save-correction').addEventListener('click',()=>task(saveCorrection,'correction'));
 $('reverify').addEventListener('click',()=>task(reverify,'verification'));
 for(const id of ['refresh-acquisition','decision-recheck'])$(id).addEventListener('click',()=>task(recheck,'status'));
