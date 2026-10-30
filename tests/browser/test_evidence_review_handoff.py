@@ -23,6 +23,94 @@ def outlined(region):
     }''')
 
 
+@pytest.mark.parametrize('focus_target', ['field', 'file'])
+def test_capture_completion_does_not_leave_an_arrival_for_later_focus(
+        connected_browser, focus_target):
+    """Red if an upload finishing after focus moves away revives an old label highlight."""
+    page, c, _, errors = connected_browser
+    checked(page, c)
+    sample = page.locator('#sample-choice').input_value()
+    response = page.request.get(page.url.split('?')[0] + f'samples/{sample}.png')
+    assert response.ok
+    page.locator('#capture').click()
+    page.locator('#capture-file').set_input_files(
+        {'name': 'another.png', 'mimeType': 'image/png', 'buffer': response.body()})
+    held = []
+    page.route('**/api/incidents/*/captures', lambda route: held.append(route)
+               if route.request.method == 'POST' else route.continue_())
+    before = len(c[3][1].calls)
+    with page.expect_request(lambda request: request.url.endswith('/captures')
+                             and request.method == 'POST'):
+        page.locator('#upload').click()
+    page.wait_for_function('()=>state.busy')
+    assert len(held) == 1
+    # A real table control remains available while the upload waits for its response.
+    if focus_target == 'field':
+        page.locator('.field-pick').first.click()
+    else:
+        page.locator('#capture-file').focus()
+    held.pop().continue_()
+    page.wait_for_function('()=>!state.busy')
+    expect(page.locator('#label-status')).to_contain_text('Label saved')
+    expect(page.locator('#check')).to_be_enabled()
+    expect(page.locator('.label-ready-cue')).to_have_count(1)
+    expect(page.locator('.label-ready-cue')).to_have_count(0, timeout=5000)
+    assert len(c[3][1].calls) > before and len(c[4]) == 2
+    after = len(c[3][1].calls)
+    page.locator('#check').focus()
+    assert not outlined(page.locator('.evidence-panel'))
+    expect(page.locator('#check')).to_be_focused()
+    assert len(c[3][1].calls) == after and len(c[4]) == 2 and not errors
+
+
+def test_saved_read_retires_arrival_before_rebuilding_focused_fields(connected_browser):
+    """Red if replacing a focused evidence field lets a later focus revive the old arrival."""
+    page, c, _, errors = connected_browser
+    checked(page, c)
+    page.locator('#review-evidence').click()
+    region = page.locator('.comparison-panel')
+    assert outlined(region)
+    page.locator('.field-pick').first.click()
+    page.evaluate('window.oldFocusedField=document.activeElement')
+    before = len(c[3][1].calls)
+    page.evaluate('loadOwnedIncident(state.incident)')
+    assert page.evaluate('!oldFocusedField.isConnected')
+    assert len(c[3][1].calls) > before
+    page.locator('#comparison-title').focus()
+    assert not outlined(region)
+    assert len(c[4]) == 2 and not errors
+
+
+def test_decision_stage_survives_cancel_and_saved_read_without_implying_consent(
+        connected_browser):
+    """Red if dialog cancellation or a saved read moves the decision journey backward."""
+    page, c, _, errors = connected_browser
+    checked(page, c)
+    current = page.locator('#journey-stages [aria-current=step]')
+    page.locator('#review-evidence').click()
+    page.locator('#comparison-continue').click()
+    expect(current).to_contain_text('Your decision')
+    page.locator('#confirm-open').click()
+    expect(page.locator('#confirm-dialog')).to_be_visible()
+    page.keyboard.press('Escape')
+    expect(page.locator('#confirm-open')).to_be_focused()
+    expect(current).to_contain_text('Your decision')
+    page.evaluate('loadOwnedIncident(state.incident)')
+    expect(current).to_contain_text('Your decision')
+    expect(page.locator('#confirm-dialog')).not_to_be_visible()
+    assert not page.locator('#hold-consent').is_checked()
+    assert page.evaluate('state.actions.length') == 0 and len(c[4]) == 2
+    page.locator('#review-evidence').click()
+    expect(current).to_contain_text('Evidence comparison')
+    page.locator('#comparison-continue').click()
+    page.locator('#confirm-open').click()
+    page.locator('#hold-consent').check()
+    page.locator('#hold-confirm').click()
+    expect(page.locator('#verdict-title')).to_have_text('Workspace action recorded')
+    expect(current).to_contain_text('Saved review')
+    assert page.evaluate('state.actions.length') == 1 and len(c[4]) == 2 and not errors
+
+
 def test_decision_navigation_updates_the_visible_journey_without_consent(connected_browser):
     """Red if going to the decision leaves Evidence comparison marked as the current step."""
     page, c, _, errors = connected_browser
