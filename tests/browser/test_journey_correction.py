@@ -281,7 +281,9 @@ def test_upload_handoff_matches_available_next_action(page, width, kind, reason)
         assert result['disabled']
         assert 'extract and check' not in result['global'].lower()
         assert result['recheckVisible'] and not result['recheckDisabled']
-        assert result['focus'] == 'label-status'
+        assert result['focus'] == 'evidence-title'
+        expect(page.locator('#label-status')).to_be_in_viewport()
+        expect(page.locator('#refresh-acquisition')).to_be_in_viewport()
         assert {None: 'could not be confirmed',
                 'ALLOWANCE_UNAVAILABLE': 'Recheck does not start an AI request',
                 'UNRESOLVED_ATTEMPT': 'does not settle the request',

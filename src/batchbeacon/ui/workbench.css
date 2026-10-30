@@ -123,11 +123,22 @@ button:disabled { cursor: not-allowed; }
 .evidence-links a { display: inline-block; min-height: 44px; padding-block: 10px; }
 
 /* Fixed presentation token: a static cue, never a loading or decision signal. */
-.evidence-panel, .decision, #capture-panel, #correction-panel { position: relative; --ready-cue-duration: 1200ms; }
-.label-ready-cue, .result-ready-cue, .editor-ready-cue { position: absolute; inset: 0; box-sizing: border-box;
+.evidence-panel, .comparison-panel, .decision, #capture-panel, #correction-panel { position: relative; --ready-cue-duration: 1200ms; }
+.label-ready-cue, .result-ready-cue, .editor-ready-cue, .review-ready-cue { position: absolute; inset: 0; box-sizing: border-box;
   border: 2px solid var(--brand-navy); border-radius: inherit; pointer-events: none;
   animation: label-ready-cue var(--ready-cue-duration) step-end; }
 /* Identical endpoints keep keyboard and reduced-motion feedback instant and still. */
 @keyframes label-ready-cue { from, to { opacity: 1; } }
 
 #review-evidence { margin-bottom: 16px; }
+.evidence-panel > .capture-actions + .context-line { margin-top: 12px; }
+.section-arrival:focus-within { outline: 2px solid var(--brand-navy); outline-offset: -2px; }
+.evidence-panel.section-arrival:focus-within #check:not(:disabled) { outline: 2px solid var(--brand-navy); outline-offset: 2px; }
+#comparison-continue:not(:disabled), #confirm-open:not(:disabled) {
+  background: var(--brand-navy); color: var(--surface); border-color: var(--brand-navy);
+}
+#comparison-continue:not(:disabled):hover, #confirm-open:not(:disabled):hover { background: var(--ink); }
+#comparisons .field-pick[aria-pressed="false"] {
+  background: var(--surface); border-color: var(--line); text-decoration: underline; text-underline-offset: .22em;
+}
+#comparisons .field-pick[aria-pressed="false"]:hover { background: var(--evidence-surface); }

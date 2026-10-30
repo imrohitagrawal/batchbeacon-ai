@@ -1,5 +1,7 @@
 """Evidence-first navigation and stable capture geometry; explicit fake SDK/mock ADK."""
 
+import re
+
 import pytest
 from playwright.sync_api import expect
 
@@ -12,6 +14,170 @@ from tests.browser.test_workbench_handoffs import (
 
 pytestmark = pytest.mark.browser
 connected_browser = test_workbench.connected_browser
+
+
+def outlined(region):
+    return region.evaluate('''el=>{
+      const s=getComputedStyle(el);
+      return s.outlineStyle!=='none' && parseFloat(s.outlineWidth)>0;
+    }''')
+
+
+def test_decision_navigation_updates_the_visible_journey_without_consent(connected_browser):
+    """Red if going to the decision leaves Evidence comparison marked as the current step."""
+    page, c, _, errors = connected_browser
+    checked(page, c)
+    current = page.locator('#journey-stages [aria-current=step]')
+    page.locator('#review-evidence').click()
+    expect(current).to_contain_text('Evidence comparison')
+    before = len(c[3][1].calls)
+    assert before > 0 and len(c[4]) == 2
+    page.locator('#comparison-continue').click()
+    expect(current).to_contain_text('Your decision')
+    expect(page.locator('#confirm-dialog')).not_to_be_visible()
+    assert not page.locator('#hold-consent').is_checked()
+    assert len(c[3][1].calls) == before and len(c[4]) == 2
+    page.locator('#review-evidence').click()
+    expect(current).to_contain_text('Evidence comparison')
+    assert not errors
+
+
+@pytest.mark.parametrize('width,height', [(1440, 698), (390, 800)])
+@pytest.mark.parametrize('motion', ['no-preference', 'reduce'])
+@pytest.mark.parametrize('activation', ['pointer', 'keyboard'])
+def test_saved_label_heading_and_extract_arrive_together(
+        connected_browser, width, height, motion, activation):
+    """Red if save targets the receipt, hides Extract, or loses/revives its arrival outline."""
+    page, c, _, errors = connected_browser
+    page.set_viewport_size({'width': width, 'height': height})
+    page.emulate_media(reduced_motion=motion)
+    button = page.locator('#start-sample')
+    if activation == 'keyboard':
+        button.focus()
+        button.press('Enter')
+    else:
+        button.click()
+    expect(page.locator('#check')).to_be_enabled()
+    expect(page.locator('#evidence-title')).to_be_focused()
+    page.wait_for_function('''()=>{
+      const h=document.querySelector('#evidence-title').getBoundingClientRect();
+      const b=document.querySelector('#check').getBoundingClientRect();
+      return h.top>=100 && b.bottom<=innerHeight;
+    }''')
+    inside_viewport(page, '#evidence-title')
+    inside_viewport(page, '#check')
+    region = page.locator('.evidence-panel')
+    assert outlined(region)
+    assert outlined(page.locator('#check'))
+    expect(page.locator('#capture-images img')).to_have_count(1)
+    expect(page.locator('.label-ready-cue')).to_have_count(1)
+    expect(page.locator('.label-ready-cue')).to_have_count(0, timeout=5000)
+    assert outlined(region)  # Still apparent after the temporary cue ends.
+    capture(page, f'section-label-{width}-{motion}-{activation}')
+    button.focus()
+    assert not outlined(region)
+    page.locator('#evidence-title').focus()
+    assert not outlined(region)  # Returning focus alone cannot revive an old arrival.
+    assert len(c[4]) == 0 and len(c[3][1].calls) > 0 and not errors
+
+
+@pytest.mark.parametrize('width', [1440, 390])
+@pytest.mark.parametrize('motion', ['no-preference', 'reduce'])
+@pytest.mark.parametrize('activation', ['pointer', 'keyboard'])
+def test_review_navigation_visibly_identifies_both_destinations(
+        connected_browser, width, motion, activation):
+    """Red if either navigation destination lacks its visible outline or creates an action."""
+    page, c, _, errors = connected_browser
+    page.set_viewport_size({'width': width, 'height': 800})
+    page.emulate_media(reduced_motion=motion)
+    checked(page, c)
+    before = len(c[3][1].calls)
+    assert before > 0 and len(c[4]) == 2
+    for control, heading, region in [
+        ('#review-evidence', '#comparison-title', '.comparison-panel'),
+        ('#comparison-continue', '#decision-title', '.decision'),
+    ]:
+        button = page.locator(control)
+        if activation == 'keyboard':
+            button.focus()
+            button.press('Enter')
+        else:
+            button.click()
+        expect(page.locator(heading)).to_be_focused()
+        inside_viewport(page, heading)
+        assert outlined(page.locator(region))
+        expect(page.locator('.review-ready-cue')).to_have_count(1)
+        expect(page.locator('.review-ready-cue')).to_have_count(0, timeout=5000)
+        assert outlined(page.locator(region))
+        capture(page, f'section-{heading[1:]}-{width}-{motion}-{activation}')
+    expect(page.locator('#comparison-continue')).to_have_text('Go to decision')
+    inside_viewport(page, '#confirm-open')
+    expect(page.locator('#confirm-open')).to_be_enabled()
+    expect(page.locator('#confirm-dialog')).not_to_be_visible()
+    assert len(c[3][1].calls) == before and len(c[4]) == 2 and not errors
+    page.evaluate('expire()')
+    assert not outlined(page.locator('.decision'))
+    assert not outlined(page.locator('.comparison-panel'))
+    expect(page.locator('#confirm-open')).to_be_disabled()
+
+
+@pytest.mark.parametrize('boundary', ['view', 'clear', 'selection'])
+def test_review_arrival_does_not_return_after_a_context_change(connected_browser, boundary):
+    """Red if a later view, selection or cleared review can revive an old section highlight."""
+    page, c, _, errors = connected_browser
+    checked(page, c)
+    page.locator('#review-evidence').click()
+    region = page.locator('.comparison-panel')
+    assert outlined(region)
+    expect(page.locator('.review-ready-cue')).to_have_count(1)
+    if boundary == 'view':
+        page.evaluate("show('retail');show('workbench',{focus:false})")
+    elif boundary == 'clear':
+        page.evaluate('clearReview()')
+    else:
+        page.locator('#start-sample').click()
+        expect(page.locator('#evidence-title')).to_be_focused()
+    page.locator('#comparison-title').focus()
+    assert not outlined(region)
+    expect(page.locator('.review-ready-cue')).to_have_count(0)
+    assert len(c[4]) == 2 and len(c[3][1].calls) > 0 and not errors
+
+
+@pytest.mark.parametrize('width', [1440, 390])
+def test_action_affordance_differs_from_inspect_fields_and_keeps_disabled_state(
+        connected_browser, width):
+    """Red if action buttons resemble field inspectors or disabled actions look enabled."""
+    page, c, _, errors = connected_browser
+    page.set_viewport_size({'width': width, 'height': 800})
+    checked(page, c)
+    styles = page.evaluate('''()=>{
+      const read=s=>{const c=getComputedStyle(document.querySelector(s));
+        return {background:c.backgroundColor,color:c.color,opacity:Number(c.opacity)};};
+      return {navigation:read('#comparison-continue'),action:read('#confirm-open'),
+        field:read('.field-pick[aria-pressed="false"]')};
+    }''')
+    assert styles['navigation']['background'] == styles['action']['background']
+    assert styles['action']['background'] != styles['field']['background']
+    assert styles['action']['color'] != styles['field']['color']
+    # Progress/action controls have light text on a dark fill; inspectors do not.
+    def luminance(rgb):
+        channels = [float(v) / 255 for v in re.findall(r'[\d.]+', rgb)[:3]]
+        linear = [v / 12.92 if v <= .04045 else ((v + .055) / 1.055) ** 2.4
+                  for v in channels]
+        return sum(v * weight for v, weight in zip(linear, [.2126, .7152, .0722], strict=True))
+    foreground = luminance(styles['action']['color'])
+    background = luminance(styles['action']['background'])
+    assert foreground > background
+    assert (foreground + .05) / (background + .05) >= 4.5
+    expect(page.locator('#confirm-open')).to_be_enabled()
+    page.locator('.field-pick').first.click()
+    expect(page.locator('.field-pick[aria-pressed=true]')).to_have_count(1)
+    expect(page.locator('#field-detail')).not_to_be_empty()
+    page.evaluate('state.evidence.current=false;state.capabilities.incident.action.available=false;render()')
+    expect(page.locator('#confirm-open')).to_be_disabled()
+    disabled = page.locator('#confirm-open').evaluate('el=>getComputedStyle(el).backgroundColor')
+    assert disabled != styles['action']['background']
+    assert len(c[4]) == 2 and len(c[3][1].calls) > 0 and not errors
 
 
 @pytest.mark.parametrize('boundary', ['new-incident', 'expiry'])
@@ -70,10 +236,10 @@ def test_label_save_has_one_visible_handoff_with_native_motion_preference(
         button.click()
     expect(page.locator('#check')).to_be_enabled()
     expect(page.locator('#label-status')).to_contain_text('Label saved')
-    assert page.evaluate('document.activeElement.id') == 'label-status'
+    assert page.evaluate('document.activeElement.id') == 'evidence-title'
     behavior = 'smooth' if activation == 'pointer' and motion == 'no-preference' else 'instant'
     assert page.evaluate('orientationScrolls') == [
-        {'id': 'label-status', 'block': 'start', 'behavior': behavior}]
+        {'id': 'evidence-title', 'block': 'start', 'behavior': behavior}]
     page.wait_for_function('''()=>{
       const r=document.querySelector('#label-status').getBoundingClientRect();
       const c=document.querySelector('#check').getBoundingClientRect();
@@ -246,14 +412,14 @@ def test_native_pointer_scroll_can_be_interrupted_by_a_wheel_gesture(connected_b
     page.evaluate('''()=>{
       window.wheelWitness=null;
       window.addEventListener('wheel',()=>{
-        const label=document.querySelector('#label-status');
+        const label=document.querySelector('#evidence-title');
         const target=Math.min(document.documentElement.scrollHeight-innerHeight,
           scrollY+label.getBoundingClientRect().top-parseFloat(getComputedStyle(label).scrollMarginTop));
         wheelWitness={y:scrollY,target};
       },{once:true,capture:true,passive:true});
     }''')
     button.click()
-    expect(page.locator('#label-status')).to_be_focused()
+    expect(page.locator('#evidence-title')).to_be_focused()
     page.mouse.wheel(0, -600)
     positions = page.evaluate('''()=>new Promise(resolve=>{
       const positions=[];
@@ -265,7 +431,7 @@ def test_native_pointer_scroll_can_be_interrupted_by_a_wheel_gesture(connected_b
     assert witness and witness['y'] < witness['target'] - 100
     assert positions[-1] < witness['target'] - 100
     assert max(positions[-5:]) - min(positions[-5:]) <= 1
-    expect(page.locator('#label-status')).to_be_focused()
+    expect(page.locator('#evidence-title')).to_be_focused()
     assert len(c[4]) == 0 and len(c[3][1].calls) > 0 and not errors
 
 
