@@ -142,3 +142,11 @@ button:disabled { cursor: not-allowed; }
   background: var(--surface); border-color: var(--line); text-decoration: underline; text-underline-offset: .22em;
 }
 #comparisons .field-pick[aria-pressed="false"]:hover { background: var(--evidence-surface); }
+
+/* Arrival paint and native focus rings have their own clear space. */
+.decision, #capture-panel, #correction-panel { padding-inline: 12px; }
+#correction-panel select, #correction-panel input { display: block; width: 100%; min-width: 0; max-width: 100%; min-height: 44px; box-sizing: border-box; }
+#correction-panel select { font: inherit; padding: 9px; border: 1px solid var(--control); border-radius: 6px; background: var(--surface); }
+.queue-detail { min-width: 0; justify-self: start; white-space: normal; scroll-margin-top: 150px; }
+.queue-detail:focus { outline: 3px solid var(--brand-navy); outline-offset: 3px; }
+@media (max-width:760px) { .queue-detail { scroll-margin-top: 110px; } }
